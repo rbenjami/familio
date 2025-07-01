@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "646437987857",
+    "project_id": "familio-project",
+    "storage_bucket": "familio-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646437987857:android:a1873593038aba9168b3b0",
+        "android_client_info": {
+          "package_name": "com.familio.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXeJrI7gyMQfsTqEfsR1YyH0rvhoP3-Lo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
