@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:familio/core/utils/context_ext.dart';
+import 'package:familio/presentation/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +21,7 @@ class HomePage extends StatelessWidget {
             icon: const Icon(Icons.logout),
             onPressed: () {
               context.read<AuthBloc>().add(const SignOutRequested());
+              context.router.replace(const AuthRoute());
             },
           ),
         ],

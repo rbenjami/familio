@@ -68,7 +68,7 @@ class _SplashPageState extends State<SplashPage> {
               ),
               const SizedBox(height: 24),
               Text(
-                'Familio',
+                context.s.appTitle,
                 style: context.textTheme.headlineLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: context.colorScheme.primary,

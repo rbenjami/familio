@@ -65,12 +65,11 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Familio',
-                      style: context.textTheme.headlineLarge
-                          ?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: context.colorScheme.primary,
-                          ),
+                      context.s.appTitle,
+                      style: context.textTheme.headlineLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: context.colorScheme.primary,
+                      ),
                     ),
                     const SizedBox(height: 32),
 
