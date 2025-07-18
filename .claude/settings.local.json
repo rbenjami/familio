@@ -1,0 +1,11 @@
+{
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "firebase"
+  ],
+  "permissions": {
+    "allow": [
+      "Bash(dart run build_runner:*)"
+    ]
+  }
+}

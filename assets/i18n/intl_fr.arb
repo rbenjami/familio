@@ -1,0 +1,52 @@
+{
+  "@@locale": "fr",
+  
+  "appTitle": "Familio",
+  
+  "auth_login_emailLabel": "Email",
+  "auth_login_emailHint": "Entrez votre email",
+  "auth_login_passwordLabel": "Mot de passe",
+  "auth_login_passwordHint": "Entrez votre mot de passe",
+  "auth_login_forgotPasswordButton": "Mot de passe oublié ?",
+  "auth_login_submitButton": "Se connecter",
+  "auth_login_noAccountText": "Pas encore de compte ? ",
+  "auth_login_signUpLink": "S'inscrire",
+  
+  "auth_register_emailLabel": "Email",
+  "auth_register_emailHint": "Entrez votre email",
+  "auth_register_passwordLabel": "Mot de passe",
+  "auth_register_passwordHint": "Entrez votre mot de passe",
+  "auth_register_confirmPasswordLabel": "Confirmer le mot de passe",
+  "auth_register_confirmPasswordHint": "Confirmez votre mot de passe",
+  "auth_register_submitButton": "S'inscrire",
+  "auth_register_hasAccountText": "Déjà un compte ? ",
+  "auth_register_signInLink": "Se connecter",
+  
+  "auth_forgotPassword_emailLabel": "Email",
+  "auth_forgotPassword_emailHint": "Entrez votre email",
+  "auth_forgotPassword_submitButton": "Envoyer le lien",
+  "auth_forgotPassword_backButton": "Retour à la connexion",
+  "auth_forgotPassword_successMessage": "Email de réinitialisation envoyé !",
+  
+  "home_welcomeTitle": "Bienvenue sur Familio !",
+  "home_welcomeSubtitle": "Votre espace familial connecté",
+  
+  "auth_login_title": "Connexion",
+  "auth_login_emailRequired": "Veuillez entrer votre email",
+  "auth_login_emailInvalid": "Veuillez entrer un email valide",
+  "auth_login_passwordRequired": "Veuillez entrer votre mot de passe",
+  "auth_login_passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères",
+  
+  "auth_register_title": "Inscription",
+  "auth_register_emailRequired": "Veuillez entrer votre email",
+  "auth_register_emailInvalid": "Veuillez entrer un email valide",
+  "auth_register_passwordRequired": "Veuillez entrer votre mot de passe",
+  "auth_register_passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères",
+  "auth_register_confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+  "auth_register_passwordMismatch": "Les mots de passe ne correspondent pas",
+  
+  "auth_forgotPassword_title": "Mot de passe oublié",
+  "auth_forgotPassword_description": "Entrez votre adresse email pour recevoir un lien de réinitialisation de mot de passe.",
+  "auth_forgotPassword_emailRequired": "Veuillez entrer votre email",
+  "auth_forgotPassword_emailInvalid": "Veuillez entrer un email valide"
+}
