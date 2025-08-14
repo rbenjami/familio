@@ -137,8 +137,8 @@ class AppTheme {
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: secondaryLightColor.withValues(alpha: 0.5),
-      selectedItemColor: primaryColor,
+      backgroundColor: Color(0xFFE0DDDD),
+      selectedItemColor: primaryDarkColor,
       unselectedItemColor: textSecondaryColor,
       type: BottomNavigationBarType.fixed,
       elevation: 8,
