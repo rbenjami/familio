@@ -10,13 +10,13 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i8;
-import 'package:familio/presentation/pages/auth/auth_page.dart' as _i1;
-import 'package:familio/presentation/pages/calendar/calendar_page.dart' as _i2;
-import 'package:familio/presentation/pages/home/home_page.dart' as _i3;
-import 'package:familio/presentation/pages/main/main_page.dart' as _i4;
-import 'package:familio/presentation/pages/profile/profile_page.dart' as _i5;
-import 'package:familio/presentation/pages/splash/splash_page.dart' as _i6;
-import 'package:familio/presentation/pages/tasks/tasks_page.dart' as _i7;
+import 'package:familio/pages/auth/auth_page.dart' as _i1;
+import 'package:familio/pages/calendar/calendar_page.dart' as _i2;
+import 'package:familio/pages/home/home_page.dart' as _i3;
+import 'package:familio/pages/main/main_page.dart' as _i4;
+import 'package:familio/pages/profile/profile_page.dart' as _i5;
+import 'package:familio/pages/splash/splash_page.dart' as _i6;
+import 'package:familio/pages/tasks/tasks_page.dart' as _i7;
 
 /// generated route for
 /// [_i1.AuthPage]

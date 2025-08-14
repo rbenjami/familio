@@ -1,8 +1,8 @@
 import 'package:familio/core/theme/app_theme.dart';
 import 'package:familio/di/injection.dart';
 import 'package:familio/generated/l10n.dart';
-import 'package:familio/presentation/blocs/auth/auth_bloc.dart';
-import 'package:familio/presentation/router/app_router.dart';
+import 'package:familio/blocs/auth/auth_bloc.dart';
+import 'package:familio/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

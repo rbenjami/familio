@@ -21,9 +21,9 @@ import '../core/firebase/firebase_service.dart' as _i423;
 import '../core/logging/logger_service.dart' as _i690;
 import '../data/services/auth_service.dart' as _i1024;
 import '../data/services/user_service.dart' as _i385;
-import '../presentation/blocs/auth/auth_bloc.dart' as _i525;
-import '../presentation/guards/auth_guard.dart' as _i495;
-import '../presentation/router/app_router.dart' as _i223;
+import '../blocs/auth/auth_bloc.dart' as _i525;
+import '../guards/auth_guard.dart' as _i495;
+import '../router/app_router.dart' as _i223;
 import 'modules/firebase_module.dart' as _i398;
 import 'modules/logger_module.dart' as _i205;
 

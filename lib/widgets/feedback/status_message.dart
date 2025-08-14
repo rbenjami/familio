@@ -84,10 +84,10 @@ class StatusMessage extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: color.withOpacity(0.1),
+      color: color.withValues(alpha: 0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
-        side: BorderSide(color: color.withOpacity(0.5)),
+        side: BorderSide(color: color.withValues(alpha: 0.5)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -98,14 +98,14 @@ class StatusMessage extends StatelessWidget {
             Expanded(
               child: Text(
                 message,
-                style: TextStyle(color: color.withOpacity(0.8)),
+                style: TextStyle(color: color.withValues(alpha: 0.8)),
               ),
             ),
             if (isDismissible)
               IconButton(
                 icon: const Icon(Icons.close, size: 18),
                 onPressed: onDismiss,
-                color: color.withOpacity(0.7),
+                color: color.withValues(alpha: 0.7),
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
               ),

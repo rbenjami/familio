@@ -41,8 +41,9 @@ class PrimaryButton extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          disabledBackgroundColor: context.theme.colorScheme.primary
-              .withOpacity(0.6),
+          disabledBackgroundColor: context.theme.colorScheme.primary.withValues(
+            alpha: 0.6,
+          ),
         ),
         child: isLoading
             ? const SizedBox(
