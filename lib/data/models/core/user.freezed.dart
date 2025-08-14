@@ -16,8 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$User {
 
-@Id() String get id; String get name; String? get avatar; DateTime? get birthDate; String? get accountId;// null pour enfants mineurs
- List<String> get homeIds; List<String>? get relationshipIds;
+@Id() String get id; String get name; String? get avatar; DateTime? get birthDate; String? get firebaseAuthId; List<String> get homeIds; List<String>? get relationshipIds;
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,16 +29,16 @@ $UserCopyWith<User> get copyWith => _$UserCopyWithImpl<User>(this as User, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatar, avatar) || other.avatar == avatar)&&(identical(other.birthDate, birthDate) || other.birthDate == birthDate)&&(identical(other.accountId, accountId) || other.accountId == accountId)&&const DeepCollectionEquality().equals(other.homeIds, homeIds)&&const DeepCollectionEquality().equals(other.relationshipIds, relationshipIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatar, avatar) || other.avatar == avatar)&&(identical(other.birthDate, birthDate) || other.birthDate == birthDate)&&(identical(other.firebaseAuthId, firebaseAuthId) || other.firebaseAuthId == firebaseAuthId)&&const DeepCollectionEquality().equals(other.homeIds, homeIds)&&const DeepCollectionEquality().equals(other.relationshipIds, relationshipIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,avatar,birthDate,accountId,const DeepCollectionEquality().hash(homeIds),const DeepCollectionEquality().hash(relationshipIds));
+int get hashCode => Object.hash(runtimeType,id,name,avatar,birthDate,firebaseAuthId,const DeepCollectionEquality().hash(homeIds),const DeepCollectionEquality().hash(relationshipIds));
 
 @override
 String toString() {
-  return 'User(id: $id, name: $name, avatar: $avatar, birthDate: $birthDate, accountId: $accountId, homeIds: $homeIds, relationshipIds: $relationshipIds)';
+  return 'User(id: $id, name: $name, avatar: $avatar, birthDate: $birthDate, firebaseAuthId: $firebaseAuthId, homeIds: $homeIds, relationshipIds: $relationshipIds)';
 }
 
 
@@ -50,7 +49,7 @@ abstract mixin class $UserCopyWith<$Res>  {
   factory $UserCopyWith(User value, $Res Function(User) _then) = _$UserCopyWithImpl;
 @useResult
 $Res call({
-@Id() String id, String name, String? avatar, DateTime? birthDate, String? accountId, List<String> homeIds, List<String>? relationshipIds
+@Id() String id, String name, String? avatar, DateTime? birthDate, String? firebaseAuthId, List<String> homeIds, List<String>? relationshipIds
 });
 
 
@@ -67,13 +66,13 @@ class _$UserCopyWithImpl<$Res>
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? avatar = freezed,Object? birthDate = freezed,Object? accountId = freezed,Object? homeIds = null,Object? relationshipIds = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? avatar = freezed,Object? birthDate = freezed,Object? firebaseAuthId = freezed,Object? homeIds = null,Object? relationshipIds = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,avatar: freezed == avatar ? _self.avatar : avatar // ignore: cast_nullable_to_non_nullable
 as String?,birthDate: freezed == birthDate ? _self.birthDate : birthDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,accountId: freezed == accountId ? _self.accountId : accountId // ignore: cast_nullable_to_non_nullable
+as DateTime?,firebaseAuthId: freezed == firebaseAuthId ? _self.firebaseAuthId : firebaseAuthId // ignore: cast_nullable_to_non_nullable
 as String?,homeIds: null == homeIds ? _self.homeIds : homeIds // ignore: cast_nullable_to_non_nullable
 as List<String>,relationshipIds: freezed == relationshipIds ? _self.relationshipIds : relationshipIds // ignore: cast_nullable_to_non_nullable
 as List<String>?,
@@ -87,17 +86,15 @@ as List<String>?,
 
 @firestoreSerializable
 class _User implements User {
-  const _User({@Id() required this.id, required this.name, this.avatar, this.birthDate, this.accountId, required final  List<String> homeIds, final  List<String>? relationshipIds}): _homeIds = homeIds,_relationshipIds = relationshipIds;
+  const _User({@Id() required this.id, required this.name, this.avatar, this.birthDate, this.firebaseAuthId, required final  List<String> homeIds, final  List<String>? relationshipIds}): _homeIds = homeIds,_relationshipIds = relationshipIds;
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 @override@Id() final  String id;
 @override final  String name;
 @override final  String? avatar;
 @override final  DateTime? birthDate;
-@override final  String? accountId;
-// null pour enfants mineurs
+@override final  String? firebaseAuthId;
  final  List<String> _homeIds;
-// null pour enfants mineurs
 @override List<String> get homeIds {
   if (_homeIds is EqualUnmodifiableListView) return _homeIds;
   // ignore: implicit_dynamic_type
@@ -127,16 +124,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatar, avatar) || other.avatar == avatar)&&(identical(other.birthDate, birthDate) || other.birthDate == birthDate)&&(identical(other.accountId, accountId) || other.accountId == accountId)&&const DeepCollectionEquality().equals(other._homeIds, _homeIds)&&const DeepCollectionEquality().equals(other._relationshipIds, _relationshipIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatar, avatar) || other.avatar == avatar)&&(identical(other.birthDate, birthDate) || other.birthDate == birthDate)&&(identical(other.firebaseAuthId, firebaseAuthId) || other.firebaseAuthId == firebaseAuthId)&&const DeepCollectionEquality().equals(other._homeIds, _homeIds)&&const DeepCollectionEquality().equals(other._relationshipIds, _relationshipIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,avatar,birthDate,accountId,const DeepCollectionEquality().hash(_homeIds),const DeepCollectionEquality().hash(_relationshipIds));
+int get hashCode => Object.hash(runtimeType,id,name,avatar,birthDate,firebaseAuthId,const DeepCollectionEquality().hash(_homeIds),const DeepCollectionEquality().hash(_relationshipIds));
 
 @override
 String toString() {
-  return 'User(id: $id, name: $name, avatar: $avatar, birthDate: $birthDate, accountId: $accountId, homeIds: $homeIds, relationshipIds: $relationshipIds)';
+  return 'User(id: $id, name: $name, avatar: $avatar, birthDate: $birthDate, firebaseAuthId: $firebaseAuthId, homeIds: $homeIds, relationshipIds: $relationshipIds)';
 }
 
 
@@ -147,7 +144,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$UserCopyWith(_User value, $Res Function(_User) _then) = __$UserCopyWithImpl;
 @override @useResult
 $Res call({
-@Id() String id, String name, String? avatar, DateTime? birthDate, String? accountId, List<String> homeIds, List<String>? relationshipIds
+@Id() String id, String name, String? avatar, DateTime? birthDate, String? firebaseAuthId, List<String> homeIds, List<String>? relationshipIds
 });
 
 
@@ -164,13 +161,13 @@ class __$UserCopyWithImpl<$Res>
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? avatar = freezed,Object? birthDate = freezed,Object? accountId = freezed,Object? homeIds = null,Object? relationshipIds = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? avatar = freezed,Object? birthDate = freezed,Object? firebaseAuthId = freezed,Object? homeIds = null,Object? relationshipIds = freezed,}) {
   return _then(_User(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,avatar: freezed == avatar ? _self.avatar : avatar // ignore: cast_nullable_to_non_nullable
 as String?,birthDate: freezed == birthDate ? _self.birthDate : birthDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,accountId: freezed == accountId ? _self.accountId : accountId // ignore: cast_nullable_to_non_nullable
+as DateTime?,firebaseAuthId: freezed == firebaseAuthId ? _self.firebaseAuthId : firebaseAuthId // ignore: cast_nullable_to_non_nullable
 as String?,homeIds: null == homeIds ? _self._homeIds : homeIds // ignore: cast_nullable_to_non_nullable
 as List<String>,relationshipIds: freezed == relationshipIds ? _self._relationshipIds : relationshipIds // ignore: cast_nullable_to_non_nullable
 as List<String>?,
@@ -184,8 +181,8 @@ as List<String>?,
 /// @nodoc
 mixin _$Calendar {
 
-@Id() String get id; String get name; CalendarType get type; bool get isVisibleInHome; String get color;// Pour calendriers externes
- String? get externalId; String? get accessToken; String? get refreshToken; DateTime? get lastSyncAt; bool get syncEnabled;// Pour calendriers internes
+@Id() String get id; String get name; CalendarType get type; bool get isVisibleInHome; String get color;// For external calendars
+ String? get externalId; String? get accessToken; String? get refreshToken; DateTime? get lastSyncAt; bool get syncEnabled;// For internal calendars
  String? get homeId;
 /// Create a copy of Calendar
 /// with the given fields replaced by the non-null parameter values.
@@ -268,13 +265,13 @@ class _Calendar implements Calendar {
 @override final  CalendarType type;
 @override final  bool isVisibleInHome;
 @override final  String color;
-// Pour calendriers externes
+// For external calendars
 @override final  String? externalId;
 @override final  String? accessToken;
 @override final  String? refreshToken;
 @override final  DateTime? lastSyncAt;
 @override@JsonKey() final  bool syncEnabled;
-// Pour calendriers internes
+// For internal calendars
 @override final  String? homeId;
 
 /// Create a copy of Calendar

@@ -1,7 +1,1 @@
-enum CalendarType {
-  internal,
-  google,
-  outlook,
-  apple,
-  other,
-}
+enum CalendarType { internal, external }

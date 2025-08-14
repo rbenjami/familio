@@ -136,7 +136,7 @@ abstract class UserDocumentReference
     FieldValue nameFieldValue,
     FieldValue avatarFieldValue,
     FieldValue birthDateFieldValue,
-    FieldValue accountIdFieldValue,
+    FieldValue firebaseAuthIdFieldValue,
     FieldValue homeIdsFieldValue,
     FieldValue relationshipIdsFieldValue,
   });
@@ -155,7 +155,7 @@ abstract class UserDocumentReference
     FieldValue nameFieldValue,
     FieldValue avatarFieldValue,
     FieldValue birthDateFieldValue,
-    FieldValue accountIdFieldValue,
+    FieldValue firebaseAuthIdFieldValue,
     FieldValue homeIdsFieldValue,
     FieldValue relationshipIdsFieldValue,
   });
@@ -174,7 +174,7 @@ abstract class UserDocumentReference
     FieldValue nameFieldValue,
     FieldValue avatarFieldValue,
     FieldValue birthDateFieldValue,
-    FieldValue accountIdFieldValue,
+    FieldValue firebaseAuthIdFieldValue,
     FieldValue homeIdsFieldValue,
     FieldValue relationshipIdsFieldValue,
   });
@@ -190,8 +190,8 @@ abstract class UserDocumentReference
     FieldValue avatarFieldValue,
     DateTime? birthDate,
     FieldValue birthDateFieldValue,
-    String? accountId,
-    FieldValue accountIdFieldValue,
+    String? firebaseAuthId,
+    FieldValue firebaseAuthIdFieldValue,
     List<String> homeIds,
     FieldValue homeIdsFieldValue,
     List<String>? relationshipIds,
@@ -209,8 +209,8 @@ abstract class UserDocumentReference
     FieldValue avatarFieldValue,
     DateTime? birthDate,
     FieldValue birthDateFieldValue,
-    String? accountId,
-    FieldValue accountIdFieldValue,
+    String? firebaseAuthId,
+    FieldValue firebaseAuthIdFieldValue,
     List<String> homeIds,
     FieldValue homeIdsFieldValue,
     List<String>? relationshipIds,
@@ -228,8 +228,8 @@ abstract class UserDocumentReference
     FieldValue avatarFieldValue,
     DateTime? birthDate,
     FieldValue birthDateFieldValue,
-    String? accountId,
-    FieldValue accountIdFieldValue,
+    String? firebaseAuthId,
+    FieldValue firebaseAuthIdFieldValue,
     List<String> homeIds,
     FieldValue homeIdsFieldValue,
     List<String>? relationshipIds,
@@ -274,7 +274,7 @@ class _$UserDocumentReference
     FieldValue? nameFieldValue,
     FieldValue? avatarFieldValue,
     FieldValue? birthDateFieldValue,
-    FieldValue? accountIdFieldValue,
+    FieldValue? firebaseAuthIdFieldValue,
     FieldValue? homeIdsFieldValue,
     FieldValue? relationshipIdsFieldValue,
   }) async {
@@ -287,8 +287,8 @@ class _$UserDocumentReference
       if (birthDateFieldValue != null)
         _$UserFieldMap['birthDate']!: birthDateFieldValue,
 
-      if (accountIdFieldValue != null)
-        _$UserFieldMap['accountId']!: accountIdFieldValue,
+      if (firebaseAuthIdFieldValue != null)
+        _$UserFieldMap['firebaseAuthId']!: firebaseAuthIdFieldValue,
 
       if (homeIdsFieldValue != null)
         _$UserFieldMap['homeIds']!: homeIdsFieldValue,
@@ -311,7 +311,7 @@ class _$UserDocumentReference
     FieldValue? nameFieldValue,
     FieldValue? avatarFieldValue,
     FieldValue? birthDateFieldValue,
-    FieldValue? accountIdFieldValue,
+    FieldValue? firebaseAuthIdFieldValue,
     FieldValue? homeIdsFieldValue,
     FieldValue? relationshipIdsFieldValue,
   }) {
@@ -324,8 +324,8 @@ class _$UserDocumentReference
       if (birthDateFieldValue != null)
         _$UserFieldMap['birthDate']!: birthDateFieldValue,
 
-      if (accountIdFieldValue != null)
-        _$UserFieldMap['accountId']!: accountIdFieldValue,
+      if (firebaseAuthIdFieldValue != null)
+        _$UserFieldMap['firebaseAuthId']!: firebaseAuthIdFieldValue,
 
       if (homeIdsFieldValue != null)
         _$UserFieldMap['homeIds']!: homeIdsFieldValue,
@@ -344,7 +344,7 @@ class _$UserDocumentReference
     FieldValue? nameFieldValue,
     FieldValue? avatarFieldValue,
     FieldValue? birthDateFieldValue,
-    FieldValue? accountIdFieldValue,
+    FieldValue? firebaseAuthIdFieldValue,
     FieldValue? homeIdsFieldValue,
     FieldValue? relationshipIdsFieldValue,
   }) {
@@ -357,8 +357,8 @@ class _$UserDocumentReference
       if (birthDateFieldValue != null)
         _$UserFieldMap['birthDate']!: birthDateFieldValue,
 
-      if (accountIdFieldValue != null)
-        _$UserFieldMap['accountId']!: accountIdFieldValue,
+      if (firebaseAuthIdFieldValue != null)
+        _$UserFieldMap['firebaseAuthId']!: firebaseAuthIdFieldValue,
 
       if (homeIdsFieldValue != null)
         _$UserFieldMap['homeIds']!: homeIdsFieldValue,
@@ -377,8 +377,8 @@ class _$UserDocumentReference
     FieldValue? avatarFieldValue,
     Object? birthDate = _sentinel,
     FieldValue? birthDateFieldValue,
-    Object? accountId = _sentinel,
-    FieldValue? accountIdFieldValue,
+    Object? firebaseAuthId = _sentinel,
+    FieldValue? firebaseAuthIdFieldValue,
     Object? homeIds = _sentinel,
     FieldValue? homeIdsFieldValue,
     Object? relationshipIds = _sentinel,
@@ -397,8 +397,8 @@ class _$UserDocumentReference
       "Cannot specify both birthDate and birthDateFieldValue",
     );
     assert(
-      accountId == _sentinel || accountIdFieldValue == null,
-      "Cannot specify both accountId and accountIdFieldValue",
+      firebaseAuthId == _sentinel || firebaseAuthIdFieldValue == null,
+      "Cannot specify both firebaseAuthId and firebaseAuthIdFieldValue",
     );
     assert(
       homeIds == _sentinel || homeIdsFieldValue == null,
@@ -429,13 +429,13 @@ class _$UserDocumentReference
       if (birthDateFieldValue != null)
         _$UserFieldMap['birthDate']!: birthDateFieldValue,
 
-      if (accountId != _sentinel)
-        _$UserFieldMap['accountId']!: _$UserPerFieldToJson.accountId(
-          accountId as String?,
+      if (firebaseAuthId != _sentinel)
+        _$UserFieldMap['firebaseAuthId']!: _$UserPerFieldToJson.firebaseAuthId(
+          firebaseAuthId as String?,
         ),
 
-      if (accountIdFieldValue != null)
-        _$UserFieldMap['accountId']!: accountIdFieldValue,
+      if (firebaseAuthIdFieldValue != null)
+        _$UserFieldMap['firebaseAuthId']!: firebaseAuthIdFieldValue,
 
       if (homeIds != _sentinel)
         _$UserFieldMap['homeIds']!: _$UserPerFieldToJson.homeIds(
@@ -464,8 +464,8 @@ class _$UserDocumentReference
     FieldValue? avatarFieldValue,
     Object? birthDate = _sentinel,
     FieldValue? birthDateFieldValue,
-    Object? accountId = _sentinel,
-    FieldValue? accountIdFieldValue,
+    Object? firebaseAuthId = _sentinel,
+    FieldValue? firebaseAuthIdFieldValue,
     Object? homeIds = _sentinel,
     FieldValue? homeIdsFieldValue,
     Object? relationshipIds = _sentinel,
@@ -484,8 +484,8 @@ class _$UserDocumentReference
       "Cannot specify both birthDate and birthDateFieldValue",
     );
     assert(
-      accountId == _sentinel || accountIdFieldValue == null,
-      "Cannot specify both accountId and accountIdFieldValue",
+      firebaseAuthId == _sentinel || firebaseAuthIdFieldValue == null,
+      "Cannot specify both firebaseAuthId and firebaseAuthIdFieldValue",
     );
     assert(
       homeIds == _sentinel || homeIdsFieldValue == null,
@@ -516,13 +516,13 @@ class _$UserDocumentReference
       if (birthDateFieldValue != null)
         _$UserFieldMap['birthDate']!: birthDateFieldValue,
 
-      if (accountId != _sentinel)
-        _$UserFieldMap['accountId']!: _$UserPerFieldToJson.accountId(
-          accountId as String?,
+      if (firebaseAuthId != _sentinel)
+        _$UserFieldMap['firebaseAuthId']!: _$UserPerFieldToJson.firebaseAuthId(
+          firebaseAuthId as String?,
         ),
 
-      if (accountIdFieldValue != null)
-        _$UserFieldMap['accountId']!: accountIdFieldValue,
+      if (firebaseAuthIdFieldValue != null)
+        _$UserFieldMap['firebaseAuthId']!: firebaseAuthIdFieldValue,
 
       if (homeIds != _sentinel)
         _$UserFieldMap['homeIds']!: _$UserPerFieldToJson.homeIds(
@@ -551,8 +551,8 @@ class _$UserDocumentReference
     FieldValue? avatarFieldValue,
     Object? birthDate = _sentinel,
     FieldValue? birthDateFieldValue,
-    Object? accountId = _sentinel,
-    FieldValue? accountIdFieldValue,
+    Object? firebaseAuthId = _sentinel,
+    FieldValue? firebaseAuthIdFieldValue,
     Object? homeIds = _sentinel,
     FieldValue? homeIdsFieldValue,
     Object? relationshipIds = _sentinel,
@@ -571,8 +571,8 @@ class _$UserDocumentReference
       "Cannot specify both birthDate and birthDateFieldValue",
     );
     assert(
-      accountId == _sentinel || accountIdFieldValue == null,
-      "Cannot specify both accountId and accountIdFieldValue",
+      firebaseAuthId == _sentinel || firebaseAuthIdFieldValue == null,
+      "Cannot specify both firebaseAuthId and firebaseAuthIdFieldValue",
     );
     assert(
       homeIds == _sentinel || homeIdsFieldValue == null,
@@ -603,13 +603,13 @@ class _$UserDocumentReference
       if (birthDateFieldValue != null)
         _$UserFieldMap['birthDate']!: birthDateFieldValue,
 
-      if (accountId != _sentinel)
-        _$UserFieldMap['accountId']!: _$UserPerFieldToJson.accountId(
-          accountId as String?,
+      if (firebaseAuthId != _sentinel)
+        _$UserFieldMap['firebaseAuthId']!: _$UserPerFieldToJson.firebaseAuthId(
+          firebaseAuthId as String?,
         ),
 
-      if (accountIdFieldValue != null)
-        _$UserFieldMap['accountId']!: accountIdFieldValue,
+      if (firebaseAuthIdFieldValue != null)
+        _$UserFieldMap['firebaseAuthId']!: firebaseAuthIdFieldValue,
 
       if (homeIds != _sentinel)
         _$UserFieldMap['homeIds']!: _$UserPerFieldToJson.homeIds(
@@ -729,7 +729,7 @@ abstract class UserQuery implements QueryReference<User, UserQuerySnapshot> {
     bool? isNull,
   });
 
-  UserQuery whereAccountId({
+  UserQuery whereFirebaseAuthId({
     String? isEqualTo,
     String? isNotEqualTo,
     String? isLessThan,
@@ -846,7 +846,7 @@ abstract class UserQuery implements QueryReference<User, UserQuerySnapshot> {
     UserDocumentSnapshot? startAfterDocument,
   });
 
-  UserQuery orderByAccountId({
+  UserQuery orderByFirebaseAuthId({
     bool descending = false,
     String? startAt,
     String? startAfter,
@@ -1133,7 +1133,7 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
   }
 
   @override
-  UserQuery whereAccountId({
+  UserQuery whereFirebaseAuthId({
     Object? isEqualTo = _sentinel,
     Object? isNotEqualTo = _sentinel,
     Object? isLessThan,
@@ -1147,27 +1147,33 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
     return _$UserQuery(
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$UserFieldMap['accountId']!,
+        _$UserFieldMap['firebaseAuthId']!,
         isEqualTo: isEqualTo != _sentinel
-            ? _$UserPerFieldToJson.accountId(isEqualTo as String?)
+            ? _$UserPerFieldToJson.firebaseAuthId(isEqualTo as String?)
             : null,
         isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$UserPerFieldToJson.accountId(isNotEqualTo as String?)
+            ? _$UserPerFieldToJson.firebaseAuthId(isNotEqualTo as String?)
             : null,
         isLessThan: isLessThan != null
-            ? _$UserPerFieldToJson.accountId(isLessThan as String?)
+            ? _$UserPerFieldToJson.firebaseAuthId(isLessThan as String?)
             : null,
         isLessThanOrEqualTo: isLessThanOrEqualTo != null
-            ? _$UserPerFieldToJson.accountId(isLessThanOrEqualTo as String?)
+            ? _$UserPerFieldToJson.firebaseAuthId(
+                isLessThanOrEqualTo as String?,
+              )
             : null,
         isGreaterThan: isGreaterThan != null
-            ? _$UserPerFieldToJson.accountId(isGreaterThan as String?)
+            ? _$UserPerFieldToJson.firebaseAuthId(isGreaterThan as String?)
             : null,
         isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
-            ? _$UserPerFieldToJson.accountId(isGreaterThanOrEqualTo as String?)
+            ? _$UserPerFieldToJson.firebaseAuthId(
+                isGreaterThanOrEqualTo as String?,
+              )
             : null,
-        whereIn: whereIn?.map((e) => _$UserPerFieldToJson.accountId(e)),
-        whereNotIn: whereNotIn?.map((e) => _$UserPerFieldToJson.accountId(e)),
+        whereIn: whereIn?.map((e) => _$UserPerFieldToJson.firebaseAuthId(e)),
+        whereNotIn: whereNotIn?.map(
+          (e) => _$UserPerFieldToJson.firebaseAuthId(e),
+        ),
         isNull:
             isNull ??
             (isEqualTo == null ? false : null) ??
@@ -1668,7 +1674,7 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
   }
 
   @override
-  UserQuery orderByAccountId({
+  UserQuery orderByFirebaseAuthId({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
@@ -1680,7 +1686,7 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
     UserDocumentSnapshot? startAfterDocument,
   }) {
     final query = $referenceWithoutCursor.orderBy(
-      _$UserFieldMap['accountId']!,
+      _$UserFieldMap['firebaseAuthId']!,
       descending: descending,
     );
     var queryCursor = $queryCursor;
@@ -7805,7 +7811,7 @@ _User _$UserFromJson(Map<String, dynamic> json) => _User(
     json['birthDate'],
     const FirestoreDateTimeConverter().fromJson,
   ),
-  accountId: json['accountId'] as String?,
+  firebaseAuthId: json['firebaseAuthId'] as String?,
   homeIds: (json['homeIds'] as List<dynamic>).map((e) => e as String).toList(),
   relationshipIds: (json['relationshipIds'] as List<dynamic>?)
       ?.map((e) => e as String)
@@ -7817,7 +7823,7 @@ const _$UserFieldMap = <String, String>{
   'name': 'name',
   'avatar': 'avatar',
   'birthDate': 'birthDate',
-  'accountId': 'accountId',
+  'firebaseAuthId': 'firebaseAuthId',
   'homeIds': 'homeIds',
   'relationshipIds': 'relationshipIds',
 };
@@ -7837,7 +7843,7 @@ abstract class _$UserPerFieldToJson {
         const FirestoreDateTimeConverter().toJson,
       );
   // ignore: unused_element
-  static Object? accountId(String? instance) => instance;
+  static Object? firebaseAuthId(String? instance) => instance;
   // ignore: unused_element
   static Object? homeIds(List<String> instance) => instance;
   // ignore: unused_element
@@ -7852,7 +7858,7 @@ Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
     instance.birthDate,
     const FirestoreDateTimeConverter().toJson,
   ),
-  'accountId': instance.accountId,
+  'firebaseAuthId': instance.firebaseAuthId,
   'homeIds': instance.homeIds,
   'relationshipIds': instance.relationshipIds,
 };
@@ -7948,10 +7954,7 @@ Map<String, dynamic> _$CalendarToJson(_Calendar instance) => <String, dynamic>{
 
 const _$CalendarTypeEnumMap = {
   CalendarType.internal: 'internal',
-  CalendarType.google: 'google',
-  CalendarType.outlook: 'outlook',
-  CalendarType.apple: 'apple',
-  CalendarType.other: 'other',
+  CalendarType.external: 'external',
 };
 
 _Event _$EventFromJson(Map<String, dynamic> json) => _Event(

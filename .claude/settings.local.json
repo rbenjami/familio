@@ -10,7 +10,8 @@
       "mcp__firebase__firebase_update_environment",
       "mcp__firebase__firestore_get_rules",
       "mcp__firebase__firestore_validate_rules",
-      "Bash(firebase deploy:*)"
+      "Bash(firebase deploy:*)",
+      "Bash(find:*)"
     ],
     "defaultMode": "acceptEdits"
   },
