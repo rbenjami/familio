@@ -10,13 +10,17 @@ import 'app_router.gr.dart';
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-    // Splash route - initial route
-    AutoRoute(page: SplashRoute.page, initial: true, path: '/'),
-
-    // Auth route - public access
+    AutoRoute(page: SplashRoute.page, initial: true, path: '/splash'),
     AutoRoute(page: AuthRoute.page, path: '/auth'),
-
-    // Home route - no guard needed, handled by splash page
-    AutoRoute(page: HomeRoute.page, path: '/home'),
+    AutoRoute(
+      page: MainRoute.page,
+      path: '/',
+      children: [
+        AutoRoute(page: HomeRoute.page, path: 'home'),
+        AutoRoute(page: CalendarRoute.page, path: 'calendar'),
+        AutoRoute(page: TasksRoute.page, path: 'tasks'),
+        AutoRoute(page: ProfileRoute.page, path: 'profile'),
+      ],
+    ),
   ];
 }

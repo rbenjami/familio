@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -64,5 +55,34 @@ class DefaultFirebaseOptions {
     projectId: 'familio-project',
     storageBucket: 'familio-project.firebasestorage.app',
     iosBundleId: 'com.familio.app',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBktFFNmQDZdud0HmXQFrXzm2Xa8zip314',
+    appId: '1:646437987857:web:99d23f954d4ea44768b3b0',
+    messagingSenderId: '646437987857',
+    projectId: 'familio-project',
+    authDomain: 'familio-project.firebaseapp.com',
+    storageBucket: 'familio-project.firebasestorage.app',
+    measurementId: 'G-2GK6C7JDNX',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBGnHCTptqvTl9xt4MxReE7m3cv1lp8UZg',
+    appId: '1:646437987857:ios:a4ca9ab9a557621368b3b0',
+    messagingSenderId: '646437987857',
+    projectId: 'familio-project',
+    storageBucket: 'familio-project.firebasestorage.app',
+    iosBundleId: 'com.familio.app',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBktFFNmQDZdud0HmXQFrXzm2Xa8zip314',
+    appId: '1:646437987857:web:1f964421c70b4a4368b3b0',
+    messagingSenderId: '646437987857',
+    projectId: 'familio-project',
+    authDomain: 'familio-project.firebaseapp.com',
+    storageBucket: 'familio-project.firebasestorage.app',
+    measurementId: 'G-PXY2QY23SC',
   );
 }

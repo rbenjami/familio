@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// App theme configuration class
 class AppTheme {
@@ -6,9 +7,9 @@ class AppTheme {
   AppTheme._();
 
   /// Primary brand colors
-  static const Color primaryColor = Color(0xFF3F51B5); // Indigo
-  static const Color primaryLightColor = Color(0xFF757DE8);
-  static const Color primaryDarkColor = Color(0xFF002984);
+  static const Color primaryColor = Color(0xFFB6F4B9);
+  static const Color primaryLightColor = Color(0xFFD6F7D8);
+  static const Color primaryDarkColor = Color(0xFF87B689);
 
   /// Secondary brand colors
   static const Color secondaryColor = Color(0xFFFF9800); // Orange
@@ -25,7 +26,7 @@ class AppTheme {
   static const Color infoColor = Color(0xFF2196F3); // Blue
 
   /// Neutral colors
-  static const Color backgroundColor = Color(0xFFF5F5F5);
+  static const Color backgroundColor = Color(0xFFEBFFEC);
   static const Color surfaceColor = Colors.white;
   static const Color cardColor = Colors.white;
 
@@ -48,8 +49,6 @@ class AppTheme {
       onSecondaryContainer: Colors.black,
       tertiary: accentColor,
       onTertiary: Colors.white,
-      background: backgroundColor,
-      onBackground: textPrimaryColor,
       surface: surfaceColor,
       onSurface: textPrimaryColor,
       error: errorColor,
@@ -107,23 +106,24 @@ class AppTheme {
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     ),
-    textTheme: const TextTheme(
-      displayLarge: TextStyle(color: textPrimaryColor),
-      displayMedium: TextStyle(color: textPrimaryColor),
-      displaySmall: TextStyle(color: textPrimaryColor),
-      headlineLarge: TextStyle(color: textPrimaryColor),
-      headlineMedium: TextStyle(color: textPrimaryColor),
-      headlineSmall: TextStyle(color: textPrimaryColor),
-      titleLarge: TextStyle(color: textPrimaryColor),
-      titleMedium: TextStyle(color: textPrimaryColor),
-      titleSmall: TextStyle(color: textPrimaryColor),
-      bodyLarge: TextStyle(color: textPrimaryColor),
-      bodyMedium: TextStyle(color: textPrimaryColor),
-      bodySmall: TextStyle(color: textSecondaryColor),
-      labelLarge: TextStyle(color: textPrimaryColor),
-      labelMedium: TextStyle(color: textPrimaryColor),
-      labelSmall: TextStyle(color: textSecondaryColor),
-    ),
+    textTheme: GoogleFonts.interTextTheme(),
+    // textTheme: const TextTheme(
+    //   displayLarge: TextStyle(color: textPrimaryColor),
+    //   displayMedium: TextStyle(color: textPrimaryColor),
+    //   displaySmall: TextStyle(color: textPrimaryColor),
+    //   headlineLarge: TextStyle(color: textPrimaryColor),
+    //   headlineMedium: TextStyle(color: textPrimaryColor),
+    //   headlineSmall: TextStyle(color: textPrimaryColor),
+    //   titleLarge: TextStyle(color: textPrimaryColor),
+    //   titleMedium: TextStyle(color: textPrimaryColor),
+    //   titleSmall: TextStyle(color: textPrimaryColor),
+    //   bodyLarge: TextStyle(color: textPrimaryColor),
+    //   bodyMedium: TextStyle(color: textPrimaryColor),
+    //   bodySmall: TextStyle(color: textSecondaryColor),
+    //   labelLarge: TextStyle(color: textPrimaryColor),
+    //   labelMedium: TextStyle(color: textPrimaryColor),
+    //   labelSmall: TextStyle(color: textSecondaryColor),
+    // ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: primaryColor,
@@ -148,8 +148,6 @@ class AppTheme {
       onSecondaryContainer: Colors.white,
       tertiary: accentColor,
       onTertiary: Colors.white,
-      background: const Color(0xFF121212),
-      onBackground: Colors.white,
       surface: const Color(0xFF1E1E1E),
       onSurface: Colors.white,
       error: errorColor,

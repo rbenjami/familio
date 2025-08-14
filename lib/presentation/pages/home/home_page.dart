@@ -1,11 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:familio/core/utils/context_ext.dart';
-import 'package:familio/presentation/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../blocs/auth/auth_bloc.dart';
-import '../../blocs/auth/auth_event.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
@@ -13,36 +9,26 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.s.appTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              context.read<AuthBloc>().add(const SignOutRequested());
-              context.router.replace(const AuthRoute());
-            },
+    return Scaffold(body: _Body());
+  }
+}
+
+class _Body extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          PhosphorIcon(PhosphorIconsDuotone.house, size: 64),
+          SizedBox(height: 16),
+          Text(
+            context.s.home_welcomeTitle,
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
+          SizedBox(height: 8),
+          Text(context.s.home_welcomeSubtitle, style: TextStyle(fontSize: 16)),
         ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.home, size: 64),
-            SizedBox(height: 16),
-            Text(
-              context.s.home_welcomeTitle,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              context.s.home_welcomeSubtitle,
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
       ),
     );
   }
