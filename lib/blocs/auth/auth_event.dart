@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../../data/models/models.dart';
 
 @immutable
 sealed class AuthEvent {
@@ -17,13 +18,19 @@ class RegisterRequested extends AuthEvent {
   final String name;
   final String? avatar;
   final DateTime? birthDate;
+  final RegistrationType registrationType;
+  final String? homeName;
+  final String? invitationCode;
   
   const RegisterRequested({
     required this.email, 
     required this.password, 
     required this.name,
+    required this.registrationType,
     this.avatar,
     this.birthDate,
+    this.homeName,
+    this.invitationCode,
   });
 }
 

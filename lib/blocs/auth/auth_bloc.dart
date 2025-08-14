@@ -85,10 +85,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       logger.info('Attempting to register with email: ${event.email}');
 
-      final credential = await _authService.registerUserWithProfile(
+      final credential = await _authService.registerUserWithHome(
         email: event.email,
         password: event.password,
         name: event.name,
+        registrationType: event.registrationType,
+        homeName: event.homeName,
+        invitationCode: event.invitationCode,
         avatar: event.avatar,
         birthDate: event.birthDate,
       );

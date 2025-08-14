@@ -134,6 +134,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "Veuillez confirmer votre mot de passe",
         ),
+    "auth_register_createHomeOption": MessageLookupByLibrary.simpleMessage(
+      "Créer un nouveau foyer",
+    ),
     "auth_register_emailHint": MessageLookupByLibrary.simpleMessage(
       "Entrez votre email",
     ),
@@ -146,6 +149,31 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "auth_register_hasAccountText": MessageLookupByLibrary.simpleMessage(
       "Déjà un compte ? ",
+    ),
+    "auth_register_homeNameHint": MessageLookupByLibrary.simpleMessage(
+      "Entrez le nom de votre foyer",
+    ),
+    "auth_register_homeNameLabel": MessageLookupByLibrary.simpleMessage(
+      "Nom du foyer",
+    ),
+    "auth_register_homeNameRequired": MessageLookupByLibrary.simpleMessage(
+      "Veuillez entrer un nom de foyer",
+    ),
+    "auth_register_invitationCodeHint": MessageLookupByLibrary.simpleMessage(
+      "Entrez le code d\'invitation",
+    ),
+    "auth_register_invitationCodeInvalid": MessageLookupByLibrary.simpleMessage(
+      "Code d\'invitation invalide",
+    ),
+    "auth_register_invitationCodeLabel": MessageLookupByLibrary.simpleMessage(
+      "Code d\'invitation",
+    ),
+    "auth_register_invitationCodeRequired":
+        MessageLookupByLibrary.simpleMessage(
+          "Veuillez entrer un code d\'invitation",
+        ),
+    "auth_register_joinHomeOption": MessageLookupByLibrary.simpleMessage(
+      "Rejoindre un foyer existant",
     ),
     "auth_register_nameHint": MessageLookupByLibrary.simpleMessage(
       "Entrez votre nom complet",

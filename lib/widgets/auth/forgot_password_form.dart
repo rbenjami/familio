@@ -1,6 +1,7 @@
 import 'package:familio/core/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_event.dart';
@@ -31,71 +32,77 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            context.s.auth_forgotPassword_title,
-            style: context.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
+          buildTitle(),
           const SizedBox(height: 16),
-          Text(
-            context.s.auth_forgotPassword_description,
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: context.colorScheme.onSurfaceVariant,
-            ),
-            textAlign: TextAlign.center,
-          ),
+          buildDescription(),
           const SizedBox(height: 32),
-          TextFormField(
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: context.s.auth_forgotPassword_emailLabel,
-              hintText: context.s.auth_forgotPassword_emailHint,
-              prefixIcon: Icon(Icons.email),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return context.s.auth_forgotPassword_emailRequired;
-              }
-              if (!RegExp(
-                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-              ).hasMatch(value)) {
-                return context.s.auth_forgotPassword_emailInvalid;
-              }
-              return null;
-            },
-          ),
+          buildEmailField(),
           const SizedBox(height: 32),
-          ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                context.read<AuthBloc>().add(
-                  ResetPasswordRequested(_emailController.text.trim()),
-                );
-                // Show success message
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(context.s.auth_forgotPassword_successMessage),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-                // Go back to login after a delay
-                Future.delayed(const Duration(seconds: 2), () {
-                  widget.onBackToLogin();
-                });
-              }
-            },
-            child: Text(context.s.auth_forgotPassword_submitButton),
-          ),
+          buildSubmitButton(),
           const SizedBox(height: 16),
-          TextButton(
-            onPressed: widget.onBackToLogin,
-            child: Text(context.s.auth_forgotPassword_backButton),
-          ),
+          buildBackButton(),
         ],
       ),
+    );
+  }
+
+  Widget buildTitle() {
+    return Text(
+      context.s.auth_forgotPassword_title,
+      style: context.textTheme.headlineMedium?.copyWith(
+        fontWeight: FontWeight.bold,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget buildDescription() {
+    return Text(
+      context.s.auth_forgotPassword_description,
+      style: context.textTheme.bodyMedium,
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget buildEmailField() {
+    return TextFormField(
+      controller: _emailController,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        labelText: context.s.auth_forgotPassword_emailLabel,
+        hintText: context.s.auth_forgotPassword_emailHint,
+        prefixIcon: const PhosphorIcon(PhosphorIconsDuotone.mailbox),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return context.s.auth_forgotPassword_emailRequired;
+        }
+        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+          return context.s.auth_forgotPassword_emailInvalid;
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget buildSubmitButton() {
+    return ElevatedButton(
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          context.read<AuthBloc>().add(
+            ResetPasswordRequested(_emailController.text.trim()),
+          );
+        }
+      },
+      child: Text(context.s.auth_forgotPassword_submitButton),
+    );
+  }
+
+  Widget buildBackButton() {
+    return TextButton(
+      onPressed: widget.onBackToLogin,
+      child: Text(context.s.auth_forgotPassword_backButton),
     );
   }
 }

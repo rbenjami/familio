@@ -31,6 +31,7 @@ The project follows Clean Architecture principles with clear separation of conce
 - **Networking**: `dio` with `retrofit` for API calls
 - **Logging**: `talker` suite for comprehensive logging
 - **Code Generation**: `freezed`, `json_serializable`, `build_runner`
+- **Icones**: `phosphor_flutter` for icon. Use `PhosphorIcon` and `PhosphorIconsDuotone` for icons.
 
 ## Development Commands
 

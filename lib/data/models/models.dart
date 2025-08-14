@@ -7,6 +7,7 @@ export 'enums/priority.dart';
 export 'enums/event_source.dart';
 export 'enums/invitation_status.dart';
 export 'enums/relationship_type.dart';
+export 'enums/registration_type.dart';
 
 // Core models
 export 'core/user.dart';

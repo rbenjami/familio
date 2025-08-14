@@ -128,6 +128,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "auth_register_confirmPasswordRequired":
         MessageLookupByLibrary.simpleMessage("Please confirm your password"),
+    "auth_register_createHomeOption": MessageLookupByLibrary.simpleMessage(
+      "Create a new home",
+    ),
     "auth_register_emailHint": MessageLookupByLibrary.simpleMessage(
       "Enter your email",
     ),
@@ -140,6 +143,29 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "auth_register_hasAccountText": MessageLookupByLibrary.simpleMessage(
       "Already have an account? ",
+    ),
+    "auth_register_homeNameHint": MessageLookupByLibrary.simpleMessage(
+      "Enter your home name",
+    ),
+    "auth_register_homeNameLabel": MessageLookupByLibrary.simpleMessage(
+      "Home name",
+    ),
+    "auth_register_homeNameRequired": MessageLookupByLibrary.simpleMessage(
+      "Please enter a home name",
+    ),
+    "auth_register_invitationCodeHint": MessageLookupByLibrary.simpleMessage(
+      "Enter the invitation code",
+    ),
+    "auth_register_invitationCodeInvalid": MessageLookupByLibrary.simpleMessage(
+      "Invalid invitation code",
+    ),
+    "auth_register_invitationCodeLabel": MessageLookupByLibrary.simpleMessage(
+      "Invitation code",
+    ),
+    "auth_register_invitationCodeRequired":
+        MessageLookupByLibrary.simpleMessage("Please enter an invitation code"),
+    "auth_register_joinHomeOption": MessageLookupByLibrary.simpleMessage(
+      "Join an existing home",
     ),
     "auth_register_nameHint": MessageLookupByLibrary.simpleMessage(
       "Enter your full name",

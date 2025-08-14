@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:familio/core/utils/context_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_state.dart';
@@ -61,8 +62,8 @@ class _SplashPageState extends State<SplashPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.family_restroom,
+              PhosphorIcon(
+                PhosphorIconsDuotone.usersThree,
                 size: 100,
                 color: context.colorScheme.primary,
               ),

@@ -3,6 +3,7 @@ import 'package:familio/core/utils/context_ext.dart';
 import 'package:familio/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_state.dart';
@@ -58,8 +59,8 @@ class _AuthPageState extends State<AuthPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Logo or App name
-                    Icon(
-                      Icons.family_restroom,
+                    PhosphorIcon(
+                      PhosphorIconsDuotone.usersThree,
                       size: 80,
                       color: context.colorScheme.primary,
                     ),

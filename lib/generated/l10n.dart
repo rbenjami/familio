@@ -454,6 +454,96 @@ class S {
     );
   }
 
+  /// `Create a new home`
+  String get auth_register_createHomeOption {
+    return Intl.message(
+      'Create a new home',
+      name: 'auth_register_createHomeOption',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join an existing home`
+  String get auth_register_joinHomeOption {
+    return Intl.message(
+      'Join an existing home',
+      name: 'auth_register_joinHomeOption',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home name`
+  String get auth_register_homeNameLabel {
+    return Intl.message(
+      'Home name',
+      name: 'auth_register_homeNameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your home name`
+  String get auth_register_homeNameHint {
+    return Intl.message(
+      'Enter your home name',
+      name: 'auth_register_homeNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a home name`
+  String get auth_register_homeNameRequired {
+    return Intl.message(
+      'Please enter a home name',
+      name: 'auth_register_homeNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invitation code`
+  String get auth_register_invitationCodeLabel {
+    return Intl.message(
+      'Invitation code',
+      name: 'auth_register_invitationCodeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the invitation code`
+  String get auth_register_invitationCodeHint {
+    return Intl.message(
+      'Enter the invitation code',
+      name: 'auth_register_invitationCodeHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter an invitation code`
+  String get auth_register_invitationCodeRequired {
+    return Intl.message(
+      'Please enter an invitation code',
+      name: 'auth_register_invitationCodeRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid invitation code`
+  String get auth_register_invitationCodeInvalid {
+    return Intl.message(
+      'Invalid invitation code',
+      name: 'auth_register_invitationCodeInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Forgot Password`
   String get auth_forgotPassword_title {
     return Intl.message(
