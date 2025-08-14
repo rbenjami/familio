@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:familio/data/models/enums/calendar_type.dart';
@@ -9,15 +11,13 @@ part 'user.g.dart';
 
 @freezed
 abstract class User with _$User {
-  // ignore: invalid_annotation_target
   @firestoreSerializable
   const factory User({
-    @Id() required String id,
+    @Id() @Default('unset') @JsonKey(includeToJson: false) String id,
     required String name,
     String? avatar,
     DateTime? birthDate,
     String? firebaseAuthId,
-    required List<String> homeIds,
     List<String>? relationshipIds,
   }) = _User;
 
@@ -26,10 +26,9 @@ abstract class User with _$User {
 
 @freezed
 abstract class Calendar with _$Calendar {
-  // ignore: invalid_annotation_target
   @firestoreSerializable
   const factory Calendar({
-    @Id() required String id,
+    @Id() @Default('unset') @JsonKey(includeToJson: false) String id,
     required String name,
     required bool isVisibleInHome,
     required String color,
@@ -50,10 +49,9 @@ abstract class Calendar with _$Calendar {
 
 @freezed
 abstract class Event with _$Event {
-  // ignore: invalid_annotation_target
   @firestoreSerializable
   const factory Event({
-    @Id() required String id,
+    @Id() @Default('unset') @JsonKey(includeToJson: false) String id,
     required String title,
     String? description,
     required DateTime startDate,

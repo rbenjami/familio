@@ -2433,7 +2433,7 @@ class InvitationQueryDocumentSnapshot
 // **************************************************************************
 
 _Invitation _$InvitationFromJson(Map<String, dynamic> json) => _Invitation(
-  id: json['id'] as String,
+  id: json['id'] as String? ?? 'unset',
   homeId: json['homeId'] as String,
   invitedEmail: json['invitedEmail'] as String?,
   invitedUserName: json['invitedUserName'] as String?,
@@ -2449,7 +2449,6 @@ _Invitation _$InvitationFromJson(Map<String, dynamic> json) => _Invitation(
 );
 
 const _$InvitationFieldMap = <String, String>{
-  'id': 'id',
   'homeId': 'homeId',
   'invitedEmail': 'invitedEmail',
   'invitedUserName': 'invitedUserName',
@@ -2462,8 +2461,6 @@ const _$InvitationFieldMap = <String, String>{
 
 // ignore: unused_element
 abstract class _$InvitationPerFieldToJson {
-  // ignore: unused_element
-  static Object? id(String instance) => instance;
   // ignore: unused_element
   static Object? homeId(String instance) => instance;
   // ignore: unused_element
@@ -2488,7 +2485,6 @@ abstract class _$InvitationPerFieldToJson {
 Map<String, dynamic> _$InvitationToJson(
   _Invitation instance,
 ) => <String, dynamic>{
-  'id': instance.id,
   'homeId': instance.homeId,
   'invitedEmail': instance.invitedEmail,
   'invitedUserName': instance.invitedUserName,

@@ -24,7 +24,6 @@ class UserService {
         avatar: avatar,
         birthDate: birthDate,
         firebaseAuthId: firebaseAuthId,
-        homeIds: [], // Empty list initially
         relationshipIds: [], // Empty list initially
       );
 
@@ -85,52 +84,6 @@ class UserService {
       logger.info('User document deleted successfully: $firebaseAuthId');
     } catch (e) {
       logger.error('Error deleting user document: $e');
-      rethrow;
-    }
-  }
-
-  /// Add home to user
-  Future<User> addHomeToUser(String userId, String homeId) async {
-    try {
-      logger.info('Adding home $homeId to user $userId');
-
-      final user = await getUserByFirebaseAuthId(userId);
-      if (user == null) {
-        throw Exception('User not found: $userId');
-      }
-
-      final updatedHomeIds = [...user.homeIds, homeId];
-      final updatedUser = user.copyWith(homeIds: updatedHomeIds);
-
-      await updateUser(updatedUser);
-
-      logger.info('Home added successfully to user: $userId');
-      return updatedUser;
-    } catch (e) {
-      logger.error('Error adding home to user: $e');
-      rethrow;
-    }
-  }
-
-  /// Remove home from user
-  Future<User> removeHomeFromUser(String userId, String homeId) async {
-    try {
-      logger.info('Removing home $homeId from user $userId');
-
-      final user = await getUserByFirebaseAuthId(userId);
-      if (user == null) {
-        throw Exception('User not found: $userId');
-      }
-
-      final updatedHomeIds = user.homeIds.where((id) => id != homeId).toList();
-      final updatedUser = user.copyWith(homeIds: updatedHomeIds);
-
-      await updateUser(updatedUser);
-
-      logger.info('Home removed successfully from user: $userId');
-      return updatedUser;
-    } catch (e) {
-      logger.error('Error removing home from user: $e');
       rethrow;
     }
   }

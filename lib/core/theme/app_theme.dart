@@ -136,8 +136,8 @@ class AppTheme {
         labelSmall: TextStyle(color: textSecondaryColor),
       ),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: Colors.white,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: secondaryLightColor.withValues(alpha: 0.5),
       selectedItemColor: primaryColor,
       unselectedItemColor: textSecondaryColor,
       type: BottomNavigationBarType.fixed,

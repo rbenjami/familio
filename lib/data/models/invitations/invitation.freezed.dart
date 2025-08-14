@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Invitation {
 
-@Id() String get id; String get homeId; String? get invitedEmail; String? get invitedUserName; String get invitedBy; InvitationStatus get status; DateTime get createdAt; DateTime get expiresAt; String get invitationCode;
+@Id()@JsonKey(includeToJson: false) String get id; String get homeId; String? get invitedEmail; String? get invitedUserName; String get invitedBy; InvitationStatus get status; DateTime get createdAt; DateTime get expiresAt; String get invitationCode;
 /// Create a copy of Invitation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $InvitationCopyWith<$Res>  {
   factory $InvitationCopyWith(Invitation value, $Res Function(Invitation) _then) = _$InvitationCopyWithImpl;
 @useResult
 $Res call({
-@Id() String id, String homeId, String? invitedEmail, String? invitedUserName, String invitedBy, InvitationStatus status, DateTime createdAt, DateTime expiresAt, String invitationCode
+@Id()@JsonKey(includeToJson: false) String id, String homeId, String? invitedEmail, String? invitedUserName, String invitedBy, InvitationStatus status, DateTime createdAt, DateTime expiresAt, String invitationCode
 });
 
 
@@ -88,10 +88,10 @@ as String,
 
 @firestoreSerializable
 class _Invitation implements Invitation {
-  const _Invitation({@Id() required this.id, required this.homeId, this.invitedEmail, this.invitedUserName, required this.invitedBy, required this.status, required this.createdAt, required this.expiresAt, required this.invitationCode});
+  const _Invitation({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.homeId, this.invitedEmail, this.invitedUserName, required this.invitedBy, required this.status, required this.createdAt, required this.expiresAt, required this.invitationCode});
   factory _Invitation.fromJson(Map<String, dynamic> json) => _$InvitationFromJson(json);
 
-@override@Id() final  String id;
+@override@Id()@JsonKey(includeToJson: false) final  String id;
 @override final  String homeId;
 @override final  String? invitedEmail;
 @override final  String? invitedUserName;
@@ -134,7 +134,7 @@ abstract mixin class _$InvitationCopyWith<$Res> implements $InvitationCopyWith<$
   factory _$InvitationCopyWith(_Invitation value, $Res Function(_Invitation) _then) = __$InvitationCopyWithImpl;
 @override @useResult
 $Res call({
-@Id() String id, String homeId, String? invitedEmail, String? invitedUserName, String invitedBy, InvitationStatus status, DateTime createdAt, DateTime expiresAt, String invitationCode
+@Id()@JsonKey(includeToJson: false) String id, String homeId, String? invitedEmail, String? invitedUserName, String invitedBy, InvitationStatus status, DateTime createdAt, DateTime expiresAt, String invitationCode
 });
 
 

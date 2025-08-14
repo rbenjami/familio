@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
 import 'package:familio/data/models/models.dart';
@@ -8,10 +10,9 @@ part 'invitation.g.dart';
 
 @freezed
 abstract class Invitation with _$Invitation {
-  // ignore: invalid_annotation_target
   @firestoreSerializable
   const factory Invitation({
-    @Id() required String id,
+    @Id() @Default('unset') @JsonKey(includeToJson: false) String id,
     required String homeId,
     String? invitedEmail,
     String? invitedUserName,

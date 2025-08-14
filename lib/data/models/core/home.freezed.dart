@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Home {
 
-@Id() String get id; String get name; String? get description; DateTime get createdAt; String get ownerId; List<String> get memberIds; HomeSettings get settings;
+@Id()@JsonKey(includeToJson: false) String get id; String get name; String? get description; DateTime get createdAt; String get ownerId; HomeSettings get settings;
 /// Create a copy of Home
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $HomeCopyWith<Home> get copyWith => _$HomeCopyWithImpl<Home>(this as Home, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Home&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&const DeepCollectionEquality().equals(other.memberIds, memberIds)&&(identical(other.settings, settings) || other.settings == settings));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Home&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.settings, settings) || other.settings == settings));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,createdAt,ownerId,const DeepCollectionEquality().hash(memberIds),settings);
+int get hashCode => Object.hash(runtimeType,id,name,description,createdAt,ownerId,settings);
 
 @override
 String toString() {
-  return 'Home(id: $id, name: $name, description: $description, createdAt: $createdAt, ownerId: $ownerId, memberIds: $memberIds, settings: $settings)';
+  return 'Home(id: $id, name: $name, description: $description, createdAt: $createdAt, ownerId: $ownerId, settings: $settings)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $HomeCopyWith<$Res>  {
   factory $HomeCopyWith(Home value, $Res Function(Home) _then) = _$HomeCopyWithImpl;
 @useResult
 $Res call({
-@Id() String id, String name, String? description, DateTime createdAt, String ownerId, List<String> memberIds, HomeSettings settings
+@Id()@JsonKey(includeToJson: false) String id, String name, String? description, DateTime createdAt, String ownerId, HomeSettings settings
 });
 
 
@@ -66,15 +66,14 @@ class _$HomeCopyWithImpl<$Res>
 
 /// Create a copy of Home
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? createdAt = null,Object? ownerId = null,Object? memberIds = null,Object? settings = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? createdAt = null,Object? ownerId = null,Object? settings = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
-as String,memberIds: null == memberIds ? _self.memberIds : memberIds // ignore: cast_nullable_to_non_nullable
-as List<String>,settings: null == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
+as String,settings: null == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
 as HomeSettings,
   ));
 }
@@ -95,21 +94,14 @@ $HomeSettingsCopyWith<$Res> get settings {
 
 @firestoreSerializable
 class _Home implements Home {
-  const _Home({@Id() required this.id, required this.name, this.description, required this.createdAt, required this.ownerId, required final  List<String> memberIds, required this.settings}): _memberIds = memberIds;
+  const _Home({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.name, this.description, required this.createdAt, required this.ownerId, required this.settings});
   factory _Home.fromJson(Map<String, dynamic> json) => _$HomeFromJson(json);
 
-@override@Id() final  String id;
+@override@Id()@JsonKey(includeToJson: false) final  String id;
 @override final  String name;
 @override final  String? description;
 @override final  DateTime createdAt;
 @override final  String ownerId;
- final  List<String> _memberIds;
-@override List<String> get memberIds {
-  if (_memberIds is EqualUnmodifiableListView) return _memberIds;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_memberIds);
-}
-
 @override final  HomeSettings settings;
 
 /// Create a copy of Home
@@ -125,16 +117,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Home&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&const DeepCollectionEquality().equals(other._memberIds, _memberIds)&&(identical(other.settings, settings) || other.settings == settings));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Home&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.settings, settings) || other.settings == settings));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,createdAt,ownerId,const DeepCollectionEquality().hash(_memberIds),settings);
+int get hashCode => Object.hash(runtimeType,id,name,description,createdAt,ownerId,settings);
 
 @override
 String toString() {
-  return 'Home(id: $id, name: $name, description: $description, createdAt: $createdAt, ownerId: $ownerId, memberIds: $memberIds, settings: $settings)';
+  return 'Home(id: $id, name: $name, description: $description, createdAt: $createdAt, ownerId: $ownerId, settings: $settings)';
 }
 
 
@@ -145,7 +137,7 @@ abstract mixin class _$HomeCopyWith<$Res> implements $HomeCopyWith<$Res> {
   factory _$HomeCopyWith(_Home value, $Res Function(_Home) _then) = __$HomeCopyWithImpl;
 @override @useResult
 $Res call({
-@Id() String id, String name, String? description, DateTime createdAt, String ownerId, List<String> memberIds, HomeSettings settings
+@Id()@JsonKey(includeToJson: false) String id, String name, String? description, DateTime createdAt, String ownerId, HomeSettings settings
 });
 
 
@@ -162,15 +154,14 @@ class __$HomeCopyWithImpl<$Res>
 
 /// Create a copy of Home
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? createdAt = null,Object? ownerId = null,Object? memberIds = null,Object? settings = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? createdAt = null,Object? ownerId = null,Object? settings = null,}) {
   return _then(_Home(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
-as String,memberIds: null == memberIds ? _self._memberIds : memberIds // ignore: cast_nullable_to_non_nullable
-as List<String>,settings: null == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
+as String,settings: null == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
 as HomeSettings,
   ));
 }
@@ -189,9 +180,142 @@ $HomeSettingsCopyWith<$Res> get settings {
 
 
 /// @nodoc
+mixin _$HomeSettings {
+
+ bool get allowMemberInvite;
+/// Create a copy of HomeSettings
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HomeSettingsCopyWith<HomeSettings> get copyWith => _$HomeSettingsCopyWithImpl<HomeSettings>(this as HomeSettings, _$identity);
+
+  /// Serializes this HomeSettings to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeSettings&&(identical(other.allowMemberInvite, allowMemberInvite) || other.allowMemberInvite == allowMemberInvite));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,allowMemberInvite);
+
+@override
+String toString() {
+  return 'HomeSettings(allowMemberInvite: $allowMemberInvite)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HomeSettingsCopyWith<$Res>  {
+  factory $HomeSettingsCopyWith(HomeSettings value, $Res Function(HomeSettings) _then) = _$HomeSettingsCopyWithImpl;
+@useResult
+$Res call({
+ bool allowMemberInvite
+});
+
+
+
+
+}
+/// @nodoc
+class _$HomeSettingsCopyWithImpl<$Res>
+    implements $HomeSettingsCopyWith<$Res> {
+  _$HomeSettingsCopyWithImpl(this._self, this._then);
+
+  final HomeSettings _self;
+  final $Res Function(HomeSettings) _then;
+
+/// Create a copy of HomeSettings
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? allowMemberInvite = null,}) {
+  return _then(_self.copyWith(
+allowMemberInvite: null == allowMemberInvite ? _self.allowMemberInvite : allowMemberInvite // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+}
+
+
+/// @nodoc
+
+@firestoreSerializable
+class _HomeSettings implements HomeSettings {
+  const _HomeSettings({required this.allowMemberInvite});
+  factory _HomeSettings.fromJson(Map<String, dynamic> json) => _$HomeSettingsFromJson(json);
+
+@override final  bool allowMemberInvite;
+
+/// Create a copy of HomeSettings
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$HomeSettingsCopyWith<_HomeSettings> get copyWith => __$HomeSettingsCopyWithImpl<_HomeSettings>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$HomeSettingsToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeSettings&&(identical(other.allowMemberInvite, allowMemberInvite) || other.allowMemberInvite == allowMemberInvite));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,allowMemberInvite);
+
+@override
+String toString() {
+  return 'HomeSettings(allowMemberInvite: $allowMemberInvite)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$HomeSettingsCopyWith<$Res> implements $HomeSettingsCopyWith<$Res> {
+  factory _$HomeSettingsCopyWith(_HomeSettings value, $Res Function(_HomeSettings) _then) = __$HomeSettingsCopyWithImpl;
+@override @useResult
+$Res call({
+ bool allowMemberInvite
+});
+
+
+
+
+}
+/// @nodoc
+class __$HomeSettingsCopyWithImpl<$Res>
+    implements _$HomeSettingsCopyWith<$Res> {
+  __$HomeSettingsCopyWithImpl(this._self, this._then);
+
+  final _HomeSettings _self;
+  final $Res Function(_HomeSettings) _then;
+
+/// Create a copy of HomeSettings
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? allowMemberInvite = null,}) {
+  return _then(_HomeSettings(
+allowMemberInvite: null == allowMemberInvite ? _self.allowMemberInvite : allowMemberInvite // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$Member {
 
-@Id() String get userId; MemberPermissions get permissions; DateTime get joinedAt;
+@Id()@JsonKey(includeToJson: false) String get userId; MemberPermissions get permissions; DateTime get joinedAt;
 /// Create a copy of Member
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -224,7 +348,7 @@ abstract mixin class $MemberCopyWith<$Res>  {
   factory $MemberCopyWith(Member value, $Res Function(Member) _then) = _$MemberCopyWithImpl;
 @useResult
 $Res call({
-@Id() String userId, MemberPermissions permissions, DateTime joinedAt
+@Id()@JsonKey(includeToJson: false) String userId, MemberPermissions permissions, DateTime joinedAt
 });
 
 
@@ -266,10 +390,10 @@ $MemberPermissionsCopyWith<$Res> get permissions {
 
 @firestoreSerializable
 class _Member implements Member {
-  const _Member({@Id() required this.userId, required this.permissions, required this.joinedAt});
+  const _Member({@Id()@JsonKey(includeToJson: false) this.userId = 'unset', required this.permissions, required this.joinedAt});
   factory _Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
 
-@override@Id() final  String userId;
+@override@Id()@JsonKey(includeToJson: false) final  String userId;
 @override final  MemberPermissions permissions;
 @override final  DateTime joinedAt;
 
@@ -306,7 +430,7 @@ abstract mixin class _$MemberCopyWith<$Res> implements $MemberCopyWith<$Res> {
   factory _$MemberCopyWith(_Member value, $Res Function(_Member) _then) = __$MemberCopyWithImpl;
 @override @useResult
 $Res call({
-@Id() String userId, MemberPermissions permissions, DateTime joinedAt
+@Id()@JsonKey(includeToJson: false) String userId, MemberPermissions permissions, DateTime joinedAt
 });
 
 
@@ -496,7 +620,7 @@ as bool,
 /// @nodoc
 mixin _$Task {
 
-@Id() String get id; String get title; String? get description; String get homeId; List<String> get assignedToIds; String get createdById; TaskStatus get status; DateTime? get dueDate; Priority get priority; DateTime get createdAt; DateTime get updatedAt;
+@Id()@JsonKey(includeToJson: false) String get id; String get title; String? get description; String get homeId; List<String> get assignedToIds; String get createdById; TaskStatus get status; DateTime? get dueDate; Priority get priority; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -529,7 +653,7 @@ abstract mixin class $TaskCopyWith<$Res>  {
   factory $TaskCopyWith(Task value, $Res Function(Task) _then) = _$TaskCopyWithImpl;
 @useResult
 $Res call({
-@Id() String id, String title, String? description, String homeId, List<String> assignedToIds, String createdById, TaskStatus status, DateTime? dueDate, Priority priority, DateTime createdAt, DateTime updatedAt
+@Id()@JsonKey(includeToJson: false) String id, String title, String? description, String homeId, List<String> assignedToIds, String createdById, TaskStatus status, DateTime? dueDate, Priority priority, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -570,10 +694,10 @@ as DateTime,
 
 @firestoreSerializable
 class _Task implements Task {
-  const _Task({@Id() required this.id, required this.title, this.description, required this.homeId, required final  List<String> assignedToIds, required this.createdById, required this.status, this.dueDate, required this.priority, required this.createdAt, required this.updatedAt}): _assignedToIds = assignedToIds;
+  const _Task({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.title, this.description, required this.homeId, required final  List<String> assignedToIds, required this.createdById, required this.status, this.dueDate, required this.priority, required this.createdAt, required this.updatedAt}): _assignedToIds = assignedToIds;
   factory _Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 
-@override@Id() final  String id;
+@override@Id()@JsonKey(includeToJson: false) final  String id;
 @override final  String title;
 @override final  String? description;
 @override final  String homeId;
@@ -624,7 +748,7 @@ abstract mixin class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   factory _$TaskCopyWith(_Task value, $Res Function(_Task) _then) = __$TaskCopyWithImpl;
 @override @useResult
 $Res call({
-@Id() String id, String title, String? description, String homeId, List<String> assignedToIds, String createdById, TaskStatus status, DateTime? dueDate, Priority priority, DateTime createdAt, DateTime updatedAt
+@Id()@JsonKey(includeToJson: false) String id, String title, String? description, String homeId, List<String> assignedToIds, String createdById, TaskStatus status, DateTime? dueDate, Priority priority, DateTime createdAt, DateTime updatedAt
 });
 
 

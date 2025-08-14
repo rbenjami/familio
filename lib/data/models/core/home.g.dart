@@ -142,7 +142,6 @@ abstract class HomeDocumentReference
     FieldValue descriptionFieldValue,
     FieldValue createdAtFieldValue,
     FieldValue ownerIdFieldValue,
-    FieldValue memberIdsFieldValue,
     FieldValue settingsFieldValue,
   });
 
@@ -161,7 +160,6 @@ abstract class HomeDocumentReference
     FieldValue descriptionFieldValue,
     FieldValue createdAtFieldValue,
     FieldValue ownerIdFieldValue,
-    FieldValue memberIdsFieldValue,
     FieldValue settingsFieldValue,
   });
 
@@ -180,7 +178,6 @@ abstract class HomeDocumentReference
     FieldValue descriptionFieldValue,
     FieldValue createdAtFieldValue,
     FieldValue ownerIdFieldValue,
-    FieldValue memberIdsFieldValue,
     FieldValue settingsFieldValue,
   });
 
@@ -197,8 +194,6 @@ abstract class HomeDocumentReference
     FieldValue createdAtFieldValue,
     String ownerId,
     FieldValue ownerIdFieldValue,
-    List<String> memberIds,
-    FieldValue memberIdsFieldValue,
     HomeSettings settings,
     FieldValue settingsFieldValue,
   });
@@ -216,8 +211,6 @@ abstract class HomeDocumentReference
     FieldValue createdAtFieldValue,
     String ownerId,
     FieldValue ownerIdFieldValue,
-    List<String> memberIds,
-    FieldValue memberIdsFieldValue,
     HomeSettings settings,
     FieldValue settingsFieldValue,
   });
@@ -235,8 +228,6 @@ abstract class HomeDocumentReference
     FieldValue createdAtFieldValue,
     String ownerId,
     FieldValue ownerIdFieldValue,
-    List<String> memberIds,
-    FieldValue memberIdsFieldValue,
     HomeSettings settings,
     FieldValue settingsFieldValue,
   });
@@ -285,7 +276,6 @@ class _$HomeDocumentReference
     FieldValue? descriptionFieldValue,
     FieldValue? createdAtFieldValue,
     FieldValue? ownerIdFieldValue,
-    FieldValue? memberIdsFieldValue,
     FieldValue? settingsFieldValue,
   }) async {
     final json = {
@@ -300,9 +290,6 @@ class _$HomeDocumentReference
 
       if (ownerIdFieldValue != null)
         _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
-
-      if (memberIdsFieldValue != null)
-        _$HomeFieldMap['memberIds']!: memberIdsFieldValue,
 
       if (settingsFieldValue != null)
         _$HomeFieldMap['settings']!: settingsFieldValue,
@@ -323,7 +310,6 @@ class _$HomeDocumentReference
     FieldValue? descriptionFieldValue,
     FieldValue? createdAtFieldValue,
     FieldValue? ownerIdFieldValue,
-    FieldValue? memberIdsFieldValue,
     FieldValue? settingsFieldValue,
   }) {
     final json = {
@@ -338,9 +324,6 @@ class _$HomeDocumentReference
 
       if (ownerIdFieldValue != null)
         _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
-
-      if (memberIdsFieldValue != null)
-        _$HomeFieldMap['memberIds']!: memberIdsFieldValue,
 
       if (settingsFieldValue != null)
         _$HomeFieldMap['settings']!: settingsFieldValue,
@@ -357,7 +340,6 @@ class _$HomeDocumentReference
     FieldValue? descriptionFieldValue,
     FieldValue? createdAtFieldValue,
     FieldValue? ownerIdFieldValue,
-    FieldValue? memberIdsFieldValue,
     FieldValue? settingsFieldValue,
   }) {
     final json = {
@@ -372,9 +354,6 @@ class _$HomeDocumentReference
 
       if (ownerIdFieldValue != null)
         _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
-
-      if (memberIdsFieldValue != null)
-        _$HomeFieldMap['memberIds']!: memberIdsFieldValue,
 
       if (settingsFieldValue != null)
         _$HomeFieldMap['settings']!: settingsFieldValue,
@@ -392,8 +371,6 @@ class _$HomeDocumentReference
     FieldValue? createdAtFieldValue,
     Object? ownerId = _sentinel,
     FieldValue? ownerIdFieldValue,
-    Object? memberIds = _sentinel,
-    FieldValue? memberIdsFieldValue,
     Object? settings = _sentinel,
     FieldValue? settingsFieldValue,
   }) async {
@@ -412,10 +389,6 @@ class _$HomeDocumentReference
     assert(
       ownerId == _sentinel || ownerIdFieldValue == null,
       "Cannot specify both ownerId and ownerIdFieldValue",
-    );
-    assert(
-      memberIds == _sentinel || memberIdsFieldValue == null,
-      "Cannot specify both memberIds and memberIdsFieldValue",
     );
     assert(
       settings == _sentinel || settingsFieldValue == null,
@@ -450,14 +423,6 @@ class _$HomeDocumentReference
 
       if (ownerIdFieldValue != null)
         _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
-
-      if (memberIds != _sentinel)
-        _$HomeFieldMap['memberIds']!: _$HomePerFieldToJson.memberIds(
-          memberIds as List<String>,
-        ),
-
-      if (memberIdsFieldValue != null)
-        _$HomeFieldMap['memberIds']!: memberIdsFieldValue,
 
       if (settings != _sentinel)
         _$HomeFieldMap['settings']!: _$HomePerFieldToJson.settings(
@@ -481,8 +446,6 @@ class _$HomeDocumentReference
     FieldValue? createdAtFieldValue,
     Object? ownerId = _sentinel,
     FieldValue? ownerIdFieldValue,
-    Object? memberIds = _sentinel,
-    FieldValue? memberIdsFieldValue,
     Object? settings = _sentinel,
     FieldValue? settingsFieldValue,
   }) {
@@ -501,10 +464,6 @@ class _$HomeDocumentReference
     assert(
       ownerId == _sentinel || ownerIdFieldValue == null,
       "Cannot specify both ownerId and ownerIdFieldValue",
-    );
-    assert(
-      memberIds == _sentinel || memberIdsFieldValue == null,
-      "Cannot specify both memberIds and memberIdsFieldValue",
     );
     assert(
       settings == _sentinel || settingsFieldValue == null,
@@ -539,14 +498,6 @@ class _$HomeDocumentReference
 
       if (ownerIdFieldValue != null)
         _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
-
-      if (memberIds != _sentinel)
-        _$HomeFieldMap['memberIds']!: _$HomePerFieldToJson.memberIds(
-          memberIds as List<String>,
-        ),
-
-      if (memberIdsFieldValue != null)
-        _$HomeFieldMap['memberIds']!: memberIdsFieldValue,
 
       if (settings != _sentinel)
         _$HomeFieldMap['settings']!: _$HomePerFieldToJson.settings(
@@ -570,8 +521,6 @@ class _$HomeDocumentReference
     FieldValue? createdAtFieldValue,
     Object? ownerId = _sentinel,
     FieldValue? ownerIdFieldValue,
-    Object? memberIds = _sentinel,
-    FieldValue? memberIdsFieldValue,
     Object? settings = _sentinel,
     FieldValue? settingsFieldValue,
   }) {
@@ -590,10 +539,6 @@ class _$HomeDocumentReference
     assert(
       ownerId == _sentinel || ownerIdFieldValue == null,
       "Cannot specify both ownerId and ownerIdFieldValue",
-    );
-    assert(
-      memberIds == _sentinel || memberIdsFieldValue == null,
-      "Cannot specify both memberIds and memberIdsFieldValue",
     );
     assert(
       settings == _sentinel || settingsFieldValue == null,
@@ -628,14 +573,6 @@ class _$HomeDocumentReference
 
       if (ownerIdFieldValue != null)
         _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
-
-      if (memberIds != _sentinel)
-        _$HomeFieldMap['memberIds']!: _$HomePerFieldToJson.memberIds(
-          memberIds as List<String>,
-        ),
-
-      if (memberIdsFieldValue != null)
-        _$HomeFieldMap['memberIds']!: memberIdsFieldValue,
 
       if (settings != _sentinel)
         _$HomeFieldMap['settings']!: _$HomePerFieldToJson.settings(
@@ -760,18 +697,6 @@ abstract class HomeQuery implements QueryReference<Home, HomeQuerySnapshot> {
     bool? isNull,
   });
 
-  HomeQuery whereMemberIds({
-    List<String>? isEqualTo,
-    List<String>? isNotEqualTo,
-    List<String>? isLessThan,
-    List<String>? isLessThanOrEqualTo,
-    List<String>? isGreaterThan,
-    List<String>? isGreaterThanOrEqualTo,
-    String? arrayContains,
-    List<String>? arrayContainsAny,
-    bool? isNull,
-  });
-
   HomeQuery whereSettings({
     HomeSettings? isEqualTo,
     HomeSettings? isNotEqualTo,
@@ -871,18 +796,6 @@ abstract class HomeQuery implements QueryReference<Home, HomeQuerySnapshot> {
     String startAfter,
     String endAt,
     String endBefore,
-    HomeDocumentSnapshot? startAtDocument,
-    HomeDocumentSnapshot? endAtDocument,
-    HomeDocumentSnapshot? endBeforeDocument,
-    HomeDocumentSnapshot? startAfterDocument,
-  });
-
-  HomeQuery orderByMemberIds({
-    bool descending = false,
-    List<String> startAt,
-    List<String> startAfter,
-    List<String> endAt,
-    List<String> endBefore,
     HomeDocumentSnapshot? startAtDocument,
     HomeDocumentSnapshot? endAtDocument,
     HomeDocumentSnapshot? endBeforeDocument,
@@ -1187,62 +1100,6 @@ class _$HomeQuery extends QueryReference<Home, HomeQuerySnapshot>
             : null,
         whereIn: whereIn?.map((e) => _$HomePerFieldToJson.ownerId(e)),
         whereNotIn: whereNotIn?.map((e) => _$HomePerFieldToJson.ownerId(e)),
-        isNull:
-            isNull ??
-            (isEqualTo == null ? false : null) ??
-            (isNotEqualTo == null ? true : null),
-      ),
-      $queryCursor: $queryCursor,
-    );
-  }
-
-  @override
-  HomeQuery whereMemberIds({
-    Object? isEqualTo = _sentinel,
-    Object? isNotEqualTo = _sentinel,
-    Object? isLessThan,
-    Object? isLessThanOrEqualTo,
-    Object? isGreaterThan,
-    Object? isGreaterThanOrEqualTo,
-    Object? arrayContains,
-    List<String>? arrayContainsAny,
-    bool? isNull,
-  }) {
-    return _$HomeQuery(
-      _collection,
-      $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$HomeFieldMap['memberIds']!,
-        isEqualTo: isEqualTo != _sentinel
-            ? _$HomePerFieldToJson.memberIds(isEqualTo as List<String>)
-            : null,
-        isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$HomePerFieldToJson.memberIds(isNotEqualTo as List<String>)
-            : null,
-        isLessThan: isLessThan != null
-            ? _$HomePerFieldToJson.memberIds(isLessThan as List<String>)
-            : null,
-        isLessThanOrEqualTo: isLessThanOrEqualTo != null
-            ? _$HomePerFieldToJson.memberIds(
-                isLessThanOrEqualTo as List<String>,
-              )
-            : null,
-        isGreaterThan: isGreaterThan != null
-            ? _$HomePerFieldToJson.memberIds(isGreaterThan as List<String>)
-            : null,
-        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
-            ? _$HomePerFieldToJson.memberIds(
-                isGreaterThanOrEqualTo as List<String>,
-              )
-            : null,
-        arrayContains: arrayContains != null
-            ? (_$HomePerFieldToJson.memberIds([arrayContains as String])
-                      as List?)!
-                  .single
-            : null,
-        arrayContainsAny: arrayContainsAny != null
-            ? _$HomePerFieldToJson.memberIds(arrayContainsAny)
-                  as Iterable<Object>?
-            : null,
         isNull:
             isNull ??
             (isEqualTo == null ? false : null) ??
@@ -1689,81 +1546,6 @@ class _$HomeQuery extends QueryReference<Home, HomeQuerySnapshot>
   }) {
     final query = $referenceWithoutCursor.orderBy(
       _$HomeFieldMap['ownerId']!,
-      descending: descending,
-    );
-    var queryCursor = $queryCursor;
-
-    if (startAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAt: const [],
-        startAtDocumentSnapshot: startAtDocument.snapshot,
-      );
-    }
-    if (startAfterDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: const [],
-        startAfterDocumentSnapshot: startAfterDocument.snapshot,
-      );
-    }
-    if (endAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endAt: const [],
-        endAtDocumentSnapshot: endAtDocument.snapshot,
-      );
-    }
-    if (endBeforeDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: const [],
-        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
-      );
-    }
-
-    if (startAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAt: [...queryCursor.startAt, startAt],
-        startAtDocumentSnapshot: null,
-      );
-    }
-    if (startAfter != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: [...queryCursor.startAfter, startAfter],
-        startAfterDocumentSnapshot: null,
-      );
-    }
-    if (endAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endAt: [...queryCursor.endAt, endAt],
-        endAtDocumentSnapshot: null,
-      );
-    }
-    if (endBefore != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: [...queryCursor.endBefore, endBefore],
-        endBeforeDocumentSnapshot: null,
-      );
-    }
-
-    return _$HomeQuery(
-      _collection,
-      $referenceWithoutCursor: query,
-      $queryCursor: queryCursor,
-    );
-  }
-
-  @override
-  HomeQuery orderByMemberIds({
-    bool descending = false,
-    Object? startAt = _sentinel,
-    Object? startAfter = _sentinel,
-    Object? endAt = _sentinel,
-    Object? endBefore = _sentinel,
-    HomeDocumentSnapshot? startAtDocument,
-    HomeDocumentSnapshot? endAtDocument,
-    HomeDocumentSnapshot? endBeforeDocument,
-    HomeDocumentSnapshot? startAfterDocument,
-  }) {
-    final query = $referenceWithoutCursor.orderBy(
-      _$HomeFieldMap['memberIds']!,
       descending: descending,
     );
     var queryCursor = $queryCursor;
@@ -5903,33 +5685,26 @@ class TaskQueryDocumentSnapshot extends FirestoreQueryDocumentSnapshot<Task>
 // **************************************************************************
 
 _Home _$HomeFromJson(Map<String, dynamic> json) => _Home(
-  id: json['id'] as String,
+  id: json['id'] as String? ?? 'unset',
   name: json['name'] as String,
   description: json['description'] as String?,
   createdAt: const FirestoreDateTimeConverter().fromJson(
     json['createdAt'] as Timestamp,
   ),
   ownerId: json['ownerId'] as String,
-  memberIds: (json['memberIds'] as List<dynamic>)
-      .map((e) => e as String)
-      .toList(),
   settings: HomeSettings.fromJson(json['settings'] as Map<String, dynamic>),
 );
 
 const _$HomeFieldMap = <String, String>{
-  'id': 'id',
   'name': 'name',
   'description': 'description',
   'createdAt': 'createdAt',
   'ownerId': 'ownerId',
-  'memberIds': 'memberIds',
   'settings': 'settings',
 };
 
 // ignore: unused_element
 abstract class _$HomePerFieldToJson {
-  // ignore: unused_element
-  static Object? id(String instance) => instance;
   // ignore: unused_element
   static Object? name(String instance) => instance;
   // ignore: unused_element
@@ -5940,23 +5715,35 @@ abstract class _$HomePerFieldToJson {
   // ignore: unused_element
   static Object? ownerId(String instance) => instance;
   // ignore: unused_element
-  static Object? memberIds(List<String> instance) => instance;
-  // ignore: unused_element
   static Object? settings(HomeSettings instance) => instance.toJson();
 }
 
 Map<String, dynamic> _$HomeToJson(_Home instance) => <String, dynamic>{
-  'id': instance.id,
   'name': instance.name,
   'description': instance.description,
   'createdAt': const FirestoreDateTimeConverter().toJson(instance.createdAt),
   'ownerId': instance.ownerId,
-  'memberIds': instance.memberIds,
   'settings': instance.settings.toJson(),
 };
 
+_HomeSettings _$HomeSettingsFromJson(Map<String, dynamic> json) =>
+    _HomeSettings(allowMemberInvite: json['allowMemberInvite'] as bool);
+
+const _$HomeSettingsFieldMap = <String, String>{
+  'allowMemberInvite': 'allowMemberInvite',
+};
+
+// ignore: unused_element
+abstract class _$HomeSettingsPerFieldToJson {
+  // ignore: unused_element
+  static Object? allowMemberInvite(bool instance) => instance;
+}
+
+Map<String, dynamic> _$HomeSettingsToJson(_HomeSettings instance) =>
+    <String, dynamic>{'allowMemberInvite': instance.allowMemberInvite};
+
 _Member _$MemberFromJson(Map<String, dynamic> json) => _Member(
-  userId: json['userId'] as String,
+  userId: json['userId'] as String? ?? 'unset',
   permissions: MemberPermissions.fromJson(
     json['permissions'] as Map<String, dynamic>,
   ),
@@ -5966,15 +5753,12 @@ _Member _$MemberFromJson(Map<String, dynamic> json) => _Member(
 );
 
 const _$MemberFieldMap = <String, String>{
-  'userId': 'userId',
   'permissions': 'permissions',
   'joinedAt': 'joinedAt',
 };
 
 // ignore: unused_element
 abstract class _$MemberPerFieldToJson {
-  // ignore: unused_element
-  static Object? userId(String instance) => instance;
   // ignore: unused_element
   static Object? permissions(MemberPermissions instance) => instance.toJson();
   // ignore: unused_element
@@ -5983,7 +5767,6 @@ abstract class _$MemberPerFieldToJson {
 }
 
 Map<String, dynamic> _$MemberToJson(_Member instance) => <String, dynamic>{
-  'userId': instance.userId,
   'permissions': instance.permissions.toJson(),
   'joinedAt': const FirestoreDateTimeConverter().toJson(instance.joinedAt),
 };
@@ -6034,7 +5817,7 @@ Map<String, dynamic> _$MemberPermissionsToJson(_MemberPermissions instance) =>
     };
 
 _Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
-  id: json['id'] as String,
+  id: json['id'] as String? ?? 'unset',
   title: json['title'] as String,
   description: json['description'] as String?,
   homeId: json['homeId'] as String,
@@ -6057,7 +5840,6 @@ _Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
 );
 
 const _$TaskFieldMap = <String, String>{
-  'id': 'id',
   'title': 'title',
   'description': 'description',
   'homeId': 'homeId',
@@ -6072,8 +5854,6 @@ const _$TaskFieldMap = <String, String>{
 
 // ignore: unused_element
 abstract class _$TaskPerFieldToJson {
-  // ignore: unused_element
-  static Object? id(String instance) => instance;
   // ignore: unused_element
   static Object? title(String instance) => instance;
   // ignore: unused_element
@@ -6103,7 +5883,6 @@ abstract class _$TaskPerFieldToJson {
 }
 
 Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
-  'id': instance.id,
   'title': instance.title,
   'description': instance.description,
   'homeId': instance.homeId,

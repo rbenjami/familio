@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Relationship {
 
-@Id() String get id; String get user1Id; String get user2Id; RelationshipType get type; String? get homeId; DateTime get createdAt;
+@Id()@JsonKey(includeToJson: false) String get id; String get user1Id; String get user2Id; RelationshipType get type; String? get homeId; DateTime get createdAt;
 /// Create a copy of Relationship
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $RelationshipCopyWith<$Res>  {
   factory $RelationshipCopyWith(Relationship value, $Res Function(Relationship) _then) = _$RelationshipCopyWithImpl;
 @useResult
 $Res call({
-@Id() String id, String user1Id, String user2Id, RelationshipType type, String? homeId, DateTime createdAt
+@Id()@JsonKey(includeToJson: false) String id, String user1Id, String user2Id, RelationshipType type, String? homeId, DateTime createdAt
 });
 
 
@@ -85,10 +85,10 @@ as DateTime,
 
 @firestoreSerializable
 class _Relationship implements Relationship {
-  const _Relationship({@Id() required this.id, required this.user1Id, required this.user2Id, required this.type, this.homeId, required this.createdAt});
+  const _Relationship({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.user1Id, required this.user2Id, required this.type, this.homeId, required this.createdAt});
   factory _Relationship.fromJson(Map<String, dynamic> json) => _$RelationshipFromJson(json);
 
-@override@Id() final  String id;
+@override@Id()@JsonKey(includeToJson: false) final  String id;
 @override final  String user1Id;
 @override final  String user2Id;
 @override final  RelationshipType type;
@@ -128,7 +128,7 @@ abstract mixin class _$RelationshipCopyWith<$Res> implements $RelationshipCopyWi
   factory _$RelationshipCopyWith(_Relationship value, $Res Function(_Relationship) _then) = __$RelationshipCopyWithImpl;
 @override @useResult
 $Res call({
-@Id() String id, String user1Id, String user2Id, RelationshipType type, String? homeId, DateTime createdAt
+@Id()@JsonKey(includeToJson: false) String id, String user1Id, String user2Id, RelationshipType type, String? homeId, DateTime createdAt
 });
 
 

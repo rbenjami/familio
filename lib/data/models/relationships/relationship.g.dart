@@ -1808,7 +1808,7 @@ class RelationshipQueryDocumentSnapshot
 
 _Relationship _$RelationshipFromJson(Map<String, dynamic> json) =>
     _Relationship(
-      id: json['id'] as String,
+      id: json['id'] as String? ?? 'unset',
       user1Id: json['user1Id'] as String,
       user2Id: json['user2Id'] as String,
       type: $enumDecode(_$RelationshipTypeEnumMap, json['type']),
@@ -1819,7 +1819,6 @@ _Relationship _$RelationshipFromJson(Map<String, dynamic> json) =>
     );
 
 const _$RelationshipFieldMap = <String, String>{
-  'id': 'id',
   'user1Id': 'user1Id',
   'user2Id': 'user2Id',
   'type': 'type',
@@ -1829,8 +1828,6 @@ const _$RelationshipFieldMap = <String, String>{
 
 // ignore: unused_element
 abstract class _$RelationshipPerFieldToJson {
-  // ignore: unused_element
-  static Object? id(String instance) => instance;
   // ignore: unused_element
   static Object? user1Id(String instance) => instance;
   // ignore: unused_element
@@ -1848,7 +1845,6 @@ abstract class _$RelationshipPerFieldToJson {
 Map<String, dynamic> _$RelationshipToJson(
   _Relationship instance,
 ) => <String, dynamic>{
-  'id': instance.id,
   'user1Id': instance.user1Id,
   'user2Id': instance.user2Id,
   'type': _$RelationshipTypeEnumMap[instance.type]!,

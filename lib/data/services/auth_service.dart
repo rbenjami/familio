@@ -16,9 +16,9 @@ class AuthService {
   final InvitationService _invitationService;
 
   AuthService(
-    this._firebaseService, 
-    this._userService, 
-    this._homeService, 
+    this._firebaseService,
+    this._userService,
+    this._homeService,
     this._invitationService,
   );
 
@@ -171,7 +171,9 @@ class AuthService {
         }
 
         // Find and validate invitation
-        final invitation = await _invitationService.getInvitationByCode(invitationCode);
+        final invitation = await _invitationService.getInvitationByCode(
+          invitationCode,
+        );
         if (invitation == null) {
           throw Exception('Invalid or expired invitation code');
         }
@@ -191,10 +193,9 @@ class AuthService {
         logger.info('User joined home via invitation: $homeId');
       }
 
-      // Update user with homeId
-      await _userService.addHomeToUser(userId, homeId);
-
-      logger.info('User registration with home completed successfully: $userId');
+      logger.info(
+        'User registration with home completed successfully: $userId',
+      );
       return credential;
     } on firebase_auth.FirebaseAuthException catch (e) {
       logger.error('Firebase register user with home error: ${e.message}');
