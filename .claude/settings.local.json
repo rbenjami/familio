@@ -1,11 +1,21 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(dart run build_runner:*)",
+      "Bash(mkdir:*)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "Bash(flutter pub:*)",
+      "mcp__firebase__firebase_get_environment",
+      "mcp__firebase__firebase_update_environment",
+      "mcp__firebase__firestore_get_rules",
+      "mcp__firebase__firestore_validate_rules",
+      "Bash(firebase deploy:*)"
+    ],
+    "defaultMode": "acceptEdits"
+  },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "firebase"
-  ],
-  "permissions": {
-    "allow": [
-      "Bash(dart run build_runner:*)"
-    ]
-  }
+  ]
 }

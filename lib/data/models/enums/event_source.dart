@@ -1,0 +1,4 @@
+enum EventSource {
+  internal,
+  externalSynced,
+}

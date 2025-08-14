@@ -1,8 +1,177 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if request.auth != null;
+    // Fonction helper pour vérifier l'authentification
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    // Fonction helper pour obtenir l'userId authentifié
+    function getUserId() {
+      return request.auth.uid;
+    }
+    
+    // Fonction helper pour vérifier si l'utilisateur est propriétaire de la ressource
+    function isOwner(userId) {
+      return isSignedIn() && getUserId() == userId;
+    }
+    
+    // Fonction helper pour vérifier si l'utilisateur est membre d'un foyer
+    function isHomeMember(homeId) {
+      return isSignedIn() && 
+        exists(/databases/$(database)/documents/homes/$(homeId)/members/$(getUserId()));
+    }
+    
+    // Fonction helper pour vérifier si l'utilisateur est admin d'un foyer
+    function isHomeAdmin(homeId) {
+      return isSignedIn() && 
+        get(/databases/$(database)/documents/homes/$(homeId)/members/$(getUserId())).data.permissions.isAdmin == true;
+    }
+    
+    // Fonction helper pour vérifier si l'utilisateur est propriétaire d'un foyer
+    function isHomeOwner(homeId) {
+      return isSignedIn() && 
+        get(/databases/$(database)/documents/homes/$(homeId)).data.ownerId == getUserId();
+    }
+
+    // ACCOUNTS - Comptes utilisateur
+    match /accounts/{accountId} {
+      // Seul le propriétaire du compte peut lire/écrire
+      allow read, write: if isOwner(resource.data.userId);
+      // Permettre la création lors de l'inscription
+      allow create: if isSignedIn() && 
+        request.resource.data.userId == getUserId() &&
+        request.resource.data.email == request.auth.token.email;
+    }
+
+    // USERS - Profils utilisateur
+    match /users/{userId} {
+      // L'utilisateur peut lire/écrire son propre profil
+      allow read, write: if isOwner(userId);
+      
+      // Membres des mêmes foyers peuvent lire le profil
+      allow read: if isSignedIn() && 
+        resource.data.homeIds.hasAny(
+          get(/databases/$(database)/documents/users/$(getUserId())).data.homeIds
+        );
+      
+      // CALENDRIERS - Sous-collection des utilisateurs
+      match /calendars/{calendarId} {
+        // Seul le propriétaire peut accéder à ses calendriers
+        allow read, write: if isOwner(userId);
+        
+        // Membres du même foyer peuvent voir les calendriers visibles
+        allow read: if isSignedIn() && 
+          resource.data.isVisibleInHome == true &&
+          resource.data.homeId != null &&
+          isHomeMember(resource.data.homeId);
+        
+        // ÉVÉNEMENTS - Sous-collection des calendriers
+        match /events/{eventId} {
+          // Propriétaire du calendrier peut tout faire
+          allow read, write: if isOwner(userId);
+          
+          // Membres du foyer peuvent lire les événements des calendriers visibles
+          allow read: if isSignedIn() && 
+            get(/databases/$(database)/documents/users/$(userId)/calendars/$(calendarId)).data.isVisibleInHome == true &&
+            get(/databases/$(database)/documents/users/$(userId)/calendars/$(calendarId)).data.homeId != null &&
+            isHomeMember(get(/databases/$(database)/documents/users/$(userId)/calendars/$(calendarId)).data.homeId);
+          
+          // Participants peuvent lire/modifier s'ils peuvent éditer
+          allow read, write: if isSignedIn() && 
+            resource.data.attendeeUserIds.hasAny([getUserId()]) &&
+            resource.data.canEdit == true;
+        }
+      }
+    }
+
+    // HOMES - Foyers
+    match /homes/{homeId} {
+      // Membres peuvent lire les infos du foyer
+      allow read: if isHomeMember(homeId);
+      
+      // Seul le propriétaire peut modifier les infos principales
+      allow write: if isHomeOwner(homeId);
+      
+      // Permettre la création d'un nouveau foyer
+      allow create: if isSignedIn() && 
+        request.resource.data.ownerId == getUserId();
+
+      // MEMBRES - Sous-collection des foyers
+      match /members/{memberId} {
+        // Membres peuvent lire la liste des membres
+        allow read: if isHomeMember(homeId);
+        
+        // Seuls les admins peuvent ajouter/supprimer des membres
+        allow write: if isHomeAdmin(homeId);
+        
+        // Le propriétaire peut tout faire
+        allow read, write: if isHomeOwner(homeId);
+        
+        // Un membre peut modifier ses propres permissions (limitées)
+        allow update: if isOwner(memberId) && 
+          isHomeMember(homeId) &&
+          // Ne peut pas changer le statut admin
+          request.resource.data.permissions.isAdmin == resource.data.permissions.isAdmin;
+      }
+
+      // TÂCHES - Sous-collection des foyers
+      match /tasks/{taskId} {
+        // Membres peuvent lire les tâches
+        allow read: if isHomeMember(homeId);
+        
+        // Création de tâches selon permissions
+        allow create: if isHomeMember(homeId) && 
+          (get(/databases/$(database)/documents/homes/$(homeId)/members/$(getUserId())).data.permissions.canCreateTasks == true ||
+           isHomeAdmin(homeId));
+        
+        // Modification selon permissions
+        allow update: if isHomeMember(homeId) && 
+          (get(/databases/$(database)/documents/homes/$(homeId)/members/$(getUserId())).data.permissions.canEditTasks == true ||
+           isHomeAdmin(homeId) ||
+           resource.data.createdById == getUserId() ||
+           resource.data.assignedToIds.hasAny([getUserId()]));
+        
+        // Suppression selon permissions
+        allow delete: if isHomeMember(homeId) && 
+          (get(/databases/$(database)/documents/homes/$(homeId)/members/$(getUserId())).data.permissions.canDeleteTasks == true ||
+           isHomeAdmin(homeId) ||
+           resource.data.createdById == getUserId());
+      }
+    }
+
+    // INVITATIONS - Invitations aux foyers
+    match /invitations/{invitationId} {
+      // Seul celui qui a créé l'invitation peut la lire
+      allow read: if isSignedIn() && resource.data.invitedBy == getUserId();
+      
+      // Admins du foyer peuvent créer des invitations
+      allow create: if isSignedIn() && 
+        request.resource.data.invitedBy == getUserId() &&
+        (isHomeAdmin(request.resource.data.homeId) || 
+         get(/databases/$(database)/documents/homes/$(request.resource.data.homeId)/members/$(getUserId())).data.permissions.canInviteMembers == true);
+      
+      // Seul le créateur peut modifier/supprimer
+      allow update, delete: if isSignedIn() && resource.data.invitedBy == getUserId();
+      
+      // Lecture publique avec code d'invitation (pour accepter l'invitation)
+      allow read: if resource.data.invitationCode == request.query.code;
+    }
+
+    // RELATIONSHIPS - Relations entre utilisateurs (pour V2)
+    match /relationships/{relationshipId} {
+      // Seuls les utilisateurs impliqués peuvent voir la relation
+      allow read: if isSignedIn() && 
+        (resource.data.user1Id == getUserId() || resource.data.user2Id == getUserId());
+      
+      // Seuls les utilisateurs impliqués peuvent créer une relation
+      allow create: if isSignedIn() && 
+        (request.resource.data.user1Id == getUserId() || request.resource.data.user2Id == getUserId());
+      
+      // Seuls les utilisateurs impliqués peuvent modifier/supprimer
+      allow update, delete: if isSignedIn() && 
+        (resource.data.user1Id == getUserId() || resource.data.user2Id == getUserId());
     }
   }
 }
