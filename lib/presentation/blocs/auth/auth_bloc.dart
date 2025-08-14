@@ -1,19 +1,23 @@
+import 'package:familio/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../../core/firebase/firebase_service.dart';
-import '../../../core/logging/logger_service.dart';
-import '../../../di/injection.dart';
+import 'package:familio/core/firebase/firebase_service.dart';
+import 'package:familio/core/logging/logger_service.dart';
+import 'package:familio/data/services/auth_service.dart';
+import 'package:familio/di/injection.dart';
+import 'package:familio/generated/l10n.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
 @singleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseService _firebaseService;
-  final LoggerService _logger;
+  final AuthService _authService;
 
-  AuthBloc(this._firebaseService, this._logger) : super(const AuthState()) {
+  AuthBloc(this._firebaseService, this._authService)
+    : super(const AuthState()) {
     on<AuthStatusChanged>(_onAuthStatusChanged);
     on<LoginRequested>(_onLoginRequested);
     on<RegisterRequested>(_onRegisterRequested);
@@ -32,15 +36,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(state.copyWith(uiStatus: AuthUiStatus.loading, error: null));
     try {
-      _logger.info('Attempting to login with email: ${event.email}');
+      logger.info('Attempting to login with email: ${event.email}');
 
-      final credential = await _firebaseService.auth.signInWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
+      final credential = await _authService.signInWithEmailAndPassword(
+        event.email,
+        event.password,
       );
 
       if (credential.user != null) {
-        _logger.info('Login successful for user: ${credential.user!.uid}');
+        logger.info('Login successful for user: ${credential.user!.uid}');
         emit(
           state.copyWith(
             uiStatus: AuthUiStatus.authenticated,
@@ -49,7 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
         );
       } else {
-        _logger.error('Login failed: No user returned');
+        logger.error('Login failed: No user returned');
         emit(
           state.copyWith(uiStatus: AuthUiStatus.error, error: 'Login failed'),
         );
@@ -79,16 +83,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(state.copyWith(uiStatus: AuthUiStatus.loading, error: null));
     try {
-      _logger.info('Attempting to register with email: ${event.email}');
+      logger.info('Attempting to register with email: ${event.email}');
 
-      final credential = await _firebaseService.auth
-          .createUserWithEmailAndPassword(
-            email: event.email,
-            password: event.password,
-          );
+      final credential = await _authService.registerUserWithProfile(
+        email: event.email,
+        password: event.password,
+        name: event.name,
+        avatar: event.avatar,
+        birthDate: event.birthDate,
+      );
 
       if (credential.user != null) {
-        _logger.info(
+        logger.info(
           'Registration successful for user: ${credential.user!.uid}',
         );
         emit(
@@ -99,7 +105,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
         );
       } else {
-        _logger.error('Registration failed: No user returned');
+        logger.error('Registration failed: No user returned');
         emit(
           state.copyWith(
             uiStatus: AuthUiStatus.error,
@@ -136,10 +142,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(state.copyWith(uiStatus: AuthUiStatus.loading, error: null));
     try {
-      _logger.info('Attempting to reset password for email: ${event.email}');
+      logger.info('Attempting to reset password for email: ${event.email}');
 
-      await _firebaseService.auth.sendPasswordResetEmail(email: event.email);
-      _logger.info('Password reset email sent successfully');
+      await _authService.sendPasswordResetEmail(event.email);
+      logger.info('Password reset email sent successfully');
       emit(state.copyWith(uiStatus: AuthUiStatus.unauthenticated));
     } on FirebaseAuthException catch (e, s) {
       getIt<LoggerService>().error(
@@ -170,10 +176,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(state.copyWith(uiStatus: AuthUiStatus.loading, error: null));
     try {
-      _logger.info('Attempting to sign out');
+      logger.info('Attempting to sign out');
 
-      await _firebaseService.auth.signOut();
-      _logger.info('Sign out successful');
+      await _authService.signOut();
+      logger.info('Sign out successful');
       emit(
         state.copyWith(
           uiStatus: AuthUiStatus.unauthenticated,
@@ -216,23 +222,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String _getErrorMessage(FirebaseAuthException e) {
     switch (e.code) {
       case 'weak-password':
-        return 'The password provided is too weak.';
+        return S.current.auth_error_weakPassword;
       case 'email-already-in-use':
-        return 'The account already exists for that email.';
+        return S.current.auth_error_emailInUse;
       case 'user-not-found':
-        return 'No user found for that email.';
+        return S.current.auth_error_userNotFound;
       case 'wrong-password':
-        return 'Wrong password provided for that user.';
+        return S.current.auth_error_wrongPassword;
       case 'invalid-email':
-        return 'The email address is not valid.';
+        return S.current.auth_error_invalidEmail;
       case 'user-disabled':
-        return 'This user account has been disabled.';
+        return S.current.auth_error_userDisabled;
       case 'too-many-requests':
-        return 'Too many requests. Try again later.';
+        return S.current.auth_error_tooManyRequests;
       case 'operation-not-allowed':
-        return 'This operation is not allowed.';
+        return S.current.auth_error_operationNotAllowed;
       default:
-        return e.message ?? 'An authentication error occurred.';
+        return e.message ?? S.current.auth_error_unknown;
     }
   }
 }

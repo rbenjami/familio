@@ -16,6 +16,7 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -24,6 +25,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -46,8 +48,30 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           const SizedBox(height: 32),
           TextFormField(
+            controller: _nameController,
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.name,
+            textCapitalization: TextCapitalization.words,
+            decoration: InputDecoration(
+              labelText: context.s.auth_register_nameLabel,
+              hintText: context.s.auth_register_nameHint,
+              prefixIcon: Icon(Icons.person),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return context.s.auth_register_nameRequired;
+              }
+              if (value.trim().length < 2) {
+                return context.s.auth_register_nameTooShort;
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(
               labelText: context.s.auth_register_emailLabel,
               hintText: context.s.auth_register_emailHint,
@@ -69,6 +93,7 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             controller: _passwordController,
             obscureText: _obscurePassword,
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(
               labelText: context.s.auth_register_passwordLabel,
               hintText: context.s.auth_register_passwordHint,
@@ -98,6 +123,7 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             controller: _confirmPasswordController,
             obscureText: _obscureConfirmPassword,
+            textInputAction: TextInputAction.done,
             decoration: InputDecoration(
               labelText: context.s.auth_register_confirmPasswordLabel,
               hintText: context.s.auth_register_confirmPasswordHint,
@@ -131,8 +157,9 @@ class _RegisterFormState extends State<RegisterForm> {
               if (_formKey.currentState!.validate()) {
                 context.read<AuthBloc>().add(
                   RegisterRequested(
-                    _emailController.text.trim(),
-                    _passwordController.text,
+                    email: _emailController.text.trim(),
+                    password: _passwordController.text,
+                    name: _nameController.text.trim(),
                   ),
                 );
               }

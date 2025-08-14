@@ -23,6 +23,45 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "appTitle": MessageLookupByLibrary.simpleMessage("Familio"),
+    "auth_error_emailInUse": MessageLookupByLibrary.simpleMessage(
+      "Un compte existe déjà avec cette adresse email.",
+    ),
+    "auth_error_invalidEmail": MessageLookupByLibrary.simpleMessage(
+      "L\'adresse email n\'est pas valide.",
+    ),
+    "auth_error_loginFailed": MessageLookupByLibrary.simpleMessage(
+      "Échec de la connexion",
+    ),
+    "auth_error_operationNotAllowed": MessageLookupByLibrary.simpleMessage(
+      "Cette opération n\'est pas autorisée.",
+    ),
+    "auth_error_registrationFailed": MessageLookupByLibrary.simpleMessage(
+      "Échec de l\'inscription",
+    ),
+    "auth_error_signOutFailed": MessageLookupByLibrary.simpleMessage(
+      "Échec de la déconnexion",
+    ),
+    "auth_error_tooManyRequests": MessageLookupByLibrary.simpleMessage(
+      "Trop de tentatives. Réessayez plus tard.",
+    ),
+    "auth_error_unexpected": MessageLookupByLibrary.simpleMessage(
+      "Une erreur inattendue s\'est produite",
+    ),
+    "auth_error_unknown": MessageLookupByLibrary.simpleMessage(
+      "Une erreur d\'authentification s\'est produite.",
+    ),
+    "auth_error_userDisabled": MessageLookupByLibrary.simpleMessage(
+      "Ce compte utilisateur a été désactivé.",
+    ),
+    "auth_error_userNotFound": MessageLookupByLibrary.simpleMessage(
+      "Aucun utilisateur trouvé avec cette adresse email.",
+    ),
+    "auth_error_weakPassword": MessageLookupByLibrary.simpleMessage(
+      "Le mot de passe fourni est trop faible.",
+    ),
+    "auth_error_wrongPassword": MessageLookupByLibrary.simpleMessage(
+      "Mot de passe incorrect pour cet utilisateur.",
+    ),
     "auth_forgotPassword_backButton": MessageLookupByLibrary.simpleMessage(
       "Retour à la connexion",
     ),
@@ -107,6 +146,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "auth_register_hasAccountText": MessageLookupByLibrary.simpleMessage(
       "Déjà un compte ? ",
+    ),
+    "auth_register_nameHint": MessageLookupByLibrary.simpleMessage(
+      "Entrez votre nom complet",
+    ),
+    "auth_register_nameLabel": MessageLookupByLibrary.simpleMessage(
+      "Nom complet",
+    ),
+    "auth_register_nameRequired": MessageLookupByLibrary.simpleMessage(
+      "Veuillez entrer votre nom",
+    ),
+    "auth_register_nameTooShort": MessageLookupByLibrary.simpleMessage(
+      "Le nom doit contenir au moins 2 caractères",
     ),
     "auth_register_passwordHint": MessageLookupByLibrary.simpleMessage(
       "Entrez votre mot de passe",

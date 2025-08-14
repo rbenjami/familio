@@ -23,6 +23,45 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "appTitle": MessageLookupByLibrary.simpleMessage("Familio"),
+    "auth_error_emailInUse": MessageLookupByLibrary.simpleMessage(
+      "The account already exists for that email.",
+    ),
+    "auth_error_invalidEmail": MessageLookupByLibrary.simpleMessage(
+      "The email address is not valid.",
+    ),
+    "auth_error_loginFailed": MessageLookupByLibrary.simpleMessage(
+      "Login failed",
+    ),
+    "auth_error_operationNotAllowed": MessageLookupByLibrary.simpleMessage(
+      "This operation is not allowed.",
+    ),
+    "auth_error_registrationFailed": MessageLookupByLibrary.simpleMessage(
+      "Registration failed",
+    ),
+    "auth_error_signOutFailed": MessageLookupByLibrary.simpleMessage(
+      "Sign out failed",
+    ),
+    "auth_error_tooManyRequests": MessageLookupByLibrary.simpleMessage(
+      "Too many requests. Try again later.",
+    ),
+    "auth_error_unexpected": MessageLookupByLibrary.simpleMessage(
+      "An unexpected error occurred",
+    ),
+    "auth_error_unknown": MessageLookupByLibrary.simpleMessage(
+      "An authentication error occurred.",
+    ),
+    "auth_error_userDisabled": MessageLookupByLibrary.simpleMessage(
+      "This user account has been disabled.",
+    ),
+    "auth_error_userNotFound": MessageLookupByLibrary.simpleMessage(
+      "No user found for that email.",
+    ),
+    "auth_error_weakPassword": MessageLookupByLibrary.simpleMessage(
+      "The password provided is too weak.",
+    ),
+    "auth_error_wrongPassword": MessageLookupByLibrary.simpleMessage(
+      "Wrong password provided for that user.",
+    ),
     "auth_forgotPassword_backButton": MessageLookupByLibrary.simpleMessage(
       "Back to login",
     ),
@@ -101,6 +140,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "auth_register_hasAccountText": MessageLookupByLibrary.simpleMessage(
       "Already have an account? ",
+    ),
+    "auth_register_nameHint": MessageLookupByLibrary.simpleMessage(
+      "Enter your full name",
+    ),
+    "auth_register_nameLabel": MessageLookupByLibrary.simpleMessage(
+      "Full name",
+    ),
+    "auth_register_nameRequired": MessageLookupByLibrary.simpleMessage(
+      "Please enter your name",
+    ),
+    "auth_register_nameTooShort": MessageLookupByLibrary.simpleMessage(
+      "Name must be at least 2 characters",
     ),
     "auth_register_passwordHint": MessageLookupByLibrary.simpleMessage(
       "Enter your password",

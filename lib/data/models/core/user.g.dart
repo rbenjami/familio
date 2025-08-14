@@ -2105,9 +2105,9 @@ abstract class CalendarDocumentReference
     Calendar model, {
     SetOptions? options,
     FieldValue nameFieldValue,
-    FieldValue typeFieldValue,
     FieldValue isVisibleInHomeFieldValue,
     FieldValue colorFieldValue,
+    FieldValue typeFieldValue,
     FieldValue externalIdFieldValue,
     FieldValue accessTokenFieldValue,
     FieldValue refreshTokenFieldValue,
@@ -2128,9 +2128,9 @@ abstract class CalendarDocumentReference
     Calendar model, {
     SetOptions? options,
     FieldValue nameFieldValue,
-    FieldValue typeFieldValue,
     FieldValue isVisibleInHomeFieldValue,
     FieldValue colorFieldValue,
+    FieldValue typeFieldValue,
     FieldValue externalIdFieldValue,
     FieldValue accessTokenFieldValue,
     FieldValue refreshTokenFieldValue,
@@ -2151,9 +2151,9 @@ abstract class CalendarDocumentReference
     Calendar model, {
     SetOptions? options,
     FieldValue nameFieldValue,
-    FieldValue typeFieldValue,
     FieldValue isVisibleInHomeFieldValue,
     FieldValue colorFieldValue,
+    FieldValue typeFieldValue,
     FieldValue externalIdFieldValue,
     FieldValue accessTokenFieldValue,
     FieldValue refreshTokenFieldValue,
@@ -2169,12 +2169,12 @@ abstract class CalendarDocumentReference
   Future<void> update({
     String name,
     FieldValue nameFieldValue,
-    CalendarType type,
-    FieldValue typeFieldValue,
     bool isVisibleInHome,
     FieldValue isVisibleInHomeFieldValue,
     String color,
     FieldValue colorFieldValue,
+    CalendarType type,
+    FieldValue typeFieldValue,
     String? externalId,
     FieldValue externalIdFieldValue,
     String? accessToken,
@@ -2196,12 +2196,12 @@ abstract class CalendarDocumentReference
     Transaction transaction, {
     String name,
     FieldValue nameFieldValue,
-    CalendarType type,
-    FieldValue typeFieldValue,
     bool isVisibleInHome,
     FieldValue isVisibleInHomeFieldValue,
     String color,
     FieldValue colorFieldValue,
+    CalendarType type,
+    FieldValue typeFieldValue,
     String? externalId,
     FieldValue externalIdFieldValue,
     String? accessToken,
@@ -2223,12 +2223,12 @@ abstract class CalendarDocumentReference
     WriteBatch batch, {
     String name,
     FieldValue nameFieldValue,
-    CalendarType type,
-    FieldValue typeFieldValue,
     bool isVisibleInHome,
     FieldValue isVisibleInHomeFieldValue,
     String color,
     FieldValue colorFieldValue,
+    CalendarType type,
+    FieldValue typeFieldValue,
     String? externalId,
     FieldValue externalIdFieldValue,
     String? accessToken,
@@ -2285,9 +2285,9 @@ class _$CalendarDocumentReference
     Calendar model, {
     SetOptions? options,
     FieldValue? nameFieldValue,
-    FieldValue? typeFieldValue,
     FieldValue? isVisibleInHomeFieldValue,
     FieldValue? colorFieldValue,
+    FieldValue? typeFieldValue,
     FieldValue? externalIdFieldValue,
     FieldValue? accessTokenFieldValue,
     FieldValue? refreshTokenFieldValue,
@@ -2299,13 +2299,13 @@ class _$CalendarDocumentReference
       ...model.toJson(),
       if (nameFieldValue != null) _$CalendarFieldMap['name']!: nameFieldValue,
 
-      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
-
       if (isVisibleInHomeFieldValue != null)
         _$CalendarFieldMap['isVisibleInHome']!: isVisibleInHomeFieldValue,
 
       if (colorFieldValue != null)
         _$CalendarFieldMap['color']!: colorFieldValue,
+
+      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
 
       if (externalIdFieldValue != null)
         _$CalendarFieldMap['externalId']!: externalIdFieldValue,
@@ -2338,9 +2338,9 @@ class _$CalendarDocumentReference
     Calendar model, {
     SetOptions? options,
     FieldValue? nameFieldValue,
-    FieldValue? typeFieldValue,
     FieldValue? isVisibleInHomeFieldValue,
     FieldValue? colorFieldValue,
+    FieldValue? typeFieldValue,
     FieldValue? externalIdFieldValue,
     FieldValue? accessTokenFieldValue,
     FieldValue? refreshTokenFieldValue,
@@ -2352,13 +2352,13 @@ class _$CalendarDocumentReference
       ...model.toJson(),
       if (nameFieldValue != null) _$CalendarFieldMap['name']!: nameFieldValue,
 
-      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
-
       if (isVisibleInHomeFieldValue != null)
         _$CalendarFieldMap['isVisibleInHome']!: isVisibleInHomeFieldValue,
 
       if (colorFieldValue != null)
         _$CalendarFieldMap['color']!: colorFieldValue,
+
+      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
 
       if (externalIdFieldValue != null)
         _$CalendarFieldMap['externalId']!: externalIdFieldValue,
@@ -2387,9 +2387,9 @@ class _$CalendarDocumentReference
     Calendar model, {
     SetOptions? options,
     FieldValue? nameFieldValue,
-    FieldValue? typeFieldValue,
     FieldValue? isVisibleInHomeFieldValue,
     FieldValue? colorFieldValue,
+    FieldValue? typeFieldValue,
     FieldValue? externalIdFieldValue,
     FieldValue? accessTokenFieldValue,
     FieldValue? refreshTokenFieldValue,
@@ -2401,13 +2401,13 @@ class _$CalendarDocumentReference
       ...model.toJson(),
       if (nameFieldValue != null) _$CalendarFieldMap['name']!: nameFieldValue,
 
-      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
-
       if (isVisibleInHomeFieldValue != null)
         _$CalendarFieldMap['isVisibleInHome']!: isVisibleInHomeFieldValue,
 
       if (colorFieldValue != null)
         _$CalendarFieldMap['color']!: colorFieldValue,
+
+      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
 
       if (externalIdFieldValue != null)
         _$CalendarFieldMap['externalId']!: externalIdFieldValue,
@@ -2434,12 +2434,12 @@ class _$CalendarDocumentReference
   Future<void> update({
     Object? name = _sentinel,
     FieldValue? nameFieldValue,
-    Object? type = _sentinel,
-    FieldValue? typeFieldValue,
     Object? isVisibleInHome = _sentinel,
     FieldValue? isVisibleInHomeFieldValue,
     Object? color = _sentinel,
     FieldValue? colorFieldValue,
+    Object? type = _sentinel,
+    FieldValue? typeFieldValue,
     Object? externalId = _sentinel,
     FieldValue? externalIdFieldValue,
     Object? accessToken = _sentinel,
@@ -2458,16 +2458,16 @@ class _$CalendarDocumentReference
       "Cannot specify both name and nameFieldValue",
     );
     assert(
-      type == _sentinel || typeFieldValue == null,
-      "Cannot specify both type and typeFieldValue",
-    );
-    assert(
       isVisibleInHome == _sentinel || isVisibleInHomeFieldValue == null,
       "Cannot specify both isVisibleInHome and isVisibleInHomeFieldValue",
     );
     assert(
       color == _sentinel || colorFieldValue == null,
       "Cannot specify both color and colorFieldValue",
+    );
+    assert(
+      type == _sentinel || typeFieldValue == null,
+      "Cannot specify both type and typeFieldValue",
     );
     assert(
       externalId == _sentinel || externalIdFieldValue == null,
@@ -2501,13 +2501,6 @@ class _$CalendarDocumentReference
 
       if (nameFieldValue != null) _$CalendarFieldMap['name']!: nameFieldValue,
 
-      if (type != _sentinel)
-        _$CalendarFieldMap['type']!: _$CalendarPerFieldToJson.type(
-          type as CalendarType,
-        ),
-
-      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
-
       if (isVisibleInHome != _sentinel)
         _$CalendarFieldMap['isVisibleInHome']!: _$CalendarPerFieldToJson
             .isVisibleInHome(isVisibleInHome as bool),
@@ -2522,6 +2515,13 @@ class _$CalendarDocumentReference
 
       if (colorFieldValue != null)
         _$CalendarFieldMap['color']!: colorFieldValue,
+
+      if (type != _sentinel)
+        _$CalendarFieldMap['type']!: _$CalendarPerFieldToJson.type(
+          type as CalendarType,
+        ),
+
+      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
 
       if (externalId != _sentinel)
         _$CalendarFieldMap['externalId']!: _$CalendarPerFieldToJson.externalId(
@@ -2576,12 +2576,12 @@ class _$CalendarDocumentReference
     Transaction transaction, {
     Object? name = _sentinel,
     FieldValue? nameFieldValue,
-    Object? type = _sentinel,
-    FieldValue? typeFieldValue,
     Object? isVisibleInHome = _sentinel,
     FieldValue? isVisibleInHomeFieldValue,
     Object? color = _sentinel,
     FieldValue? colorFieldValue,
+    Object? type = _sentinel,
+    FieldValue? typeFieldValue,
     Object? externalId = _sentinel,
     FieldValue? externalIdFieldValue,
     Object? accessToken = _sentinel,
@@ -2600,16 +2600,16 @@ class _$CalendarDocumentReference
       "Cannot specify both name and nameFieldValue",
     );
     assert(
-      type == _sentinel || typeFieldValue == null,
-      "Cannot specify both type and typeFieldValue",
-    );
-    assert(
       isVisibleInHome == _sentinel || isVisibleInHomeFieldValue == null,
       "Cannot specify both isVisibleInHome and isVisibleInHomeFieldValue",
     );
     assert(
       color == _sentinel || colorFieldValue == null,
       "Cannot specify both color and colorFieldValue",
+    );
+    assert(
+      type == _sentinel || typeFieldValue == null,
+      "Cannot specify both type and typeFieldValue",
     );
     assert(
       externalId == _sentinel || externalIdFieldValue == null,
@@ -2643,13 +2643,6 @@ class _$CalendarDocumentReference
 
       if (nameFieldValue != null) _$CalendarFieldMap['name']!: nameFieldValue,
 
-      if (type != _sentinel)
-        _$CalendarFieldMap['type']!: _$CalendarPerFieldToJson.type(
-          type as CalendarType,
-        ),
-
-      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
-
       if (isVisibleInHome != _sentinel)
         _$CalendarFieldMap['isVisibleInHome']!: _$CalendarPerFieldToJson
             .isVisibleInHome(isVisibleInHome as bool),
@@ -2664,6 +2657,13 @@ class _$CalendarDocumentReference
 
       if (colorFieldValue != null)
         _$CalendarFieldMap['color']!: colorFieldValue,
+
+      if (type != _sentinel)
+        _$CalendarFieldMap['type']!: _$CalendarPerFieldToJson.type(
+          type as CalendarType,
+        ),
+
+      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
 
       if (externalId != _sentinel)
         _$CalendarFieldMap['externalId']!: _$CalendarPerFieldToJson.externalId(
@@ -2718,12 +2718,12 @@ class _$CalendarDocumentReference
     WriteBatch batch, {
     Object? name = _sentinel,
     FieldValue? nameFieldValue,
-    Object? type = _sentinel,
-    FieldValue? typeFieldValue,
     Object? isVisibleInHome = _sentinel,
     FieldValue? isVisibleInHomeFieldValue,
     Object? color = _sentinel,
     FieldValue? colorFieldValue,
+    Object? type = _sentinel,
+    FieldValue? typeFieldValue,
     Object? externalId = _sentinel,
     FieldValue? externalIdFieldValue,
     Object? accessToken = _sentinel,
@@ -2742,16 +2742,16 @@ class _$CalendarDocumentReference
       "Cannot specify both name and nameFieldValue",
     );
     assert(
-      type == _sentinel || typeFieldValue == null,
-      "Cannot specify both type and typeFieldValue",
-    );
-    assert(
       isVisibleInHome == _sentinel || isVisibleInHomeFieldValue == null,
       "Cannot specify both isVisibleInHome and isVisibleInHomeFieldValue",
     );
     assert(
       color == _sentinel || colorFieldValue == null,
       "Cannot specify both color and colorFieldValue",
+    );
+    assert(
+      type == _sentinel || typeFieldValue == null,
+      "Cannot specify both type and typeFieldValue",
     );
     assert(
       externalId == _sentinel || externalIdFieldValue == null,
@@ -2785,13 +2785,6 @@ class _$CalendarDocumentReference
 
       if (nameFieldValue != null) _$CalendarFieldMap['name']!: nameFieldValue,
 
-      if (type != _sentinel)
-        _$CalendarFieldMap['type']!: _$CalendarPerFieldToJson.type(
-          type as CalendarType,
-        ),
-
-      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
-
       if (isVisibleInHome != _sentinel)
         _$CalendarFieldMap['isVisibleInHome']!: _$CalendarPerFieldToJson
             .isVisibleInHome(isVisibleInHome as bool),
@@ -2806,6 +2799,13 @@ class _$CalendarDocumentReference
 
       if (colorFieldValue != null)
         _$CalendarFieldMap['color']!: colorFieldValue,
+
+      if (type != _sentinel)
+        _$CalendarFieldMap['type']!: _$CalendarPerFieldToJson.type(
+          type as CalendarType,
+        ),
+
+      if (typeFieldValue != null) _$CalendarFieldMap['type']!: typeFieldValue,
 
       if (externalId != _sentinel)
         _$CalendarFieldMap['externalId']!: _$CalendarPerFieldToJson.externalId(
@@ -2932,18 +2932,6 @@ abstract class CalendarQuery
     bool? isNull,
   });
 
-  CalendarQuery whereType({
-    CalendarType? isEqualTo,
-    CalendarType? isNotEqualTo,
-    CalendarType? isLessThan,
-    CalendarType? isLessThanOrEqualTo,
-    CalendarType? isGreaterThan,
-    CalendarType? isGreaterThanOrEqualTo,
-    List<CalendarType>? whereIn,
-    List<CalendarType>? whereNotIn,
-    bool? isNull,
-  });
-
   CalendarQuery whereIsVisibleInHome({
     bool? isEqualTo,
     bool? isNotEqualTo,
@@ -2965,6 +2953,18 @@ abstract class CalendarQuery
     String? isGreaterThanOrEqualTo,
     List<String>? whereIn,
     List<String>? whereNotIn,
+    bool? isNull,
+  });
+
+  CalendarQuery whereType({
+    CalendarType? isEqualTo,
+    CalendarType? isNotEqualTo,
+    CalendarType? isLessThan,
+    CalendarType? isLessThanOrEqualTo,
+    CalendarType? isGreaterThan,
+    CalendarType? isGreaterThanOrEqualTo,
+    List<CalendarType>? whereIn,
+    List<CalendarType>? whereNotIn,
     bool? isNull,
   });
 
@@ -3097,18 +3097,6 @@ abstract class CalendarQuery
     CalendarDocumentSnapshot? startAfterDocument,
   });
 
-  CalendarQuery orderByType({
-    bool descending = false,
-    CalendarType startAt,
-    CalendarType startAfter,
-    CalendarType endAt,
-    CalendarType endBefore,
-    CalendarDocumentSnapshot? startAtDocument,
-    CalendarDocumentSnapshot? endAtDocument,
-    CalendarDocumentSnapshot? endBeforeDocument,
-    CalendarDocumentSnapshot? startAfterDocument,
-  });
-
   CalendarQuery orderByIsVisibleInHome({
     bool descending = false,
     bool startAt,
@@ -3127,6 +3115,18 @@ abstract class CalendarQuery
     String startAfter,
     String endAt,
     String endBefore,
+    CalendarDocumentSnapshot? startAtDocument,
+    CalendarDocumentSnapshot? endAtDocument,
+    CalendarDocumentSnapshot? endBeforeDocument,
+    CalendarDocumentSnapshot? startAfterDocument,
+  });
+
+  CalendarQuery orderByType({
+    bool descending = false,
+    CalendarType startAt,
+    CalendarType startAfter,
+    CalendarType endAt,
+    CalendarType endBefore,
     CalendarDocumentSnapshot? startAtDocument,
     CalendarDocumentSnapshot? endAtDocument,
     CalendarDocumentSnapshot? endBeforeDocument,
@@ -3366,53 +3366,6 @@ class _$CalendarQuery extends QueryReference<Calendar, CalendarQuerySnapshot>
   }
 
   @override
-  CalendarQuery whereType({
-    Object? isEqualTo = _sentinel,
-    Object? isNotEqualTo = _sentinel,
-    Object? isLessThan,
-    Object? isLessThanOrEqualTo,
-    Object? isGreaterThan,
-    Object? isGreaterThanOrEqualTo,
-    List<CalendarType>? whereIn,
-    List<CalendarType>? whereNotIn,
-    bool? isNull,
-  }) {
-    return _$CalendarQuery(
-      _collection,
-      $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$CalendarFieldMap['type']!,
-        isEqualTo: isEqualTo != _sentinel
-            ? _$CalendarPerFieldToJson.type(isEqualTo as CalendarType)
-            : null,
-        isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$CalendarPerFieldToJson.type(isNotEqualTo as CalendarType)
-            : null,
-        isLessThan: isLessThan != null
-            ? _$CalendarPerFieldToJson.type(isLessThan as CalendarType)
-            : null,
-        isLessThanOrEqualTo: isLessThanOrEqualTo != null
-            ? _$CalendarPerFieldToJson.type(isLessThanOrEqualTo as CalendarType)
-            : null,
-        isGreaterThan: isGreaterThan != null
-            ? _$CalendarPerFieldToJson.type(isGreaterThan as CalendarType)
-            : null,
-        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
-            ? _$CalendarPerFieldToJson.type(
-                isGreaterThanOrEqualTo as CalendarType,
-              )
-            : null,
-        whereIn: whereIn?.map((e) => _$CalendarPerFieldToJson.type(e)),
-        whereNotIn: whereNotIn?.map((e) => _$CalendarPerFieldToJson.type(e)),
-        isNull:
-            isNull ??
-            (isEqualTo == null ? false : null) ??
-            (isNotEqualTo == null ? true : null),
-      ),
-      $queryCursor: $queryCursor,
-    );
-  }
-
-  @override
   CalendarQuery whereIsVisibleInHome({
     Object? isEqualTo = _sentinel,
     Object? isNotEqualTo = _sentinel,
@@ -3501,6 +3454,53 @@ class _$CalendarQuery extends QueryReference<Calendar, CalendarQuerySnapshot>
             : null,
         whereIn: whereIn?.map((e) => _$CalendarPerFieldToJson.color(e)),
         whereNotIn: whereNotIn?.map((e) => _$CalendarPerFieldToJson.color(e)),
+        isNull:
+            isNull ??
+            (isEqualTo == null ? false : null) ??
+            (isNotEqualTo == null ? true : null),
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  @override
+  CalendarQuery whereType({
+    Object? isEqualTo = _sentinel,
+    Object? isNotEqualTo = _sentinel,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    List<CalendarType>? whereIn,
+    List<CalendarType>? whereNotIn,
+    bool? isNull,
+  }) {
+    return _$CalendarQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$CalendarFieldMap['type']!,
+        isEqualTo: isEqualTo != _sentinel
+            ? _$CalendarPerFieldToJson.type(isEqualTo as CalendarType)
+            : null,
+        isNotEqualTo: isNotEqualTo != _sentinel
+            ? _$CalendarPerFieldToJson.type(isNotEqualTo as CalendarType)
+            : null,
+        isLessThan: isLessThan != null
+            ? _$CalendarPerFieldToJson.type(isLessThan as CalendarType)
+            : null,
+        isLessThanOrEqualTo: isLessThanOrEqualTo != null
+            ? _$CalendarPerFieldToJson.type(isLessThanOrEqualTo as CalendarType)
+            : null,
+        isGreaterThan: isGreaterThan != null
+            ? _$CalendarPerFieldToJson.type(isGreaterThan as CalendarType)
+            : null,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
+            ? _$CalendarPerFieldToJson.type(
+                isGreaterThanOrEqualTo as CalendarType,
+              )
+            : null,
+        whereIn: whereIn?.map((e) => _$CalendarPerFieldToJson.type(e)),
+        whereNotIn: whereNotIn?.map((e) => _$CalendarPerFieldToJson.type(e)),
         isNull:
             isNull ??
             (isEqualTo == null ? false : null) ??
@@ -4035,81 +4035,6 @@ class _$CalendarQuery extends QueryReference<Calendar, CalendarQuerySnapshot>
   }
 
   @override
-  CalendarQuery orderByType({
-    bool descending = false,
-    Object? startAt = _sentinel,
-    Object? startAfter = _sentinel,
-    Object? endAt = _sentinel,
-    Object? endBefore = _sentinel,
-    CalendarDocumentSnapshot? startAtDocument,
-    CalendarDocumentSnapshot? endAtDocument,
-    CalendarDocumentSnapshot? endBeforeDocument,
-    CalendarDocumentSnapshot? startAfterDocument,
-  }) {
-    final query = $referenceWithoutCursor.orderBy(
-      _$CalendarFieldMap['type']!,
-      descending: descending,
-    );
-    var queryCursor = $queryCursor;
-
-    if (startAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAt: const [],
-        startAtDocumentSnapshot: startAtDocument.snapshot,
-      );
-    }
-    if (startAfterDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: const [],
-        startAfterDocumentSnapshot: startAfterDocument.snapshot,
-      );
-    }
-    if (endAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endAt: const [],
-        endAtDocumentSnapshot: endAtDocument.snapshot,
-      );
-    }
-    if (endBeforeDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: const [],
-        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
-      );
-    }
-
-    if (startAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAt: [...queryCursor.startAt, startAt],
-        startAtDocumentSnapshot: null,
-      );
-    }
-    if (startAfter != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: [...queryCursor.startAfter, startAfter],
-        startAfterDocumentSnapshot: null,
-      );
-    }
-    if (endAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endAt: [...queryCursor.endAt, endAt],
-        endAtDocumentSnapshot: null,
-      );
-    }
-    if (endBefore != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: [...queryCursor.endBefore, endBefore],
-        endBeforeDocumentSnapshot: null,
-      );
-    }
-
-    return _$CalendarQuery(
-      _collection,
-      $referenceWithoutCursor: query,
-      $queryCursor: queryCursor,
-    );
-  }
-
-  @override
   CalendarQuery orderByIsVisibleInHome({
     bool descending = false,
     Object? startAt = _sentinel,
@@ -4198,6 +4123,81 @@ class _$CalendarQuery extends QueryReference<Calendar, CalendarQuerySnapshot>
   }) {
     final query = $referenceWithoutCursor.orderBy(
       _$CalendarFieldMap['color']!,
+      descending: descending,
+    );
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$CalendarQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  @override
+  CalendarQuery orderByType({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    CalendarDocumentSnapshot? startAtDocument,
+    CalendarDocumentSnapshot? endAtDocument,
+    CalendarDocumentSnapshot? endBeforeDocument,
+    CalendarDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(
+      _$CalendarFieldMap['type']!,
       descending: descending,
     );
     var queryCursor = $queryCursor;
@@ -7876,9 +7876,9 @@ Json? _$JsonConverterToJson<Json, Value>(
 _Calendar _$CalendarFromJson(Map<String, dynamic> json) => _Calendar(
   id: json['id'] as String,
   name: json['name'] as String,
-  type: $enumDecode(_$CalendarTypeEnumMap, json['type']),
   isVisibleInHome: json['isVisibleInHome'] as bool,
   color: json['color'] as String,
+  type: $enumDecode(_$CalendarTypeEnumMap, json['type']),
   externalId: json['externalId'] as String?,
   accessToken: json['accessToken'] as String?,
   refreshToken: json['refreshToken'] as String?,
@@ -7893,9 +7893,9 @@ _Calendar _$CalendarFromJson(Map<String, dynamic> json) => _Calendar(
 const _$CalendarFieldMap = <String, String>{
   'id': 'id',
   'name': 'name',
-  'type': 'type',
   'isVisibleInHome': 'isVisibleInHome',
   'color': 'color',
+  'type': 'type',
   'externalId': 'externalId',
   'accessToken': 'accessToken',
   'refreshToken': 'refreshToken',
@@ -7911,12 +7911,12 @@ abstract class _$CalendarPerFieldToJson {
   // ignore: unused_element
   static Object? name(String instance) => instance;
   // ignore: unused_element
-  static Object? type(CalendarType instance) =>
-      _$CalendarTypeEnumMap[instance]!;
-  // ignore: unused_element
   static Object? isVisibleInHome(bool instance) => instance;
   // ignore: unused_element
   static Object? color(String instance) => instance;
+  // ignore: unused_element
+  static Object? type(CalendarType instance) =>
+      _$CalendarTypeEnumMap[instance]!;
   // ignore: unused_element
   static Object? externalId(String? instance) => instance;
   // ignore: unused_element
@@ -7938,9 +7938,9 @@ abstract class _$CalendarPerFieldToJson {
 Map<String, dynamic> _$CalendarToJson(_Calendar instance) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
-  'type': _$CalendarTypeEnumMap[instance.type]!,
   'isVisibleInHome': instance.isVisibleInHome,
   'color': instance.color,
+  'type': _$CalendarTypeEnumMap[instance.type]!,
   'externalId': instance.externalId,
   'accessToken': instance.accessToken,
   'refreshToken': instance.refreshToken,

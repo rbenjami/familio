@@ -14,7 +14,17 @@ class LoginRequested extends AuthEvent {
 class RegisterRequested extends AuthEvent {
   final String email;
   final String password;
-  const RegisterRequested(this.email, this.password);
+  final String name;
+  final String? avatar;
+  final DateTime? birthDate;
+  
+  const RegisterRequested({
+    required this.email, 
+    required this.password, 
+    required this.name,
+    this.avatar,
+    this.birthDate,
+  });
 }
 
 class ResetPasswordRequested extends AuthEvent {

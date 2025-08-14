@@ -11,7 +11,12 @@
       "mcp__firebase__firestore_get_rules",
       "mcp__firebase__firestore_validate_rules",
       "Bash(firebase deploy:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(flutter analyze:*)",
+      "Bash(flutter gen-l10n:*)",
+      "Bash(flutter packages pub run:*)",
+      "Bash(dart run intl_utils:generate:*)",
+      "Bash(flutter run:*)"
     ],
     "defaultMode": "acceptEdits"
   },

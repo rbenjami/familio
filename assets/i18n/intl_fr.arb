@@ -38,6 +38,10 @@
   "auth_login_passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères",
   
   "auth_register_title": "Inscription",
+  "auth_register_nameLabel": "Nom complet",
+  "auth_register_nameHint": "Entrez votre nom complet",
+  "auth_register_nameRequired": "Veuillez entrer votre nom",
+  "auth_register_nameTooShort": "Le nom doit contenir au moins 2 caractères",
   "auth_register_emailRequired": "Veuillez entrer votre email",
   "auth_register_emailInvalid": "Veuillez entrer un email valide",
   "auth_register_passwordRequired": "Veuillez entrer votre mot de passe",
@@ -48,5 +52,18 @@
   "auth_forgotPassword_title": "Mot de passe oublié",
   "auth_forgotPassword_description": "Entrez votre adresse email pour recevoir un lien de réinitialisation de mot de passe.",
   "auth_forgotPassword_emailRequired": "Veuillez entrer votre email",
-  "auth_forgotPassword_emailInvalid": "Veuillez entrer un email valide"
+  "auth_forgotPassword_emailInvalid": "Veuillez entrer un email valide",
+  "auth_error_weakPassword": "Le mot de passe fourni est trop faible.",
+  "auth_error_emailInUse": "Un compte existe déjà avec cette adresse email.",
+  "auth_error_userNotFound": "Aucun utilisateur trouvé avec cette adresse email.",
+  "auth_error_wrongPassword": "Mot de passe incorrect pour cet utilisateur.",
+  "auth_error_invalidEmail": "L'adresse email n'est pas valide.",
+  "auth_error_userDisabled": "Ce compte utilisateur a été désactivé.",
+  "auth_error_tooManyRequests": "Trop de tentatives. Réessayez plus tard.",
+  "auth_error_operationNotAllowed": "Cette opération n'est pas autorisée.",
+  "auth_error_unknown": "Une erreur d'authentification s'est produite.",
+  "auth_error_loginFailed": "Échec de la connexion",
+  "auth_error_registrationFailed": "Échec de l'inscription",
+  "auth_error_signOutFailed": "Échec de la déconnexion",
+  "auth_error_unexpected": "Une erreur inattendue s'est produite"
 }

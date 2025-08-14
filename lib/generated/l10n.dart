@@ -354,6 +354,46 @@ class S {
     );
   }
 
+  /// `Full name`
+  String get auth_register_nameLabel {
+    return Intl.message(
+      'Full name',
+      name: 'auth_register_nameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your full name`
+  String get auth_register_nameHint {
+    return Intl.message(
+      'Enter your full name',
+      name: 'auth_register_nameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your name`
+  String get auth_register_nameRequired {
+    return Intl.message(
+      'Please enter your name',
+      name: 'auth_register_nameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name must be at least 2 characters`
+  String get auth_register_nameTooShort {
+    return Intl.message(
+      'Name must be at least 2 characters',
+      name: 'auth_register_nameTooShort',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please enter your email`
   String get auth_register_emailRequired {
     return Intl.message(
@@ -449,6 +489,136 @@ class S {
     return Intl.message(
       'Please enter a valid email',
       name: 'auth_forgotPassword_emailInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The password provided is too weak.`
+  String get auth_error_weakPassword {
+    return Intl.message(
+      'The password provided is too weak.',
+      name: 'auth_error_weakPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The account already exists for that email.`
+  String get auth_error_emailInUse {
+    return Intl.message(
+      'The account already exists for that email.',
+      name: 'auth_error_emailInUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No user found for that email.`
+  String get auth_error_userNotFound {
+    return Intl.message(
+      'No user found for that email.',
+      name: 'auth_error_userNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong password provided for that user.`
+  String get auth_error_wrongPassword {
+    return Intl.message(
+      'Wrong password provided for that user.',
+      name: 'auth_error_wrongPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The email address is not valid.`
+  String get auth_error_invalidEmail {
+    return Intl.message(
+      'The email address is not valid.',
+      name: 'auth_error_invalidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This user account has been disabled.`
+  String get auth_error_userDisabled {
+    return Intl.message(
+      'This user account has been disabled.',
+      name: 'auth_error_userDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Too many requests. Try again later.`
+  String get auth_error_tooManyRequests {
+    return Intl.message(
+      'Too many requests. Try again later.',
+      name: 'auth_error_tooManyRequests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This operation is not allowed.`
+  String get auth_error_operationNotAllowed {
+    return Intl.message(
+      'This operation is not allowed.',
+      name: 'auth_error_operationNotAllowed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An authentication error occurred.`
+  String get auth_error_unknown {
+    return Intl.message(
+      'An authentication error occurred.',
+      name: 'auth_error_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login failed`
+  String get auth_error_loginFailed {
+    return Intl.message(
+      'Login failed',
+      name: 'auth_error_loginFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration failed`
+  String get auth_error_registrationFailed {
+    return Intl.message(
+      'Registration failed',
+      name: 'auth_error_registrationFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign out failed`
+  String get auth_error_signOutFailed {
+    return Intl.message(
+      'Sign out failed',
+      name: 'auth_error_signOutFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unexpected error occurred`
+  String get auth_error_unexpected {
+    return Intl.message(
+      'An unexpected error occurred',
+      name: 'auth_error_unexpected',
       desc: '',
       args: [],
     );

@@ -1,18 +1,20 @@
+import 'package:familio/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/firebase/firebase_service.dart';
-import '../../core/logging/logger_service.dart';
+import 'package:familio/core/firebase/firebase_service.dart';
+import 'user_service.dart';
 
 @singleton
 class AuthService {
   final FirebaseService _firebaseService;
-  final LoggerService _logger;
+  final UserService _userService;
 
-  AuthService(this._firebaseService, this._logger);
+  AuthService(this._firebaseService, this._userService);
 
   /// Stream of authentication state changes
-  Stream<User?> get authStateChanges => _firebaseService.auth.authStateChanges();
+  Stream<User?> get authStateChanges =>
+      _firebaseService.auth.authStateChanges();
 
   /// Get current user
   User? get currentUser => _firebaseService.auth.currentUser;
@@ -21,39 +23,85 @@ class AuthService {
   bool get isAuthenticated => currentUser != null;
 
   /// Sign in with email and password
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> signInWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
     try {
-      _logger.info('Attempting to sign in with email: $email');
+      logger.info('Attempting to sign in with email: $email');
       final credential = await _firebaseService.auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      _logger.info('Sign in successful for user: ${credential.user?.uid}');
+      logger.info('Sign in successful for user: ${credential.user?.uid}');
       return credential;
     } on FirebaseAuthException catch (e) {
-      _logger.error('Firebase sign in error: ${e.message}');
+      logger.error('Firebase sign in error: ${e.message}');
       rethrow;
     } catch (e) {
-      _logger.error('Sign in error: $e');
+      logger.error('Sign in error: $e');
       rethrow;
     }
   }
 
   /// Create user with email and password
-  Future<UserCredential> createUserWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> createUserWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
     try {
-      _logger.info('Attempting to create user with email: $email');
-      final credential = await _firebaseService.auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      _logger.info('User created successfully: ${credential.user?.uid}');
+      logger.info('Attempting to create user with email: $email');
+      final credential = await _firebaseService.auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      logger.info('User created successfully: ${credential.user?.uid}');
       return credential;
     } on FirebaseAuthException catch (e) {
-      _logger.error('Firebase create user error: ${e.message}');
+      logger.error('Firebase create user error: ${e.message}');
       rethrow;
     } catch (e) {
-      _logger.error('Create user error: $e');
+      logger.error('Create user error: $e');
+      rethrow;
+    }
+  }
+
+  /// Register user with email, password and create Firestore profile
+  Future<UserCredential> registerUserWithProfile({
+    required String email,
+    required String password,
+    required String name,
+    String? avatar,
+    DateTime? birthDate,
+  }) async {
+    try {
+      logger.info('Attempting to register user with profile: $email');
+
+      // Create Firebase Auth user
+      final credential = await _firebaseService.auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      if (credential.user != null) {
+        logger.info('Firebase Auth user created: ${credential.user!.uid}');
+
+        // Create Firestore user document
+        await _userService.createUser(
+          firebaseAuthId: credential.user!.uid,
+          name: name,
+          email: email,
+          avatar: avatar,
+          birthDate: birthDate,
+        );
+
+        logger.info(
+          'User profile created successfully: ${credential.user!.uid}',
+        );
+      }
+
+      return credential;
+    } on FirebaseAuthException catch (e) {
+      logger.error('Firebase register user error: ${e.message}');
+      rethrow;
+    } catch (e) {
+      logger.error('Register user error: $e');
       rethrow;
     }
   }
@@ -61,14 +109,14 @@ class AuthService {
   /// Send password reset email
   Future<void> sendPasswordResetEmail(String email) async {
     try {
-      _logger.info('Attempting to send password reset email to: $email');
+      logger.info('Attempting to send password reset email to: $email');
       await _firebaseService.auth.sendPasswordResetEmail(email: email);
-      _logger.info('Password reset email sent successfully');
+      logger.info('Password reset email sent successfully');
     } on FirebaseAuthException catch (e) {
-      _logger.error('Firebase password reset error: ${e.message}');
+      logger.error('Firebase password reset error: ${e.message}');
       rethrow;
     } catch (e) {
-      _logger.error('Password reset error: $e');
+      logger.error('Password reset error: $e');
       rethrow;
     }
   }
@@ -76,11 +124,11 @@ class AuthService {
   /// Sign out
   Future<void> signOut() async {
     try {
-      _logger.info('Attempting to sign out');
+      logger.info('Attempting to sign out');
       await _firebaseService.auth.signOut();
-      _logger.info('Sign out successful');
+      logger.info('Sign out successful');
     } catch (e) {
-      _logger.error('Sign out error: $e');
+      logger.error('Sign out error: $e');
       rethrow;
     }
   }
@@ -90,15 +138,15 @@ class AuthService {
     try {
       final user = currentUser;
       if (user != null) {
-        _logger.info('Updating profile for user: ${user.uid}');
+        logger.info('Updating profile for user: ${user.uid}');
         await user.updateDisplayName(displayName);
         if (photoURL != null) {
           await user.updatePhotoURL(photoURL);
         }
-        _logger.info('Profile updated successfully');
+        logger.info('Profile updated successfully');
       }
     } catch (e) {
-      _logger.error('Update profile error: $e');
+      logger.error('Update profile error: $e');
       rethrow;
     }
   }
@@ -108,12 +156,12 @@ class AuthService {
     try {
       final user = currentUser;
       if (user != null && !user.emailVerified) {
-        _logger.info('Sending email verification to: ${user.email}');
+        logger.info('Sending email verification to: ${user.email}');
         await user.sendEmailVerification();
-        _logger.info('Email verification sent');
+        logger.info('Email verification sent');
       }
     } catch (e) {
-      _logger.error('Send email verification error: $e');
+      logger.error('Send email verification error: $e');
       rethrow;
     }
   }
@@ -124,10 +172,10 @@ class AuthService {
       final user = currentUser;
       if (user != null) {
         await user.reload();
-        _logger.info('User data reloaded');
+        logger.info('User data reloaded');
       }
     } catch (e) {
-      _logger.error('Reload user error: $e');
+      logger.error('Reload user error: $e');
       rethrow;
     }
   }

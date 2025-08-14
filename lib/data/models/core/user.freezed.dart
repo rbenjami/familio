@@ -181,7 +181,7 @@ as List<String>?,
 /// @nodoc
 mixin _$Calendar {
 
-@Id() String get id; String get name; CalendarType get type; bool get isVisibleInHome; String get color;// For external calendars
+@Id() String get id; String get name; bool get isVisibleInHome; String get color; CalendarType get type;// For external calendars
  String? get externalId; String? get accessToken; String? get refreshToken; DateTime? get lastSyncAt; bool get syncEnabled;// For internal calendars
  String? get homeId;
 /// Create a copy of Calendar
@@ -196,16 +196,16 @@ $CalendarCopyWith<Calendar> get copyWith => _$CalendarCopyWithImpl<Calendar>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Calendar&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.isVisibleInHome, isVisibleInHome) || other.isVisibleInHome == isVisibleInHome)&&(identical(other.color, color) || other.color == color)&&(identical(other.externalId, externalId) || other.externalId == externalId)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.lastSyncAt, lastSyncAt) || other.lastSyncAt == lastSyncAt)&&(identical(other.syncEnabled, syncEnabled) || other.syncEnabled == syncEnabled)&&(identical(other.homeId, homeId) || other.homeId == homeId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Calendar&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.isVisibleInHome, isVisibleInHome) || other.isVisibleInHome == isVisibleInHome)&&(identical(other.color, color) || other.color == color)&&(identical(other.type, type) || other.type == type)&&(identical(other.externalId, externalId) || other.externalId == externalId)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.lastSyncAt, lastSyncAt) || other.lastSyncAt == lastSyncAt)&&(identical(other.syncEnabled, syncEnabled) || other.syncEnabled == syncEnabled)&&(identical(other.homeId, homeId) || other.homeId == homeId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,type,isVisibleInHome,color,externalId,accessToken,refreshToken,lastSyncAt,syncEnabled,homeId);
+int get hashCode => Object.hash(runtimeType,id,name,isVisibleInHome,color,type,externalId,accessToken,refreshToken,lastSyncAt,syncEnabled,homeId);
 
 @override
 String toString() {
-  return 'Calendar(id: $id, name: $name, type: $type, isVisibleInHome: $isVisibleInHome, color: $color, externalId: $externalId, accessToken: $accessToken, refreshToken: $refreshToken, lastSyncAt: $lastSyncAt, syncEnabled: $syncEnabled, homeId: $homeId)';
+  return 'Calendar(id: $id, name: $name, isVisibleInHome: $isVisibleInHome, color: $color, type: $type, externalId: $externalId, accessToken: $accessToken, refreshToken: $refreshToken, lastSyncAt: $lastSyncAt, syncEnabled: $syncEnabled, homeId: $homeId)';
 }
 
 
@@ -216,7 +216,7 @@ abstract mixin class $CalendarCopyWith<$Res>  {
   factory $CalendarCopyWith(Calendar value, $Res Function(Calendar) _then) = _$CalendarCopyWithImpl;
 @useResult
 $Res call({
-@Id() String id, String name, CalendarType type, bool isVisibleInHome, String color, String? externalId, String? accessToken, String? refreshToken, DateTime? lastSyncAt, bool syncEnabled, String? homeId
+@Id() String id, String name, bool isVisibleInHome, String color, CalendarType type, String? externalId, String? accessToken, String? refreshToken, DateTime? lastSyncAt, bool syncEnabled, String? homeId
 });
 
 
@@ -233,14 +233,14 @@ class _$CalendarCopyWithImpl<$Res>
 
 /// Create a copy of Calendar
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? type = null,Object? isVisibleInHome = null,Object? color = null,Object? externalId = freezed,Object? accessToken = freezed,Object? refreshToken = freezed,Object? lastSyncAt = freezed,Object? syncEnabled = null,Object? homeId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? isVisibleInHome = null,Object? color = null,Object? type = null,Object? externalId = freezed,Object? accessToken = freezed,Object? refreshToken = freezed,Object? lastSyncAt = freezed,Object? syncEnabled = null,Object? homeId = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as CalendarType,isVisibleInHome: null == isVisibleInHome ? _self.isVisibleInHome : isVisibleInHome // ignore: cast_nullable_to_non_nullable
+as String,isVisibleInHome: null == isVisibleInHome ? _self.isVisibleInHome : isVisibleInHome // ignore: cast_nullable_to_non_nullable
 as bool,color: null == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
-as String,externalId: freezed == externalId ? _self.externalId : externalId // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as CalendarType,externalId: freezed == externalId ? _self.externalId : externalId // ignore: cast_nullable_to_non_nullable
 as String?,accessToken: freezed == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
 as String?,refreshToken: freezed == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable
 as String?,lastSyncAt: freezed == lastSyncAt ? _self.lastSyncAt : lastSyncAt // ignore: cast_nullable_to_non_nullable
@@ -257,14 +257,14 @@ as String?,
 
 @firestoreSerializable
 class _Calendar implements Calendar {
-  const _Calendar({@Id() required this.id, required this.name, required this.type, required this.isVisibleInHome, required this.color, this.externalId, this.accessToken, this.refreshToken, this.lastSyncAt, this.syncEnabled = true, this.homeId});
+  const _Calendar({@Id() required this.id, required this.name, required this.isVisibleInHome, required this.color, required this.type, this.externalId, this.accessToken, this.refreshToken, this.lastSyncAt, this.syncEnabled = true, this.homeId});
   factory _Calendar.fromJson(Map<String, dynamic> json) => _$CalendarFromJson(json);
 
 @override@Id() final  String id;
 @override final  String name;
-@override final  CalendarType type;
 @override final  bool isVisibleInHome;
 @override final  String color;
+@override final  CalendarType type;
 // For external calendars
 @override final  String? externalId;
 @override final  String? accessToken;
@@ -287,16 +287,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Calendar&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.isVisibleInHome, isVisibleInHome) || other.isVisibleInHome == isVisibleInHome)&&(identical(other.color, color) || other.color == color)&&(identical(other.externalId, externalId) || other.externalId == externalId)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.lastSyncAt, lastSyncAt) || other.lastSyncAt == lastSyncAt)&&(identical(other.syncEnabled, syncEnabled) || other.syncEnabled == syncEnabled)&&(identical(other.homeId, homeId) || other.homeId == homeId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Calendar&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.isVisibleInHome, isVisibleInHome) || other.isVisibleInHome == isVisibleInHome)&&(identical(other.color, color) || other.color == color)&&(identical(other.type, type) || other.type == type)&&(identical(other.externalId, externalId) || other.externalId == externalId)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken)&&(identical(other.lastSyncAt, lastSyncAt) || other.lastSyncAt == lastSyncAt)&&(identical(other.syncEnabled, syncEnabled) || other.syncEnabled == syncEnabled)&&(identical(other.homeId, homeId) || other.homeId == homeId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,type,isVisibleInHome,color,externalId,accessToken,refreshToken,lastSyncAt,syncEnabled,homeId);
+int get hashCode => Object.hash(runtimeType,id,name,isVisibleInHome,color,type,externalId,accessToken,refreshToken,lastSyncAt,syncEnabled,homeId);
 
 @override
 String toString() {
-  return 'Calendar(id: $id, name: $name, type: $type, isVisibleInHome: $isVisibleInHome, color: $color, externalId: $externalId, accessToken: $accessToken, refreshToken: $refreshToken, lastSyncAt: $lastSyncAt, syncEnabled: $syncEnabled, homeId: $homeId)';
+  return 'Calendar(id: $id, name: $name, isVisibleInHome: $isVisibleInHome, color: $color, type: $type, externalId: $externalId, accessToken: $accessToken, refreshToken: $refreshToken, lastSyncAt: $lastSyncAt, syncEnabled: $syncEnabled, homeId: $homeId)';
 }
 
 
@@ -307,7 +307,7 @@ abstract mixin class _$CalendarCopyWith<$Res> implements $CalendarCopyWith<$Res>
   factory _$CalendarCopyWith(_Calendar value, $Res Function(_Calendar) _then) = __$CalendarCopyWithImpl;
 @override @useResult
 $Res call({
-@Id() String id, String name, CalendarType type, bool isVisibleInHome, String color, String? externalId, String? accessToken, String? refreshToken, DateTime? lastSyncAt, bool syncEnabled, String? homeId
+@Id() String id, String name, bool isVisibleInHome, String color, CalendarType type, String? externalId, String? accessToken, String? refreshToken, DateTime? lastSyncAt, bool syncEnabled, String? homeId
 });
 
 
@@ -324,14 +324,14 @@ class __$CalendarCopyWithImpl<$Res>
 
 /// Create a copy of Calendar
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? type = null,Object? isVisibleInHome = null,Object? color = null,Object? externalId = freezed,Object? accessToken = freezed,Object? refreshToken = freezed,Object? lastSyncAt = freezed,Object? syncEnabled = null,Object? homeId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? isVisibleInHome = null,Object? color = null,Object? type = null,Object? externalId = freezed,Object? accessToken = freezed,Object? refreshToken = freezed,Object? lastSyncAt = freezed,Object? syncEnabled = null,Object? homeId = freezed,}) {
   return _then(_Calendar(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as CalendarType,isVisibleInHome: null == isVisibleInHome ? _self.isVisibleInHome : isVisibleInHome // ignore: cast_nullable_to_non_nullable
+as String,isVisibleInHome: null == isVisibleInHome ? _self.isVisibleInHome : isVisibleInHome // ignore: cast_nullable_to_non_nullable
 as bool,color: null == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
-as String,externalId: freezed == externalId ? _self.externalId : externalId // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as CalendarType,externalId: freezed == externalId ? _self.externalId : externalId // ignore: cast_nullable_to_non_nullable
 as String?,accessToken: freezed == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
 as String?,refreshToken: freezed == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable
 as String?,lastSyncAt: freezed == lastSyncAt ? _self.lastSyncAt : lastSyncAt // ignore: cast_nullable_to_non_nullable
