@@ -125,7 +125,7 @@ class StatusMessage extends StatelessWidget {
     final color = _getSnackBarColor(context, type);
     final icon = _getSnackBarIcon(type);
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    context.showSnackBar(
       SnackBar(
         content: Row(
           children: [
@@ -141,7 +141,7 @@ class StatusMessage extends StatelessWidget {
           label: 'Dismiss',
           textColor: Colors.white,
           onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            context.hideCurrentSnackBar();
           },
         ),
       ),

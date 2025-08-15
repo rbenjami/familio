@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:familio/core/firebase/firebase_service.dart';
 import 'package:familio/core/logging/logger_service.dart';
 import 'package:familio/data/services/auth_service.dart';
+import 'package:familio/data/services/user_service.dart';
 import 'package:familio/di/injection.dart';
 import 'package:familio/generated/l10n.dart';
 import 'auth_event.dart';
@@ -15,8 +16,9 @@ import 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseService _firebaseService;
   final AuthService _authService;
+  final UserService _userService;
 
-  AuthBloc(this._firebaseService, this._authService)
+  AuthBloc(this._firebaseService, this._authService, this._userService)
     : super(const AuthState()) {
     on<AuthStatusChanged>(_onAuthStatusChanged);
     on<LoginRequested>(_onLoginRequested);
@@ -45,13 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       if (credential.user != null) {
         logger.info('Login successful for user: ${credential.user!.uid}');
-        emit(
-          state.copyWith(
-            uiStatus: AuthUiStatus.authenticated,
-            uid: credential.user!.uid,
-            email: credential.user!.email!,
-          ),
-        );
+        await _loadCurrentUser(credential.user!.uid, emit);
       } else {
         logger.error('Login failed: No user returned');
         emit(
@@ -100,13 +96,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         logger.info(
           'Registration successful for user: ${credential.user!.uid}',
         );
-        emit(
-          state.copyWith(
-            uiStatus: AuthUiStatus.authenticated,
-            uid: credential.user!.uid,
-            email: credential.user!.email!,
-          ),
-        );
+        await _loadCurrentUser(credential.user!.uid, emit);
       } else {
         logger.error('Registration failed: No user returned');
         emit(
@@ -188,6 +178,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           uiStatus: AuthUiStatus.unauthenticated,
           uid: null,
           email: null,
+          currentUser: null,
         ),
       );
     } catch (e, s) {
@@ -204,19 +195,48 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     final user = _firebaseService.auth.currentUser;
     if (event.isAuthenticated && user != null) {
-      emit(
-        state.copyWith(
-          uiStatus: AuthUiStatus.authenticated,
-          uid: user.uid,
-          email: user.email!,
-        ),
-      );
+      await _loadCurrentUser(user.uid, emit);
     } else {
       emit(
         state.copyWith(
           uiStatus: AuthUiStatus.unauthenticated,
           uid: null,
           email: null,
+          currentUser: null,
+        ),
+      );
+    }
+  }
+
+  Future<void> _loadCurrentUser(String firebaseAuthId, Emitter<AuthState> emit) async {
+    try {
+      final user = await _userService.getUserByFirebaseAuthId(firebaseAuthId);
+      final firebaseUser = _firebaseService.auth.currentUser;
+      
+      if (user != null && firebaseUser != null) {
+        emit(
+          state.copyWith(
+            uiStatus: AuthUiStatus.authenticated,
+            uid: firebaseAuthId,
+            email: firebaseUser.email!,
+            currentUser: user,
+          ),
+        );
+      } else {
+        logger.warning('User not found in Firestore for Firebase Auth ID: $firebaseAuthId');
+        emit(
+          state.copyWith(
+            uiStatus: AuthUiStatus.error,
+            error: 'User profile not found',
+          ),
+        );
+      }
+    } catch (e, s) {
+      logger.error('Error loading current user: $e', e, s);
+      emit(
+        state.copyWith(
+          uiStatus: AuthUiStatus.error,
+          error: 'Failed to load user profile',
         ),
       );
     }

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:familio/data/models/models.dart';
 
 part 'auth_state.freezed.dart';
 
@@ -10,6 +11,7 @@ abstract class AuthState with _$AuthState {
     @Default(AuthUiStatus.initial) AuthUiStatus uiStatus,
     String? uid,
     String? email,
+    User? currentUser,
     String? error,
   }) = _AuthState;
 }

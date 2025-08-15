@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import 'package:familio/blocs/task/task_bloc.dart';
 import 'package:familio/blocs/task/task_event.dart';
 import 'package:familio/data/models/models.dart';
+import 'package:familio/core/utils/context_ext.dart';
 
 class TaskFiltersBottomSheet extends StatefulWidget {
   const TaskFiltersBottomSheet({super.key});
@@ -18,26 +18,18 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
   Priority? selectedPriority;
   TaskType? selectedType;
   bool showMyTasksOnly = false;
-  TaskSortBy sortBy = TaskSortBy.createdAt;
-  SortOrder sortOrder = SortOrder.descending;
 
   @override
   void initState() {
     super.initState();
     // Initialize with current filters
     final currentFilters = context.read<TaskBloc>().state.filters;
-    final currentSort = context.read<TaskBloc>().state.sort;
-    
+
     if (currentFilters != null) {
       selectedStatus = currentFilters.status;
       selectedPriority = currentFilters.priority;
       selectedType = currentFilters.type;
       showMyTasksOnly = currentFilters.showMyTasksOnly;
-    }
-    
-    if (currentSort != null) {
-      sortBy = currentSort.sortBy;
-      sortOrder = currentSort.sortOrder;
     }
   }
 
@@ -48,7 +40,7 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
         top: 16,
         left: 16,
         right: 16,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+        bottom: context.mediaQuery.viewInsets.bottom + 16,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -58,45 +50,35 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
           Row(
             children: [
               Text(
-                'Filtres et tri',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                context.s.filters_title,
+                style: context.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const Spacer(),
               TextButton(
                 onPressed: _clearFilters,
-                child: const Text('Tout effacer'),
+                child: Text(context.s.filters_clear_all),
               ),
             ],
           ),
-          
+
           const SizedBox(height: 24),
-          
-          // Filters section
-          Text(
-            'Filtres',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          
-          const SizedBox(height: 16),
-          
+
           // Status filter
           _buildFilterSection(
-            title: 'Statut',
+            title: context.s.filters_status_title,
             child: Wrap(
               spacing: 8,
               children: [
                 _buildFilterChip(
-                  'Tous',
+                  context.s.filters_status_all,
                   selectedStatus == null,
                   () => setState(() => selectedStatus = null),
                 ),
                 ...TaskStatus.values.map((status) {
                   return _buildFilterChip(
-                    _getStatusLabel(status),
+                    _getStatusLabel(status, context),
                     selectedStatus == status,
                     () => setState(() => selectedStatus = status),
                   );
@@ -104,23 +86,23 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Priority filter
           _buildFilterSection(
-            title: 'Priorité',
+            title: context.s.filters_priority_title,
             child: Wrap(
               spacing: 8,
               children: [
                 _buildFilterChip(
-                  'Toutes',
+                  context.s.filters_priority_all,
                   selectedPriority == null,
                   () => setState(() => selectedPriority = null),
                 ),
                 ...Priority.values.map((priority) {
                   return _buildFilterChip(
-                    _getPriorityLabel(priority),
+                    _getPriorityLabel(priority, context),
                     selectedPriority == priority,
                     () => setState(() => selectedPriority = priority),
                   );
@@ -128,23 +110,23 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // Type filter
           _buildFilterSection(
-            title: 'Type',
+            title: context.s.filters_type_title,
             child: Wrap(
               spacing: 8,
               children: [
                 _buildFilterChip(
-                  'Tous',
+                  context.s.filters_type_all,
                   selectedType == null,
                   () => setState(() => selectedType = null),
                 ),
                 ...TaskType.values.map((type) {
                   return _buildFilterChip(
-                    _getTypeLabel(type),
+                    _getTypeLabel(type, context),
                     selectedType == type,
                     () => setState(() => selectedType = type),
                   );
@@ -152,97 +134,26 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 16),
-          
+
           // My tasks only
           CheckboxListTile(
-            title: const Text('Mes tâches uniquement'),
+            title: Text(context.s.filters_my_tasks_only),
             value: showMyTasksOnly,
-            onChanged: (value) => setState(() => showMyTasksOnly = value ?? false),
+            onChanged: (value) =>
+                setState(() => showMyTasksOnly = value ?? false),
             contentPadding: EdgeInsets.zero,
           ),
-          
-          const SizedBox(height: 24),
-          
-          // Sorting section
-          Text(
-            'Tri',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Sort by
-          _buildFilterSection(
-            title: 'Trier par',
-            child: Wrap(
-              spacing: 8,
-              children: TaskSortBy.values.map((sort) {
-                return _buildFilterChip(
-                  _getSortByLabel(sort),
-                  sortBy == sort,
-                  () => setState(() => sortBy = sort),
-                );
-              }).toList(),
-            ),
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Sort order
-          Row(
-            children: [
-              Text(
-                'Ordre',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: SegmentedButton<SortOrder>(
-                  segments: [
-                    ButtonSegment(
-                      value: SortOrder.ascending,
-                      label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          PhosphorIcon(PhosphorIcons.sortAscending(), size: 16),
-                          const SizedBox(width: 4),
-                          const Text('Croissant'),
-                        ],
-                      ),
-                    ),
-                    ButtonSegment(
-                      value: SortOrder.descending,
-                      label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          PhosphorIcon(PhosphorIcons.sortDescending(), size: 16),
-                          const SizedBox(width: 4),
-                          const Text('Décroissant'),
-                        ],
-                      ),
-                    ),
-                  ],
-                  selected: {sortOrder},
-                  onSelectionChanged: (Set<SortOrder> selection) {
-                    setState(() => sortOrder = selection.first);
-                  },
-                ),
-              ),
-            ],
-          ),
-          
+
           const SizedBox(height: 32),
-          
+
           // Apply button
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _applyFilters,
-              child: const Text('Appliquer'),
+              child: Text(context.s.filters_apply_button),
             ),
           ),
         ],
@@ -250,17 +161,11 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
     );
   }
 
-  Widget _buildFilterSection({
-    required String title,
-    required Widget child,
-  }) {
+  Widget _buildFilterSection({required String title, required Widget child}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
+        Text(title, style: context.textTheme.titleSmall),
         const SizedBox(height: 8),
         child,
       ],
@@ -282,8 +187,6 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
       selectedPriority = null;
       selectedType = null;
       showMyTasksOnly = false;
-      sortBy = TaskSortBy.createdAt;
-      sortOrder = SortOrder.descending;
     });
   }
 
@@ -296,64 +199,40 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
         showMyTasksOnly: showMyTasksOnly,
       ),
     );
-    
-    context.read<TaskBloc>().add(
-      ApplySorting(
-        sortBy: sortBy,
-        sortOrder: sortOrder,
-      ),
-    );
-    
+
     Navigator.pop(context);
   }
 
-  String _getStatusLabel(TaskStatus status) {
+  String _getStatusLabel(TaskStatus status, BuildContext context) {
     switch (status) {
       case TaskStatus.todo:
-        return 'À faire';
+        return context.s.task_status_todo;
       case TaskStatus.doing:
-        return 'En cours';
+        return context.s.task_status_doing;
       case TaskStatus.done:
-        return 'Terminé';
+        return context.s.task_status_done;
     }
   }
 
-  String _getPriorityLabel(Priority priority) {
+  String _getPriorityLabel(Priority priority, BuildContext context) {
     switch (priority) {
       case Priority.low:
-        return 'Faible';
+        return context.s.task_priority_low;
       case Priority.medium:
-        return 'Moyenne';
+        return context.s.task_priority_medium;
       case Priority.high:
-        return 'Élevée';
+        return context.s.task_priority_high;
     }
   }
 
-  String _getTypeLabel(TaskType type) {
+  String _getTypeLabel(TaskType type, BuildContext context) {
     switch (type) {
       case TaskType.simple:
-        return 'Simple';
+        return context.s.filters_type_simple;
       case TaskType.checklist:
-        return 'Liste';
+        return context.s.filters_type_checklist;
       case TaskType.scheduled:
-        return 'Programmée';
-    }
-  }
-
-  String _getSortByLabel(TaskSortBy sort) {
-    switch (sort) {
-      case TaskSortBy.createdAt:
-        return 'Date de création';
-      case TaskSortBy.dueDate:
-        return 'Échéance';
-      case TaskSortBy.priority:
-        return 'Priorité';
-      case TaskSortBy.title:
-        return 'Titre';
-      case TaskSortBy.assignedTo:
-        return 'Assigné à';
-      case TaskSortBy.status:
-        return 'Statut';
+        return context.s.filters_type_scheduled;
     }
   }
 }

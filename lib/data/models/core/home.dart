@@ -90,3 +90,22 @@ abstract class Task with _$Task {
 @Collection<Member>('homes/*/members')
 @Collection<Task>('homes/*/tasks')
 final homesRef = HomeCollectionReference();
+
+class HomeDocumentReferenceConverter
+    extends
+        JsonConverter<
+          HomeDocumentReference,
+          DocumentReference<Map<String, dynamic>>
+        > {
+  const HomeDocumentReferenceConverter();
+
+  @override
+  HomeDocumentReference fromJson(
+    DocumentReference<Map<String, dynamic>> json,
+  ) => _$HomeCollectionReference().doc(json.id);
+
+  @override
+  DocumentReference<Map<String, dynamic>> toJson(
+    HomeDocumentReference object,
+  ) => FirebaseFirestore.instance.doc(object.path);
+}

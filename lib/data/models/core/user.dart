@@ -19,6 +19,7 @@ abstract class User with _$User {
     DateTime? birthDate,
     String? firebaseAuthId,
     List<String>? relationshipIds,
+    @Default([]) List<HomeDocumentReference> homes,
   }) = _User;
 
   factory User.fromJson(Map<String, Object?> json) => _$UserFromJson(json);

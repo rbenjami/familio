@@ -96,3 +96,9 @@ context.textTheme; // TextTheme
 context.s; // S
 ```
 
+## Icons
+- Phosphor is used for icons. Ensure all icons are clearly defined in their respective files.
+Example:
+```dart
+PhosphorIcon(PhosphorIconsDuotone.sortAscending)
+```

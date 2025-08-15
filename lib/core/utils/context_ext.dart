@@ -9,4 +9,14 @@ extension ContextExt on BuildContext {
   TextTheme get textTheme => theme.textTheme;
 
   S get s => S.of(this);
+
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
+
+  void showSnackBar(SnackBar snackbar) {
+    ScaffoldMessenger.of(this).showSnackBar(snackbar);
+  }
+
+  void hideCurrentSnackBar() {
+    ScaffoldMessenger.of(this).hideCurrentSnackBar();
+  }
 }

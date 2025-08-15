@@ -115,6 +115,75 @@ class HomeService {
     }
   }
 
+  /// Get homes by IDs
+  Future<List<Home>> getHomesByIds(List<String> homeIds) async {
+    try {
+      logger.info('Fetching homes for homes: $homeIds ');
+
+      final homes = await homesRef.whereDocumentId(whereIn: homeIds).get();
+      logger.info('Found ${homes.docs.length} of ${homeIds.length} homes');
+      return homes.docs.map((doc) => doc.data).toList();
+    } catch (e) {
+      logger.error('Error fetching homes: $e');
+      rethrow;
+    }
+  }
+
+  /// Get homes stream where user is a member
+  Stream<List<Home>> getUserHomesStream(String userId) {
+    try {
+      logger.info('Getting homes stream for user: $userId');
+
+      return homesRef.snapshots().asyncMap((homesSnapshot) async {
+        final userHomes = <Home>[];
+
+        // Check each home to see if user is a member
+        for (final homeDoc in homesSnapshot.docs) {
+          final home = homeDoc.data;
+          final membersSnapshot = await homesRef.doc(home.id).members.get();
+
+          // Check if user is a member of this home
+          final isMember = membersSnapshot.docs.any(
+            (memberDoc) => memberDoc.id == userId,
+          );
+
+          if (isMember) {
+            userHomes.add(home);
+          }
+        }
+
+        return userHomes;
+      });
+    } catch (e) {
+      logger.error('Error getting user homes stream: $e');
+      rethrow;
+    }
+  }
+
+  /// Get user permissions for a specific home
+  Future<MemberPermissions?> getUserPermissions(
+    String homeId,
+    String userId,
+  ) async {
+    try {
+      logger.info('Getting user permissions for home: $homeId, user: $userId');
+
+      final memberDoc = await homesRef.doc(homeId).members.doc(userId).get();
+
+      if (memberDoc.exists) {
+        final member = memberDoc.data;
+        logger.info('Found permissions for user in home');
+        return member?.permissions;
+      } else {
+        logger.info('User is not a member of this home');
+        return null;
+      }
+    } catch (e) {
+      logger.error('Error getting user permissions: $e');
+      rethrow;
+    }
+  }
+
   /// Get default member permissions for new members
   MemberPermissions getDefaultMemberPermissions() {
     return MemberPermissions(

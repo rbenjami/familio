@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:familio/core/utils/context_ext.dart';
 
 class TaskStatsCard extends StatelessWidget {
   final Map<String, int> stats;
@@ -27,14 +28,14 @@ class TaskStatsCard extends StatelessWidget {
               Row(
                 children: [
                   PhosphorIcon(
-                    PhosphorIcons.chartBar(),
+                    PhosphorIconsDuotone.chartBar,
                     size: 20,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: context.colorScheme.primary,
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Statistiques',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    context.s.task_stats_title,
+                    style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -46,17 +47,17 @@ class TaskStatsCard extends StatelessWidget {
                   Expanded(
                     child: _buildStatItem(
                       context,
-                      icon: PhosphorIcons.listBullets(),
-                      label: 'Total',
+                      icon: PhosphorIconsDuotone.listBullets,
+                      label: context.s.task_stats_total,
                       value: total,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: context.colorScheme.primary,
                     ),
                   ),
                   Expanded(
                     child: _buildStatItem(
                       context,
-                      icon: PhosphorIcons.circle(),
-                      label: 'À faire',
+                      icon: PhosphorIconsDuotone.circle,
+                      label: context.s.task_stats_todo,
                       value: todo,
                       color: Colors.grey,
                     ),
@@ -64,8 +65,8 @@ class TaskStatsCard extends StatelessWidget {
                   Expanded(
                     child: _buildStatItem(
                       context,
-                      icon: PhosphorIcons.clockCounterClockwise(),
-                      label: 'En cours',
+                      icon: PhosphorIconsDuotone.clockCounterClockwise,
+                      label: context.s.task_stats_doing,
                       value: doing,
                       color: Colors.orange,
                     ),
@@ -73,8 +74,8 @@ class TaskStatsCard extends StatelessWidget {
                   Expanded(
                     child: _buildStatItem(
                       context,
-                      icon: PhosphorIcons.checkCircle(),
-                      label: 'Terminé',
+                      icon: PhosphorIconsDuotone.checkCircle,
+                      label: context.s.task_stats_done,
                       value: done,
                       color: Colors.green,
                     ),
@@ -84,26 +85,32 @@ class TaskStatsCard extends StatelessWidget {
               if (overdue > 0) ...[
                 const SizedBox(height: 12),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
+                    color: Colors.red.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.red.withOpacity(0.3)),
+                    border: Border.all(
+                      color: Colors.red.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Row(
                     children: [
                       PhosphorIcon(
-                        PhosphorIcons.warning(),
+                        PhosphorIconsDuotone.warning,
                         size: 16,
                         color: Colors.red,
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '$overdue tâche(s) en retard',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        context.s.task_stats_overdue(overdue),
+                        style: context.textTheme.labelMedium
+                            ?.copyWith(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w500,
+                            ),
                       ),
                     ],
                   ),
@@ -125,15 +132,11 @@ class TaskStatsCard extends StatelessWidget {
   }) {
     return Column(
       children: [
-        PhosphorIcon(
-          icon,
-          size: 24,
-          color: color,
-        ),
+        PhosphorIcon(icon, size: 24, color: color),
         const SizedBox(height: 4),
         Text(
           value.toString(),
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          style: context.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: color,
           ),
@@ -141,8 +144,8 @@ class TaskStatsCard extends StatelessWidget {
         const SizedBox(height: 2),
         Text(
           label,
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+          style: context.textTheme.labelSmall?.copyWith(
+            color: context.colorScheme.onSurface.withValues(alpha: 0.6),
           ),
           textAlign: TextAlign.center,
         ),

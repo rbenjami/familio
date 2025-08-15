@@ -6,11 +6,16 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:familio/blocs/task/task_bloc.dart';
 import 'package:familio/blocs/task/task_event.dart';
 import 'package:familio/blocs/task/task_state.dart';
+import 'package:familio/blocs/home/home_bloc.dart';
+import 'package:familio/blocs/home/home_state.dart';
+import 'package:familio/blocs/home/home_event.dart';
+import 'package:familio/blocs/auth/auth_bloc.dart';
 import 'package:familio/data/models/models.dart';
 import 'package:familio/widgets/tasks/task_list_item.dart';
 import 'package:familio/widgets/tasks/task_filters_bottom_sheet.dart';
-import 'package:familio/widgets/tasks/task_stats_card.dart';
+import 'package:familio/widgets/tasks/task_sort_bottom_sheet.dart';
 import 'package:familio/di/injection.dart';
+import 'package:familio/core/utils/context_ext.dart';
 
 @RoutePage()
 class TasksPage extends StatefulWidget {
@@ -21,115 +26,57 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
-  late final TaskBloc _taskBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _taskBloc = getIt<TaskBloc>();
-    // TODO: Get homeId from current user/context
-    _taskBloc.add(const LoadTasks(homeId: 'demo-home-id'));
-  }
+  final AuthBloc _authBloc = getIt<AuthBloc>();
+  final TaskBloc _taskBloc = getIt<TaskBloc>();
+  final HomeBloc _homeBloc = getIt<HomeBloc>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tâches'),
-        actions: [
-          IconButton(
-            icon: PhosphorIcon(PhosphorIcons.funnel()),
-            onPressed: () => _showFiltersBottomSheet(context),
-          ),
-          IconButton(
-            icon: PhosphorIcon(PhosphorIcons.plus()),
-            onPressed: () => _showCreateTaskDialog(context),
-          ),
-        ],
-      ),
-      body: BlocBuilder<TaskBloc, TaskState>(
-        builder: (context, state) {
-          switch (state.uiStatus) {
-            case TaskUiStatus.initial:
-            case TaskUiStatus.loading:
-              return const Center(child: CircularProgressIndicator());
-
-            case TaskUiStatus.error:
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    PhosphorIcon(
-                      PhosphorIconsDuotone.warning,
-                      size: 64,
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Erreur de chargement',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      state.error ?? 'Une erreur inattendue s\'est produite',
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () => _taskBloc.add(RefreshTasks()),
-                      child: const Text('Réessayer'),
-                    ),
-                  ],
-                ),
-              );
-
-            case TaskUiStatus.loaded:
-            case TaskUiStatus.creating:
-            case TaskUiStatus.updating:
-            case TaskUiStatus.deleting:
-              return Column(
-                children: [
-                  // Task stats card
-                  TaskStatsCard(stats: state.taskStats),
-
-                  // Task list
-                  Expanded(
-                    child: state.filteredTasks.isEmpty
-                        ? _buildEmptyState(context)
-                        : ListView.builder(
-                            padding: const EdgeInsets.all(16),
-                            itemCount: state.filteredTasks.length,
-                            itemBuilder: (context, index) {
-                              final task = state.filteredTasks[index];
-                              return TaskListItem(
-                                task: task,
-                                onStatusChanged: (status) => _taskBloc.add(
-                                  UpdateTaskStatus(
-                                    homeId: task.homeId,
-                                    taskId: task.id,
-                                    status: status,
-                                  ),
-                                ),
-                                onSubTaskToggled: (subTaskIndex) =>
-                                    _taskBloc.add(
-                                      ToggleSubTask(
-                                        homeId: task.homeId,
-                                        taskId: task.id,
-                                        subTaskIndex: subTaskIndex,
-                                      ),
-                                    ),
-                                onTap: () => _showTaskDetails(context, task),
-                              );
-                            },
-                          ),
-                  ),
-                ],
-              );
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showCreateTaskDialog(context),
-        child: PhosphorIcon(PhosphorIconsDuotone.plusCircle),
+    // Load user homes if current user is available
+    if (_authBloc.state.currentUser != null) {
+      _homeBloc.add(LoadUserHomes(user: _authBloc.state.currentUser!));
+    }
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, homeState) {
+        // When a home is selected, load tasks for that home
+        if (homeState.selectedHome != null) {
+          _taskBloc.add(LoadTasks(homeId: homeState.selectedHome!.id));
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(context.s.tasks_title),
+          actions: [
+            IconButton(
+              icon: PhosphorIcon(PhosphorIconsDuotone.funnel),
+              onPressed: () => _showFiltersBottomSheet(context),
+              tooltip: context.s.tasks_filters_tooltip,
+            ),
+            IconButton(
+              icon: PhosphorIcon(PhosphorIconsDuotone.sortAscending),
+              onPressed: () => _showSortBottomSheet(context),
+              tooltip: context.s.tasks_sort_tooltip,
+            ),
+          ],
+        ),
+        body: BlocBuilder<TaskBloc, TaskState>(
+          builder: (context, state) {
+            return switch (state.uiStatus) {
+              TaskUiStatus.initial || TaskUiStatus.loading => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              TaskUiStatus.error => buildError(context, state),
+              TaskUiStatus.loaded ||
+              TaskUiStatus.creating ||
+              TaskUiStatus.updating ||
+              TaskUiStatus.deleting => buildContent(context, state),
+            };
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _showCreateTaskDialog(context),
+          child: PhosphorIcon(PhosphorIconsDuotone.plusCircle),
+        ),
       ),
     );
   }
@@ -148,27 +95,90 @@ class _TasksPageState extends State<TasksPage> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Aucune tâche',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.6),
+            context.s.tasks_empty_title,
+            style: context.textTheme.headlineSmall?.copyWith(
+              color: context.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Créez votre première tâche pour commencer',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.6),
+            context.s.tasks_empty_subtitle,
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: context.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: () => _showCreateTaskDialog(context),
-            icon: PhosphorIcon(PhosphorIconsDuotone.plus),
-            label: const Text('Créer une tâche'),
+            icon: PhosphorIcon(PhosphorIconsDuotone.plusCircle),
+            label: Text(context.s.tasks_create_button),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildContent(BuildContext context, TaskState state) {
+    return Column(
+      children: [
+        // Task stats card
+        // TaskStatsCard(stats: state.taskStats),
+
+        // Task list
+        Expanded(
+          child: state.filteredTasks.isEmpty
+              ? _buildEmptyState(context)
+              : ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: state.filteredTasks.length,
+                  itemBuilder: (context, index) {
+                    final task = state.filteredTasks[index];
+                    return TaskListItem(
+                      task: task,
+                      onStatusChanged: (status) => _taskBloc.add(
+                        UpdateTaskStatus(
+                          homeId: task.homeId,
+                          taskId: task.id,
+                          status: status,
+                        ),
+                      ),
+                      onSubTaskToggled: (subTaskIndex) => _taskBloc.add(
+                        ToggleSubTask(
+                          homeId: task.homeId,
+                          taskId: task.id,
+                          subTaskIndex: subTaskIndex,
+                        ),
+                      ),
+                      onTap: () => _showTaskDetails(context, task),
+                    );
+                  },
+                ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildError(BuildContext context, TaskState state) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          PhosphorIcon(
+            PhosphorIconsDuotone.warning,
+            size: 64,
+            color: context.colorScheme.error,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            context.s.tasks_error_loading,
+            style: context.textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 8),
+          Text(state.error ?? context.s.tasks_error_unexpected),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => _taskBloc.add(RefreshTasks()),
+            child: Text(context.s.tasks_retry_button),
           ),
         ],
       ),
@@ -179,30 +189,29 @@ class _TasksPageState extends State<TasksPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => BlocProvider.value(
-        value: _taskBloc,
-        child: const TaskFiltersBottomSheet(),
-      ),
+      builder: (context) => const TaskFiltersBottomSheet(),
+    );
+  }
+
+  void _showSortBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => const TaskSortBottomSheet(),
     );
   }
 
   void _showCreateTaskDialog(BuildContext context) {
     // TODO: Implement create task dialog
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Création de tâche à implémenter')),
+    context.showSnackBar(
+      SnackBar(content: Text(context.s.tasks_create_placeholder)),
     );
   }
 
   void _showTaskDetails(BuildContext context, Task task) {
     // TODO: Implement task details dialog/page
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Détails de la tâche: ${task.title}')),
+    context.showSnackBar(
+      SnackBar(content: Text(context.s.tasks_details_placeholder(task.title))),
     );
-  }
-
-  @override
-  void dispose() {
-    _taskBloc.close();
-    super.dispose();
   }
 }

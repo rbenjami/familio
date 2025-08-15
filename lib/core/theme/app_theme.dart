@@ -27,6 +27,7 @@ class AppTheme {
 
   /// Neutral colors
   static const Color backgroundColor = Color(0xFFF7FFF8);
+  static const Color secondaryBackgroundColor = Color(0xFFE0DDDD);
   static const Color surfaceColor = Colors.white;
   static const Color cardColor = Colors.white;
 
@@ -35,7 +36,8 @@ class AppTheme {
   static const Color textSecondaryColor = Color(0xFF807373);
   static const Color textDisabledColor = Color(0xFFBDBDBD);
 
-  static BorderRadius borderRadius = BorderRadius.circular(32);
+  static BorderRadius borderRadius = BorderRadius.circular(16);
+  static BorderRadius mediumBorderRadius = BorderRadius.circular(12);
 
   /// Light theme
   static ThemeData lightTheme = ThemeData(
@@ -58,14 +60,14 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: backgroundColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: primaryColor,
-      foregroundColor: Colors.white,
+      backgroundColor: secondaryBackgroundColor,
+      foregroundColor: secondaryLightColor,
       elevation: 0,
     ),
     cardTheme: CardThemeData(
       color: cardColor,
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: borderRadius),
+      shape: RoundedSuperellipseBorder(borderRadius: borderRadius),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -79,14 +81,14 @@ class AppTheme {
       style: OutlinedButton.styleFrom(
         foregroundColor: primaryDarkColor,
         side: const BorderSide(color: primaryColor),
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        shape: RoundedSuperellipseBorder(borderRadius: borderRadius),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: primaryDarkColor,
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        shape: RoundedSuperellipseBorder(borderRadius: borderRadius),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
     ),
@@ -97,7 +99,7 @@ class AppTheme {
       border: OutlineInputBorder(borderRadius: borderRadius),
       enabledBorder: OutlineInputBorder(
         borderRadius: borderRadius,
-        borderSide: const BorderSide(color: Color(0xFFDDDDDD)),
+        borderSide: const BorderSide(color: secondaryBackgroundColor),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: borderRadius,
@@ -115,6 +117,7 @@ class AppTheme {
         selectedForegroundColor: secondaryDarkColor,
         foregroundColor: secondaryColor,
         backgroundColor: backgroundColor,
+        shape: RoundedSuperellipseBorder(borderRadius: mediumBorderRadius),
       ),
     ),
     textTheme: GoogleFonts.manropeTextTheme(
@@ -137,11 +140,35 @@ class AppTheme {
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Color(0xFFE0DDDD),
+      backgroundColor: secondaryBackgroundColor,
       selectedItemColor: primaryDarkColor,
       unselectedItemColor: textSecondaryColor,
       type: BottomNavigationBarType.fixed,
       elevation: 8,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: primaryColor,
+      foregroundColor: secondaryLightColor,
+      shape: RoundedSuperellipseBorder(borderRadius: borderRadius),
+    ),
+    checkboxTheme: CheckboxThemeData(
+      checkColor: WidgetStateProperty.all(secondaryLightColor),
+      fillColor: WidgetStateProperty.all(primaryColor),
+      overlayColor: WidgetStateProperty.all(primaryColor),
+      splashRadius: 20,
+      shape: RoundedSuperellipseBorder(borderRadius: BorderRadius.circular(6)),
+    ),
+    chipTheme: ChipThemeData(
+      // labelStyle: labelLarge,
+      selectedColor: secondaryLightColor.withValues(alpha: 0.5),
+      shape: RoundedSuperellipseBorder(
+        borderRadius: mediumBorderRadius,
+        side: BorderSide(color: secondaryColor, width: 1),
+      ),
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: backgroundColor,
+      shape: RoundedSuperellipseBorder(borderRadius: borderRadius),
     ),
   );
 

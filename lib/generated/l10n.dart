@@ -713,6 +713,511 @@ class S {
       args: [],
     );
   }
+
+  /// `Tasks`
+  String get tasks_title {
+    return Intl.message('Tasks', name: 'tasks_title', desc: '', args: []);
+  }
+
+  /// `Filters`
+  String get tasks_filters_tooltip {
+    return Intl.message(
+      'Filters',
+      name: 'tasks_filters_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort`
+  String get tasks_sort_tooltip {
+    return Intl.message('Sort', name: 'tasks_sort_tooltip', desc: '', args: []);
+  }
+
+  /// `Create task`
+  String get tasks_create_tooltip {
+    return Intl.message(
+      'Create task',
+      name: 'tasks_create_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No tasks`
+  String get tasks_empty_title {
+    return Intl.message(
+      'No tasks',
+      name: 'tasks_empty_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create your first task to get started`
+  String get tasks_empty_subtitle {
+    return Intl.message(
+      'Create your first task to get started',
+      name: 'tasks_empty_subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create task`
+  String get tasks_create_button {
+    return Intl.message(
+      'Create task',
+      name: 'tasks_create_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading error`
+  String get tasks_error_loading {
+    return Intl.message(
+      'Loading error',
+      name: 'tasks_error_loading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unexpected error occurred`
+  String get tasks_error_unexpected {
+    return Intl.message(
+      'An unexpected error occurred',
+      name: 'tasks_error_unexpected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get tasks_retry_button {
+    return Intl.message(
+      'Retry',
+      name: 'tasks_retry_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Task creation to be implemented`
+  String get tasks_create_placeholder {
+    return Intl.message(
+      'Task creation to be implemented',
+      name: 'tasks_create_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Task details: {title}`
+  String tasks_details_placeholder(Object title) {
+    return Intl.message(
+      'Task details: $title',
+      name: 'tasks_details_placeholder',
+      desc: '',
+      args: [title],
+    );
+  }
+
+  /// `Statistics`
+  String get task_stats_title {
+    return Intl.message(
+      'Statistics',
+      name: 'task_stats_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total`
+  String get task_stats_total {
+    return Intl.message('Total', name: 'task_stats_total', desc: '', args: []);
+  }
+
+  /// `To do`
+  String get task_stats_todo {
+    return Intl.message('To do', name: 'task_stats_todo', desc: '', args: []);
+  }
+
+  /// `In progress`
+  String get task_stats_doing {
+    return Intl.message(
+      'In progress',
+      name: 'task_stats_doing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get task_stats_done {
+    return Intl.message('Done', name: 'task_stats_done', desc: '', args: []);
+  }
+
+  /// `{count} overdue task(s)`
+  String task_stats_overdue(Object count) {
+    return Intl.message(
+      '$count overdue task(s)',
+      name: 'task_stats_overdue',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Simple task`
+  String get task_type_simple {
+    return Intl.message(
+      'Simple task',
+      name: 'task_type_simple',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checklist`
+  String get task_type_checklist {
+    return Intl.message(
+      'Checklist',
+      name: 'task_type_checklist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scheduled task`
+  String get task_type_scheduled {
+    return Intl.message(
+      'Scheduled task',
+      name: 'task_type_scheduled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To do`
+  String get task_status_todo {
+    return Intl.message('To do', name: 'task_status_todo', desc: '', args: []);
+  }
+
+  /// `In progress`
+  String get task_status_doing {
+    return Intl.message(
+      'In progress',
+      name: 'task_status_doing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get task_status_done {
+    return Intl.message('Done', name: 'task_status_done', desc: '', args: []);
+  }
+
+  /// `Low`
+  String get task_priority_low {
+    return Intl.message('Low', name: 'task_priority_low', desc: '', args: []);
+  }
+
+  /// `Medium`
+  String get task_priority_medium {
+    return Intl.message(
+      'Medium',
+      name: 'task_priority_medium',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `High`
+  String get task_priority_high {
+    return Intl.message('High', name: 'task_priority_high', desc: '', args: []);
+  }
+
+  /// `{count} assigned`
+  String task_assigned_count(Object count) {
+    return Intl.message(
+      '$count assigned',
+      name: 'task_assigned_count',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{completed}/{total} subtasks`
+  String task_subtasks_progress(Object completed, Object total) {
+    return Intl.message(
+      '$completed/$total subtasks',
+      name: 'task_subtasks_progress',
+      desc: '',
+      args: [completed, total],
+    );
+  }
+
+  /// `Today`
+  String get task_due_today {
+    return Intl.message('Today', name: 'task_due_today', desc: '', args: []);
+  }
+
+  /// `Tomorrow`
+  String get task_due_tomorrow {
+    return Intl.message(
+      'Tomorrow',
+      name: 'task_due_tomorrow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yesterday`
+  String get task_due_yesterday {
+    return Intl.message(
+      'Yesterday',
+      name: 'task_due_yesterday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{days} day(s) overdue`
+  String task_due_overdue_days(Object days) {
+    return Intl.message(
+      '$days day(s) overdue',
+      name: 'task_due_overdue_days',
+      desc: '',
+      args: [days],
+    );
+  }
+
+  /// `In {days} day(s)`
+  String task_due_in_days(Object days) {
+    return Intl.message(
+      'In $days day(s)',
+      name: 'task_due_in_days',
+      desc: '',
+      args: [days],
+    );
+  }
+
+  /// `Filters`
+  String get filters_title {
+    return Intl.message('Filters', name: 'filters_title', desc: '', args: []);
+  }
+
+  /// `Clear all`
+  String get filters_clear_all {
+    return Intl.message(
+      'Clear all',
+      name: 'filters_clear_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status`
+  String get filters_status_title {
+    return Intl.message(
+      'Status',
+      name: 'filters_status_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get filters_status_all {
+    return Intl.message('All', name: 'filters_status_all', desc: '', args: []);
+  }
+
+  /// `Priority`
+  String get filters_priority_title {
+    return Intl.message(
+      'Priority',
+      name: 'filters_priority_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get filters_priority_all {
+    return Intl.message(
+      'All',
+      name: 'filters_priority_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type`
+  String get filters_type_title {
+    return Intl.message('Type', name: 'filters_type_title', desc: '', args: []);
+  }
+
+  /// `All`
+  String get filters_type_all {
+    return Intl.message('All', name: 'filters_type_all', desc: '', args: []);
+  }
+
+  /// `Simple`
+  String get filters_type_simple {
+    return Intl.message(
+      'Simple',
+      name: 'filters_type_simple',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checklist`
+  String get filters_type_checklist {
+    return Intl.message(
+      'Checklist',
+      name: 'filters_type_checklist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scheduled`
+  String get filters_type_scheduled {
+    return Intl.message(
+      'Scheduled',
+      name: 'filters_type_scheduled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My tasks only`
+  String get filters_my_tasks_only {
+    return Intl.message(
+      'My tasks only',
+      name: 'filters_my_tasks_only',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply`
+  String get filters_apply_button {
+    return Intl.message(
+      'Apply',
+      name: 'filters_apply_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort`
+  String get sort_title {
+    return Intl.message('Sort', name: 'sort_title', desc: '', args: []);
+  }
+
+  /// `Default`
+  String get sort_default_button {
+    return Intl.message(
+      'Default',
+      name: 'sort_default_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort by`
+  String get sort_by_title {
+    return Intl.message('Sort by', name: 'sort_by_title', desc: '', args: []);
+  }
+
+  /// `Order`
+  String get sort_order_title {
+    return Intl.message('Order', name: 'sort_order_title', desc: '', args: []);
+  }
+
+  /// `Ascending`
+  String get sort_order_ascending {
+    return Intl.message(
+      'Ascending',
+      name: 'sort_order_ascending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Descending`
+  String get sort_order_descending {
+    return Intl.message(
+      'Descending',
+      name: 'sort_order_descending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Created date`
+  String get sort_by_created_date {
+    return Intl.message(
+      'Created date',
+      name: 'sort_by_created_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Due date`
+  String get sort_by_due_date {
+    return Intl.message(
+      'Due date',
+      name: 'sort_by_due_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Priority`
+  String get sort_by_priority {
+    return Intl.message(
+      'Priority',
+      name: 'sort_by_priority',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Title`
+  String get sort_by_task_title {
+    return Intl.message(
+      'Title',
+      name: 'sort_by_task_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Assigned to`
+  String get sort_by_assigned_to {
+    return Intl.message(
+      'Assigned to',
+      name: 'sort_by_assigned_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status`
+  String get sort_by_status {
+    return Intl.message('Status', name: 'sort_by_status', desc: '', args: []);
+  }
+
+  /// `Apply`
+  String get sort_apply_button {
+    return Intl.message('Apply', name: 'sort_apply_button', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

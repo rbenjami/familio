@@ -20,6 +20,18 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'fr';
 
+  static String m0(count) => "${count} assigné(s)";
+
+  static String m1(days) => "Dans ${days} jour(s)";
+
+  static String m2(days) => "En retard de ${days} jour(s)";
+
+  static String m3(count) => "${count} tâche(s) en retard";
+
+  static String m4(completed, total) => "${completed}/${total} sous-tâches";
+
+  static String m5(title) => "Détails de la tâche: ${title}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "appTitle": MessageLookupByLibrary.simpleMessage("Familio"),
@@ -209,11 +221,95 @@ class MessageLookup extends MessageLookupByLibrary {
       "S\'inscrire",
     ),
     "auth_register_title": MessageLookupByLibrary.simpleMessage("Inscription"),
+    "filters_apply_button": MessageLookupByLibrary.simpleMessage("Appliquer"),
+    "filters_clear_all": MessageLookupByLibrary.simpleMessage("Tout effacer"),
+    "filters_my_tasks_only": MessageLookupByLibrary.simpleMessage(
+      "Mes tâches uniquement",
+    ),
+    "filters_priority_all": MessageLookupByLibrary.simpleMessage("Toutes"),
+    "filters_priority_title": MessageLookupByLibrary.simpleMessage("Priorité"),
+    "filters_status_all": MessageLookupByLibrary.simpleMessage("Tous"),
+    "filters_status_title": MessageLookupByLibrary.simpleMessage("Statut"),
+    "filters_title": MessageLookupByLibrary.simpleMessage("Filtres"),
+    "filters_type_all": MessageLookupByLibrary.simpleMessage("Tous"),
+    "filters_type_checklist": MessageLookupByLibrary.simpleMessage("Liste"),
+    "filters_type_scheduled": MessageLookupByLibrary.simpleMessage(
+      "Programmée",
+    ),
+    "filters_type_simple": MessageLookupByLibrary.simpleMessage("Simple"),
+    "filters_type_title": MessageLookupByLibrary.simpleMessage("Type"),
     "home_welcomeSubtitle": MessageLookupByLibrary.simpleMessage(
       "Votre espace familial connecté",
     ),
     "home_welcomeTitle": MessageLookupByLibrary.simpleMessage(
       "Bienvenue sur Familio !",
     ),
+    "sort_apply_button": MessageLookupByLibrary.simpleMessage("Appliquer"),
+    "sort_by_assigned_to": MessageLookupByLibrary.simpleMessage("Assigné à"),
+    "sort_by_created_date": MessageLookupByLibrary.simpleMessage(
+      "Date de création",
+    ),
+    "sort_by_due_date": MessageLookupByLibrary.simpleMessage("Échéance"),
+    "sort_by_priority": MessageLookupByLibrary.simpleMessage("Priorité"),
+    "sort_by_status": MessageLookupByLibrary.simpleMessage("Statut"),
+    "sort_by_task_title": MessageLookupByLibrary.simpleMessage("Titre"),
+    "sort_by_title": MessageLookupByLibrary.simpleMessage("Trier par"),
+    "sort_default_button": MessageLookupByLibrary.simpleMessage("Par défaut"),
+    "sort_order_ascending": MessageLookupByLibrary.simpleMessage("Croissant"),
+    "sort_order_descending": MessageLookupByLibrary.simpleMessage(
+      "Décroissant",
+    ),
+    "sort_order_title": MessageLookupByLibrary.simpleMessage("Ordre"),
+    "sort_title": MessageLookupByLibrary.simpleMessage("Tri"),
+    "task_assigned_count": m0,
+    "task_due_in_days": m1,
+    "task_due_overdue_days": m2,
+    "task_due_today": MessageLookupByLibrary.simpleMessage("Aujourd\'hui"),
+    "task_due_tomorrow": MessageLookupByLibrary.simpleMessage("Demain"),
+    "task_due_yesterday": MessageLookupByLibrary.simpleMessage("Hier"),
+    "task_priority_high": MessageLookupByLibrary.simpleMessage("Élevée"),
+    "task_priority_low": MessageLookupByLibrary.simpleMessage("Faible"),
+    "task_priority_medium": MessageLookupByLibrary.simpleMessage("Moyenne"),
+    "task_stats_doing": MessageLookupByLibrary.simpleMessage("En cours"),
+    "task_stats_done": MessageLookupByLibrary.simpleMessage("Terminé"),
+    "task_stats_overdue": m3,
+    "task_stats_title": MessageLookupByLibrary.simpleMessage("Statistiques"),
+    "task_stats_todo": MessageLookupByLibrary.simpleMessage("À faire"),
+    "task_stats_total": MessageLookupByLibrary.simpleMessage("Total"),
+    "task_status_doing": MessageLookupByLibrary.simpleMessage("En cours"),
+    "task_status_done": MessageLookupByLibrary.simpleMessage("Terminé"),
+    "task_status_todo": MessageLookupByLibrary.simpleMessage("À faire"),
+    "task_subtasks_progress": m4,
+    "task_type_checklist": MessageLookupByLibrary.simpleMessage(
+      "Liste de contrôle",
+    ),
+    "task_type_scheduled": MessageLookupByLibrary.simpleMessage(
+      "Tâche programmée",
+    ),
+    "task_type_simple": MessageLookupByLibrary.simpleMessage("Tâche simple"),
+    "tasks_create_button": MessageLookupByLibrary.simpleMessage(
+      "Créer une tâche",
+    ),
+    "tasks_create_placeholder": MessageLookupByLibrary.simpleMessage(
+      "Création de tâche à implémenter",
+    ),
+    "tasks_create_tooltip": MessageLookupByLibrary.simpleMessage(
+      "Créer une tâche",
+    ),
+    "tasks_details_placeholder": m5,
+    "tasks_empty_subtitle": MessageLookupByLibrary.simpleMessage(
+      "Créez votre première tâche pour commencer",
+    ),
+    "tasks_empty_title": MessageLookupByLibrary.simpleMessage("Aucune tâche"),
+    "tasks_error_loading": MessageLookupByLibrary.simpleMessage(
+      "Erreur de chargement",
+    ),
+    "tasks_error_unexpected": MessageLookupByLibrary.simpleMessage(
+      "Une erreur inattendue s\'est produite",
+    ),
+    "tasks_filters_tooltip": MessageLookupByLibrary.simpleMessage("Filtres"),
+    "tasks_retry_button": MessageLookupByLibrary.simpleMessage("Réessayer"),
+    "tasks_sort_tooltip": MessageLookupByLibrary.simpleMessage("Tri"),
+    "tasks_title": MessageLookupByLibrary.simpleMessage("Tâches"),
   };
 }

@@ -35,7 +35,7 @@ class _AuthPageState extends State<AuthPage> {
               break;
             case AuthUiStatus.error:
               if (state.error != null) {
-                ScaffoldMessenger.of(context).showSnackBar(
+                context.showSnackBar(
                   SnackBar(
                     content: Text(state.error!),
                     backgroundColor: context.colorScheme.error,

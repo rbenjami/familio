@@ -138,6 +138,7 @@ abstract class UserDocumentReference
     FieldValue birthDateFieldValue,
     FieldValue firebaseAuthIdFieldValue,
     FieldValue relationshipIdsFieldValue,
+    FieldValue homesFieldValue,
   });
 
   /// Writes to the document using the transaction API.
@@ -156,6 +157,7 @@ abstract class UserDocumentReference
     FieldValue birthDateFieldValue,
     FieldValue firebaseAuthIdFieldValue,
     FieldValue relationshipIdsFieldValue,
+    FieldValue homesFieldValue,
   });
 
   /// Writes to the document using the batch API.
@@ -174,6 +176,7 @@ abstract class UserDocumentReference
     FieldValue birthDateFieldValue,
     FieldValue firebaseAuthIdFieldValue,
     FieldValue relationshipIdsFieldValue,
+    FieldValue homesFieldValue,
   });
 
   /// Updates data on the document. Data will be merged with any existing
@@ -191,6 +194,8 @@ abstract class UserDocumentReference
     FieldValue firebaseAuthIdFieldValue,
     List<String>? relationshipIds,
     FieldValue relationshipIdsFieldValue,
+    List<HomeDocumentReference> homes,
+    FieldValue homesFieldValue,
   });
 
   /// Updates fields in the current document using the transaction API.
@@ -208,6 +213,8 @@ abstract class UserDocumentReference
     FieldValue firebaseAuthIdFieldValue,
     List<String>? relationshipIds,
     FieldValue relationshipIdsFieldValue,
+    List<HomeDocumentReference> homes,
+    FieldValue homesFieldValue,
   });
 
   /// Updates fields in the current document using the batch API.
@@ -225,6 +232,8 @@ abstract class UserDocumentReference
     FieldValue firebaseAuthIdFieldValue,
     List<String>? relationshipIds,
     FieldValue relationshipIdsFieldValue,
+    List<HomeDocumentReference> homes,
+    FieldValue homesFieldValue,
   });
 }
 
@@ -267,6 +276,7 @@ class _$UserDocumentReference
     FieldValue? birthDateFieldValue,
     FieldValue? firebaseAuthIdFieldValue,
     FieldValue? relationshipIdsFieldValue,
+    FieldValue? homesFieldValue,
   }) async {
     final json = {
       ...model.toJson(),
@@ -282,6 +292,8 @@ class _$UserDocumentReference
 
       if (relationshipIdsFieldValue != null)
         _$UserFieldMap['relationshipIds']!: relationshipIdsFieldValue,
+
+      if (homesFieldValue != null) _$UserFieldMap['homes']!: homesFieldValue,
     };
 
     final castedReference = reference.withConverter<Map<String, dynamic>>(
@@ -300,6 +312,7 @@ class _$UserDocumentReference
     FieldValue? birthDateFieldValue,
     FieldValue? firebaseAuthIdFieldValue,
     FieldValue? relationshipIdsFieldValue,
+    FieldValue? homesFieldValue,
   }) {
     final json = {
       ...model.toJson(),
@@ -315,6 +328,8 @@ class _$UserDocumentReference
 
       if (relationshipIdsFieldValue != null)
         _$UserFieldMap['relationshipIds']!: relationshipIdsFieldValue,
+
+      if (homesFieldValue != null) _$UserFieldMap['homes']!: homesFieldValue,
     };
 
     transaction.set(reference, json, options);
@@ -329,6 +344,7 @@ class _$UserDocumentReference
     FieldValue? birthDateFieldValue,
     FieldValue? firebaseAuthIdFieldValue,
     FieldValue? relationshipIdsFieldValue,
+    FieldValue? homesFieldValue,
   }) {
     final json = {
       ...model.toJson(),
@@ -344,6 +360,8 @@ class _$UserDocumentReference
 
       if (relationshipIdsFieldValue != null)
         _$UserFieldMap['relationshipIds']!: relationshipIdsFieldValue,
+
+      if (homesFieldValue != null) _$UserFieldMap['homes']!: homesFieldValue,
     };
 
     batch.set(reference, json, options);
@@ -360,6 +378,8 @@ class _$UserDocumentReference
     FieldValue? firebaseAuthIdFieldValue,
     Object? relationshipIds = _sentinel,
     FieldValue? relationshipIdsFieldValue,
+    Object? homes = _sentinel,
+    FieldValue? homesFieldValue,
   }) async {
     assert(
       name == _sentinel || nameFieldValue == null,
@@ -381,6 +401,10 @@ class _$UserDocumentReference
       relationshipIds == _sentinel || relationshipIdsFieldValue == null,
       "Cannot specify both relationshipIds and relationshipIdsFieldValue",
     );
+    assert(
+      homes == _sentinel || homesFieldValue == null,
+      "Cannot specify both homes and homesFieldValue",
+    );
     final json = {
       if (name != _sentinel)
         _$UserFieldMap['name']!: _$UserPerFieldToJson.name(name as String),
@@ -416,6 +440,13 @@ class _$UserDocumentReference
 
       if (relationshipIdsFieldValue != null)
         _$UserFieldMap['relationshipIds']!: relationshipIdsFieldValue,
+
+      if (homes != _sentinel)
+        _$UserFieldMap['homes']!: _$UserPerFieldToJson.homes(
+          homes as List<HomeDocumentReference>,
+        ),
+
+      if (homesFieldValue != null) _$UserFieldMap['homes']!: homesFieldValue,
     };
 
     return reference.update(json);
@@ -433,6 +464,8 @@ class _$UserDocumentReference
     FieldValue? firebaseAuthIdFieldValue,
     Object? relationshipIds = _sentinel,
     FieldValue? relationshipIdsFieldValue,
+    Object? homes = _sentinel,
+    FieldValue? homesFieldValue,
   }) {
     assert(
       name == _sentinel || nameFieldValue == null,
@@ -453,6 +486,10 @@ class _$UserDocumentReference
     assert(
       relationshipIds == _sentinel || relationshipIdsFieldValue == null,
       "Cannot specify both relationshipIds and relationshipIdsFieldValue",
+    );
+    assert(
+      homes == _sentinel || homesFieldValue == null,
+      "Cannot specify both homes and homesFieldValue",
     );
     final json = {
       if (name != _sentinel)
@@ -489,6 +526,13 @@ class _$UserDocumentReference
 
       if (relationshipIdsFieldValue != null)
         _$UserFieldMap['relationshipIds']!: relationshipIdsFieldValue,
+
+      if (homes != _sentinel)
+        _$UserFieldMap['homes']!: _$UserPerFieldToJson.homes(
+          homes as List<HomeDocumentReference>,
+        ),
+
+      if (homesFieldValue != null) _$UserFieldMap['homes']!: homesFieldValue,
     };
 
     transaction.update(reference, json);
@@ -506,6 +550,8 @@ class _$UserDocumentReference
     FieldValue? firebaseAuthIdFieldValue,
     Object? relationshipIds = _sentinel,
     FieldValue? relationshipIdsFieldValue,
+    Object? homes = _sentinel,
+    FieldValue? homesFieldValue,
   }) {
     assert(
       name == _sentinel || nameFieldValue == null,
@@ -526,6 +572,10 @@ class _$UserDocumentReference
     assert(
       relationshipIds == _sentinel || relationshipIdsFieldValue == null,
       "Cannot specify both relationshipIds and relationshipIdsFieldValue",
+    );
+    assert(
+      homes == _sentinel || homesFieldValue == null,
+      "Cannot specify both homes and homesFieldValue",
     );
     final json = {
       if (name != _sentinel)
@@ -562,6 +612,13 @@ class _$UserDocumentReference
 
       if (relationshipIdsFieldValue != null)
         _$UserFieldMap['relationshipIds']!: relationshipIdsFieldValue,
+
+      if (homes != _sentinel)
+        _$UserFieldMap['homes']!: _$UserPerFieldToJson.homes(
+          homes as List<HomeDocumentReference>,
+        ),
+
+      if (homesFieldValue != null) _$UserFieldMap['homes']!: homesFieldValue,
     };
 
     batch.update(reference, json);
@@ -690,6 +747,18 @@ abstract class UserQuery implements QueryReference<User, UserQuerySnapshot> {
     bool? isNull,
   });
 
+  UserQuery whereHomes({
+    List<HomeDocumentReference>? isEqualTo,
+    List<HomeDocumentReference>? isNotEqualTo,
+    List<HomeDocumentReference>? isLessThan,
+    List<HomeDocumentReference>? isLessThanOrEqualTo,
+    List<HomeDocumentReference>? isGreaterThan,
+    List<HomeDocumentReference>? isGreaterThanOrEqualTo,
+    HomeDocumentReference arrayContains,
+    List<HomeDocumentReference>? arrayContainsAny,
+    bool? isNull,
+  });
+
   /// Perform an order query based on a [FieldPath].
   ///
   /// This method is considered unsafe as it does check that the field path
@@ -789,6 +858,18 @@ abstract class UserQuery implements QueryReference<User, UserQuerySnapshot> {
     List<String>? startAfter,
     List<String>? endAt,
     List<String>? endBefore,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  });
+
+  UserQuery orderByHomes({
+    bool descending = false,
+    List<HomeDocumentReference> startAt,
+    List<HomeDocumentReference> startAfter,
+    List<HomeDocumentReference> endAt,
+    List<HomeDocumentReference> endBefore,
     UserDocumentSnapshot? startAtDocument,
     UserDocumentSnapshot? endAtDocument,
     UserDocumentSnapshot? endBeforeDocument,
@@ -1146,6 +1227,71 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
         arrayContainsAny: arrayContainsAny != null
             ? _$UserPerFieldToJson.relationshipIds(arrayContainsAny)
                   as Iterable<Object>?
+            : null,
+        isNull:
+            isNull ??
+            (isEqualTo == null ? false : null) ??
+            (isNotEqualTo == null ? true : null),
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  @override
+  UserQuery whereHomes({
+    Object? isEqualTo = _sentinel,
+    Object? isNotEqualTo = _sentinel,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<HomeDocumentReference>? arrayContainsAny,
+    bool? isNull,
+  }) {
+    return _$UserQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$UserFieldMap['homes']!,
+        isEqualTo: isEqualTo != _sentinel
+            ? _$UserPerFieldToJson.homes(
+                isEqualTo as List<HomeDocumentReference>,
+              )
+            : null,
+        isNotEqualTo: isNotEqualTo != _sentinel
+            ? _$UserPerFieldToJson.homes(
+                isNotEqualTo as List<HomeDocumentReference>,
+              )
+            : null,
+        isLessThan: isLessThan != null
+            ? _$UserPerFieldToJson.homes(
+                isLessThan as List<HomeDocumentReference>,
+              )
+            : null,
+        isLessThanOrEqualTo: isLessThanOrEqualTo != null
+            ? _$UserPerFieldToJson.homes(
+                isLessThanOrEqualTo as List<HomeDocumentReference>,
+              )
+            : null,
+        isGreaterThan: isGreaterThan != null
+            ? _$UserPerFieldToJson.homes(
+                isGreaterThan as List<HomeDocumentReference>,
+              )
+            : null,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
+            ? _$UserPerFieldToJson.homes(
+                isGreaterThanOrEqualTo as List<HomeDocumentReference>,
+              )
+            : null,
+        arrayContains: arrayContains != null
+            ? (_$UserPerFieldToJson.homes([
+                        arrayContains as HomeDocumentReference,
+                      ])
+                      as List?)!
+                  .single
+            : null,
+        arrayContainsAny: arrayContainsAny != null
+            ? _$UserPerFieldToJson.homes(arrayContainsAny) as Iterable<Object>?
             : null,
         isNull:
             isNull ??
@@ -1621,6 +1767,81 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
   }) {
     final query = $referenceWithoutCursor.orderBy(
       _$UserFieldMap['relationshipIds']!,
+      descending: descending,
+    );
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$UserQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  @override
+  UserQuery orderByHomes({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    UserDocumentSnapshot? startAtDocument,
+    UserDocumentSnapshot? endAtDocument,
+    UserDocumentSnapshot? endBeforeDocument,
+    UserDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(
+      _$UserFieldMap['homes']!,
       descending: descending,
     );
     var queryCursor = $queryCursor;
@@ -7599,6 +7820,15 @@ _User _$UserFromJson(Map<String, dynamic> json) => _User(
   relationshipIds: (json['relationshipIds'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList(),
+  homes:
+      (json['homes'] as List<dynamic>?)
+          ?.map(
+            (e) => const HomeDocumentReferenceConverter().fromJson(
+              e as DocumentReference<Map<String, dynamic>>,
+            ),
+          )
+          .toList() ??
+      const [],
 );
 
 const _$UserFieldMap = <String, String>{
@@ -7607,6 +7837,7 @@ const _$UserFieldMap = <String, String>{
   'birthDate': 'birthDate',
   'firebaseAuthId': 'firebaseAuthId',
   'relationshipIds': 'relationshipIds',
+  'homes': 'homes',
 };
 
 // ignore: unused_element
@@ -7625,6 +7856,9 @@ abstract class _$UserPerFieldToJson {
   static Object? firebaseAuthId(String? instance) => instance;
   // ignore: unused_element
   static Object? relationshipIds(List<String>? instance) => instance;
+  // ignore: unused_element
+  static Object? homes(List<HomeDocumentReference> instance) =>
+      instance.map(const HomeDocumentReferenceConverter().toJson).toList();
 }
 
 Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
@@ -7636,6 +7870,9 @@ Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
   ),
   'firebaseAuthId': instance.firebaseAuthId,
   'relationshipIds': instance.relationshipIds,
+  'homes': instance.homes
+      .map(const HomeDocumentReferenceConverter().toJson)
+      .toList(),
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(
