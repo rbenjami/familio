@@ -16,7 +16,9 @@
       "Bash(flutter gen-l10n:*)",
       "Bash(flutter packages pub run:*)",
       "Bash(dart run intl_utils:generate:*)",
-      "Bash(flutter run:*)"
+      "Bash(flutter run:*)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(rm:*)"
     ],
     "defaultMode": "acceptEdits"
   },

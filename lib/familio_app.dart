@@ -1,3 +1,4 @@
+import 'package:familio/blocs/task/task_bloc.dart';
 import 'package:familio/core/theme/app_theme.dart';
 import 'package:familio/di/injection.dart';
 import 'package:familio/generated/l10n.dart';
@@ -15,7 +16,10 @@ class FamilioApp extends StatelessWidget {
     final appRouter = getIt<AppRouter>();
 
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => getIt<AuthBloc>())],
+      providers: [
+        BlocProvider(create: (context) => getIt<AuthBloc>()),
+        BlocProvider(create: (context) => getIt<TaskBloc>()),
+      ],
       child: MaterialApp.router(
         title: 'Familio',
         theme: AppTheme.lightTheme,

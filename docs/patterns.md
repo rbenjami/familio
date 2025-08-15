@@ -1,5 +1,8 @@
 # Technical Patterns
 
+## Guidelines
+ -'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss.
+
 ## BLoC Architecture
 - **State**: Manages app state.
 ```dart

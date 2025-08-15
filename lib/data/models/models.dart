@@ -8,10 +8,12 @@ export 'enums/event_source.dart';
 export 'enums/invitation_status.dart';
 export 'enums/relationship_type.dart';
 export 'enums/registration_type.dart';
+export 'enums/task_type.dart';
 
 // Core models
 export 'core/user.dart';
 export 'core/home.dart';
+export 'core/sub_task.dart';
 
 // Invitations
 export 'invitations/invitation.dart';

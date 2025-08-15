@@ -3040,6 +3040,12 @@ abstract class TaskDocumentReference
     FieldValue priorityFieldValue,
     FieldValue createdAtFieldValue,
     FieldValue updatedAtFieldValue,
+    FieldValue typeFieldValue,
+    FieldValue startDateFieldValue,
+    FieldValue estimatedDurationMinutesFieldValue,
+    FieldValue subTasksFieldValue,
+    FieldValue tagsFieldValue,
+    FieldValue locationFieldValue,
   });
 
   /// Writes to the document using the transaction API.
@@ -3063,6 +3069,12 @@ abstract class TaskDocumentReference
     FieldValue priorityFieldValue,
     FieldValue createdAtFieldValue,
     FieldValue updatedAtFieldValue,
+    FieldValue typeFieldValue,
+    FieldValue startDateFieldValue,
+    FieldValue estimatedDurationMinutesFieldValue,
+    FieldValue subTasksFieldValue,
+    FieldValue tagsFieldValue,
+    FieldValue locationFieldValue,
   });
 
   /// Writes to the document using the batch API.
@@ -3086,6 +3098,12 @@ abstract class TaskDocumentReference
     FieldValue priorityFieldValue,
     FieldValue createdAtFieldValue,
     FieldValue updatedAtFieldValue,
+    FieldValue typeFieldValue,
+    FieldValue startDateFieldValue,
+    FieldValue estimatedDurationMinutesFieldValue,
+    FieldValue subTasksFieldValue,
+    FieldValue tagsFieldValue,
+    FieldValue locationFieldValue,
   });
 
   /// Updates data on the document. Data will be merged with any existing
@@ -3113,6 +3131,18 @@ abstract class TaskDocumentReference
     FieldValue createdAtFieldValue,
     DateTime updatedAt,
     FieldValue updatedAtFieldValue,
+    TaskType type,
+    FieldValue typeFieldValue,
+    DateTime? startDate,
+    FieldValue startDateFieldValue,
+    int? estimatedDurationMinutes,
+    FieldValue estimatedDurationMinutesFieldValue,
+    List<SubTask> subTasks,
+    FieldValue subTasksFieldValue,
+    List<String> tags,
+    FieldValue tagsFieldValue,
+    String? location,
+    FieldValue locationFieldValue,
   });
 
   /// Updates fields in the current document using the transaction API.
@@ -3140,6 +3170,18 @@ abstract class TaskDocumentReference
     FieldValue createdAtFieldValue,
     DateTime updatedAt,
     FieldValue updatedAtFieldValue,
+    TaskType type,
+    FieldValue typeFieldValue,
+    DateTime? startDate,
+    FieldValue startDateFieldValue,
+    int? estimatedDurationMinutes,
+    FieldValue estimatedDurationMinutesFieldValue,
+    List<SubTask> subTasks,
+    FieldValue subTasksFieldValue,
+    List<String> tags,
+    FieldValue tagsFieldValue,
+    String? location,
+    FieldValue locationFieldValue,
   });
 
   /// Updates fields in the current document using the batch API.
@@ -3167,6 +3209,18 @@ abstract class TaskDocumentReference
     FieldValue createdAtFieldValue,
     DateTime updatedAt,
     FieldValue updatedAtFieldValue,
+    TaskType type,
+    FieldValue typeFieldValue,
+    DateTime? startDate,
+    FieldValue startDateFieldValue,
+    int? estimatedDurationMinutes,
+    FieldValue estimatedDurationMinutesFieldValue,
+    List<SubTask> subTasks,
+    FieldValue subTasksFieldValue,
+    List<String> tags,
+    FieldValue tagsFieldValue,
+    String? location,
+    FieldValue locationFieldValue,
   });
 }
 
@@ -3216,6 +3270,12 @@ class _$TaskDocumentReference
     FieldValue? priorityFieldValue,
     FieldValue? createdAtFieldValue,
     FieldValue? updatedAtFieldValue,
+    FieldValue? typeFieldValue,
+    FieldValue? startDateFieldValue,
+    FieldValue? estimatedDurationMinutesFieldValue,
+    FieldValue? subTasksFieldValue,
+    FieldValue? tagsFieldValue,
+    FieldValue? locationFieldValue,
   }) async {
     final json = {
       ...model.toJson(),
@@ -3245,6 +3305,23 @@ class _$TaskDocumentReference
 
       if (updatedAtFieldValue != null)
         _$TaskFieldMap['updatedAt']!: updatedAtFieldValue,
+
+      if (typeFieldValue != null) _$TaskFieldMap['type']!: typeFieldValue,
+
+      if (startDateFieldValue != null)
+        _$TaskFieldMap['startDate']!: startDateFieldValue,
+
+      if (estimatedDurationMinutesFieldValue != null)
+        _$TaskFieldMap['estimatedDurationMinutes']!:
+            estimatedDurationMinutesFieldValue,
+
+      if (subTasksFieldValue != null)
+        _$TaskFieldMap['subTasks']!: subTasksFieldValue,
+
+      if (tagsFieldValue != null) _$TaskFieldMap['tags']!: tagsFieldValue,
+
+      if (locationFieldValue != null)
+        _$TaskFieldMap['location']!: locationFieldValue,
     };
 
     final castedReference = reference.withConverter<Map<String, dynamic>>(
@@ -3268,6 +3345,12 @@ class _$TaskDocumentReference
     FieldValue? priorityFieldValue,
     FieldValue? createdAtFieldValue,
     FieldValue? updatedAtFieldValue,
+    FieldValue? typeFieldValue,
+    FieldValue? startDateFieldValue,
+    FieldValue? estimatedDurationMinutesFieldValue,
+    FieldValue? subTasksFieldValue,
+    FieldValue? tagsFieldValue,
+    FieldValue? locationFieldValue,
   }) {
     final json = {
       ...model.toJson(),
@@ -3297,6 +3380,23 @@ class _$TaskDocumentReference
 
       if (updatedAtFieldValue != null)
         _$TaskFieldMap['updatedAt']!: updatedAtFieldValue,
+
+      if (typeFieldValue != null) _$TaskFieldMap['type']!: typeFieldValue,
+
+      if (startDateFieldValue != null)
+        _$TaskFieldMap['startDate']!: startDateFieldValue,
+
+      if (estimatedDurationMinutesFieldValue != null)
+        _$TaskFieldMap['estimatedDurationMinutes']!:
+            estimatedDurationMinutesFieldValue,
+
+      if (subTasksFieldValue != null)
+        _$TaskFieldMap['subTasks']!: subTasksFieldValue,
+
+      if (tagsFieldValue != null) _$TaskFieldMap['tags']!: tagsFieldValue,
+
+      if (locationFieldValue != null)
+        _$TaskFieldMap['location']!: locationFieldValue,
     };
 
     transaction.set(reference, json, options);
@@ -3316,6 +3416,12 @@ class _$TaskDocumentReference
     FieldValue? priorityFieldValue,
     FieldValue? createdAtFieldValue,
     FieldValue? updatedAtFieldValue,
+    FieldValue? typeFieldValue,
+    FieldValue? startDateFieldValue,
+    FieldValue? estimatedDurationMinutesFieldValue,
+    FieldValue? subTasksFieldValue,
+    FieldValue? tagsFieldValue,
+    FieldValue? locationFieldValue,
   }) {
     final json = {
       ...model.toJson(),
@@ -3345,6 +3451,23 @@ class _$TaskDocumentReference
 
       if (updatedAtFieldValue != null)
         _$TaskFieldMap['updatedAt']!: updatedAtFieldValue,
+
+      if (typeFieldValue != null) _$TaskFieldMap['type']!: typeFieldValue,
+
+      if (startDateFieldValue != null)
+        _$TaskFieldMap['startDate']!: startDateFieldValue,
+
+      if (estimatedDurationMinutesFieldValue != null)
+        _$TaskFieldMap['estimatedDurationMinutes']!:
+            estimatedDurationMinutesFieldValue,
+
+      if (subTasksFieldValue != null)
+        _$TaskFieldMap['subTasks']!: subTasksFieldValue,
+
+      if (tagsFieldValue != null) _$TaskFieldMap['tags']!: tagsFieldValue,
+
+      if (locationFieldValue != null)
+        _$TaskFieldMap['location']!: locationFieldValue,
     };
 
     batch.set(reference, json, options);
@@ -3371,6 +3494,18 @@ class _$TaskDocumentReference
     FieldValue? createdAtFieldValue,
     Object? updatedAt = _sentinel,
     FieldValue? updatedAtFieldValue,
+    Object? type = _sentinel,
+    FieldValue? typeFieldValue,
+    Object? startDate = _sentinel,
+    FieldValue? startDateFieldValue,
+    Object? estimatedDurationMinutes = _sentinel,
+    FieldValue? estimatedDurationMinutesFieldValue,
+    Object? subTasks = _sentinel,
+    FieldValue? subTasksFieldValue,
+    Object? tags = _sentinel,
+    FieldValue? tagsFieldValue,
+    Object? location = _sentinel,
+    FieldValue? locationFieldValue,
   }) async {
     assert(
       title == _sentinel || titleFieldValue == null,
@@ -3411,6 +3546,31 @@ class _$TaskDocumentReference
     assert(
       updatedAt == _sentinel || updatedAtFieldValue == null,
       "Cannot specify both updatedAt and updatedAtFieldValue",
+    );
+    assert(
+      type == _sentinel || typeFieldValue == null,
+      "Cannot specify both type and typeFieldValue",
+    );
+    assert(
+      startDate == _sentinel || startDateFieldValue == null,
+      "Cannot specify both startDate and startDateFieldValue",
+    );
+    assert(
+      estimatedDurationMinutes == _sentinel ||
+          estimatedDurationMinutesFieldValue == null,
+      "Cannot specify both estimatedDurationMinutes and estimatedDurationMinutesFieldValue",
+    );
+    assert(
+      subTasks == _sentinel || subTasksFieldValue == null,
+      "Cannot specify both subTasks and subTasksFieldValue",
+    );
+    assert(
+      tags == _sentinel || tagsFieldValue == null,
+      "Cannot specify both tags and tagsFieldValue",
+    );
+    assert(
+      location == _sentinel || locationFieldValue == null,
+      "Cannot specify both location and locationFieldValue",
     );
     final json = {
       if (title != _sentinel)
@@ -3487,6 +3647,50 @@ class _$TaskDocumentReference
 
       if (updatedAtFieldValue != null)
         _$TaskFieldMap['updatedAt']!: updatedAtFieldValue,
+
+      if (type != _sentinel)
+        _$TaskFieldMap['type']!: _$TaskPerFieldToJson.type(type as TaskType),
+
+      if (typeFieldValue != null) _$TaskFieldMap['type']!: typeFieldValue,
+
+      if (startDate != _sentinel)
+        _$TaskFieldMap['startDate']!: _$TaskPerFieldToJson.startDate(
+          startDate as DateTime?,
+        ),
+
+      if (startDateFieldValue != null)
+        _$TaskFieldMap['startDate']!: startDateFieldValue,
+
+      if (estimatedDurationMinutes != _sentinel)
+        _$TaskFieldMap['estimatedDurationMinutes']!: _$TaskPerFieldToJson
+            .estimatedDurationMinutes(estimatedDurationMinutes as int?),
+
+      if (estimatedDurationMinutesFieldValue != null)
+        _$TaskFieldMap['estimatedDurationMinutes']!:
+            estimatedDurationMinutesFieldValue,
+
+      if (subTasks != _sentinel)
+        _$TaskFieldMap['subTasks']!: _$TaskPerFieldToJson.subTasks(
+          subTasks as List<SubTask>,
+        ),
+
+      if (subTasksFieldValue != null)
+        _$TaskFieldMap['subTasks']!: subTasksFieldValue,
+
+      if (tags != _sentinel)
+        _$TaskFieldMap['tags']!: _$TaskPerFieldToJson.tags(
+          tags as List<String>,
+        ),
+
+      if (tagsFieldValue != null) _$TaskFieldMap['tags']!: tagsFieldValue,
+
+      if (location != _sentinel)
+        _$TaskFieldMap['location']!: _$TaskPerFieldToJson.location(
+          location as String?,
+        ),
+
+      if (locationFieldValue != null)
+        _$TaskFieldMap['location']!: locationFieldValue,
     };
 
     return reference.update(json);
@@ -3514,6 +3718,18 @@ class _$TaskDocumentReference
     FieldValue? createdAtFieldValue,
     Object? updatedAt = _sentinel,
     FieldValue? updatedAtFieldValue,
+    Object? type = _sentinel,
+    FieldValue? typeFieldValue,
+    Object? startDate = _sentinel,
+    FieldValue? startDateFieldValue,
+    Object? estimatedDurationMinutes = _sentinel,
+    FieldValue? estimatedDurationMinutesFieldValue,
+    Object? subTasks = _sentinel,
+    FieldValue? subTasksFieldValue,
+    Object? tags = _sentinel,
+    FieldValue? tagsFieldValue,
+    Object? location = _sentinel,
+    FieldValue? locationFieldValue,
   }) {
     assert(
       title == _sentinel || titleFieldValue == null,
@@ -3554,6 +3770,31 @@ class _$TaskDocumentReference
     assert(
       updatedAt == _sentinel || updatedAtFieldValue == null,
       "Cannot specify both updatedAt and updatedAtFieldValue",
+    );
+    assert(
+      type == _sentinel || typeFieldValue == null,
+      "Cannot specify both type and typeFieldValue",
+    );
+    assert(
+      startDate == _sentinel || startDateFieldValue == null,
+      "Cannot specify both startDate and startDateFieldValue",
+    );
+    assert(
+      estimatedDurationMinutes == _sentinel ||
+          estimatedDurationMinutesFieldValue == null,
+      "Cannot specify both estimatedDurationMinutes and estimatedDurationMinutesFieldValue",
+    );
+    assert(
+      subTasks == _sentinel || subTasksFieldValue == null,
+      "Cannot specify both subTasks and subTasksFieldValue",
+    );
+    assert(
+      tags == _sentinel || tagsFieldValue == null,
+      "Cannot specify both tags and tagsFieldValue",
+    );
+    assert(
+      location == _sentinel || locationFieldValue == null,
+      "Cannot specify both location and locationFieldValue",
     );
     final json = {
       if (title != _sentinel)
@@ -3630,6 +3871,50 @@ class _$TaskDocumentReference
 
       if (updatedAtFieldValue != null)
         _$TaskFieldMap['updatedAt']!: updatedAtFieldValue,
+
+      if (type != _sentinel)
+        _$TaskFieldMap['type']!: _$TaskPerFieldToJson.type(type as TaskType),
+
+      if (typeFieldValue != null) _$TaskFieldMap['type']!: typeFieldValue,
+
+      if (startDate != _sentinel)
+        _$TaskFieldMap['startDate']!: _$TaskPerFieldToJson.startDate(
+          startDate as DateTime?,
+        ),
+
+      if (startDateFieldValue != null)
+        _$TaskFieldMap['startDate']!: startDateFieldValue,
+
+      if (estimatedDurationMinutes != _sentinel)
+        _$TaskFieldMap['estimatedDurationMinutes']!: _$TaskPerFieldToJson
+            .estimatedDurationMinutes(estimatedDurationMinutes as int?),
+
+      if (estimatedDurationMinutesFieldValue != null)
+        _$TaskFieldMap['estimatedDurationMinutes']!:
+            estimatedDurationMinutesFieldValue,
+
+      if (subTasks != _sentinel)
+        _$TaskFieldMap['subTasks']!: _$TaskPerFieldToJson.subTasks(
+          subTasks as List<SubTask>,
+        ),
+
+      if (subTasksFieldValue != null)
+        _$TaskFieldMap['subTasks']!: subTasksFieldValue,
+
+      if (tags != _sentinel)
+        _$TaskFieldMap['tags']!: _$TaskPerFieldToJson.tags(
+          tags as List<String>,
+        ),
+
+      if (tagsFieldValue != null) _$TaskFieldMap['tags']!: tagsFieldValue,
+
+      if (location != _sentinel)
+        _$TaskFieldMap['location']!: _$TaskPerFieldToJson.location(
+          location as String?,
+        ),
+
+      if (locationFieldValue != null)
+        _$TaskFieldMap['location']!: locationFieldValue,
     };
 
     transaction.update(reference, json);
@@ -3657,6 +3942,18 @@ class _$TaskDocumentReference
     FieldValue? createdAtFieldValue,
     Object? updatedAt = _sentinel,
     FieldValue? updatedAtFieldValue,
+    Object? type = _sentinel,
+    FieldValue? typeFieldValue,
+    Object? startDate = _sentinel,
+    FieldValue? startDateFieldValue,
+    Object? estimatedDurationMinutes = _sentinel,
+    FieldValue? estimatedDurationMinutesFieldValue,
+    Object? subTasks = _sentinel,
+    FieldValue? subTasksFieldValue,
+    Object? tags = _sentinel,
+    FieldValue? tagsFieldValue,
+    Object? location = _sentinel,
+    FieldValue? locationFieldValue,
   }) {
     assert(
       title == _sentinel || titleFieldValue == null,
@@ -3697,6 +3994,31 @@ class _$TaskDocumentReference
     assert(
       updatedAt == _sentinel || updatedAtFieldValue == null,
       "Cannot specify both updatedAt and updatedAtFieldValue",
+    );
+    assert(
+      type == _sentinel || typeFieldValue == null,
+      "Cannot specify both type and typeFieldValue",
+    );
+    assert(
+      startDate == _sentinel || startDateFieldValue == null,
+      "Cannot specify both startDate and startDateFieldValue",
+    );
+    assert(
+      estimatedDurationMinutes == _sentinel ||
+          estimatedDurationMinutesFieldValue == null,
+      "Cannot specify both estimatedDurationMinutes and estimatedDurationMinutesFieldValue",
+    );
+    assert(
+      subTasks == _sentinel || subTasksFieldValue == null,
+      "Cannot specify both subTasks and subTasksFieldValue",
+    );
+    assert(
+      tags == _sentinel || tagsFieldValue == null,
+      "Cannot specify both tags and tagsFieldValue",
+    );
+    assert(
+      location == _sentinel || locationFieldValue == null,
+      "Cannot specify both location and locationFieldValue",
     );
     final json = {
       if (title != _sentinel)
@@ -3773,6 +4095,50 @@ class _$TaskDocumentReference
 
       if (updatedAtFieldValue != null)
         _$TaskFieldMap['updatedAt']!: updatedAtFieldValue,
+
+      if (type != _sentinel)
+        _$TaskFieldMap['type']!: _$TaskPerFieldToJson.type(type as TaskType),
+
+      if (typeFieldValue != null) _$TaskFieldMap['type']!: typeFieldValue,
+
+      if (startDate != _sentinel)
+        _$TaskFieldMap['startDate']!: _$TaskPerFieldToJson.startDate(
+          startDate as DateTime?,
+        ),
+
+      if (startDateFieldValue != null)
+        _$TaskFieldMap['startDate']!: startDateFieldValue,
+
+      if (estimatedDurationMinutes != _sentinel)
+        _$TaskFieldMap['estimatedDurationMinutes']!: _$TaskPerFieldToJson
+            .estimatedDurationMinutes(estimatedDurationMinutes as int?),
+
+      if (estimatedDurationMinutesFieldValue != null)
+        _$TaskFieldMap['estimatedDurationMinutes']!:
+            estimatedDurationMinutesFieldValue,
+
+      if (subTasks != _sentinel)
+        _$TaskFieldMap['subTasks']!: _$TaskPerFieldToJson.subTasks(
+          subTasks as List<SubTask>,
+        ),
+
+      if (subTasksFieldValue != null)
+        _$TaskFieldMap['subTasks']!: subTasksFieldValue,
+
+      if (tags != _sentinel)
+        _$TaskFieldMap['tags']!: _$TaskPerFieldToJson.tags(
+          tags as List<String>,
+        ),
+
+      if (tagsFieldValue != null) _$TaskFieldMap['tags']!: tagsFieldValue,
+
+      if (location != _sentinel)
+        _$TaskFieldMap['location']!: _$TaskPerFieldToJson.location(
+          location as String?,
+        ),
+
+      if (locationFieldValue != null)
+        _$TaskFieldMap['location']!: locationFieldValue,
     };
 
     batch.update(reference, json);
@@ -3961,6 +4327,78 @@ abstract class TaskQuery implements QueryReference<Task, TaskQuerySnapshot> {
     bool? isNull,
   });
 
+  TaskQuery whereType({
+    TaskType? isEqualTo,
+    TaskType? isNotEqualTo,
+    TaskType? isLessThan,
+    TaskType? isLessThanOrEqualTo,
+    TaskType? isGreaterThan,
+    TaskType? isGreaterThanOrEqualTo,
+    List<TaskType>? whereIn,
+    List<TaskType>? whereNotIn,
+    bool? isNull,
+  });
+
+  TaskQuery whereStartDate({
+    DateTime? isEqualTo,
+    DateTime? isNotEqualTo,
+    DateTime? isLessThan,
+    DateTime? isLessThanOrEqualTo,
+    DateTime? isGreaterThan,
+    DateTime? isGreaterThanOrEqualTo,
+    List<DateTime?>? whereIn,
+    List<DateTime?>? whereNotIn,
+    bool? isNull,
+  });
+
+  TaskQuery whereEstimatedDurationMinutes({
+    int? isEqualTo,
+    int? isNotEqualTo,
+    int? isLessThan,
+    int? isLessThanOrEqualTo,
+    int? isGreaterThan,
+    int? isGreaterThanOrEqualTo,
+    List<int?>? whereIn,
+    List<int?>? whereNotIn,
+    bool? isNull,
+  });
+
+  TaskQuery whereSubTasks({
+    List<SubTask>? isEqualTo,
+    List<SubTask>? isNotEqualTo,
+    List<SubTask>? isLessThan,
+    List<SubTask>? isLessThanOrEqualTo,
+    List<SubTask>? isGreaterThan,
+    List<SubTask>? isGreaterThanOrEqualTo,
+    SubTask? arrayContains,
+    List<SubTask>? arrayContainsAny,
+    bool? isNull,
+  });
+
+  TaskQuery whereTags({
+    List<String>? isEqualTo,
+    List<String>? isNotEqualTo,
+    List<String>? isLessThan,
+    List<String>? isLessThanOrEqualTo,
+    List<String>? isGreaterThan,
+    List<String>? isGreaterThanOrEqualTo,
+    String? arrayContains,
+    List<String>? arrayContainsAny,
+    bool? isNull,
+  });
+
+  TaskQuery whereLocation({
+    String? isEqualTo,
+    String? isNotEqualTo,
+    String? isLessThan,
+    String? isLessThanOrEqualTo,
+    String? isGreaterThan,
+    String? isGreaterThanOrEqualTo,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
+    bool? isNull,
+  });
+
   /// Perform an order query based on a [FieldPath].
   ///
   /// This method is considered unsafe as it does check that the field path
@@ -4120,6 +4558,78 @@ abstract class TaskQuery implements QueryReference<Task, TaskQuerySnapshot> {
     DateTime startAfter,
     DateTime endAt,
     DateTime endBefore,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  });
+
+  TaskQuery orderByType({
+    bool descending = false,
+    TaskType startAt,
+    TaskType startAfter,
+    TaskType endAt,
+    TaskType endBefore,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  });
+
+  TaskQuery orderByStartDate({
+    bool descending = false,
+    DateTime? startAt,
+    DateTime? startAfter,
+    DateTime? endAt,
+    DateTime? endBefore,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  });
+
+  TaskQuery orderByEstimatedDurationMinutes({
+    bool descending = false,
+    int? startAt,
+    int? startAfter,
+    int? endAt,
+    int? endBefore,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  });
+
+  TaskQuery orderBySubTasks({
+    bool descending = false,
+    List<SubTask> startAt,
+    List<SubTask> startAfter,
+    List<SubTask> endAt,
+    List<SubTask> endBefore,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  });
+
+  TaskQuery orderByTags({
+    bool descending = false,
+    List<String> startAt,
+    List<String> startAfter,
+    List<String> endAt,
+    List<String> endBefore,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  });
+
+  TaskQuery orderByLocation({
+    bool descending = false,
+    String? startAt,
+    String? startAfter,
+    String? endAt,
+    String? endBefore,
     TaskDocumentSnapshot? startAtDocument,
     TaskDocumentSnapshot? endAtDocument,
     TaskDocumentSnapshot? endBeforeDocument,
@@ -4693,6 +5203,306 @@ class _$TaskQuery extends QueryReference<Task, TaskQuerySnapshot>
             : null,
         whereIn: whereIn?.map((e) => _$TaskPerFieldToJson.updatedAt(e)),
         whereNotIn: whereNotIn?.map((e) => _$TaskPerFieldToJson.updatedAt(e)),
+        isNull:
+            isNull ??
+            (isEqualTo == null ? false : null) ??
+            (isNotEqualTo == null ? true : null),
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery whereType({
+    Object? isEqualTo = _sentinel,
+    Object? isNotEqualTo = _sentinel,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    List<TaskType>? whereIn,
+    List<TaskType>? whereNotIn,
+    bool? isNull,
+  }) {
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$TaskFieldMap['type']!,
+        isEqualTo: isEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.type(isEqualTo as TaskType)
+            : null,
+        isNotEqualTo: isNotEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.type(isNotEqualTo as TaskType)
+            : null,
+        isLessThan: isLessThan != null
+            ? _$TaskPerFieldToJson.type(isLessThan as TaskType)
+            : null,
+        isLessThanOrEqualTo: isLessThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.type(isLessThanOrEqualTo as TaskType)
+            : null,
+        isGreaterThan: isGreaterThan != null
+            ? _$TaskPerFieldToJson.type(isGreaterThan as TaskType)
+            : null,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.type(isGreaterThanOrEqualTo as TaskType)
+            : null,
+        whereIn: whereIn?.map((e) => _$TaskPerFieldToJson.type(e)),
+        whereNotIn: whereNotIn?.map((e) => _$TaskPerFieldToJson.type(e)),
+        isNull:
+            isNull ??
+            (isEqualTo == null ? false : null) ??
+            (isNotEqualTo == null ? true : null),
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery whereStartDate({
+    Object? isEqualTo = _sentinel,
+    Object? isNotEqualTo = _sentinel,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    List<DateTime?>? whereIn,
+    List<DateTime?>? whereNotIn,
+    bool? isNull,
+  }) {
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$TaskFieldMap['startDate']!,
+        isEqualTo: isEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.startDate(isEqualTo as DateTime?)
+            : null,
+        isNotEqualTo: isNotEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.startDate(isNotEqualTo as DateTime?)
+            : null,
+        isLessThan: isLessThan != null
+            ? _$TaskPerFieldToJson.startDate(isLessThan as DateTime?)
+            : null,
+        isLessThanOrEqualTo: isLessThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.startDate(isLessThanOrEqualTo as DateTime?)
+            : null,
+        isGreaterThan: isGreaterThan != null
+            ? _$TaskPerFieldToJson.startDate(isGreaterThan as DateTime?)
+            : null,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.startDate(
+                isGreaterThanOrEqualTo as DateTime?,
+              )
+            : null,
+        whereIn: whereIn?.map((e) => _$TaskPerFieldToJson.startDate(e)),
+        whereNotIn: whereNotIn?.map((e) => _$TaskPerFieldToJson.startDate(e)),
+        isNull:
+            isNull ??
+            (isEqualTo == null ? false : null) ??
+            (isNotEqualTo == null ? true : null),
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery whereEstimatedDurationMinutes({
+    Object? isEqualTo = _sentinel,
+    Object? isNotEqualTo = _sentinel,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    List<int?>? whereIn,
+    List<int?>? whereNotIn,
+    bool? isNull,
+  }) {
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$TaskFieldMap['estimatedDurationMinutes']!,
+        isEqualTo: isEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.estimatedDurationMinutes(isEqualTo as int?)
+            : null,
+        isNotEqualTo: isNotEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.estimatedDurationMinutes(
+                isNotEqualTo as int?,
+              )
+            : null,
+        isLessThan: isLessThan != null
+            ? _$TaskPerFieldToJson.estimatedDurationMinutes(isLessThan as int?)
+            : null,
+        isLessThanOrEqualTo: isLessThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.estimatedDurationMinutes(
+                isLessThanOrEqualTo as int?,
+              )
+            : null,
+        isGreaterThan: isGreaterThan != null
+            ? _$TaskPerFieldToJson.estimatedDurationMinutes(
+                isGreaterThan as int?,
+              )
+            : null,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.estimatedDurationMinutes(
+                isGreaterThanOrEqualTo as int?,
+              )
+            : null,
+        whereIn: whereIn?.map(
+          (e) => _$TaskPerFieldToJson.estimatedDurationMinutes(e),
+        ),
+        whereNotIn: whereNotIn?.map(
+          (e) => _$TaskPerFieldToJson.estimatedDurationMinutes(e),
+        ),
+        isNull:
+            isNull ??
+            (isEqualTo == null ? false : null) ??
+            (isNotEqualTo == null ? true : null),
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery whereSubTasks({
+    Object? isEqualTo = _sentinel,
+    Object? isNotEqualTo = _sentinel,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<SubTask>? arrayContainsAny,
+    bool? isNull,
+  }) {
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$TaskFieldMap['subTasks']!,
+        isEqualTo: isEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.subTasks(isEqualTo as List<SubTask>)
+            : null,
+        isNotEqualTo: isNotEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.subTasks(isNotEqualTo as List<SubTask>)
+            : null,
+        isLessThan: isLessThan != null
+            ? _$TaskPerFieldToJson.subTasks(isLessThan as List<SubTask>)
+            : null,
+        isLessThanOrEqualTo: isLessThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.subTasks(
+                isLessThanOrEqualTo as List<SubTask>,
+              )
+            : null,
+        isGreaterThan: isGreaterThan != null
+            ? _$TaskPerFieldToJson.subTasks(isGreaterThan as List<SubTask>)
+            : null,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.subTasks(
+                isGreaterThanOrEqualTo as List<SubTask>,
+              )
+            : null,
+        arrayContains: arrayContains != null
+            ? (_$TaskPerFieldToJson.subTasks([arrayContains as SubTask])
+                      as List?)!
+                  .single
+            : null,
+        arrayContainsAny: arrayContainsAny != null
+            ? _$TaskPerFieldToJson.subTasks(arrayContainsAny)
+                  as Iterable<Object>?
+            : null,
+        isNull:
+            isNull ??
+            (isEqualTo == null ? false : null) ??
+            (isNotEqualTo == null ? true : null),
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery whereTags({
+    Object? isEqualTo = _sentinel,
+    Object? isNotEqualTo = _sentinel,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    List<String>? arrayContainsAny,
+    bool? isNull,
+  }) {
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$TaskFieldMap['tags']!,
+        isEqualTo: isEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.tags(isEqualTo as List<String>)
+            : null,
+        isNotEqualTo: isNotEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.tags(isNotEqualTo as List<String>)
+            : null,
+        isLessThan: isLessThan != null
+            ? _$TaskPerFieldToJson.tags(isLessThan as List<String>)
+            : null,
+        isLessThanOrEqualTo: isLessThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.tags(isLessThanOrEqualTo as List<String>)
+            : null,
+        isGreaterThan: isGreaterThan != null
+            ? _$TaskPerFieldToJson.tags(isGreaterThan as List<String>)
+            : null,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.tags(isGreaterThanOrEqualTo as List<String>)
+            : null,
+        arrayContains: arrayContains != null
+            ? (_$TaskPerFieldToJson.tags([arrayContains as String]) as List?)!
+                  .single
+            : null,
+        arrayContainsAny: arrayContainsAny != null
+            ? _$TaskPerFieldToJson.tags(arrayContainsAny) as Iterable<Object>?
+            : null,
+        isNull:
+            isNull ??
+            (isEqualTo == null ? false : null) ??
+            (isNotEqualTo == null ? true : null),
+      ),
+      $queryCursor: $queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery whereLocation({
+    Object? isEqualTo = _sentinel,
+    Object? isNotEqualTo = _sentinel,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    List<String?>? whereIn,
+    List<String?>? whereNotIn,
+    bool? isNull,
+  }) {
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: $referenceWithoutCursor.where(
+        _$TaskFieldMap['location']!,
+        isEqualTo: isEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.location(isEqualTo as String?)
+            : null,
+        isNotEqualTo: isNotEqualTo != _sentinel
+            ? _$TaskPerFieldToJson.location(isNotEqualTo as String?)
+            : null,
+        isLessThan: isLessThan != null
+            ? _$TaskPerFieldToJson.location(isLessThan as String?)
+            : null,
+        isLessThanOrEqualTo: isLessThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.location(isLessThanOrEqualTo as String?)
+            : null,
+        isGreaterThan: isGreaterThan != null
+            ? _$TaskPerFieldToJson.location(isGreaterThan as String?)
+            : null,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
+            ? _$TaskPerFieldToJson.location(isGreaterThanOrEqualTo as String?)
+            : null,
+        whereIn: whereIn?.map((e) => _$TaskPerFieldToJson.location(e)),
+        whereNotIn: whereNotIn?.map((e) => _$TaskPerFieldToJson.location(e)),
         isNull:
             isNull ??
             (isEqualTo == null ? false : null) ??
@@ -5604,6 +6414,456 @@ class _$TaskQuery extends QueryReference<Task, TaskQuerySnapshot>
   }
 
   @override
+  TaskQuery orderByType({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(
+      _$TaskFieldMap['type']!,
+      descending: descending,
+    );
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery orderByStartDate({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(
+      _$TaskFieldMap['startDate']!,
+      descending: descending,
+    );
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery orderByEstimatedDurationMinutes({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(
+      _$TaskFieldMap['estimatedDurationMinutes']!,
+      descending: descending,
+    );
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery orderBySubTasks({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(
+      _$TaskFieldMap['subTasks']!,
+      descending: descending,
+    );
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery orderByTags({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(
+      _$TaskFieldMap['tags']!,
+      descending: descending,
+    );
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  @override
+  TaskQuery orderByLocation({
+    bool descending = false,
+    Object? startAt = _sentinel,
+    Object? startAfter = _sentinel,
+    Object? endAt = _sentinel,
+    Object? endBefore = _sentinel,
+    TaskDocumentSnapshot? startAtDocument,
+    TaskDocumentSnapshot? endAtDocument,
+    TaskDocumentSnapshot? endBeforeDocument,
+    TaskDocumentSnapshot? startAfterDocument,
+  }) {
+    final query = $referenceWithoutCursor.orderBy(
+      _$TaskFieldMap['location']!,
+      descending: descending,
+    );
+    var queryCursor = $queryCursor;
+
+    if (startAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAt: const [],
+        startAtDocumentSnapshot: startAtDocument.snapshot,
+      );
+    }
+    if (startAfterDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: const [],
+        startAfterDocumentSnapshot: startAfterDocument.snapshot,
+      );
+    }
+    if (endAtDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endAt: const [],
+        endAtDocumentSnapshot: endAtDocument.snapshot,
+      );
+    }
+    if (endBeforeDocument != null) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: const [],
+        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
+      );
+    }
+
+    if (startAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAt: [...queryCursor.startAt, startAt],
+        startAtDocumentSnapshot: null,
+      );
+    }
+    if (startAfter != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        startAfter: [...queryCursor.startAfter, startAfter],
+        startAfterDocumentSnapshot: null,
+      );
+    }
+    if (endAt != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endAt: [...queryCursor.endAt, endAt],
+        endAtDocumentSnapshot: null,
+      );
+    }
+    if (endBefore != _sentinel) {
+      queryCursor = queryCursor.copyWith(
+        endBefore: [...queryCursor.endBefore, endBefore],
+        endBeforeDocumentSnapshot: null,
+      );
+    }
+
+    return _$TaskQuery(
+      _collection,
+      $referenceWithoutCursor: query,
+      $queryCursor: queryCursor,
+    );
+  }
+
+  @override
   bool operator ==(Object other) {
     return other is _$TaskQuery &&
         other.runtimeType == runtimeType &&
@@ -5837,6 +7097,21 @@ _Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
   updatedAt: const FirestoreDateTimeConverter().fromJson(
     json['updatedAt'] as Timestamp,
   ),
+  type: $enumDecodeNullable(_$TaskTypeEnumMap, json['type']) ?? TaskType.simple,
+  startDate: _$JsonConverterFromJson<Timestamp, DateTime>(
+    json['startDate'],
+    const FirestoreDateTimeConverter().fromJson,
+  ),
+  estimatedDurationMinutes: (json['estimatedDurationMinutes'] as num?)?.toInt(),
+  subTasks:
+      (json['subTasks'] as List<dynamic>?)
+          ?.map((e) => SubTask.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  tags:
+      (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
+  location: json['location'] as String?,
 );
 
 const _$TaskFieldMap = <String, String>{
@@ -5850,6 +7125,12 @@ const _$TaskFieldMap = <String, String>{
   'priority': 'priority',
   'createdAt': 'createdAt',
   'updatedAt': 'updatedAt',
+  'type': 'type',
+  'startDate': 'startDate',
+  'estimatedDurationMinutes': 'estimatedDurationMinutes',
+  'subTasks': 'subTasks',
+  'tags': 'tags',
+  'location': 'location',
 };
 
 // ignore: unused_element
@@ -5880,6 +7161,23 @@ abstract class _$TaskPerFieldToJson {
   // ignore: unused_element
   static Object? updatedAt(DateTime instance) =>
       const FirestoreDateTimeConverter().toJson(instance);
+  // ignore: unused_element
+  static Object? type(TaskType instance) => _$TaskTypeEnumMap[instance]!;
+  // ignore: unused_element
+  static Object? startDate(DateTime? instance) =>
+      _$JsonConverterToJson<Timestamp, DateTime>(
+        instance,
+        const FirestoreDateTimeConverter().toJson,
+      );
+  // ignore: unused_element
+  static Object? estimatedDurationMinutes(int? instance) => instance;
+  // ignore: unused_element
+  static Object? subTasks(List<SubTask> instance) =>
+      instance.map((e) => e.toJson()).toList();
+  // ignore: unused_element
+  static Object? tags(List<String> instance) => instance;
+  // ignore: unused_element
+  static Object? location(String? instance) => instance;
 }
 
 Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
@@ -5896,6 +7194,15 @@ Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
   'priority': _$PriorityEnumMap[instance.priority]!,
   'createdAt': const FirestoreDateTimeConverter().toJson(instance.createdAt),
   'updatedAt': const FirestoreDateTimeConverter().toJson(instance.updatedAt),
+  'type': _$TaskTypeEnumMap[instance.type]!,
+  'startDate': _$JsonConverterToJson<Timestamp, DateTime>(
+    instance.startDate,
+    const FirestoreDateTimeConverter().toJson,
+  ),
+  'estimatedDurationMinutes': instance.estimatedDurationMinutes,
+  'subTasks': instance.subTasks.map((e) => e.toJson()).toList(),
+  'tags': instance.tags,
+  'location': instance.location,
 };
 
 const _$TaskStatusEnumMap = {
@@ -5913,6 +7220,12 @@ const _$PriorityEnumMap = {
   Priority.low: 'low',
   Priority.medium: 'medium',
   Priority.high: 'high',
+};
+
+const _$TaskTypeEnumMap = {
+  TaskType.simple: 'simple',
+  TaskType.checklist: 'checklist',
+  TaskType.scheduled: 'scheduled',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(

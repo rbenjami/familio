@@ -75,6 +75,12 @@ abstract class Task with _$Task {
     required Priority priority,
     required DateTime createdAt,
     required DateTime updatedAt,
+    @Default(TaskType.simple) TaskType type,
+    DateTime? startDate,
+    int? estimatedDurationMinutes,
+    @Default([]) List<SubTask> subTasks,
+    @Default([]) List<String> tags,
+    String? location,
   }) = _Task;
 
   factory Task.fromJson(Map<String, Object?> json) => _$TaskFromJson(json);
