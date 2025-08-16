@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TaskState {
 
- List<Task> get tasks; List<Task> get filteredTasks; TaskUiStatus get uiStatus; String? get error; String? get currentHomeId; TaskFilters? get filters; TaskSort? get sort; Map<String, int> get taskStats;
+ TaskUiStatus get uiStatus; String get title; String get description; DateTime? get dueDate; Priority get priority; List<UserDocumentReference> get assignedTo; List<SubTask> get subTasks; HomeDocumentReference? get home; TaskDocumentReference? get task;// null for creation, set for editing
+ UserDocumentReference? get createdBy;// required for Task creation
+ List<UserDocumentSnapshot> get availableMembers; String? get error; bool get hasUnsavedChanges;
 /// Create a copy of TaskState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +28,16 @@ $TaskStateCopyWith<TaskState> get copyWith => _$TaskStateCopyWithImpl<TaskState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskState&&const DeepCollectionEquality().equals(other.tasks, tasks)&&const DeepCollectionEquality().equals(other.filteredTasks, filteredTasks)&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.error, error) || other.error == error)&&(identical(other.currentHomeId, currentHomeId) || other.currentHomeId == currentHomeId)&&(identical(other.filters, filters) || other.filters == filters)&&(identical(other.sort, sort) || other.sort == sort)&&const DeepCollectionEquality().equals(other.taskStats, taskStats));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other.assignedTo, assignedTo)&&const DeepCollectionEquality().equals(other.subTasks, subTasks)&&const DeepCollectionEquality().equals(other.home, home)&&const DeepCollectionEquality().equals(other.task, task)&&const DeepCollectionEquality().equals(other.createdBy, createdBy)&&const DeepCollectionEquality().equals(other.availableMembers, availableMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(tasks),const DeepCollectionEquality().hash(filteredTasks),uiStatus,error,currentHomeId,filters,sort,const DeepCollectionEquality().hash(taskStats));
+int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(assignedTo),const DeepCollectionEquality().hash(subTasks),const DeepCollectionEquality().hash(home),const DeepCollectionEquality().hash(task),const DeepCollectionEquality().hash(createdBy),const DeepCollectionEquality().hash(availableMembers),error,hasUnsavedChanges);
 
 @override
 String toString() {
-  return 'TaskState(tasks: $tasks, filteredTasks: $filteredTasks, uiStatus: $uiStatus, error: $error, currentHomeId: $currentHomeId, filters: $filters, sort: $sort, taskStats: $taskStats)';
+  return 'TaskState(uiStatus: $uiStatus, title: $title, description: $description, dueDate: $dueDate, priority: $priority, assignedTo: $assignedTo, subTasks: $subTasks, home: $home, task: $task, createdBy: $createdBy, availableMembers: $availableMembers, error: $error, hasUnsavedChanges: $hasUnsavedChanges)';
 }
 
 
@@ -46,11 +48,11 @@ abstract mixin class $TaskStateCopyWith<$Res>  {
   factory $TaskStateCopyWith(TaskState value, $Res Function(TaskState) _then) = _$TaskStateCopyWithImpl;
 @useResult
 $Res call({
- List<Task> tasks, List<Task> filteredTasks, TaskUiStatus uiStatus, String? error, String? currentHomeId, TaskFilters? filters, TaskSort? sort, Map<String, int> taskStats
+ TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<UserDocumentReference> assignedTo, List<SubTask> subTasks, HomeDocumentReference? home, TaskDocumentReference? task, UserDocumentReference? createdBy, List<UserDocumentSnapshot> availableMembers, String? error, bool hasUnsavedChanges
 });
 
 
-$TaskFiltersCopyWith<$Res>? get filters;$TaskSortCopyWith<$Res>? get sort;
+
 
 }
 /// @nodoc
@@ -63,80 +65,69 @@ class _$TaskStateCopyWithImpl<$Res>
 
 /// Create a copy of TaskState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? tasks = null,Object? filteredTasks = null,Object? uiStatus = null,Object? error = freezed,Object? currentHomeId = freezed,Object? filters = freezed,Object? sort = freezed,Object? taskStats = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uiStatus = null,Object? title = null,Object? description = null,Object? dueDate = freezed,Object? priority = null,Object? assignedTo = null,Object? subTasks = null,Object? home = freezed,Object? task = freezed,Object? createdBy = freezed,Object? availableMembers = null,Object? error = freezed,Object? hasUnsavedChanges = null,}) {
   return _then(_self.copyWith(
-tasks: null == tasks ? _self.tasks : tasks // ignore: cast_nullable_to_non_nullable
-as List<Task>,filteredTasks: null == filteredTasks ? _self.filteredTasks : filteredTasks // ignore: cast_nullable_to_non_nullable
-as List<Task>,uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_to_non_nullable
-as TaskUiStatus,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,currentHomeId: freezed == currentHomeId ? _self.currentHomeId : currentHomeId // ignore: cast_nullable_to_non_nullable
-as String?,filters: freezed == filters ? _self.filters : filters // ignore: cast_nullable_to_non_nullable
-as TaskFilters?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
-as TaskSort?,taskStats: null == taskStats ? _self.taskStats : taskStats // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,
+uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_to_non_nullable
+as TaskUiStatus,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
+as Priority,assignedTo: null == assignedTo ? _self.assignedTo : assignedTo // ignore: cast_nullable_to_non_nullable
+as List<UserDocumentReference>,subTasks: null == subTasks ? _self.subTasks : subTasks // ignore: cast_nullable_to_non_nullable
+as List<SubTask>,home: freezed == home ? _self.home : home // ignore: cast_nullable_to_non_nullable
+as HomeDocumentReference?,task: freezed == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
+as TaskDocumentReference?,createdBy: freezed == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as UserDocumentReference?,availableMembers: null == availableMembers ? _self.availableMembers : availableMembers // ignore: cast_nullable_to_non_nullable
+as List<UserDocumentSnapshot>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as String?,hasUnsavedChanges: null == hasUnsavedChanges ? _self.hasUnsavedChanges : hasUnsavedChanges // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
-/// Create a copy of TaskState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TaskFiltersCopyWith<$Res>? get filters {
-    if (_self.filters == null) {
-    return null;
-  }
 
-  return $TaskFiltersCopyWith<$Res>(_self.filters!, (value) {
-    return _then(_self.copyWith(filters: value));
-  });
-}/// Create a copy of TaskState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TaskSortCopyWith<$Res>? get sort {
-    if (_self.sort == null) {
-    return null;
-  }
-
-  return $TaskSortCopyWith<$Res>(_self.sort!, (value) {
-    return _then(_self.copyWith(sort: value));
-  });
-}
 }
 
 
 /// @nodoc
 
 
-class _TaskState implements TaskState {
-  const _TaskState({final  List<Task> tasks = const [], final  List<Task> filteredTasks = const [], this.uiStatus = TaskUiStatus.initial, this.error, this.currentHomeId, this.filters, this.sort, final  Map<String, int> taskStats = const {}}): _tasks = tasks,_filteredTasks = filteredTasks,_taskStats = taskStats;
+class _TaskState extends TaskState {
+  const _TaskState({this.uiStatus = TaskUiStatus.initial, this.title = '', this.description = '', this.dueDate, this.priority = Priority.medium, final  List<UserDocumentReference> assignedTo = const [], final  List<SubTask> subTasks = const [], this.home, this.task, this.createdBy, final  List<UserDocumentSnapshot> availableMembers = const [], this.error, this.hasUnsavedChanges = false}): _assignedTo = assignedTo,_subTasks = subTasks,_availableMembers = availableMembers,super._();
   
 
- final  List<Task> _tasks;
-@override@JsonKey() List<Task> get tasks {
-  if (_tasks is EqualUnmodifiableListView) return _tasks;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_tasks);
-}
-
- final  List<Task> _filteredTasks;
-@override@JsonKey() List<Task> get filteredTasks {
-  if (_filteredTasks is EqualUnmodifiableListView) return _filteredTasks;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_filteredTasks);
-}
-
 @override@JsonKey() final  TaskUiStatus uiStatus;
-@override final  String? error;
-@override final  String? currentHomeId;
-@override final  TaskFilters? filters;
-@override final  TaskSort? sort;
- final  Map<String, int> _taskStats;
-@override@JsonKey() Map<String, int> get taskStats {
-  if (_taskStats is EqualUnmodifiableMapView) return _taskStats;
+@override@JsonKey() final  String title;
+@override@JsonKey() final  String description;
+@override final  DateTime? dueDate;
+@override@JsonKey() final  Priority priority;
+ final  List<UserDocumentReference> _assignedTo;
+@override@JsonKey() List<UserDocumentReference> get assignedTo {
+  if (_assignedTo is EqualUnmodifiableListView) return _assignedTo;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_taskStats);
+  return EqualUnmodifiableListView(_assignedTo);
 }
 
+ final  List<SubTask> _subTasks;
+@override@JsonKey() List<SubTask> get subTasks {
+  if (_subTasks is EqualUnmodifiableListView) return _subTasks;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_subTasks);
+}
+
+@override final  HomeDocumentReference? home;
+@override final  TaskDocumentReference? task;
+// null for creation, set for editing
+@override final  UserDocumentReference? createdBy;
+// required for Task creation
+ final  List<UserDocumentSnapshot> _availableMembers;
+// required for Task creation
+@override@JsonKey() List<UserDocumentSnapshot> get availableMembers {
+  if (_availableMembers is EqualUnmodifiableListView) return _availableMembers;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_availableMembers);
+}
+
+@override final  String? error;
+@override@JsonKey() final  bool hasUnsavedChanges;
 
 /// Create a copy of TaskState
 /// with the given fields replaced by the non-null parameter values.
@@ -148,16 +139,16 @@ _$TaskStateCopyWith<_TaskState> get copyWith => __$TaskStateCopyWithImpl<_TaskSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskState&&const DeepCollectionEquality().equals(other._tasks, _tasks)&&const DeepCollectionEquality().equals(other._filteredTasks, _filteredTasks)&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.error, error) || other.error == error)&&(identical(other.currentHomeId, currentHomeId) || other.currentHomeId == currentHomeId)&&(identical(other.filters, filters) || other.filters == filters)&&(identical(other.sort, sort) || other.sort == sort)&&const DeepCollectionEquality().equals(other._taskStats, _taskStats));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other._assignedTo, _assignedTo)&&const DeepCollectionEquality().equals(other._subTasks, _subTasks)&&const DeepCollectionEquality().equals(other.home, home)&&const DeepCollectionEquality().equals(other.task, task)&&const DeepCollectionEquality().equals(other.createdBy, createdBy)&&const DeepCollectionEquality().equals(other._availableMembers, _availableMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_tasks),const DeepCollectionEquality().hash(_filteredTasks),uiStatus,error,currentHomeId,filters,sort,const DeepCollectionEquality().hash(_taskStats));
+int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(_assignedTo),const DeepCollectionEquality().hash(_subTasks),const DeepCollectionEquality().hash(home),const DeepCollectionEquality().hash(task),const DeepCollectionEquality().hash(createdBy),const DeepCollectionEquality().hash(_availableMembers),error,hasUnsavedChanges);
 
 @override
 String toString() {
-  return 'TaskState(tasks: $tasks, filteredTasks: $filteredTasks, uiStatus: $uiStatus, error: $error, currentHomeId: $currentHomeId, filters: $filters, sort: $sort, taskStats: $taskStats)';
+  return 'TaskState(uiStatus: $uiStatus, title: $title, description: $description, dueDate: $dueDate, priority: $priority, assignedTo: $assignedTo, subTasks: $subTasks, home: $home, task: $task, createdBy: $createdBy, availableMembers: $availableMembers, error: $error, hasUnsavedChanges: $hasUnsavedChanges)';
 }
 
 
@@ -168,11 +159,11 @@ abstract mixin class _$TaskStateCopyWith<$Res> implements $TaskStateCopyWith<$Re
   factory _$TaskStateCopyWith(_TaskState value, $Res Function(_TaskState) _then) = __$TaskStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Task> tasks, List<Task> filteredTasks, TaskUiStatus uiStatus, String? error, String? currentHomeId, TaskFilters? filters, TaskSort? sort, Map<String, int> taskStats
+ TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<UserDocumentReference> assignedTo, List<SubTask> subTasks, HomeDocumentReference? home, TaskDocumentReference? task, UserDocumentReference? createdBy, List<UserDocumentSnapshot> availableMembers, String? error, bool hasUnsavedChanges
 });
 
 
-@override $TaskFiltersCopyWith<$Res>? get filters;@override $TaskSortCopyWith<$Res>? get sort;
+
 
 }
 /// @nodoc
@@ -185,310 +176,22 @@ class __$TaskStateCopyWithImpl<$Res>
 
 /// Create a copy of TaskState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? tasks = null,Object? filteredTasks = null,Object? uiStatus = null,Object? error = freezed,Object? currentHomeId = freezed,Object? filters = freezed,Object? sort = freezed,Object? taskStats = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uiStatus = null,Object? title = null,Object? description = null,Object? dueDate = freezed,Object? priority = null,Object? assignedTo = null,Object? subTasks = null,Object? home = freezed,Object? task = freezed,Object? createdBy = freezed,Object? availableMembers = null,Object? error = freezed,Object? hasUnsavedChanges = null,}) {
   return _then(_TaskState(
-tasks: null == tasks ? _self._tasks : tasks // ignore: cast_nullable_to_non_nullable
-as List<Task>,filteredTasks: null == filteredTasks ? _self._filteredTasks : filteredTasks // ignore: cast_nullable_to_non_nullable
-as List<Task>,uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_to_non_nullable
-as TaskUiStatus,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,currentHomeId: freezed == currentHomeId ? _self.currentHomeId : currentHomeId // ignore: cast_nullable_to_non_nullable
-as String?,filters: freezed == filters ? _self.filters : filters // ignore: cast_nullable_to_non_nullable
-as TaskFilters?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
-as TaskSort?,taskStats: null == taskStats ? _self._taskStats : taskStats // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,
-  ));
-}
-
-/// Create a copy of TaskState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TaskFiltersCopyWith<$Res>? get filters {
-    if (_self.filters == null) {
-    return null;
-  }
-
-  return $TaskFiltersCopyWith<$Res>(_self.filters!, (value) {
-    return _then(_self.copyWith(filters: value));
-  });
-}/// Create a copy of TaskState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TaskSortCopyWith<$Res>? get sort {
-    if (_self.sort == null) {
-    return null;
-  }
-
-  return $TaskSortCopyWith<$Res>(_self.sort!, (value) {
-    return _then(_self.copyWith(sort: value));
-  });
-}
-}
-
-/// @nodoc
-mixin _$TaskFilters {
-
- TaskStatus? get status; String? get assignedToId; Priority? get priority; TaskType? get type; bool get showMyTasksOnly;
-/// Create a copy of TaskFilters
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$TaskFiltersCopyWith<TaskFilters> get copyWith => _$TaskFiltersCopyWithImpl<TaskFilters>(this as TaskFilters, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskFilters&&(identical(other.status, status) || other.status == status)&&(identical(other.assignedToId, assignedToId) || other.assignedToId == assignedToId)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.type, type) || other.type == type)&&(identical(other.showMyTasksOnly, showMyTasksOnly) || other.showMyTasksOnly == showMyTasksOnly));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,status,assignedToId,priority,type,showMyTasksOnly);
-
-@override
-String toString() {
-  return 'TaskFilters(status: $status, assignedToId: $assignedToId, priority: $priority, type: $type, showMyTasksOnly: $showMyTasksOnly)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $TaskFiltersCopyWith<$Res>  {
-  factory $TaskFiltersCopyWith(TaskFilters value, $Res Function(TaskFilters) _then) = _$TaskFiltersCopyWithImpl;
-@useResult
-$Res call({
- TaskStatus? status, String? assignedToId, Priority? priority, TaskType? type, bool showMyTasksOnly
-});
-
-
-
-
-}
-/// @nodoc
-class _$TaskFiltersCopyWithImpl<$Res>
-    implements $TaskFiltersCopyWith<$Res> {
-  _$TaskFiltersCopyWithImpl(this._self, this._then);
-
-  final TaskFilters _self;
-  final $Res Function(TaskFilters) _then;
-
-/// Create a copy of TaskFilters
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = freezed,Object? assignedToId = freezed,Object? priority = freezed,Object? type = freezed,Object? showMyTasksOnly = null,}) {
-  return _then(_self.copyWith(
-status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as TaskStatus?,assignedToId: freezed == assignedToId ? _self.assignedToId : assignedToId // ignore: cast_nullable_to_non_nullable
-as String?,priority: freezed == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
-as Priority?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as TaskType?,showMyTasksOnly: null == showMyTasksOnly ? _self.showMyTasksOnly : showMyTasksOnly // ignore: cast_nullable_to_non_nullable
+uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_to_non_nullable
+as TaskUiStatus,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
+as Priority,assignedTo: null == assignedTo ? _self._assignedTo : assignedTo // ignore: cast_nullable_to_non_nullable
+as List<UserDocumentReference>,subTasks: null == subTasks ? _self._subTasks : subTasks // ignore: cast_nullable_to_non_nullable
+as List<SubTask>,home: freezed == home ? _self.home : home // ignore: cast_nullable_to_non_nullable
+as HomeDocumentReference?,task: freezed == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
+as TaskDocumentReference?,createdBy: freezed == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as UserDocumentReference?,availableMembers: null == availableMembers ? _self._availableMembers : availableMembers // ignore: cast_nullable_to_non_nullable
+as List<UserDocumentSnapshot>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as String?,hasUnsavedChanges: null == hasUnsavedChanges ? _self.hasUnsavedChanges : hasUnsavedChanges // ignore: cast_nullable_to_non_nullable
 as bool,
-  ));
-}
-
-}
-
-
-/// @nodoc
-
-
-class _TaskFilters implements TaskFilters {
-  const _TaskFilters({this.status, this.assignedToId, this.priority, this.type, this.showMyTasksOnly = false});
-  
-
-@override final  TaskStatus? status;
-@override final  String? assignedToId;
-@override final  Priority? priority;
-@override final  TaskType? type;
-@override@JsonKey() final  bool showMyTasksOnly;
-
-/// Create a copy of TaskFilters
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$TaskFiltersCopyWith<_TaskFilters> get copyWith => __$TaskFiltersCopyWithImpl<_TaskFilters>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskFilters&&(identical(other.status, status) || other.status == status)&&(identical(other.assignedToId, assignedToId) || other.assignedToId == assignedToId)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.type, type) || other.type == type)&&(identical(other.showMyTasksOnly, showMyTasksOnly) || other.showMyTasksOnly == showMyTasksOnly));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,status,assignedToId,priority,type,showMyTasksOnly);
-
-@override
-String toString() {
-  return 'TaskFilters(status: $status, assignedToId: $assignedToId, priority: $priority, type: $type, showMyTasksOnly: $showMyTasksOnly)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$TaskFiltersCopyWith<$Res> implements $TaskFiltersCopyWith<$Res> {
-  factory _$TaskFiltersCopyWith(_TaskFilters value, $Res Function(_TaskFilters) _then) = __$TaskFiltersCopyWithImpl;
-@override @useResult
-$Res call({
- TaskStatus? status, String? assignedToId, Priority? priority, TaskType? type, bool showMyTasksOnly
-});
-
-
-
-
-}
-/// @nodoc
-class __$TaskFiltersCopyWithImpl<$Res>
-    implements _$TaskFiltersCopyWith<$Res> {
-  __$TaskFiltersCopyWithImpl(this._self, this._then);
-
-  final _TaskFilters _self;
-  final $Res Function(_TaskFilters) _then;
-
-/// Create a copy of TaskFilters
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = freezed,Object? assignedToId = freezed,Object? priority = freezed,Object? type = freezed,Object? showMyTasksOnly = null,}) {
-  return _then(_TaskFilters(
-status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as TaskStatus?,assignedToId: freezed == assignedToId ? _self.assignedToId : assignedToId // ignore: cast_nullable_to_non_nullable
-as String?,priority: freezed == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
-as Priority?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as TaskType?,showMyTasksOnly: null == showMyTasksOnly ? _self.showMyTasksOnly : showMyTasksOnly // ignore: cast_nullable_to_non_nullable
-as bool,
-  ));
-}
-
-
-}
-
-/// @nodoc
-mixin _$TaskSort {
-
- TaskSortBy get sortBy; SortOrder get sortOrder;
-/// Create a copy of TaskSort
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$TaskSortCopyWith<TaskSort> get copyWith => _$TaskSortCopyWithImpl<TaskSort>(this as TaskSort, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskSort&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,sortBy,sortOrder);
-
-@override
-String toString() {
-  return 'TaskSort(sortBy: $sortBy, sortOrder: $sortOrder)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $TaskSortCopyWith<$Res>  {
-  factory $TaskSortCopyWith(TaskSort value, $Res Function(TaskSort) _then) = _$TaskSortCopyWithImpl;
-@useResult
-$Res call({
- TaskSortBy sortBy, SortOrder sortOrder
-});
-
-
-
-
-}
-/// @nodoc
-class _$TaskSortCopyWithImpl<$Res>
-    implements $TaskSortCopyWith<$Res> {
-  _$TaskSortCopyWithImpl(this._self, this._then);
-
-  final TaskSort _self;
-  final $Res Function(TaskSort) _then;
-
-/// Create a copy of TaskSort
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? sortBy = null,Object? sortOrder = null,}) {
-  return _then(_self.copyWith(
-sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
-as TaskSortBy,sortOrder: null == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
-as SortOrder,
-  ));
-}
-
-}
-
-
-/// @nodoc
-
-
-class _TaskSort implements TaskSort {
-  const _TaskSort({this.sortBy = TaskSortBy.createdAt, this.sortOrder = SortOrder.descending});
-  
-
-@override@JsonKey() final  TaskSortBy sortBy;
-@override@JsonKey() final  SortOrder sortOrder;
-
-/// Create a copy of TaskSort
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$TaskSortCopyWith<_TaskSort> get copyWith => __$TaskSortCopyWithImpl<_TaskSort>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskSort&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy)&&(identical(other.sortOrder, sortOrder) || other.sortOrder == sortOrder));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,sortBy,sortOrder);
-
-@override
-String toString() {
-  return 'TaskSort(sortBy: $sortBy, sortOrder: $sortOrder)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$TaskSortCopyWith<$Res> implements $TaskSortCopyWith<$Res> {
-  factory _$TaskSortCopyWith(_TaskSort value, $Res Function(_TaskSort) _then) = __$TaskSortCopyWithImpl;
-@override @useResult
-$Res call({
- TaskSortBy sortBy, SortOrder sortOrder
-});
-
-
-
-
-}
-/// @nodoc
-class __$TaskSortCopyWithImpl<$Res>
-    implements _$TaskSortCopyWith<$Res> {
-  __$TaskSortCopyWithImpl(this._self, this._then);
-
-  final _TaskSort _self;
-  final $Res Function(_TaskSort) _then;
-
-/// Create a copy of TaskSort
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? sortBy = null,Object? sortOrder = null,}) {
-  return _then(_TaskSort(
-sortBy: null == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
-as TaskSortBy,sortOrder: null == sortOrder ? _self.sortOrder : sortOrder // ignore: cast_nullable_to_non_nullable
-as SortOrder,
   ));
 }
 

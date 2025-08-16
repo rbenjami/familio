@@ -1,6 +1,6 @@
 // Enums
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
-import 'package:familio/data/models/core/home.dart';
+import 'package:familio/data/models/converters.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 export 'enums/task_status.dart';
@@ -23,7 +23,11 @@ export 'invitations/invitation.dart';
 export 'relationships/relationship.dart';
 
 const firestoreSerializable = JsonSerializable(
-  converters: [...firestoreJsonConverters, HomeDocumentReferenceConverter()],
+  converters: [
+    ...firestoreJsonConverters,
+    DocumentReferenceHomeConverter(),
+    DocumentReferenceUserConverter(),
+  ],
   // The following values could alternatively be set inside your `build.yaml`
   explicitToJson: true,
   createFieldMap: true,

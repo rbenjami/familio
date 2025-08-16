@@ -8,7 +8,7 @@ class HomeService {
   HomeService();
 
   /// Create a new home
-  Future<Home> createHome({
+  Future<HomeDocumentSnapshot> createHome({
     required String name,
     required String ownerId,
     String? description,
@@ -22,16 +22,15 @@ class HomeService {
         name: name,
         description: description,
         createdAt: now,
-        ownerId: ownerId,
+        owner: usersRef.doc(ownerId).reference,
         settings: const HomeSettings(allowMemberInvite: true),
       );
 
       // Save to Firestore using ODM reference
-      final homeId = (await homesRef.add(home)).id;
+      final homeDoc = await homesRef.add(home);
 
       // Create member document for the owner
       final ownerMember = Member(
-        userId: ownerId,
         permissions: MemberPermissions(
           canCreateTasks: true,
           canEditTasks: true,
@@ -43,10 +42,10 @@ class HomeService {
         joinedAt: now,
       );
 
-      await homesRef.doc(homeId).members.doc(ownerId).set(ownerMember);
+      await homeDoc.members.doc(ownerId).set(ownerMember);
 
-      logger.info('Home created successfully: $homeId');
-      return home.copyWith(id: homeId);
+      logger.info('Home created successfully: ${homeDoc.id}');
+      return homeDoc.get();
     } catch (e) {
       logger.error('Error creating home: $e');
       rethrow;
@@ -55,120 +54,36 @@ class HomeService {
 
   /// Add member to home
   Future<void> addMemberToHome({
-    required String homeId,
-    required String userId,
+    required HomeDocumentReference home,
+    required UserDocumentReference user,
     required MemberPermissions permissions,
   }) async {
     try {
-      logger.info('Adding member $userId to home $homeId');
-
-      // Get the home document
-      final homeRef = homesRef.doc(homeId);
-      final homeDoc = await homeRef.get();
-
-      if (!homeDoc.exists) {
-        throw Exception('Home not found: $homeId');
-      }
-
-      final members = await homeRef.members.get();
-
-      // Check if user is already a member
-      if (members.docs.any((doc) => doc.id == userId)) {
-        logger.info('User already a member of home: $userId');
-        return;
-      }
+      logger.info('Adding member $user to home $home');
 
       // Create member document
-      final member = Member(
-        userId: userId,
-        permissions: permissions,
-        joinedAt: DateTime.now(),
-      );
+      final member = Member(permissions: permissions, joinedAt: DateTime.now());
 
-      await homeRef.members.doc(userId).set(member);
+      await home.members.doc(user.id).set(member);
 
-      logger.info('Member added successfully to home: $homeId');
+      logger.info('Member added successfully to home: $home');
     } catch (e) {
       logger.error('Error adding member to home: $e');
       rethrow;
     }
   }
 
-  /// Get home by ID
-  Future<Home?> getHomeById(String homeId) async {
-    try {
-      logger.info('Fetching home: $homeId');
-
-      final homeDoc = await homesRef.doc(homeId).get();
-
-      if (homeDoc.exists) {
-        final home = homeDoc.data!;
-        logger.info('Home found: ${home.name}');
-        return home;
-      } else {
-        logger.info('No home found with ID: $homeId');
-        return null;
-      }
-    } catch (e) {
-      logger.error('Error fetching home: $e');
-      rethrow;
-    }
-  }
-
-  /// Get homes by IDs
-  Future<List<Home>> getHomesByIds(List<String> homeIds) async {
-    try {
-      logger.info('Fetching homes for homes: $homeIds ');
-
-      final homes = await homesRef.whereDocumentId(whereIn: homeIds).get();
-      logger.info('Found ${homes.docs.length} of ${homeIds.length} homes');
-      return homes.docs.map((doc) => doc.data).toList();
-    } catch (e) {
-      logger.error('Error fetching homes: $e');
-      rethrow;
-    }
-  }
-
-  /// Get homes stream where user is a member
-  Stream<List<Home>> getUserHomesStream(String userId) {
-    try {
-      logger.info('Getting homes stream for user: $userId');
-
-      return homesRef.snapshots().asyncMap((homesSnapshot) async {
-        final userHomes = <Home>[];
-
-        // Check each home to see if user is a member
-        for (final homeDoc in homesSnapshot.docs) {
-          final home = homeDoc.data;
-          final membersSnapshot = await homesRef.doc(home.id).members.get();
-
-          // Check if user is a member of this home
-          final isMember = membersSnapshot.docs.any(
-            (memberDoc) => memberDoc.id == userId,
-          );
-
-          if (isMember) {
-            userHomes.add(home);
-          }
-        }
-
-        return userHomes;
-      });
-    } catch (e) {
-      logger.error('Error getting user homes stream: $e');
-      rethrow;
-    }
-  }
-
   /// Get user permissions for a specific home
   Future<MemberPermissions?> getUserPermissions(
-    String homeId,
-    String userId,
+    HomeDocumentReference home,
+    UserDocumentReference user,
   ) async {
     try {
-      logger.info('Getting user permissions for home: $homeId, user: $userId');
+      logger.info(
+        'Getting user permissions for home: ${home.id}, user: ${user.id}',
+      );
 
-      final memberDoc = await homesRef.doc(homeId).members.doc(userId).get();
+      final memberDoc = await home.members.doc(user.id).get();
 
       if (memberDoc.exists) {
         final member = memberDoc.data;

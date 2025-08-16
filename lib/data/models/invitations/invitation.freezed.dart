@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Invitation {
 
-@Id()@JsonKey(includeToJson: false) String get id; String get homeId; String? get invitedEmail; String? get invitedUserName; String get invitedBy; InvitationStatus get status; DateTime get createdAt; DateTime get expiresAt; String get invitationCode;
+@Id()@JsonKey(includeToJson: false) String get id; DocumentReference<Home> get home; String? get invitedEmail; String? get invitedUserName; DocumentReference<User> get invitedBy; InvitationStatus get status; DateTime get createdAt; DateTime get expiresAt; String get invitationCode;
 /// Create a copy of Invitation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $InvitationCopyWith<Invitation> get copyWith => _$InvitationCopyWithImpl<Invitat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Invitation&&(identical(other.id, id) || other.id == id)&&(identical(other.homeId, homeId) || other.homeId == homeId)&&(identical(other.invitedEmail, invitedEmail) || other.invitedEmail == invitedEmail)&&(identical(other.invitedUserName, invitedUserName) || other.invitedUserName == invitedUserName)&&(identical(other.invitedBy, invitedBy) || other.invitedBy == invitedBy)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.invitationCode, invitationCode) || other.invitationCode == invitationCode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Invitation&&(identical(other.id, id) || other.id == id)&&(identical(other.home, home) || other.home == home)&&(identical(other.invitedEmail, invitedEmail) || other.invitedEmail == invitedEmail)&&(identical(other.invitedUserName, invitedUserName) || other.invitedUserName == invitedUserName)&&(identical(other.invitedBy, invitedBy) || other.invitedBy == invitedBy)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.invitationCode, invitationCode) || other.invitationCode == invitationCode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,homeId,invitedEmail,invitedUserName,invitedBy,status,createdAt,expiresAt,invitationCode);
+int get hashCode => Object.hash(runtimeType,id,home,invitedEmail,invitedUserName,invitedBy,status,createdAt,expiresAt,invitationCode);
 
 @override
 String toString() {
-  return 'Invitation(id: $id, homeId: $homeId, invitedEmail: $invitedEmail, invitedUserName: $invitedUserName, invitedBy: $invitedBy, status: $status, createdAt: $createdAt, expiresAt: $expiresAt, invitationCode: $invitationCode)';
+  return 'Invitation(id: $id, home: $home, invitedEmail: $invitedEmail, invitedUserName: $invitedUserName, invitedBy: $invitedBy, status: $status, createdAt: $createdAt, expiresAt: $expiresAt, invitationCode: $invitationCode)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $InvitationCopyWith<$Res>  {
   factory $InvitationCopyWith(Invitation value, $Res Function(Invitation) _then) = _$InvitationCopyWithImpl;
 @useResult
 $Res call({
-@Id()@JsonKey(includeToJson: false) String id, String homeId, String? invitedEmail, String? invitedUserName, String invitedBy, InvitationStatus status, DateTime createdAt, DateTime expiresAt, String invitationCode
+@Id()@JsonKey(includeToJson: false) String id, DocumentReference<Home> home, String? invitedEmail, String? invitedUserName, DocumentReference<User> invitedBy, InvitationStatus status, DateTime createdAt, DateTime expiresAt, String invitationCode
 });
 
 
@@ -66,14 +66,14 @@ class _$InvitationCopyWithImpl<$Res>
 
 /// Create a copy of Invitation
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? homeId = null,Object? invitedEmail = freezed,Object? invitedUserName = freezed,Object? invitedBy = null,Object? status = null,Object? createdAt = null,Object? expiresAt = null,Object? invitationCode = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? home = null,Object? invitedEmail = freezed,Object? invitedUserName = freezed,Object? invitedBy = null,Object? status = null,Object? createdAt = null,Object? expiresAt = null,Object? invitationCode = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,homeId: null == homeId ? _self.homeId : homeId // ignore: cast_nullable_to_non_nullable
-as String,invitedEmail: freezed == invitedEmail ? _self.invitedEmail : invitedEmail // ignore: cast_nullable_to_non_nullable
+as String,home: null == home ? _self.home : home // ignore: cast_nullable_to_non_nullable
+as DocumentReference<Home>,invitedEmail: freezed == invitedEmail ? _self.invitedEmail : invitedEmail // ignore: cast_nullable_to_non_nullable
 as String?,invitedUserName: freezed == invitedUserName ? _self.invitedUserName : invitedUserName // ignore: cast_nullable_to_non_nullable
 as String?,invitedBy: null == invitedBy ? _self.invitedBy : invitedBy // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as DocumentReference<User>,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as InvitationStatus,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
 as DateTime,invitationCode: null == invitationCode ? _self.invitationCode : invitationCode // ignore: cast_nullable_to_non_nullable
@@ -88,14 +88,14 @@ as String,
 
 @firestoreSerializable
 class _Invitation implements Invitation {
-  const _Invitation({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.homeId, this.invitedEmail, this.invitedUserName, required this.invitedBy, required this.status, required this.createdAt, required this.expiresAt, required this.invitationCode});
+  const _Invitation({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.home, this.invitedEmail, this.invitedUserName, required this.invitedBy, required this.status, required this.createdAt, required this.expiresAt, required this.invitationCode});
   factory _Invitation.fromJson(Map<String, dynamic> json) => _$InvitationFromJson(json);
 
 @override@Id()@JsonKey(includeToJson: false) final  String id;
-@override final  String homeId;
+@override final  DocumentReference<Home> home;
 @override final  String? invitedEmail;
 @override final  String? invitedUserName;
-@override final  String invitedBy;
+@override final  DocumentReference<User> invitedBy;
 @override final  InvitationStatus status;
 @override final  DateTime createdAt;
 @override final  DateTime expiresAt;
@@ -114,16 +114,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Invitation&&(identical(other.id, id) || other.id == id)&&(identical(other.homeId, homeId) || other.homeId == homeId)&&(identical(other.invitedEmail, invitedEmail) || other.invitedEmail == invitedEmail)&&(identical(other.invitedUserName, invitedUserName) || other.invitedUserName == invitedUserName)&&(identical(other.invitedBy, invitedBy) || other.invitedBy == invitedBy)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.invitationCode, invitationCode) || other.invitationCode == invitationCode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Invitation&&(identical(other.id, id) || other.id == id)&&(identical(other.home, home) || other.home == home)&&(identical(other.invitedEmail, invitedEmail) || other.invitedEmail == invitedEmail)&&(identical(other.invitedUserName, invitedUserName) || other.invitedUserName == invitedUserName)&&(identical(other.invitedBy, invitedBy) || other.invitedBy == invitedBy)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt)&&(identical(other.invitationCode, invitationCode) || other.invitationCode == invitationCode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,homeId,invitedEmail,invitedUserName,invitedBy,status,createdAt,expiresAt,invitationCode);
+int get hashCode => Object.hash(runtimeType,id,home,invitedEmail,invitedUserName,invitedBy,status,createdAt,expiresAt,invitationCode);
 
 @override
 String toString() {
-  return 'Invitation(id: $id, homeId: $homeId, invitedEmail: $invitedEmail, invitedUserName: $invitedUserName, invitedBy: $invitedBy, status: $status, createdAt: $createdAt, expiresAt: $expiresAt, invitationCode: $invitationCode)';
+  return 'Invitation(id: $id, home: $home, invitedEmail: $invitedEmail, invitedUserName: $invitedUserName, invitedBy: $invitedBy, status: $status, createdAt: $createdAt, expiresAt: $expiresAt, invitationCode: $invitationCode)';
 }
 
 
@@ -134,7 +134,7 @@ abstract mixin class _$InvitationCopyWith<$Res> implements $InvitationCopyWith<$
   factory _$InvitationCopyWith(_Invitation value, $Res Function(_Invitation) _then) = __$InvitationCopyWithImpl;
 @override @useResult
 $Res call({
-@Id()@JsonKey(includeToJson: false) String id, String homeId, String? invitedEmail, String? invitedUserName, String invitedBy, InvitationStatus status, DateTime createdAt, DateTime expiresAt, String invitationCode
+@Id()@JsonKey(includeToJson: false) String id, DocumentReference<Home> home, String? invitedEmail, String? invitedUserName, DocumentReference<User> invitedBy, InvitationStatus status, DateTime createdAt, DateTime expiresAt, String invitationCode
 });
 
 
@@ -151,14 +151,14 @@ class __$InvitationCopyWithImpl<$Res>
 
 /// Create a copy of Invitation
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? homeId = null,Object? invitedEmail = freezed,Object? invitedUserName = freezed,Object? invitedBy = null,Object? status = null,Object? createdAt = null,Object? expiresAt = null,Object? invitationCode = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? home = null,Object? invitedEmail = freezed,Object? invitedUserName = freezed,Object? invitedBy = null,Object? status = null,Object? createdAt = null,Object? expiresAt = null,Object? invitationCode = null,}) {
   return _then(_Invitation(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,homeId: null == homeId ? _self.homeId : homeId // ignore: cast_nullable_to_non_nullable
-as String,invitedEmail: freezed == invitedEmail ? _self.invitedEmail : invitedEmail // ignore: cast_nullable_to_non_nullable
+as String,home: null == home ? _self.home : home // ignore: cast_nullable_to_non_nullable
+as DocumentReference<Home>,invitedEmail: freezed == invitedEmail ? _self.invitedEmail : invitedEmail // ignore: cast_nullable_to_non_nullable
 as String?,invitedUserName: freezed == invitedUserName ? _self.invitedUserName : invitedUserName // ignore: cast_nullable_to_non_nullable
 as String?,invitedBy: null == invitedBy ? _self.invitedBy : invitedBy // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as DocumentReference<User>,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as InvitationStatus,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
 as DateTime,invitationCode: null == invitationCode ? _self.invitationCode : invitationCode // ignore: cast_nullable_to_non_nullable

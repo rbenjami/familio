@@ -1,5 +1,5 @@
 import 'package:familio/blocs/home/home_bloc.dart';
-import 'package:familio/blocs/task/task_bloc.dart';
+import 'package:familio/blocs/tasks/tasks_bloc.dart';
 import 'package:familio/core/theme/app_theme.dart';
 import 'package:familio/di/injection.dart';
 import 'package:familio/generated/l10n.dart';
@@ -20,7 +20,7 @@ class FamilioApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => getIt<AuthBloc>()),
         BlocProvider(create: (context) => getIt<HomeBloc>()),
-        BlocProvider(create: (context) => getIt<TaskBloc>()),
+        BlocProvider(create: (context) => getIt<TasksBloc>()),
       ],
       child: MaterialApp.router(
         title: 'Familio',

@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$User {
 
-@Id()@JsonKey(includeToJson: false) String get id; String get name; String? get avatar; DateTime? get birthDate; String? get firebaseAuthId; List<String>? get relationshipIds; List<HomeDocumentReference> get homes;
+@Id()@JsonKey(includeToJson: false) String get id; String get name; String? get avatar; DateTime? get birthDate; String? get firebaseAuthId; List<String>? get relationshipIds; List<DocumentReference<Home>> get homes;
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $UserCopyWith<$Res>  {
   factory $UserCopyWith(User value, $Res Function(User) _then) = _$UserCopyWithImpl;
 @useResult
 $Res call({
-@Id()@JsonKey(includeToJson: false) String id, String name, String? avatar, DateTime? birthDate, String? firebaseAuthId, List<String>? relationshipIds, List<HomeDocumentReference> homes
+@Id()@JsonKey(includeToJson: false) String id, String name, String? avatar, DateTime? birthDate, String? firebaseAuthId, List<String>? relationshipIds, List<DocumentReference<Home>> homes
 });
 
 
@@ -75,7 +75,7 @@ as String?,birthDate: freezed == birthDate ? _self.birthDate : birthDate // igno
 as DateTime?,firebaseAuthId: freezed == firebaseAuthId ? _self.firebaseAuthId : firebaseAuthId // ignore: cast_nullable_to_non_nullable
 as String?,relationshipIds: freezed == relationshipIds ? _self.relationshipIds : relationshipIds // ignore: cast_nullable_to_non_nullable
 as List<String>?,homes: null == homes ? _self.homes : homes // ignore: cast_nullable_to_non_nullable
-as List<HomeDocumentReference>,
+as List<DocumentReference<Home>>,
   ));
 }
 
@@ -86,7 +86,7 @@ as List<HomeDocumentReference>,
 
 @firestoreSerializable
 class _User implements User {
-  const _User({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.name, this.avatar, this.birthDate, this.firebaseAuthId, final  List<String>? relationshipIds, final  List<HomeDocumentReference> homes = const []}): _relationshipIds = relationshipIds,_homes = homes;
+  const _User({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.name, this.avatar, this.birthDate, this.firebaseAuthId, final  List<String>? relationshipIds, final  List<DocumentReference<Home>> homes = const []}): _relationshipIds = relationshipIds,_homes = homes;
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 @override@Id()@JsonKey(includeToJson: false) final  String id;
@@ -103,8 +103,8 @@ class _User implements User {
   return EqualUnmodifiableListView(value);
 }
 
- final  List<HomeDocumentReference> _homes;
-@override@JsonKey() List<HomeDocumentReference> get homes {
+ final  List<DocumentReference<Home>> _homes;
+@override@JsonKey() List<DocumentReference<Home>> get homes {
   if (_homes is EqualUnmodifiableListView) return _homes;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_homes);
@@ -144,7 +144,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$UserCopyWith(_User value, $Res Function(_User) _then) = __$UserCopyWithImpl;
 @override @useResult
 $Res call({
-@Id()@JsonKey(includeToJson: false) String id, String name, String? avatar, DateTime? birthDate, String? firebaseAuthId, List<String>? relationshipIds, List<HomeDocumentReference> homes
+@Id()@JsonKey(includeToJson: false) String id, String name, String? avatar, DateTime? birthDate, String? firebaseAuthId, List<String>? relationshipIds, List<DocumentReference<Home>> homes
 });
 
 
@@ -170,7 +170,7 @@ as String?,birthDate: freezed == birthDate ? _self.birthDate : birthDate // igno
 as DateTime?,firebaseAuthId: freezed == firebaseAuthId ? _self.firebaseAuthId : firebaseAuthId // ignore: cast_nullable_to_non_nullable
 as String?,relationshipIds: freezed == relationshipIds ? _self._relationshipIds : relationshipIds // ignore: cast_nullable_to_non_nullable
 as List<String>?,homes: null == homes ? _self._homes : homes // ignore: cast_nullable_to_non_nullable
-as List<HomeDocumentReference>,
+as List<DocumentReference<Home>>,
   ));
 }
 
@@ -348,7 +348,7 @@ as String?,
 /// @nodoc
 mixin _$Event {
 
-@Id()@JsonKey(includeToJson: false) String get id; String get title; String? get description; DateTime get startDate; DateTime? get endDate; bool get isAllDay; EventSource get source; String? get externalEventId; bool get canEdit; List<String>? get attendeeUserIds; DateTime get createdAt; DateTime get updatedAt;
+@Id()@JsonKey(includeToJson: false) String get id; String get title; String? get description; DateTime get startDate; DateTime? get endDate; bool get isAllDay; EventSource get source; String? get externalEventId; bool get canEdit; List<DocumentReference<User>>? get attendeeUsers; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Event
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -361,16 +361,16 @@ $EventCopyWith<Event> get copyWith => _$EventCopyWithImpl<Event>(this as Event, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Event&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.isAllDay, isAllDay) || other.isAllDay == isAllDay)&&(identical(other.source, source) || other.source == source)&&(identical(other.externalEventId, externalEventId) || other.externalEventId == externalEventId)&&(identical(other.canEdit, canEdit) || other.canEdit == canEdit)&&const DeepCollectionEquality().equals(other.attendeeUserIds, attendeeUserIds)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Event&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.isAllDay, isAllDay) || other.isAllDay == isAllDay)&&(identical(other.source, source) || other.source == source)&&(identical(other.externalEventId, externalEventId) || other.externalEventId == externalEventId)&&(identical(other.canEdit, canEdit) || other.canEdit == canEdit)&&const DeepCollectionEquality().equals(other.attendeeUsers, attendeeUsers)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,description,startDate,endDate,isAllDay,source,externalEventId,canEdit,const DeepCollectionEquality().hash(attendeeUserIds),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,title,description,startDate,endDate,isAllDay,source,externalEventId,canEdit,const DeepCollectionEquality().hash(attendeeUsers),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Event(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, isAllDay: $isAllDay, source: $source, externalEventId: $externalEventId, canEdit: $canEdit, attendeeUserIds: $attendeeUserIds, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Event(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, isAllDay: $isAllDay, source: $source, externalEventId: $externalEventId, canEdit: $canEdit, attendeeUsers: $attendeeUsers, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -381,7 +381,7 @@ abstract mixin class $EventCopyWith<$Res>  {
   factory $EventCopyWith(Event value, $Res Function(Event) _then) = _$EventCopyWithImpl;
 @useResult
 $Res call({
-@Id()@JsonKey(includeToJson: false) String id, String title, String? description, DateTime startDate, DateTime? endDate, bool isAllDay, EventSource source, String? externalEventId, bool canEdit, List<String>? attendeeUserIds, DateTime createdAt, DateTime updatedAt
+@Id()@JsonKey(includeToJson: false) String id, String title, String? description, DateTime startDate, DateTime? endDate, bool isAllDay, EventSource source, String? externalEventId, bool canEdit, List<DocumentReference<User>>? attendeeUsers, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -398,7 +398,7 @@ class _$EventCopyWithImpl<$Res>
 
 /// Create a copy of Event
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? startDate = null,Object? endDate = freezed,Object? isAllDay = null,Object? source = null,Object? externalEventId = freezed,Object? canEdit = null,Object? attendeeUserIds = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? startDate = null,Object? endDate = freezed,Object? isAllDay = null,Object? source = null,Object? externalEventId = freezed,Object? canEdit = null,Object? attendeeUsers = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -409,8 +409,8 @@ as DateTime?,isAllDay: null == isAllDay ? _self.isAllDay : isAllDay // ignore: c
 as bool,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as EventSource,externalEventId: freezed == externalEventId ? _self.externalEventId : externalEventId // ignore: cast_nullable_to_non_nullable
 as String?,canEdit: null == canEdit ? _self.canEdit : canEdit // ignore: cast_nullable_to_non_nullable
-as bool,attendeeUserIds: freezed == attendeeUserIds ? _self.attendeeUserIds : attendeeUserIds // ignore: cast_nullable_to_non_nullable
-as List<String>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as bool,attendeeUsers: freezed == attendeeUsers ? _self.attendeeUsers : attendeeUsers // ignore: cast_nullable_to_non_nullable
+as List<DocumentReference<User>>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -423,7 +423,7 @@ as DateTime,
 
 @firestoreSerializable
 class _Event implements Event {
-  const _Event({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.title, this.description, required this.startDate, this.endDate, required this.isAllDay, required this.source, this.externalEventId, required this.canEdit, final  List<String>? attendeeUserIds, required this.createdAt, required this.updatedAt}): _attendeeUserIds = attendeeUserIds;
+  const _Event({@Id()@JsonKey(includeToJson: false) this.id = 'unset', required this.title, this.description, required this.startDate, this.endDate, required this.isAllDay, required this.source, this.externalEventId, required this.canEdit, final  List<DocumentReference<User>>? attendeeUsers, required this.createdAt, required this.updatedAt}): _attendeeUsers = attendeeUsers;
   factory _Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 
 @override@Id()@JsonKey(includeToJson: false) final  String id;
@@ -435,11 +435,11 @@ class _Event implements Event {
 @override final  EventSource source;
 @override final  String? externalEventId;
 @override final  bool canEdit;
- final  List<String>? _attendeeUserIds;
-@override List<String>? get attendeeUserIds {
-  final value = _attendeeUserIds;
+ final  List<DocumentReference<User>>? _attendeeUsers;
+@override List<DocumentReference<User>>? get attendeeUsers {
+  final value = _attendeeUsers;
   if (value == null) return null;
-  if (_attendeeUserIds is EqualUnmodifiableListView) return _attendeeUserIds;
+  if (_attendeeUsers is EqualUnmodifiableListView) return _attendeeUsers;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
@@ -460,16 +460,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Event&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.isAllDay, isAllDay) || other.isAllDay == isAllDay)&&(identical(other.source, source) || other.source == source)&&(identical(other.externalEventId, externalEventId) || other.externalEventId == externalEventId)&&(identical(other.canEdit, canEdit) || other.canEdit == canEdit)&&const DeepCollectionEquality().equals(other._attendeeUserIds, _attendeeUserIds)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Event&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.isAllDay, isAllDay) || other.isAllDay == isAllDay)&&(identical(other.source, source) || other.source == source)&&(identical(other.externalEventId, externalEventId) || other.externalEventId == externalEventId)&&(identical(other.canEdit, canEdit) || other.canEdit == canEdit)&&const DeepCollectionEquality().equals(other._attendeeUsers, _attendeeUsers)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,description,startDate,endDate,isAllDay,source,externalEventId,canEdit,const DeepCollectionEquality().hash(_attendeeUserIds),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,title,description,startDate,endDate,isAllDay,source,externalEventId,canEdit,const DeepCollectionEquality().hash(_attendeeUsers),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Event(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, isAllDay: $isAllDay, source: $source, externalEventId: $externalEventId, canEdit: $canEdit, attendeeUserIds: $attendeeUserIds, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Event(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, isAllDay: $isAllDay, source: $source, externalEventId: $externalEventId, canEdit: $canEdit, attendeeUsers: $attendeeUsers, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -480,7 +480,7 @@ abstract mixin class _$EventCopyWith<$Res> implements $EventCopyWith<$Res> {
   factory _$EventCopyWith(_Event value, $Res Function(_Event) _then) = __$EventCopyWithImpl;
 @override @useResult
 $Res call({
-@Id()@JsonKey(includeToJson: false) String id, String title, String? description, DateTime startDate, DateTime? endDate, bool isAllDay, EventSource source, String? externalEventId, bool canEdit, List<String>? attendeeUserIds, DateTime createdAt, DateTime updatedAt
+@Id()@JsonKey(includeToJson: false) String id, String title, String? description, DateTime startDate, DateTime? endDate, bool isAllDay, EventSource source, String? externalEventId, bool canEdit, List<DocumentReference<User>>? attendeeUsers, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -497,7 +497,7 @@ class __$EventCopyWithImpl<$Res>
 
 /// Create a copy of Event
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? startDate = null,Object? endDate = freezed,Object? isAllDay = null,Object? source = null,Object? externalEventId = freezed,Object? canEdit = null,Object? attendeeUserIds = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? startDate = null,Object? endDate = freezed,Object? isAllDay = null,Object? source = null,Object? externalEventId = freezed,Object? canEdit = null,Object? attendeeUsers = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_Event(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -508,8 +508,8 @@ as DateTime?,isAllDay: null == isAllDay ? _self.isAllDay : isAllDay // ignore: c
 as bool,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as EventSource,externalEventId: freezed == externalEventId ? _self.externalEventId : externalEventId // ignore: cast_nullable_to_non_nullable
 as String?,canEdit: null == canEdit ? _self.canEdit : canEdit // ignore: cast_nullable_to_non_nullable
-as bool,attendeeUserIds: freezed == attendeeUserIds ? _self._attendeeUserIds : attendeeUserIds // ignore: cast_nullable_to_non_nullable
-as List<String>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as bool,attendeeUsers: freezed == attendeeUsers ? _self._attendeeUsers : attendeeUsers // ignore: cast_nullable_to_non_nullable
+as List<DocumentReference<User>>?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));

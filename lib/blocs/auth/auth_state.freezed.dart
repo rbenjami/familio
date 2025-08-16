@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AuthState {
 
- AuthUiStatus get uiStatus; String? get uid; String? get email; User? get currentUser; String? get error;
+ AuthUiStatus get uiStatus; String? get uid; String? get email; UserDocumentSnapshot? get currentUser; String? get error;
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,12 +26,12 @@ $AuthStateCopyWith<AuthState> get copyWith => _$AuthStateCopyWithImpl<AuthState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.email, email) || other.email == email)&&(identical(other.currentUser, currentUser) || other.currentUser == currentUser)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other.currentUser, currentUser)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uiStatus,uid,email,currentUser,error);
+int get hashCode => Object.hash(runtimeType,uiStatus,uid,email,const DeepCollectionEquality().hash(currentUser),error);
 
 @override
 String toString() {
@@ -46,11 +46,11 @@ abstract mixin class $AuthStateCopyWith<$Res>  {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) _then) = _$AuthStateCopyWithImpl;
 @useResult
 $Res call({
- AuthUiStatus uiStatus, String? uid, String? email, User? currentUser, String? error
+ AuthUiStatus uiStatus, String? uid, String? email, UserDocumentSnapshot? currentUser, String? error
 });
 
 
-$UserCopyWith<$Res>? get currentUser;
+
 
 }
 /// @nodoc
@@ -69,23 +69,11 @@ uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_
 as AuthUiStatus,uid: freezed == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,currentUser: freezed == currentUser ? _self.currentUser : currentUser // ignore: cast_nullable_to_non_nullable
-as User?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as UserDocumentSnapshot?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
-/// Create a copy of AuthState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$UserCopyWith<$Res>? get currentUser {
-    if (_self.currentUser == null) {
-    return null;
-  }
 
-  return $UserCopyWith<$Res>(_self.currentUser!, (value) {
-    return _then(_self.copyWith(currentUser: value));
-  });
-}
 }
 
 
@@ -99,7 +87,7 @@ class _AuthState implements AuthState {
 @override@JsonKey() final  AuthUiStatus uiStatus;
 @override final  String? uid;
 @override final  String? email;
-@override final  User? currentUser;
+@override final  UserDocumentSnapshot? currentUser;
 @override final  String? error;
 
 /// Create a copy of AuthState
@@ -112,12 +100,12 @@ _$AuthStateCopyWith<_AuthState> get copyWith => __$AuthStateCopyWithImpl<_AuthSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.email, email) || other.email == email)&&(identical(other.currentUser, currentUser) || other.currentUser == currentUser)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other.currentUser, currentUser)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uiStatus,uid,email,currentUser,error);
+int get hashCode => Object.hash(runtimeType,uiStatus,uid,email,const DeepCollectionEquality().hash(currentUser),error);
 
 @override
 String toString() {
@@ -132,11 +120,11 @@ abstract mixin class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Re
   factory _$AuthStateCopyWith(_AuthState value, $Res Function(_AuthState) _then) = __$AuthStateCopyWithImpl;
 @override @useResult
 $Res call({
- AuthUiStatus uiStatus, String? uid, String? email, User? currentUser, String? error
+ AuthUiStatus uiStatus, String? uid, String? email, UserDocumentSnapshot? currentUser, String? error
 });
 
 
-@override $UserCopyWith<$Res>? get currentUser;
+
 
 }
 /// @nodoc
@@ -155,24 +143,12 @@ uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_
 as AuthUiStatus,uid: freezed == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,currentUser: freezed == currentUser ? _self.currentUser : currentUser // ignore: cast_nullable_to_non_nullable
-as User?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as UserDocumentSnapshot?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
 
-/// Create a copy of AuthState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$UserCopyWith<$Res>? get currentUser {
-    if (_self.currentUser == null) {
-    return null;
-  }
 
-  return $UserCopyWith<$Res>(_self.currentUser!, (value) {
-    return _then(_self.copyWith(currentUser: value));
-  });
-}
 }
 
 // dart format on

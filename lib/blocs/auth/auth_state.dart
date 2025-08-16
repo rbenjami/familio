@@ -11,7 +11,7 @@ abstract class AuthState with _$AuthState {
     @Default(AuthUiStatus.initial) AuthUiStatus uiStatus,
     String? uid,
     String? email,
-    User? currentUser,
+    UserDocumentSnapshot? currentUser,
     String? error,
   }) = _AuthState;
 }

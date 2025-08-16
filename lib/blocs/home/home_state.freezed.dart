@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeState {
 
- List<Home> get userHomes; Home? get selectedHome; MemberPermissions? get currentUserPermissions; HomeUiStatus get uiStatus; String? get error;
+ List<HomeDocumentSnapshot> get userHomes; HomeDocumentSnapshot? get selectedHome; MemberPermissions? get currentUserPermissions; HomeUiStatus get uiStatus; String? get error;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,12 +26,12 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&const DeepCollectionEquality().equals(other.userHomes, userHomes)&&(identical(other.selectedHome, selectedHome) || other.selectedHome == selectedHome)&&(identical(other.currentUserPermissions, currentUserPermissions) || other.currentUserPermissions == currentUserPermissions)&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&const DeepCollectionEquality().equals(other.userHomes, userHomes)&&const DeepCollectionEquality().equals(other.selectedHome, selectedHome)&&(identical(other.currentUserPermissions, currentUserPermissions) || other.currentUserPermissions == currentUserPermissions)&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(userHomes),selectedHome,currentUserPermissions,uiStatus,error);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(userHomes),const DeepCollectionEquality().hash(selectedHome),currentUserPermissions,uiStatus,error);
 
 @override
 String toString() {
@@ -46,11 +46,11 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- List<Home> userHomes, Home? selectedHome, MemberPermissions? currentUserPermissions, HomeUiStatus uiStatus, String? error
+ List<HomeDocumentSnapshot> userHomes, HomeDocumentSnapshot? selectedHome, MemberPermissions? currentUserPermissions, HomeUiStatus uiStatus, String? error
 });
 
 
-$HomeCopyWith<$Res>? get selectedHome;$MemberPermissionsCopyWith<$Res>? get currentUserPermissions;
+$MemberPermissionsCopyWith<$Res>? get currentUserPermissions;
 
 }
 /// @nodoc
@@ -66,26 +66,14 @@ class _$HomeStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? userHomes = null,Object? selectedHome = freezed,Object? currentUserPermissions = freezed,Object? uiStatus = null,Object? error = freezed,}) {
   return _then(_self.copyWith(
 userHomes: null == userHomes ? _self.userHomes : userHomes // ignore: cast_nullable_to_non_nullable
-as List<Home>,selectedHome: freezed == selectedHome ? _self.selectedHome : selectedHome // ignore: cast_nullable_to_non_nullable
-as Home?,currentUserPermissions: freezed == currentUserPermissions ? _self.currentUserPermissions : currentUserPermissions // ignore: cast_nullable_to_non_nullable
+as List<HomeDocumentSnapshot>,selectedHome: freezed == selectedHome ? _self.selectedHome : selectedHome // ignore: cast_nullable_to_non_nullable
+as HomeDocumentSnapshot?,currentUserPermissions: freezed == currentUserPermissions ? _self.currentUserPermissions : currentUserPermissions // ignore: cast_nullable_to_non_nullable
 as MemberPermissions?,uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_to_non_nullable
 as HomeUiStatus,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
 /// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeCopyWith<$Res>? get selectedHome {
-    if (_self.selectedHome == null) {
-    return null;
-  }
-
-  return $HomeCopyWith<$Res>(_self.selectedHome!, (value) {
-    return _then(_self.copyWith(selectedHome: value));
-  });
-}/// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -105,17 +93,17 @@ $MemberPermissionsCopyWith<$Res>? get currentUserPermissions {
 
 
 class _HomeState implements HomeState {
-  const _HomeState({final  List<Home> userHomes = const [], this.selectedHome, this.currentUserPermissions, this.uiStatus = HomeUiStatus.initial, this.error}): _userHomes = userHomes;
+  const _HomeState({final  List<HomeDocumentSnapshot> userHomes = const [], this.selectedHome, this.currentUserPermissions, this.uiStatus = HomeUiStatus.initial, this.error}): _userHomes = userHomes;
   
 
- final  List<Home> _userHomes;
-@override@JsonKey() List<Home> get userHomes {
+ final  List<HomeDocumentSnapshot> _userHomes;
+@override@JsonKey() List<HomeDocumentSnapshot> get userHomes {
   if (_userHomes is EqualUnmodifiableListView) return _userHomes;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_userHomes);
 }
 
-@override final  Home? selectedHome;
+@override final  HomeDocumentSnapshot? selectedHome;
 @override final  MemberPermissions? currentUserPermissions;
 @override@JsonKey() final  HomeUiStatus uiStatus;
 @override final  String? error;
@@ -130,12 +118,12 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&const DeepCollectionEquality().equals(other._userHomes, _userHomes)&&(identical(other.selectedHome, selectedHome) || other.selectedHome == selectedHome)&&(identical(other.currentUserPermissions, currentUserPermissions) || other.currentUserPermissions == currentUserPermissions)&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&const DeepCollectionEquality().equals(other._userHomes, _userHomes)&&const DeepCollectionEquality().equals(other.selectedHome, selectedHome)&&(identical(other.currentUserPermissions, currentUserPermissions) || other.currentUserPermissions == currentUserPermissions)&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_userHomes),selectedHome,currentUserPermissions,uiStatus,error);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_userHomes),const DeepCollectionEquality().hash(selectedHome),currentUserPermissions,uiStatus,error);
 
 @override
 String toString() {
@@ -150,11 +138,11 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Home> userHomes, Home? selectedHome, MemberPermissions? currentUserPermissions, HomeUiStatus uiStatus, String? error
+ List<HomeDocumentSnapshot> userHomes, HomeDocumentSnapshot? selectedHome, MemberPermissions? currentUserPermissions, HomeUiStatus uiStatus, String? error
 });
 
 
-@override $HomeCopyWith<$Res>? get selectedHome;@override $MemberPermissionsCopyWith<$Res>? get currentUserPermissions;
+@override $MemberPermissionsCopyWith<$Res>? get currentUserPermissions;
 
 }
 /// @nodoc
@@ -170,8 +158,8 @@ class __$HomeStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? userHomes = null,Object? selectedHome = freezed,Object? currentUserPermissions = freezed,Object? uiStatus = null,Object? error = freezed,}) {
   return _then(_HomeState(
 userHomes: null == userHomes ? _self._userHomes : userHomes // ignore: cast_nullable_to_non_nullable
-as List<Home>,selectedHome: freezed == selectedHome ? _self.selectedHome : selectedHome // ignore: cast_nullable_to_non_nullable
-as Home?,currentUserPermissions: freezed == currentUserPermissions ? _self.currentUserPermissions : currentUserPermissions // ignore: cast_nullable_to_non_nullable
+as List<HomeDocumentSnapshot>,selectedHome: freezed == selectedHome ? _self.selectedHome : selectedHome // ignore: cast_nullable_to_non_nullable
+as HomeDocumentSnapshot?,currentUserPermissions: freezed == currentUserPermissions ? _self.currentUserPermissions : currentUserPermissions // ignore: cast_nullable_to_non_nullable
 as MemberPermissions?,uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_to_non_nullable
 as HomeUiStatus,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -179,18 +167,6 @@ as String?,
 }
 
 /// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeCopyWith<$Res>? get selectedHome {
-    if (_self.selectedHome == null) {
-    return null;
-  }
-
-  return $HomeCopyWith<$Res>(_self.selectedHome!, (value) {
-    return _then(_self.copyWith(selectedHome: value));
-  });
-}/// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

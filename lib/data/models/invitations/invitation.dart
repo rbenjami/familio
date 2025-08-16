@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
+import 'package:familio/data/models/converters.dart';
 import 'package:familio/data/models/models.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,10 +14,10 @@ abstract class Invitation with _$Invitation {
   @firestoreSerializable
   const factory Invitation({
     @Id() @Default('unset') @JsonKey(includeToJson: false) String id,
-    required String homeId,
+    required DocumentReference<Home> home,
     String? invitedEmail,
     String? invitedUserName,
-    required String invitedBy,
+    required DocumentReference<User> invitedBy,
     required InvitationStatus status,
     required DateTime createdAt,
     required DateTime expiresAt,
@@ -29,3 +30,8 @@ abstract class Invitation with _$Invitation {
 
 @Collection<Invitation>('invitations')
 final invitationsRef = InvitationCollectionReference();
+
+extension InvitationDocumentReferenceExtension
+    on DocumentReference<Invitation> {
+  InvitationDocumentReference get ref => invitationsRef.doc(id);
+}

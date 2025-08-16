@@ -141,7 +141,7 @@ abstract class HomeDocumentReference
     FieldValue nameFieldValue,
     FieldValue descriptionFieldValue,
     FieldValue createdAtFieldValue,
-    FieldValue ownerIdFieldValue,
+    FieldValue ownerFieldValue,
     FieldValue settingsFieldValue,
   });
 
@@ -159,7 +159,7 @@ abstract class HomeDocumentReference
     FieldValue nameFieldValue,
     FieldValue descriptionFieldValue,
     FieldValue createdAtFieldValue,
-    FieldValue ownerIdFieldValue,
+    FieldValue ownerFieldValue,
     FieldValue settingsFieldValue,
   });
 
@@ -177,7 +177,7 @@ abstract class HomeDocumentReference
     FieldValue nameFieldValue,
     FieldValue descriptionFieldValue,
     FieldValue createdAtFieldValue,
-    FieldValue ownerIdFieldValue,
+    FieldValue ownerFieldValue,
     FieldValue settingsFieldValue,
   });
 
@@ -192,8 +192,8 @@ abstract class HomeDocumentReference
     FieldValue descriptionFieldValue,
     DateTime createdAt,
     FieldValue createdAtFieldValue,
-    String ownerId,
-    FieldValue ownerIdFieldValue,
+    DocumentReference<User> owner,
+    FieldValue ownerFieldValue,
     HomeSettings settings,
     FieldValue settingsFieldValue,
   });
@@ -209,8 +209,8 @@ abstract class HomeDocumentReference
     FieldValue descriptionFieldValue,
     DateTime createdAt,
     FieldValue createdAtFieldValue,
-    String ownerId,
-    FieldValue ownerIdFieldValue,
+    DocumentReference<User> owner,
+    FieldValue ownerFieldValue,
     HomeSettings settings,
     FieldValue settingsFieldValue,
   });
@@ -226,8 +226,8 @@ abstract class HomeDocumentReference
     FieldValue descriptionFieldValue,
     DateTime createdAt,
     FieldValue createdAtFieldValue,
-    String ownerId,
-    FieldValue ownerIdFieldValue,
+    DocumentReference<User> owner,
+    FieldValue ownerFieldValue,
     HomeSettings settings,
     FieldValue settingsFieldValue,
   });
@@ -275,7 +275,7 @@ class _$HomeDocumentReference
     FieldValue? nameFieldValue,
     FieldValue? descriptionFieldValue,
     FieldValue? createdAtFieldValue,
-    FieldValue? ownerIdFieldValue,
+    FieldValue? ownerFieldValue,
     FieldValue? settingsFieldValue,
   }) async {
     final json = {
@@ -288,8 +288,7 @@ class _$HomeDocumentReference
       if (createdAtFieldValue != null)
         _$HomeFieldMap['createdAt']!: createdAtFieldValue,
 
-      if (ownerIdFieldValue != null)
-        _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
+      if (ownerFieldValue != null) _$HomeFieldMap['owner']!: ownerFieldValue,
 
       if (settingsFieldValue != null)
         _$HomeFieldMap['settings']!: settingsFieldValue,
@@ -309,7 +308,7 @@ class _$HomeDocumentReference
     FieldValue? nameFieldValue,
     FieldValue? descriptionFieldValue,
     FieldValue? createdAtFieldValue,
-    FieldValue? ownerIdFieldValue,
+    FieldValue? ownerFieldValue,
     FieldValue? settingsFieldValue,
   }) {
     final json = {
@@ -322,8 +321,7 @@ class _$HomeDocumentReference
       if (createdAtFieldValue != null)
         _$HomeFieldMap['createdAt']!: createdAtFieldValue,
 
-      if (ownerIdFieldValue != null)
-        _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
+      if (ownerFieldValue != null) _$HomeFieldMap['owner']!: ownerFieldValue,
 
       if (settingsFieldValue != null)
         _$HomeFieldMap['settings']!: settingsFieldValue,
@@ -339,7 +337,7 @@ class _$HomeDocumentReference
     FieldValue? nameFieldValue,
     FieldValue? descriptionFieldValue,
     FieldValue? createdAtFieldValue,
-    FieldValue? ownerIdFieldValue,
+    FieldValue? ownerFieldValue,
     FieldValue? settingsFieldValue,
   }) {
     final json = {
@@ -352,8 +350,7 @@ class _$HomeDocumentReference
       if (createdAtFieldValue != null)
         _$HomeFieldMap['createdAt']!: createdAtFieldValue,
 
-      if (ownerIdFieldValue != null)
-        _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
+      if (ownerFieldValue != null) _$HomeFieldMap['owner']!: ownerFieldValue,
 
       if (settingsFieldValue != null)
         _$HomeFieldMap['settings']!: settingsFieldValue,
@@ -369,8 +366,8 @@ class _$HomeDocumentReference
     FieldValue? descriptionFieldValue,
     Object? createdAt = _sentinel,
     FieldValue? createdAtFieldValue,
-    Object? ownerId = _sentinel,
-    FieldValue? ownerIdFieldValue,
+    Object? owner = _sentinel,
+    FieldValue? ownerFieldValue,
     Object? settings = _sentinel,
     FieldValue? settingsFieldValue,
   }) async {
@@ -387,8 +384,8 @@ class _$HomeDocumentReference
       "Cannot specify both createdAt and createdAtFieldValue",
     );
     assert(
-      ownerId == _sentinel || ownerIdFieldValue == null,
-      "Cannot specify both ownerId and ownerIdFieldValue",
+      owner == _sentinel || ownerFieldValue == null,
+      "Cannot specify both owner and ownerFieldValue",
     );
     assert(
       settings == _sentinel || settingsFieldValue == null,
@@ -416,13 +413,12 @@ class _$HomeDocumentReference
       if (createdAtFieldValue != null)
         _$HomeFieldMap['createdAt']!: createdAtFieldValue,
 
-      if (ownerId != _sentinel)
-        _$HomeFieldMap['ownerId']!: _$HomePerFieldToJson.ownerId(
-          ownerId as String,
+      if (owner != _sentinel)
+        _$HomeFieldMap['owner']!: _$HomePerFieldToJson.owner(
+          owner as DocumentReference<User>,
         ),
 
-      if (ownerIdFieldValue != null)
-        _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
+      if (ownerFieldValue != null) _$HomeFieldMap['owner']!: ownerFieldValue,
 
       if (settings != _sentinel)
         _$HomeFieldMap['settings']!: _$HomePerFieldToJson.settings(
@@ -444,8 +440,8 @@ class _$HomeDocumentReference
     FieldValue? descriptionFieldValue,
     Object? createdAt = _sentinel,
     FieldValue? createdAtFieldValue,
-    Object? ownerId = _sentinel,
-    FieldValue? ownerIdFieldValue,
+    Object? owner = _sentinel,
+    FieldValue? ownerFieldValue,
     Object? settings = _sentinel,
     FieldValue? settingsFieldValue,
   }) {
@@ -462,8 +458,8 @@ class _$HomeDocumentReference
       "Cannot specify both createdAt and createdAtFieldValue",
     );
     assert(
-      ownerId == _sentinel || ownerIdFieldValue == null,
-      "Cannot specify both ownerId and ownerIdFieldValue",
+      owner == _sentinel || ownerFieldValue == null,
+      "Cannot specify both owner and ownerFieldValue",
     );
     assert(
       settings == _sentinel || settingsFieldValue == null,
@@ -491,13 +487,12 @@ class _$HomeDocumentReference
       if (createdAtFieldValue != null)
         _$HomeFieldMap['createdAt']!: createdAtFieldValue,
 
-      if (ownerId != _sentinel)
-        _$HomeFieldMap['ownerId']!: _$HomePerFieldToJson.ownerId(
-          ownerId as String,
+      if (owner != _sentinel)
+        _$HomeFieldMap['owner']!: _$HomePerFieldToJson.owner(
+          owner as DocumentReference<User>,
         ),
 
-      if (ownerIdFieldValue != null)
-        _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
+      if (ownerFieldValue != null) _$HomeFieldMap['owner']!: ownerFieldValue,
 
       if (settings != _sentinel)
         _$HomeFieldMap['settings']!: _$HomePerFieldToJson.settings(
@@ -519,8 +514,8 @@ class _$HomeDocumentReference
     FieldValue? descriptionFieldValue,
     Object? createdAt = _sentinel,
     FieldValue? createdAtFieldValue,
-    Object? ownerId = _sentinel,
-    FieldValue? ownerIdFieldValue,
+    Object? owner = _sentinel,
+    FieldValue? ownerFieldValue,
     Object? settings = _sentinel,
     FieldValue? settingsFieldValue,
   }) {
@@ -537,8 +532,8 @@ class _$HomeDocumentReference
       "Cannot specify both createdAt and createdAtFieldValue",
     );
     assert(
-      ownerId == _sentinel || ownerIdFieldValue == null,
-      "Cannot specify both ownerId and ownerIdFieldValue",
+      owner == _sentinel || ownerFieldValue == null,
+      "Cannot specify both owner and ownerFieldValue",
     );
     assert(
       settings == _sentinel || settingsFieldValue == null,
@@ -566,13 +561,12 @@ class _$HomeDocumentReference
       if (createdAtFieldValue != null)
         _$HomeFieldMap['createdAt']!: createdAtFieldValue,
 
-      if (ownerId != _sentinel)
-        _$HomeFieldMap['ownerId']!: _$HomePerFieldToJson.ownerId(
-          ownerId as String,
+      if (owner != _sentinel)
+        _$HomeFieldMap['owner']!: _$HomePerFieldToJson.owner(
+          owner as DocumentReference<User>,
         ),
 
-      if (ownerIdFieldValue != null)
-        _$HomeFieldMap['ownerId']!: ownerIdFieldValue,
+      if (ownerFieldValue != null) _$HomeFieldMap['owner']!: ownerFieldValue,
 
       if (settings != _sentinel)
         _$HomeFieldMap['settings']!: _$HomePerFieldToJson.settings(
@@ -685,15 +679,15 @@ abstract class HomeQuery implements QueryReference<Home, HomeQuerySnapshot> {
     bool? isNull,
   });
 
-  HomeQuery whereOwnerId({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+  HomeQuery whereOwner({
+    DocumentReference<User>? isEqualTo,
+    DocumentReference<User>? isNotEqualTo,
+    DocumentReference<User>? isLessThan,
+    DocumentReference<User>? isLessThanOrEqualTo,
+    DocumentReference<User>? isGreaterThan,
+    DocumentReference<User>? isGreaterThanOrEqualTo,
+    List<DocumentReference<User>>? whereIn,
+    List<DocumentReference<User>>? whereNotIn,
     bool? isNull,
   });
 
@@ -790,12 +784,12 @@ abstract class HomeQuery implements QueryReference<Home, HomeQuerySnapshot> {
     HomeDocumentSnapshot? startAfterDocument,
   });
 
-  HomeQuery orderByOwnerId({
+  HomeQuery orderByOwner({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    DocumentReference<User> startAt,
+    DocumentReference<User> startAfter,
+    DocumentReference<User> endAt,
+    DocumentReference<User> endBefore,
     HomeDocumentSnapshot? startAtDocument,
     HomeDocumentSnapshot? endAtDocument,
     HomeDocumentSnapshot? endBeforeDocument,
@@ -1065,41 +1059,49 @@ class _$HomeQuery extends QueryReference<Home, HomeQuerySnapshot>
   }
 
   @override
-  HomeQuery whereOwnerId({
+  HomeQuery whereOwner({
     Object? isEqualTo = _sentinel,
     Object? isNotEqualTo = _sentinel,
     Object? isLessThan,
     Object? isLessThanOrEqualTo,
     Object? isGreaterThan,
     Object? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<DocumentReference<User>>? whereIn,
+    List<DocumentReference<User>>? whereNotIn,
     bool? isNull,
   }) {
     return _$HomeQuery(
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$HomeFieldMap['ownerId']!,
+        _$HomeFieldMap['owner']!,
         isEqualTo: isEqualTo != _sentinel
-            ? _$HomePerFieldToJson.ownerId(isEqualTo as String)
+            ? _$HomePerFieldToJson.owner(isEqualTo as DocumentReference<User>)
             : null,
         isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$HomePerFieldToJson.ownerId(isNotEqualTo as String)
+            ? _$HomePerFieldToJson.owner(
+                isNotEqualTo as DocumentReference<User>,
+              )
             : null,
         isLessThan: isLessThan != null
-            ? _$HomePerFieldToJson.ownerId(isLessThan as String)
+            ? _$HomePerFieldToJson.owner(isLessThan as DocumentReference<User>)
             : null,
         isLessThanOrEqualTo: isLessThanOrEqualTo != null
-            ? _$HomePerFieldToJson.ownerId(isLessThanOrEqualTo as String)
+            ? _$HomePerFieldToJson.owner(
+                isLessThanOrEqualTo as DocumentReference<User>,
+              )
             : null,
         isGreaterThan: isGreaterThan != null
-            ? _$HomePerFieldToJson.ownerId(isGreaterThan as String)
+            ? _$HomePerFieldToJson.owner(
+                isGreaterThan as DocumentReference<User>,
+              )
             : null,
         isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
-            ? _$HomePerFieldToJson.ownerId(isGreaterThanOrEqualTo as String)
+            ? _$HomePerFieldToJson.owner(
+                isGreaterThanOrEqualTo as DocumentReference<User>,
+              )
             : null,
-        whereIn: whereIn?.map((e) => _$HomePerFieldToJson.ownerId(e)),
-        whereNotIn: whereNotIn?.map((e) => _$HomePerFieldToJson.ownerId(e)),
+        whereIn: whereIn?.map((e) => _$HomePerFieldToJson.owner(e)),
+        whereNotIn: whereNotIn?.map((e) => _$HomePerFieldToJson.owner(e)),
         isNull:
             isNull ??
             (isEqualTo == null ? false : null) ??
@@ -1533,7 +1535,7 @@ class _$HomeQuery extends QueryReference<Home, HomeQuerySnapshot>
   }
 
   @override
-  HomeQuery orderByOwnerId({
+  HomeQuery orderByOwner({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
@@ -1545,7 +1547,7 @@ class _$HomeQuery extends QueryReference<Home, HomeQuerySnapshot>
     HomeDocumentSnapshot? startAfterDocument,
   }) {
     final query = $referenceWithoutCursor.orderBy(
-      _$HomeFieldMap['ownerId']!,
+      _$HomeFieldMap['owner']!,
       descending: descending,
     );
     var queryCursor = $queryCursor;
@@ -1773,11 +1775,11 @@ abstract class MemberCollectionReference
     DocumentSnapshot<Map<String, Object?>> snapshot,
     SnapshotOptions? options,
   ) {
-    return Member.fromJson({'userId': snapshot.id, ...?snapshot.data()});
+    return Member.fromJson(snapshot.data()!);
   }
 
   static Map<String, Object?> toFirestore(Member value, SetOptions? options) {
-    return {...value.toJson()}..remove('userId');
+    return value.toJson();
   }
 
   @override
@@ -3032,9 +3034,8 @@ abstract class TaskDocumentReference
     SetOptions? options,
     FieldValue titleFieldValue,
     FieldValue descriptionFieldValue,
-    FieldValue homeIdFieldValue,
-    FieldValue assignedToIdsFieldValue,
-    FieldValue createdByIdFieldValue,
+    FieldValue assignedToFieldValue,
+    FieldValue createdByFieldValue,
     FieldValue statusFieldValue,
     FieldValue dueDateFieldValue,
     FieldValue priorityFieldValue,
@@ -3061,9 +3062,8 @@ abstract class TaskDocumentReference
     SetOptions? options,
     FieldValue titleFieldValue,
     FieldValue descriptionFieldValue,
-    FieldValue homeIdFieldValue,
-    FieldValue assignedToIdsFieldValue,
-    FieldValue createdByIdFieldValue,
+    FieldValue assignedToFieldValue,
+    FieldValue createdByFieldValue,
     FieldValue statusFieldValue,
     FieldValue dueDateFieldValue,
     FieldValue priorityFieldValue,
@@ -3090,9 +3090,8 @@ abstract class TaskDocumentReference
     SetOptions? options,
     FieldValue titleFieldValue,
     FieldValue descriptionFieldValue,
-    FieldValue homeIdFieldValue,
-    FieldValue assignedToIdsFieldValue,
-    FieldValue createdByIdFieldValue,
+    FieldValue assignedToFieldValue,
+    FieldValue createdByFieldValue,
     FieldValue statusFieldValue,
     FieldValue dueDateFieldValue,
     FieldValue priorityFieldValue,
@@ -3115,12 +3114,10 @@ abstract class TaskDocumentReference
     FieldValue titleFieldValue,
     String? description,
     FieldValue descriptionFieldValue,
-    String homeId,
-    FieldValue homeIdFieldValue,
-    List<String> assignedToIds,
-    FieldValue assignedToIdsFieldValue,
-    String createdById,
-    FieldValue createdByIdFieldValue,
+    List<DocumentReference<User>> assignedTo,
+    FieldValue assignedToFieldValue,
+    DocumentReference<User> createdBy,
+    FieldValue createdByFieldValue,
     TaskStatus status,
     FieldValue statusFieldValue,
     DateTime? dueDate,
@@ -3154,12 +3151,10 @@ abstract class TaskDocumentReference
     FieldValue titleFieldValue,
     String? description,
     FieldValue descriptionFieldValue,
-    String homeId,
-    FieldValue homeIdFieldValue,
-    List<String> assignedToIds,
-    FieldValue assignedToIdsFieldValue,
-    String createdById,
-    FieldValue createdByIdFieldValue,
+    List<DocumentReference<User>> assignedTo,
+    FieldValue assignedToFieldValue,
+    DocumentReference<User> createdBy,
+    FieldValue createdByFieldValue,
     TaskStatus status,
     FieldValue statusFieldValue,
     DateTime? dueDate,
@@ -3193,12 +3188,10 @@ abstract class TaskDocumentReference
     FieldValue titleFieldValue,
     String? description,
     FieldValue descriptionFieldValue,
-    String homeId,
-    FieldValue homeIdFieldValue,
-    List<String> assignedToIds,
-    FieldValue assignedToIdsFieldValue,
-    String createdById,
-    FieldValue createdByIdFieldValue,
+    List<DocumentReference<User>> assignedTo,
+    FieldValue assignedToFieldValue,
+    DocumentReference<User> createdBy,
+    FieldValue createdByFieldValue,
     TaskStatus status,
     FieldValue statusFieldValue,
     DateTime? dueDate,
@@ -3262,9 +3255,8 @@ class _$TaskDocumentReference
     SetOptions? options,
     FieldValue? titleFieldValue,
     FieldValue? descriptionFieldValue,
-    FieldValue? homeIdFieldValue,
-    FieldValue? assignedToIdsFieldValue,
-    FieldValue? createdByIdFieldValue,
+    FieldValue? assignedToFieldValue,
+    FieldValue? createdByFieldValue,
     FieldValue? statusFieldValue,
     FieldValue? dueDateFieldValue,
     FieldValue? priorityFieldValue,
@@ -3284,13 +3276,11 @@ class _$TaskDocumentReference
       if (descriptionFieldValue != null)
         _$TaskFieldMap['description']!: descriptionFieldValue,
 
-      if (homeIdFieldValue != null) _$TaskFieldMap['homeId']!: homeIdFieldValue,
+      if (assignedToFieldValue != null)
+        _$TaskFieldMap['assignedTo']!: assignedToFieldValue,
 
-      if (assignedToIdsFieldValue != null)
-        _$TaskFieldMap['assignedToIds']!: assignedToIdsFieldValue,
-
-      if (createdByIdFieldValue != null)
-        _$TaskFieldMap['createdById']!: createdByIdFieldValue,
+      if (createdByFieldValue != null)
+        _$TaskFieldMap['createdBy']!: createdByFieldValue,
 
       if (statusFieldValue != null) _$TaskFieldMap['status']!: statusFieldValue,
 
@@ -3337,9 +3327,8 @@ class _$TaskDocumentReference
     SetOptions? options,
     FieldValue? titleFieldValue,
     FieldValue? descriptionFieldValue,
-    FieldValue? homeIdFieldValue,
-    FieldValue? assignedToIdsFieldValue,
-    FieldValue? createdByIdFieldValue,
+    FieldValue? assignedToFieldValue,
+    FieldValue? createdByFieldValue,
     FieldValue? statusFieldValue,
     FieldValue? dueDateFieldValue,
     FieldValue? priorityFieldValue,
@@ -3359,13 +3348,11 @@ class _$TaskDocumentReference
       if (descriptionFieldValue != null)
         _$TaskFieldMap['description']!: descriptionFieldValue,
 
-      if (homeIdFieldValue != null) _$TaskFieldMap['homeId']!: homeIdFieldValue,
+      if (assignedToFieldValue != null)
+        _$TaskFieldMap['assignedTo']!: assignedToFieldValue,
 
-      if (assignedToIdsFieldValue != null)
-        _$TaskFieldMap['assignedToIds']!: assignedToIdsFieldValue,
-
-      if (createdByIdFieldValue != null)
-        _$TaskFieldMap['createdById']!: createdByIdFieldValue,
+      if (createdByFieldValue != null)
+        _$TaskFieldMap['createdBy']!: createdByFieldValue,
 
       if (statusFieldValue != null) _$TaskFieldMap['status']!: statusFieldValue,
 
@@ -3408,9 +3395,8 @@ class _$TaskDocumentReference
     SetOptions? options,
     FieldValue? titleFieldValue,
     FieldValue? descriptionFieldValue,
-    FieldValue? homeIdFieldValue,
-    FieldValue? assignedToIdsFieldValue,
-    FieldValue? createdByIdFieldValue,
+    FieldValue? assignedToFieldValue,
+    FieldValue? createdByFieldValue,
     FieldValue? statusFieldValue,
     FieldValue? dueDateFieldValue,
     FieldValue? priorityFieldValue,
@@ -3430,13 +3416,11 @@ class _$TaskDocumentReference
       if (descriptionFieldValue != null)
         _$TaskFieldMap['description']!: descriptionFieldValue,
 
-      if (homeIdFieldValue != null) _$TaskFieldMap['homeId']!: homeIdFieldValue,
+      if (assignedToFieldValue != null)
+        _$TaskFieldMap['assignedTo']!: assignedToFieldValue,
 
-      if (assignedToIdsFieldValue != null)
-        _$TaskFieldMap['assignedToIds']!: assignedToIdsFieldValue,
-
-      if (createdByIdFieldValue != null)
-        _$TaskFieldMap['createdById']!: createdByIdFieldValue,
+      if (createdByFieldValue != null)
+        _$TaskFieldMap['createdBy']!: createdByFieldValue,
 
       if (statusFieldValue != null) _$TaskFieldMap['status']!: statusFieldValue,
 
@@ -3478,12 +3462,10 @@ class _$TaskDocumentReference
     FieldValue? titleFieldValue,
     Object? description = _sentinel,
     FieldValue? descriptionFieldValue,
-    Object? homeId = _sentinel,
-    FieldValue? homeIdFieldValue,
-    Object? assignedToIds = _sentinel,
-    FieldValue? assignedToIdsFieldValue,
-    Object? createdById = _sentinel,
-    FieldValue? createdByIdFieldValue,
+    Object? assignedTo = _sentinel,
+    FieldValue? assignedToFieldValue,
+    Object? createdBy = _sentinel,
+    FieldValue? createdByFieldValue,
     Object? status = _sentinel,
     FieldValue? statusFieldValue,
     Object? dueDate = _sentinel,
@@ -3516,16 +3498,12 @@ class _$TaskDocumentReference
       "Cannot specify both description and descriptionFieldValue",
     );
     assert(
-      homeId == _sentinel || homeIdFieldValue == null,
-      "Cannot specify both homeId and homeIdFieldValue",
+      assignedTo == _sentinel || assignedToFieldValue == null,
+      "Cannot specify both assignedTo and assignedToFieldValue",
     );
     assert(
-      assignedToIds == _sentinel || assignedToIdsFieldValue == null,
-      "Cannot specify both assignedToIds and assignedToIdsFieldValue",
-    );
-    assert(
-      createdById == _sentinel || createdByIdFieldValue == null,
-      "Cannot specify both createdById and createdByIdFieldValue",
+      createdBy == _sentinel || createdByFieldValue == null,
+      "Cannot specify both createdBy and createdByFieldValue",
     );
     assert(
       status == _sentinel || statusFieldValue == null,
@@ -3586,28 +3564,21 @@ class _$TaskDocumentReference
       if (descriptionFieldValue != null)
         _$TaskFieldMap['description']!: descriptionFieldValue,
 
-      if (homeId != _sentinel)
-        _$TaskFieldMap['homeId']!: _$TaskPerFieldToJson.homeId(
-          homeId as String,
+      if (assignedTo != _sentinel)
+        _$TaskFieldMap['assignedTo']!: _$TaskPerFieldToJson.assignedTo(
+          assignedTo as List<DocumentReference<User>>,
         ),
 
-      if (homeIdFieldValue != null) _$TaskFieldMap['homeId']!: homeIdFieldValue,
+      if (assignedToFieldValue != null)
+        _$TaskFieldMap['assignedTo']!: assignedToFieldValue,
 
-      if (assignedToIds != _sentinel)
-        _$TaskFieldMap['assignedToIds']!: _$TaskPerFieldToJson.assignedToIds(
-          assignedToIds as List<String>,
+      if (createdBy != _sentinel)
+        _$TaskFieldMap['createdBy']!: _$TaskPerFieldToJson.createdBy(
+          createdBy as DocumentReference<User>,
         ),
 
-      if (assignedToIdsFieldValue != null)
-        _$TaskFieldMap['assignedToIds']!: assignedToIdsFieldValue,
-
-      if (createdById != _sentinel)
-        _$TaskFieldMap['createdById']!: _$TaskPerFieldToJson.createdById(
-          createdById as String,
-        ),
-
-      if (createdByIdFieldValue != null)
-        _$TaskFieldMap['createdById']!: createdByIdFieldValue,
+      if (createdByFieldValue != null)
+        _$TaskFieldMap['createdBy']!: createdByFieldValue,
 
       if (status != _sentinel)
         _$TaskFieldMap['status']!: _$TaskPerFieldToJson.status(
@@ -3702,12 +3673,10 @@ class _$TaskDocumentReference
     FieldValue? titleFieldValue,
     Object? description = _sentinel,
     FieldValue? descriptionFieldValue,
-    Object? homeId = _sentinel,
-    FieldValue? homeIdFieldValue,
-    Object? assignedToIds = _sentinel,
-    FieldValue? assignedToIdsFieldValue,
-    Object? createdById = _sentinel,
-    FieldValue? createdByIdFieldValue,
+    Object? assignedTo = _sentinel,
+    FieldValue? assignedToFieldValue,
+    Object? createdBy = _sentinel,
+    FieldValue? createdByFieldValue,
     Object? status = _sentinel,
     FieldValue? statusFieldValue,
     Object? dueDate = _sentinel,
@@ -3740,16 +3709,12 @@ class _$TaskDocumentReference
       "Cannot specify both description and descriptionFieldValue",
     );
     assert(
-      homeId == _sentinel || homeIdFieldValue == null,
-      "Cannot specify both homeId and homeIdFieldValue",
+      assignedTo == _sentinel || assignedToFieldValue == null,
+      "Cannot specify both assignedTo and assignedToFieldValue",
     );
     assert(
-      assignedToIds == _sentinel || assignedToIdsFieldValue == null,
-      "Cannot specify both assignedToIds and assignedToIdsFieldValue",
-    );
-    assert(
-      createdById == _sentinel || createdByIdFieldValue == null,
-      "Cannot specify both createdById and createdByIdFieldValue",
+      createdBy == _sentinel || createdByFieldValue == null,
+      "Cannot specify both createdBy and createdByFieldValue",
     );
     assert(
       status == _sentinel || statusFieldValue == null,
@@ -3810,28 +3775,21 @@ class _$TaskDocumentReference
       if (descriptionFieldValue != null)
         _$TaskFieldMap['description']!: descriptionFieldValue,
 
-      if (homeId != _sentinel)
-        _$TaskFieldMap['homeId']!: _$TaskPerFieldToJson.homeId(
-          homeId as String,
+      if (assignedTo != _sentinel)
+        _$TaskFieldMap['assignedTo']!: _$TaskPerFieldToJson.assignedTo(
+          assignedTo as List<DocumentReference<User>>,
         ),
 
-      if (homeIdFieldValue != null) _$TaskFieldMap['homeId']!: homeIdFieldValue,
+      if (assignedToFieldValue != null)
+        _$TaskFieldMap['assignedTo']!: assignedToFieldValue,
 
-      if (assignedToIds != _sentinel)
-        _$TaskFieldMap['assignedToIds']!: _$TaskPerFieldToJson.assignedToIds(
-          assignedToIds as List<String>,
+      if (createdBy != _sentinel)
+        _$TaskFieldMap['createdBy']!: _$TaskPerFieldToJson.createdBy(
+          createdBy as DocumentReference<User>,
         ),
 
-      if (assignedToIdsFieldValue != null)
-        _$TaskFieldMap['assignedToIds']!: assignedToIdsFieldValue,
-
-      if (createdById != _sentinel)
-        _$TaskFieldMap['createdById']!: _$TaskPerFieldToJson.createdById(
-          createdById as String,
-        ),
-
-      if (createdByIdFieldValue != null)
-        _$TaskFieldMap['createdById']!: createdByIdFieldValue,
+      if (createdByFieldValue != null)
+        _$TaskFieldMap['createdBy']!: createdByFieldValue,
 
       if (status != _sentinel)
         _$TaskFieldMap['status']!: _$TaskPerFieldToJson.status(
@@ -3926,12 +3884,10 @@ class _$TaskDocumentReference
     FieldValue? titleFieldValue,
     Object? description = _sentinel,
     FieldValue? descriptionFieldValue,
-    Object? homeId = _sentinel,
-    FieldValue? homeIdFieldValue,
-    Object? assignedToIds = _sentinel,
-    FieldValue? assignedToIdsFieldValue,
-    Object? createdById = _sentinel,
-    FieldValue? createdByIdFieldValue,
+    Object? assignedTo = _sentinel,
+    FieldValue? assignedToFieldValue,
+    Object? createdBy = _sentinel,
+    FieldValue? createdByFieldValue,
     Object? status = _sentinel,
     FieldValue? statusFieldValue,
     Object? dueDate = _sentinel,
@@ -3964,16 +3920,12 @@ class _$TaskDocumentReference
       "Cannot specify both description and descriptionFieldValue",
     );
     assert(
-      homeId == _sentinel || homeIdFieldValue == null,
-      "Cannot specify both homeId and homeIdFieldValue",
+      assignedTo == _sentinel || assignedToFieldValue == null,
+      "Cannot specify both assignedTo and assignedToFieldValue",
     );
     assert(
-      assignedToIds == _sentinel || assignedToIdsFieldValue == null,
-      "Cannot specify both assignedToIds and assignedToIdsFieldValue",
-    );
-    assert(
-      createdById == _sentinel || createdByIdFieldValue == null,
-      "Cannot specify both createdById and createdByIdFieldValue",
+      createdBy == _sentinel || createdByFieldValue == null,
+      "Cannot specify both createdBy and createdByFieldValue",
     );
     assert(
       status == _sentinel || statusFieldValue == null,
@@ -4034,28 +3986,21 @@ class _$TaskDocumentReference
       if (descriptionFieldValue != null)
         _$TaskFieldMap['description']!: descriptionFieldValue,
 
-      if (homeId != _sentinel)
-        _$TaskFieldMap['homeId']!: _$TaskPerFieldToJson.homeId(
-          homeId as String,
+      if (assignedTo != _sentinel)
+        _$TaskFieldMap['assignedTo']!: _$TaskPerFieldToJson.assignedTo(
+          assignedTo as List<DocumentReference<User>>,
         ),
 
-      if (homeIdFieldValue != null) _$TaskFieldMap['homeId']!: homeIdFieldValue,
+      if (assignedToFieldValue != null)
+        _$TaskFieldMap['assignedTo']!: assignedToFieldValue,
 
-      if (assignedToIds != _sentinel)
-        _$TaskFieldMap['assignedToIds']!: _$TaskPerFieldToJson.assignedToIds(
-          assignedToIds as List<String>,
+      if (createdBy != _sentinel)
+        _$TaskFieldMap['createdBy']!: _$TaskPerFieldToJson.createdBy(
+          createdBy as DocumentReference<User>,
         ),
 
-      if (assignedToIdsFieldValue != null)
-        _$TaskFieldMap['assignedToIds']!: assignedToIdsFieldValue,
-
-      if (createdById != _sentinel)
-        _$TaskFieldMap['createdById']!: _$TaskPerFieldToJson.createdById(
-          createdById as String,
-        ),
-
-      if (createdByIdFieldValue != null)
-        _$TaskFieldMap['createdById']!: createdByIdFieldValue,
+      if (createdByFieldValue != null)
+        _$TaskFieldMap['createdBy']!: createdByFieldValue,
 
       if (status != _sentinel)
         _$TaskFieldMap['status']!: _$TaskPerFieldToJson.status(
@@ -4231,39 +4176,27 @@ abstract class TaskQuery implements QueryReference<Task, TaskQuerySnapshot> {
     bool? isNull,
   });
 
-  TaskQuery whereHomeId({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+  TaskQuery whereAssignedTo({
+    List<DocumentReference<User>>? isEqualTo,
+    List<DocumentReference<User>>? isNotEqualTo,
+    List<DocumentReference<User>>? isLessThan,
+    List<DocumentReference<User>>? isLessThanOrEqualTo,
+    List<DocumentReference<User>>? isGreaterThan,
+    List<DocumentReference<User>>? isGreaterThanOrEqualTo,
+    DocumentReference<User>? arrayContains,
+    List<DocumentReference<User>>? arrayContainsAny,
     bool? isNull,
   });
 
-  TaskQuery whereAssignedToIds({
-    List<String>? isEqualTo,
-    List<String>? isNotEqualTo,
-    List<String>? isLessThan,
-    List<String>? isLessThanOrEqualTo,
-    List<String>? isGreaterThan,
-    List<String>? isGreaterThanOrEqualTo,
-    String? arrayContains,
-    List<String>? arrayContainsAny,
-    bool? isNull,
-  });
-
-  TaskQuery whereCreatedById({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+  TaskQuery whereCreatedBy({
+    DocumentReference<User>? isEqualTo,
+    DocumentReference<User>? isNotEqualTo,
+    DocumentReference<User>? isLessThan,
+    DocumentReference<User>? isLessThanOrEqualTo,
+    DocumentReference<User>? isGreaterThan,
+    DocumentReference<User>? isGreaterThanOrEqualTo,
+    List<DocumentReference<User>>? whereIn,
+    List<DocumentReference<User>>? whereNotIn,
     bool? isNull,
   });
 
@@ -4468,36 +4401,24 @@ abstract class TaskQuery implements QueryReference<Task, TaskQuerySnapshot> {
     TaskDocumentSnapshot? startAfterDocument,
   });
 
-  TaskQuery orderByHomeId({
+  TaskQuery orderByAssignedTo({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    List<DocumentReference<User>> startAt,
+    List<DocumentReference<User>> startAfter,
+    List<DocumentReference<User>> endAt,
+    List<DocumentReference<User>> endBefore,
     TaskDocumentSnapshot? startAtDocument,
     TaskDocumentSnapshot? endAtDocument,
     TaskDocumentSnapshot? endBeforeDocument,
     TaskDocumentSnapshot? startAfterDocument,
   });
 
-  TaskQuery orderByAssignedToIds({
+  TaskQuery orderByCreatedBy({
     bool descending = false,
-    List<String> startAt,
-    List<String> startAfter,
-    List<String> endAt,
-    List<String> endBefore,
-    TaskDocumentSnapshot? startAtDocument,
-    TaskDocumentSnapshot? endAtDocument,
-    TaskDocumentSnapshot? endBeforeDocument,
-    TaskDocumentSnapshot? startAfterDocument,
-  });
-
-  TaskQuery orderByCreatedById({
-    bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    DocumentReference<User> startAt,
+    DocumentReference<User> startAfter,
+    DocumentReference<User> endAt,
+    DocumentReference<User> endBefore,
     TaskDocumentSnapshot? startAtDocument,
     TaskDocumentSnapshot? endAtDocument,
     TaskDocumentSnapshot? endBeforeDocument,
@@ -4842,52 +4763,7 @@ class _$TaskQuery extends QueryReference<Task, TaskQuerySnapshot>
   }
 
   @override
-  TaskQuery whereHomeId({
-    Object? isEqualTo = _sentinel,
-    Object? isNotEqualTo = _sentinel,
-    Object? isLessThan,
-    Object? isLessThanOrEqualTo,
-    Object? isGreaterThan,
-    Object? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
-    bool? isNull,
-  }) {
-    return _$TaskQuery(
-      _collection,
-      $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$TaskFieldMap['homeId']!,
-        isEqualTo: isEqualTo != _sentinel
-            ? _$TaskPerFieldToJson.homeId(isEqualTo as String)
-            : null,
-        isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$TaskPerFieldToJson.homeId(isNotEqualTo as String)
-            : null,
-        isLessThan: isLessThan != null
-            ? _$TaskPerFieldToJson.homeId(isLessThan as String)
-            : null,
-        isLessThanOrEqualTo: isLessThanOrEqualTo != null
-            ? _$TaskPerFieldToJson.homeId(isLessThanOrEqualTo as String)
-            : null,
-        isGreaterThan: isGreaterThan != null
-            ? _$TaskPerFieldToJson.homeId(isGreaterThan as String)
-            : null,
-        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
-            ? _$TaskPerFieldToJson.homeId(isGreaterThanOrEqualTo as String)
-            : null,
-        whereIn: whereIn?.map((e) => _$TaskPerFieldToJson.homeId(e)),
-        whereNotIn: whereNotIn?.map((e) => _$TaskPerFieldToJson.homeId(e)),
-        isNull:
-            isNull ??
-            (isEqualTo == null ? false : null) ??
-            (isNotEqualTo == null ? true : null),
-      ),
-      $queryCursor: $queryCursor,
-    );
-  }
-
-  @override
-  TaskQuery whereAssignedToIds({
+  TaskQuery whereAssignedTo({
     Object? isEqualTo = _sentinel,
     Object? isNotEqualTo = _sentinel,
     Object? isLessThan,
@@ -4895,42 +4771,52 @@ class _$TaskQuery extends QueryReference<Task, TaskQuerySnapshot>
     Object? isGreaterThan,
     Object? isGreaterThanOrEqualTo,
     Object? arrayContains,
-    List<String>? arrayContainsAny,
+    List<DocumentReference<User>>? arrayContainsAny,
     bool? isNull,
   }) {
     return _$TaskQuery(
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$TaskFieldMap['assignedToIds']!,
+        _$TaskFieldMap['assignedTo']!,
         isEqualTo: isEqualTo != _sentinel
-            ? _$TaskPerFieldToJson.assignedToIds(isEqualTo as List<String>)
+            ? _$TaskPerFieldToJson.assignedTo(
+                isEqualTo as List<DocumentReference<User>>,
+              )
             : null,
         isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$TaskPerFieldToJson.assignedToIds(isNotEqualTo as List<String>)
+            ? _$TaskPerFieldToJson.assignedTo(
+                isNotEqualTo as List<DocumentReference<User>>,
+              )
             : null,
         isLessThan: isLessThan != null
-            ? _$TaskPerFieldToJson.assignedToIds(isLessThan as List<String>)
+            ? _$TaskPerFieldToJson.assignedTo(
+                isLessThan as List<DocumentReference<User>>,
+              )
             : null,
         isLessThanOrEqualTo: isLessThanOrEqualTo != null
-            ? _$TaskPerFieldToJson.assignedToIds(
-                isLessThanOrEqualTo as List<String>,
+            ? _$TaskPerFieldToJson.assignedTo(
+                isLessThanOrEqualTo as List<DocumentReference<User>>,
               )
             : null,
         isGreaterThan: isGreaterThan != null
-            ? _$TaskPerFieldToJson.assignedToIds(isGreaterThan as List<String>)
+            ? _$TaskPerFieldToJson.assignedTo(
+                isGreaterThan as List<DocumentReference<User>>,
+              )
             : null,
         isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
-            ? _$TaskPerFieldToJson.assignedToIds(
-                isGreaterThanOrEqualTo as List<String>,
+            ? _$TaskPerFieldToJson.assignedTo(
+                isGreaterThanOrEqualTo as List<DocumentReference<User>>,
               )
             : null,
         arrayContains: arrayContains != null
-            ? (_$TaskPerFieldToJson.assignedToIds([arrayContains as String])
+            ? (_$TaskPerFieldToJson.assignedTo([
+                        arrayContains as DocumentReference<User>,
+                      ])
                       as List?)!
                   .single
             : null,
         arrayContainsAny: arrayContainsAny != null
-            ? _$TaskPerFieldToJson.assignedToIds(arrayContainsAny)
+            ? _$TaskPerFieldToJson.assignedTo(arrayContainsAny)
                   as Iterable<Object>?
             : null,
         isNull:
@@ -4943,41 +4829,53 @@ class _$TaskQuery extends QueryReference<Task, TaskQuerySnapshot>
   }
 
   @override
-  TaskQuery whereCreatedById({
+  TaskQuery whereCreatedBy({
     Object? isEqualTo = _sentinel,
     Object? isNotEqualTo = _sentinel,
     Object? isLessThan,
     Object? isLessThanOrEqualTo,
     Object? isGreaterThan,
     Object? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<DocumentReference<User>>? whereIn,
+    List<DocumentReference<User>>? whereNotIn,
     bool? isNull,
   }) {
     return _$TaskQuery(
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$TaskFieldMap['createdById']!,
+        _$TaskFieldMap['createdBy']!,
         isEqualTo: isEqualTo != _sentinel
-            ? _$TaskPerFieldToJson.createdById(isEqualTo as String)
+            ? _$TaskPerFieldToJson.createdBy(
+                isEqualTo as DocumentReference<User>,
+              )
             : null,
         isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$TaskPerFieldToJson.createdById(isNotEqualTo as String)
+            ? _$TaskPerFieldToJson.createdBy(
+                isNotEqualTo as DocumentReference<User>,
+              )
             : null,
         isLessThan: isLessThan != null
-            ? _$TaskPerFieldToJson.createdById(isLessThan as String)
+            ? _$TaskPerFieldToJson.createdBy(
+                isLessThan as DocumentReference<User>,
+              )
             : null,
         isLessThanOrEqualTo: isLessThanOrEqualTo != null
-            ? _$TaskPerFieldToJson.createdById(isLessThanOrEqualTo as String)
+            ? _$TaskPerFieldToJson.createdBy(
+                isLessThanOrEqualTo as DocumentReference<User>,
+              )
             : null,
         isGreaterThan: isGreaterThan != null
-            ? _$TaskPerFieldToJson.createdById(isGreaterThan as String)
+            ? _$TaskPerFieldToJson.createdBy(
+                isGreaterThan as DocumentReference<User>,
+              )
             : null,
         isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
-            ? _$TaskPerFieldToJson.createdById(isGreaterThanOrEqualTo as String)
+            ? _$TaskPerFieldToJson.createdBy(
+                isGreaterThanOrEqualTo as DocumentReference<User>,
+              )
             : null,
-        whereIn: whereIn?.map((e) => _$TaskPerFieldToJson.createdById(e)),
-        whereNotIn: whereNotIn?.map((e) => _$TaskPerFieldToJson.createdById(e)),
+        whereIn: whereIn?.map((e) => _$TaskPerFieldToJson.createdBy(e)),
+        whereNotIn: whereNotIn?.map((e) => _$TaskPerFieldToJson.createdBy(e)),
         isNull:
             isNull ??
             (isEqualTo == null ? false : null) ??
@@ -5814,7 +5712,7 @@ class _$TaskQuery extends QueryReference<Task, TaskQuerySnapshot>
   }
 
   @override
-  TaskQuery orderByHomeId({
+  TaskQuery orderByAssignedTo({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
@@ -5826,7 +5724,7 @@ class _$TaskQuery extends QueryReference<Task, TaskQuerySnapshot>
     TaskDocumentSnapshot? startAfterDocument,
   }) {
     final query = $referenceWithoutCursor.orderBy(
-      _$TaskFieldMap['homeId']!,
+      _$TaskFieldMap['assignedTo']!,
       descending: descending,
     );
     var queryCursor = $queryCursor;
@@ -5889,7 +5787,7 @@ class _$TaskQuery extends QueryReference<Task, TaskQuerySnapshot>
   }
 
   @override
-  TaskQuery orderByAssignedToIds({
+  TaskQuery orderByCreatedBy({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
@@ -5901,82 +5799,7 @@ class _$TaskQuery extends QueryReference<Task, TaskQuerySnapshot>
     TaskDocumentSnapshot? startAfterDocument,
   }) {
     final query = $referenceWithoutCursor.orderBy(
-      _$TaskFieldMap['assignedToIds']!,
-      descending: descending,
-    );
-    var queryCursor = $queryCursor;
-
-    if (startAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAt: const [],
-        startAtDocumentSnapshot: startAtDocument.snapshot,
-      );
-    }
-    if (startAfterDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: const [],
-        startAfterDocumentSnapshot: startAfterDocument.snapshot,
-      );
-    }
-    if (endAtDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endAt: const [],
-        endAtDocumentSnapshot: endAtDocument.snapshot,
-      );
-    }
-    if (endBeforeDocument != null) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: const [],
-        endBeforeDocumentSnapshot: endBeforeDocument.snapshot,
-      );
-    }
-
-    if (startAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAt: [...queryCursor.startAt, startAt],
-        startAtDocumentSnapshot: null,
-      );
-    }
-    if (startAfter != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        startAfter: [...queryCursor.startAfter, startAfter],
-        startAfterDocumentSnapshot: null,
-      );
-    }
-    if (endAt != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endAt: [...queryCursor.endAt, endAt],
-        endAtDocumentSnapshot: null,
-      );
-    }
-    if (endBefore != _sentinel) {
-      queryCursor = queryCursor.copyWith(
-        endBefore: [...queryCursor.endBefore, endBefore],
-        endBeforeDocumentSnapshot: null,
-      );
-    }
-
-    return _$TaskQuery(
-      _collection,
-      $referenceWithoutCursor: query,
-      $queryCursor: queryCursor,
-    );
-  }
-
-  @override
-  TaskQuery orderByCreatedById({
-    bool descending = false,
-    Object? startAt = _sentinel,
-    Object? startAfter = _sentinel,
-    Object? endAt = _sentinel,
-    Object? endBefore = _sentinel,
-    TaskDocumentSnapshot? startAtDocument,
-    TaskDocumentSnapshot? endAtDocument,
-    TaskDocumentSnapshot? endBeforeDocument,
-    TaskDocumentSnapshot? startAfterDocument,
-  }) {
-    final query = $referenceWithoutCursor.orderBy(
-      _$TaskFieldMap['createdById']!,
+      _$TaskFieldMap['createdBy']!,
       descending: descending,
     );
     var queryCursor = $queryCursor;
@@ -6951,7 +6774,9 @@ _Home _$HomeFromJson(Map<String, dynamic> json) => _Home(
   createdAt: const FirestoreDateTimeConverter().fromJson(
     json['createdAt'] as Timestamp,
   ),
-  ownerId: json['ownerId'] as String,
+  owner: const DocumentReferenceUserConverter().fromJson(
+    json['owner'] as DocumentReference<Map<String, dynamic>>,
+  ),
   settings: HomeSettings.fromJson(json['settings'] as Map<String, dynamic>),
 );
 
@@ -6959,7 +6784,7 @@ const _$HomeFieldMap = <String, String>{
   'name': 'name',
   'description': 'description',
   'createdAt': 'createdAt',
-  'ownerId': 'ownerId',
+  'owner': 'owner',
   'settings': 'settings',
 };
 
@@ -6973,7 +6798,8 @@ abstract class _$HomePerFieldToJson {
   static Object? createdAt(DateTime instance) =>
       const FirestoreDateTimeConverter().toJson(instance);
   // ignore: unused_element
-  static Object? ownerId(String instance) => instance;
+  static Object? owner(DocumentReference<User> instance) =>
+      const DocumentReferenceUserConverter().toJson(instance);
   // ignore: unused_element
   static Object? settings(HomeSettings instance) => instance.toJson();
 }
@@ -6982,7 +6808,7 @@ Map<String, dynamic> _$HomeToJson(_Home instance) => <String, dynamic>{
   'name': instance.name,
   'description': instance.description,
   'createdAt': const FirestoreDateTimeConverter().toJson(instance.createdAt),
-  'ownerId': instance.ownerId,
+  'owner': const DocumentReferenceUserConverter().toJson(instance.owner),
   'settings': instance.settings.toJson(),
 };
 
@@ -7003,7 +6829,6 @@ Map<String, dynamic> _$HomeSettingsToJson(_HomeSettings instance) =>
     <String, dynamic>{'allowMemberInvite': instance.allowMemberInvite};
 
 _Member _$MemberFromJson(Map<String, dynamic> json) => _Member(
-  userId: json['userId'] as String? ?? 'unset',
   permissions: MemberPermissions.fromJson(
     json['permissions'] as Map<String, dynamic>,
   ),
@@ -7080,11 +6905,16 @@ _Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
   id: json['id'] as String? ?? 'unset',
   title: json['title'] as String,
   description: json['description'] as String?,
-  homeId: json['homeId'] as String,
-  assignedToIds: (json['assignedToIds'] as List<dynamic>)
-      .map((e) => e as String)
+  assignedTo: (json['assignedTo'] as List<dynamic>)
+      .map(
+        (e) => const DocumentReferenceUserConverter().fromJson(
+          e as DocumentReference<Map<String, dynamic>>,
+        ),
+      )
       .toList(),
-  createdById: json['createdById'] as String,
+  createdBy: const DocumentReferenceUserConverter().fromJson(
+    json['createdBy'] as DocumentReference<Map<String, dynamic>>,
+  ),
   status: $enumDecode(_$TaskStatusEnumMap, json['status']),
   dueDate: _$JsonConverterFromJson<Timestamp, DateTime>(
     json['dueDate'],
@@ -7117,9 +6947,8 @@ _Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
 const _$TaskFieldMap = <String, String>{
   'title': 'title',
   'description': 'description',
-  'homeId': 'homeId',
-  'assignedToIds': 'assignedToIds',
-  'createdById': 'createdById',
+  'assignedTo': 'assignedTo',
+  'createdBy': 'createdBy',
   'status': 'status',
   'dueDate': 'dueDate',
   'priority': 'priority',
@@ -7140,11 +6969,11 @@ abstract class _$TaskPerFieldToJson {
   // ignore: unused_element
   static Object? description(String? instance) => instance;
   // ignore: unused_element
-  static Object? homeId(String instance) => instance;
+  static Object? assignedTo(List<DocumentReference<User>> instance) =>
+      instance.map(const DocumentReferenceUserConverter().toJson).toList();
   // ignore: unused_element
-  static Object? assignedToIds(List<String> instance) => instance;
-  // ignore: unused_element
-  static Object? createdById(String instance) => instance;
+  static Object? createdBy(DocumentReference<User> instance) =>
+      const DocumentReferenceUserConverter().toJson(instance);
   // ignore: unused_element
   static Object? status(TaskStatus instance) => _$TaskStatusEnumMap[instance]!;
   // ignore: unused_element
@@ -7183,9 +7012,12 @@ abstract class _$TaskPerFieldToJson {
 Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
   'title': instance.title,
   'description': instance.description,
-  'homeId': instance.homeId,
-  'assignedToIds': instance.assignedToIds,
-  'createdById': instance.createdById,
+  'assignedTo': instance.assignedTo
+      .map(const DocumentReferenceUserConverter().toJson)
+      .toList(),
+  'createdBy': const DocumentReferenceUserConverter().toJson(
+    instance.createdBy,
+  ),
   'status': _$TaskStatusEnumMap[instance.status]!,
   'dueDate': _$JsonConverterToJson<Timestamp, DateTime>(
     instance.dueDate,

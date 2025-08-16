@@ -142,15 +142,13 @@ class AuthService {
       logger.info('Firebase Auth user created: $userId');
 
       // Create Firestore user document with empty homeIds initially
-      await _userService.createUser(
+      final user = await _userService.createUser(
         firebaseAuthId: userId,
         name: name,
         email: email,
         avatar: avatar,
         birthDate: birthDate,
       );
-
-      String homeId;
 
       if (registrationType == RegistrationType.createHome) {
         if (homeName == null || homeName.isEmpty) {
@@ -162,9 +160,8 @@ class AuthService {
           name: homeName,
           ownerId: userId,
         );
-        homeId = home.id;
 
-        logger.info('New home created: $homeId');
+        logger.info('New home created: $home');
       } else {
         if (invitationCode == null || invitationCode.isEmpty) {
           throw Exception('Invitation code is required for joining a home');
@@ -178,19 +175,17 @@ class AuthService {
           throw Exception('Invalid or expired invitation code');
         }
 
-        homeId = invitation.homeId;
-
         // Accept the invitation
-        await _invitationService.acceptInvitation(invitation.id, userId);
+        await _invitationService.acceptInvitation(invitation);
 
         // Add user as member to the home
         await _homeService.addMemberToHome(
-          homeId: homeId,
-          userId: userId,
+          home: invitation.data!.home.ref,
+          user: user.reference,
           permissions: _homeService.getDefaultMemberPermissions(),
         );
 
-        logger.info('User joined home via invitation: $homeId');
+        logger.info('User joined home via invitation: $invitation');
       }
 
       logger.info(

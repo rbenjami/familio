@@ -66,7 +66,7 @@ class AppTheme {
     ),
     cardTheme: CardThemeData(
       color: cardColor,
-      elevation: 2,
+      elevation: 0,
       shape: RoundedSuperellipseBorder(borderRadius: borderRadius),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

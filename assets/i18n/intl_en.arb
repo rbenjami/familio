@@ -140,5 +140,14 @@
   "sort_by_task_title": "Title",
   "sort_by_assigned_to": "Assigned to",
   "sort_by_status": "Status",
-  "sort_apply_button": "Apply"
+  "sort_apply_button": "Apply",
+
+  "task_title_hint": "Task title...",
+  "task_description_hint": "Description...",
+  "task_due_date_hint": "Due date",
+  "task_priority_hint": "Priority",
+  "task_subtask_hint": "Subtask...",
+  "task_add_subtask": "Add subtask",
+  "task_subtask_placeholder": "New subtask...",
+  "task_add_subtask_button": "Add"
 }

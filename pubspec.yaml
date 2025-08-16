@@ -49,6 +49,7 @@ dependencies:
     git:
       url: https://github.com/dorklein/firestoreodm-flutter.git
       path: packages/cloud_firestore_odm
+  firebase_ui_firestore: ^1.7.3
 
 dev_dependencies:
   flutter_test:

@@ -10,33 +10,33 @@ class InvitationService {
 
   /// Create a new invitation
   Future<Invitation> createInvitation({
-    required String homeId,
-    required String invitedBy,
+    required HomeDocumentReference home,
+    required UserDocumentReference invitedBy,
     String? invitedEmail,
     String? invitedUserName,
   }) async {
     try {
-      logger.info('Creating invitation for home: $homeId');
-      
+      logger.info('Creating invitation for home: $home');
+
       final invitationCode = _generateInvitationCode();
       final now = DateTime.now();
       final expiresAt = now.add(const Duration(days: 7)); // Expire after 7 days
-      
+
       final invitation = Invitation(
         id: const Uuid().v4(),
-        homeId: homeId,
+        home: home.reference,
         invitedEmail: invitedEmail,
         invitedUserName: invitedUserName,
-        invitedBy: invitedBy,
+        invitedBy: invitedBy.reference,
         status: InvitationStatus.pending,
         createdAt: now,
         expiresAt: expiresAt,
         invitationCode: invitationCode,
       );
-      
+
       // Save to Firestore using ODM reference
       await invitationsRef.doc(invitation.id).set(invitation);
-      
+
       logger.info('Invitation created successfully: ${invitation.id}');
       return invitation;
     } catch (e) {
@@ -46,28 +46,32 @@ class InvitationService {
   }
 
   /// Get invitation by code
-  Future<Invitation?> getInvitationByCode(String invitationCode) async {
+  Future<InvitationDocumentSnapshot?> getInvitationByCode(
+    String invitationCode,
+  ) async {
     try {
       logger.info('Fetching invitation by code: $invitationCode');
-      
-      final querySnapshot = await invitationsRef.whereInvitationCode(isEqualTo: invitationCode).get();
-      
+
+      final querySnapshot = await invitationsRef
+          .whereInvitationCode(isEqualTo: invitationCode)
+          .get();
+
       if (querySnapshot.docs.isNotEmpty) {
         final invitation = querySnapshot.docs.first.data;
-        
+
         // Check if invitation is still valid
         if (invitation.expiresAt.isBefore(DateTime.now())) {
           logger.info('Invitation expired: ${invitation.id}');
           return null;
         }
-        
+
         if (invitation.status != InvitationStatus.pending) {
           logger.info('Invitation not pending: ${invitation.id}');
           return null;
         }
-        
+
         logger.info('Valid invitation found: ${invitation.id}');
-        return invitation;
+        return querySnapshot.docs.first;
       } else {
         logger.info('No invitation found with code: $invitationCode');
         return null;
@@ -79,35 +83,36 @@ class InvitationService {
   }
 
   /// Accept an invitation
-  Future<Invitation> acceptInvitation(String invitationId, String acceptedByUserId) async {
+  Future<InvitationDocumentSnapshot> acceptInvitation(
+    InvitationDocumentSnapshot invitation,
+  ) async {
     try {
-      logger.info('Accepting invitation: $invitationId');
-      
-      final invitationDoc = await invitationsRef.doc(invitationId).get();
-      if (!invitationDoc.exists) {
-        throw Exception('Invitation not found: $invitationId');
+      logger.info('Accepting invitation: ${invitation.id}');
+
+      if (!invitation.exists) {
+        throw Exception('Invitation not found: ${invitation.id}');
       }
-      
-      final invitation = invitationDoc.data!;
-      
+
+      final invitationData = invitation.data!;
+
       // Check if invitation is still valid
-      if (invitation.expiresAt.isBefore(DateTime.now())) {
+      if (invitationData.expiresAt.isBefore(DateTime.now())) {
         throw Exception('Invitation expired');
       }
-      
-      if (invitation.status != InvitationStatus.pending) {
+
+      if (invitationData.status != InvitationStatus.pending) {
         throw Exception('Invitation not pending');
       }
-      
+
       // Update invitation status
-      final updatedInvitation = invitation.copyWith(
+      final updatedInvitation = invitationData.copyWith(
         status: InvitationStatus.accepted,
       );
-      
-      await invitationsRef.doc(invitationId).set(updatedInvitation);
-      
-      logger.info('Invitation accepted successfully: $invitationId');
-      return updatedInvitation;
+
+      await invitationsRef.doc(invitation.id).set(updatedInvitation);
+
+      logger.info('Invitation accepted successfully: $invitation');
+      return invitation;
     } catch (e) {
       logger.error('Error accepting invitation: $e');
       rethrow;
@@ -118,14 +123,14 @@ class InvitationService {
   String _generateInvitationCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const length = 8;
-    
+
     final random = DateTime.now().millisecondsSinceEpoch;
     String code = '';
-    
+
     for (int i = 0; i < length; i++) {
       code += chars[(random + i) % chars.length];
     }
-    
+
     return code;
   }
 }

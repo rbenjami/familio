@@ -194,7 +194,7 @@ abstract class UserDocumentReference
     FieldValue firebaseAuthIdFieldValue,
     List<String>? relationshipIds,
     FieldValue relationshipIdsFieldValue,
-    List<HomeDocumentReference> homes,
+    List<DocumentReference<Home>> homes,
     FieldValue homesFieldValue,
   });
 
@@ -213,7 +213,7 @@ abstract class UserDocumentReference
     FieldValue firebaseAuthIdFieldValue,
     List<String>? relationshipIds,
     FieldValue relationshipIdsFieldValue,
-    List<HomeDocumentReference> homes,
+    List<DocumentReference<Home>> homes,
     FieldValue homesFieldValue,
   });
 
@@ -232,7 +232,7 @@ abstract class UserDocumentReference
     FieldValue firebaseAuthIdFieldValue,
     List<String>? relationshipIds,
     FieldValue relationshipIdsFieldValue,
-    List<HomeDocumentReference> homes,
+    List<DocumentReference<Home>> homes,
     FieldValue homesFieldValue,
   });
 }
@@ -443,7 +443,7 @@ class _$UserDocumentReference
 
       if (homes != _sentinel)
         _$UserFieldMap['homes']!: _$UserPerFieldToJson.homes(
-          homes as List<HomeDocumentReference>,
+          homes as List<DocumentReference<Home>>,
         ),
 
       if (homesFieldValue != null) _$UserFieldMap['homes']!: homesFieldValue,
@@ -529,7 +529,7 @@ class _$UserDocumentReference
 
       if (homes != _sentinel)
         _$UserFieldMap['homes']!: _$UserPerFieldToJson.homes(
-          homes as List<HomeDocumentReference>,
+          homes as List<DocumentReference<Home>>,
         ),
 
       if (homesFieldValue != null) _$UserFieldMap['homes']!: homesFieldValue,
@@ -615,7 +615,7 @@ class _$UserDocumentReference
 
       if (homes != _sentinel)
         _$UserFieldMap['homes']!: _$UserPerFieldToJson.homes(
-          homes as List<HomeDocumentReference>,
+          homes as List<DocumentReference<Home>>,
         ),
 
       if (homesFieldValue != null) _$UserFieldMap['homes']!: homesFieldValue,
@@ -748,14 +748,14 @@ abstract class UserQuery implements QueryReference<User, UserQuerySnapshot> {
   });
 
   UserQuery whereHomes({
-    List<HomeDocumentReference>? isEqualTo,
-    List<HomeDocumentReference>? isNotEqualTo,
-    List<HomeDocumentReference>? isLessThan,
-    List<HomeDocumentReference>? isLessThanOrEqualTo,
-    List<HomeDocumentReference>? isGreaterThan,
-    List<HomeDocumentReference>? isGreaterThanOrEqualTo,
-    HomeDocumentReference arrayContains,
-    List<HomeDocumentReference>? arrayContainsAny,
+    List<DocumentReference<Home>>? isEqualTo,
+    List<DocumentReference<Home>>? isNotEqualTo,
+    List<DocumentReference<Home>>? isLessThan,
+    List<DocumentReference<Home>>? isLessThanOrEqualTo,
+    List<DocumentReference<Home>>? isGreaterThan,
+    List<DocumentReference<Home>>? isGreaterThanOrEqualTo,
+    DocumentReference<Home>? arrayContains,
+    List<DocumentReference<Home>>? arrayContainsAny,
     bool? isNull,
   });
 
@@ -866,10 +866,10 @@ abstract class UserQuery implements QueryReference<User, UserQuerySnapshot> {
 
   UserQuery orderByHomes({
     bool descending = false,
-    List<HomeDocumentReference> startAt,
-    List<HomeDocumentReference> startAfter,
-    List<HomeDocumentReference> endAt,
-    List<HomeDocumentReference> endBefore,
+    List<DocumentReference<Home>> startAt,
+    List<DocumentReference<Home>> startAfter,
+    List<DocumentReference<Home>> endAt,
+    List<DocumentReference<Home>> endBefore,
     UserDocumentSnapshot? startAtDocument,
     UserDocumentSnapshot? endAtDocument,
     UserDocumentSnapshot? endBeforeDocument,
@@ -1246,7 +1246,7 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
     Object? isGreaterThan,
     Object? isGreaterThanOrEqualTo,
     Object? arrayContains,
-    List<HomeDocumentReference>? arrayContainsAny,
+    List<DocumentReference<Home>>? arrayContainsAny,
     bool? isNull,
   }) {
     return _$UserQuery(
@@ -1255,37 +1255,37 @@ class _$UserQuery extends QueryReference<User, UserQuerySnapshot>
         _$UserFieldMap['homes']!,
         isEqualTo: isEqualTo != _sentinel
             ? _$UserPerFieldToJson.homes(
-                isEqualTo as List<HomeDocumentReference>,
+                isEqualTo as List<DocumentReference<Home>>,
               )
             : null,
         isNotEqualTo: isNotEqualTo != _sentinel
             ? _$UserPerFieldToJson.homes(
-                isNotEqualTo as List<HomeDocumentReference>,
+                isNotEqualTo as List<DocumentReference<Home>>,
               )
             : null,
         isLessThan: isLessThan != null
             ? _$UserPerFieldToJson.homes(
-                isLessThan as List<HomeDocumentReference>,
+                isLessThan as List<DocumentReference<Home>>,
               )
             : null,
         isLessThanOrEqualTo: isLessThanOrEqualTo != null
             ? _$UserPerFieldToJson.homes(
-                isLessThanOrEqualTo as List<HomeDocumentReference>,
+                isLessThanOrEqualTo as List<DocumentReference<Home>>,
               )
             : null,
         isGreaterThan: isGreaterThan != null
             ? _$UserPerFieldToJson.homes(
-                isGreaterThan as List<HomeDocumentReference>,
+                isGreaterThan as List<DocumentReference<Home>>,
               )
             : null,
         isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
             ? _$UserPerFieldToJson.homes(
-                isGreaterThanOrEqualTo as List<HomeDocumentReference>,
+                isGreaterThanOrEqualTo as List<DocumentReference<Home>>,
               )
             : null,
         arrayContains: arrayContains != null
             ? (_$UserPerFieldToJson.homes([
-                        arrayContains as HomeDocumentReference,
+                        arrayContains as DocumentReference<Home>,
                       ])
                       as List?)!
                   .single
@@ -4928,7 +4928,7 @@ abstract class EventDocumentReference
     FieldValue sourceFieldValue,
     FieldValue externalEventIdFieldValue,
     FieldValue canEditFieldValue,
-    FieldValue attendeeUserIdsFieldValue,
+    FieldValue attendeeUsersFieldValue,
     FieldValue createdAtFieldValue,
     FieldValue updatedAtFieldValue,
   });
@@ -4952,7 +4952,7 @@ abstract class EventDocumentReference
     FieldValue sourceFieldValue,
     FieldValue externalEventIdFieldValue,
     FieldValue canEditFieldValue,
-    FieldValue attendeeUserIdsFieldValue,
+    FieldValue attendeeUsersFieldValue,
     FieldValue createdAtFieldValue,
     FieldValue updatedAtFieldValue,
   });
@@ -4976,7 +4976,7 @@ abstract class EventDocumentReference
     FieldValue sourceFieldValue,
     FieldValue externalEventIdFieldValue,
     FieldValue canEditFieldValue,
-    FieldValue attendeeUserIdsFieldValue,
+    FieldValue attendeeUsersFieldValue,
     FieldValue createdAtFieldValue,
     FieldValue updatedAtFieldValue,
   });
@@ -5002,8 +5002,8 @@ abstract class EventDocumentReference
     FieldValue externalEventIdFieldValue,
     bool canEdit,
     FieldValue canEditFieldValue,
-    List<String>? attendeeUserIds,
-    FieldValue attendeeUserIdsFieldValue,
+    List<DocumentReference<User>>? attendeeUsers,
+    FieldValue attendeeUsersFieldValue,
     DateTime createdAt,
     FieldValue createdAtFieldValue,
     DateTime updatedAt,
@@ -5031,8 +5031,8 @@ abstract class EventDocumentReference
     FieldValue externalEventIdFieldValue,
     bool canEdit,
     FieldValue canEditFieldValue,
-    List<String>? attendeeUserIds,
-    FieldValue attendeeUserIdsFieldValue,
+    List<DocumentReference<User>>? attendeeUsers,
+    FieldValue attendeeUsersFieldValue,
     DateTime createdAt,
     FieldValue createdAtFieldValue,
     DateTime updatedAt,
@@ -5060,8 +5060,8 @@ abstract class EventDocumentReference
     FieldValue externalEventIdFieldValue,
     bool canEdit,
     FieldValue canEditFieldValue,
-    List<String>? attendeeUserIds,
-    FieldValue attendeeUserIdsFieldValue,
+    List<DocumentReference<User>>? attendeeUsers,
+    FieldValue attendeeUsersFieldValue,
     DateTime createdAt,
     FieldValue createdAtFieldValue,
     DateTime updatedAt,
@@ -5113,7 +5113,7 @@ class _$EventDocumentReference
     FieldValue? sourceFieldValue,
     FieldValue? externalEventIdFieldValue,
     FieldValue? canEditFieldValue,
-    FieldValue? attendeeUserIdsFieldValue,
+    FieldValue? attendeeUsersFieldValue,
     FieldValue? createdAtFieldValue,
     FieldValue? updatedAtFieldValue,
   }) async {
@@ -5142,8 +5142,8 @@ class _$EventDocumentReference
       if (canEditFieldValue != null)
         _$EventFieldMap['canEdit']!: canEditFieldValue,
 
-      if (attendeeUserIdsFieldValue != null)
-        _$EventFieldMap['attendeeUserIds']!: attendeeUserIdsFieldValue,
+      if (attendeeUsersFieldValue != null)
+        _$EventFieldMap['attendeeUsers']!: attendeeUsersFieldValue,
 
       if (createdAtFieldValue != null)
         _$EventFieldMap['createdAt']!: createdAtFieldValue,
@@ -5171,7 +5171,7 @@ class _$EventDocumentReference
     FieldValue? sourceFieldValue,
     FieldValue? externalEventIdFieldValue,
     FieldValue? canEditFieldValue,
-    FieldValue? attendeeUserIdsFieldValue,
+    FieldValue? attendeeUsersFieldValue,
     FieldValue? createdAtFieldValue,
     FieldValue? updatedAtFieldValue,
   }) {
@@ -5200,8 +5200,8 @@ class _$EventDocumentReference
       if (canEditFieldValue != null)
         _$EventFieldMap['canEdit']!: canEditFieldValue,
 
-      if (attendeeUserIdsFieldValue != null)
-        _$EventFieldMap['attendeeUserIds']!: attendeeUserIdsFieldValue,
+      if (attendeeUsersFieldValue != null)
+        _$EventFieldMap['attendeeUsers']!: attendeeUsersFieldValue,
 
       if (createdAtFieldValue != null)
         _$EventFieldMap['createdAt']!: createdAtFieldValue,
@@ -5225,7 +5225,7 @@ class _$EventDocumentReference
     FieldValue? sourceFieldValue,
     FieldValue? externalEventIdFieldValue,
     FieldValue? canEditFieldValue,
-    FieldValue? attendeeUserIdsFieldValue,
+    FieldValue? attendeeUsersFieldValue,
     FieldValue? createdAtFieldValue,
     FieldValue? updatedAtFieldValue,
   }) {
@@ -5254,8 +5254,8 @@ class _$EventDocumentReference
       if (canEditFieldValue != null)
         _$EventFieldMap['canEdit']!: canEditFieldValue,
 
-      if (attendeeUserIdsFieldValue != null)
-        _$EventFieldMap['attendeeUserIds']!: attendeeUserIdsFieldValue,
+      if (attendeeUsersFieldValue != null)
+        _$EventFieldMap['attendeeUsers']!: attendeeUsersFieldValue,
 
       if (createdAtFieldValue != null)
         _$EventFieldMap['createdAt']!: createdAtFieldValue,
@@ -5284,8 +5284,8 @@ class _$EventDocumentReference
     FieldValue? externalEventIdFieldValue,
     Object? canEdit = _sentinel,
     FieldValue? canEditFieldValue,
-    Object? attendeeUserIds = _sentinel,
-    FieldValue? attendeeUserIdsFieldValue,
+    Object? attendeeUsers = _sentinel,
+    FieldValue? attendeeUsersFieldValue,
     Object? createdAt = _sentinel,
     FieldValue? createdAtFieldValue,
     Object? updatedAt = _sentinel,
@@ -5324,8 +5324,8 @@ class _$EventDocumentReference
       "Cannot specify both canEdit and canEditFieldValue",
     );
     assert(
-      attendeeUserIds == _sentinel || attendeeUserIdsFieldValue == null,
-      "Cannot specify both attendeeUserIds and attendeeUserIdsFieldValue",
+      attendeeUsers == _sentinel || attendeeUsersFieldValue == null,
+      "Cannot specify both attendeeUsers and attendeeUsersFieldValue",
     );
     assert(
       createdAt == _sentinel || createdAtFieldValue == null,
@@ -5396,12 +5396,13 @@ class _$EventDocumentReference
       if (canEditFieldValue != null)
         _$EventFieldMap['canEdit']!: canEditFieldValue,
 
-      if (attendeeUserIds != _sentinel)
-        _$EventFieldMap['attendeeUserIds']!: _$EventPerFieldToJson
-            .attendeeUserIds(attendeeUserIds as List<String>?),
+      if (attendeeUsers != _sentinel)
+        _$EventFieldMap['attendeeUsers']!: _$EventPerFieldToJson.attendeeUsers(
+          attendeeUsers as List<DocumentReference<User>>?,
+        ),
 
-      if (attendeeUserIdsFieldValue != null)
-        _$EventFieldMap['attendeeUserIds']!: attendeeUserIdsFieldValue,
+      if (attendeeUsersFieldValue != null)
+        _$EventFieldMap['attendeeUsers']!: attendeeUsersFieldValue,
 
       if (createdAt != _sentinel)
         _$EventFieldMap['createdAt']!: _$EventPerFieldToJson.createdAt(
@@ -5441,8 +5442,8 @@ class _$EventDocumentReference
     FieldValue? externalEventIdFieldValue,
     Object? canEdit = _sentinel,
     FieldValue? canEditFieldValue,
-    Object? attendeeUserIds = _sentinel,
-    FieldValue? attendeeUserIdsFieldValue,
+    Object? attendeeUsers = _sentinel,
+    FieldValue? attendeeUsersFieldValue,
     Object? createdAt = _sentinel,
     FieldValue? createdAtFieldValue,
     Object? updatedAt = _sentinel,
@@ -5481,8 +5482,8 @@ class _$EventDocumentReference
       "Cannot specify both canEdit and canEditFieldValue",
     );
     assert(
-      attendeeUserIds == _sentinel || attendeeUserIdsFieldValue == null,
-      "Cannot specify both attendeeUserIds and attendeeUserIdsFieldValue",
+      attendeeUsers == _sentinel || attendeeUsersFieldValue == null,
+      "Cannot specify both attendeeUsers and attendeeUsersFieldValue",
     );
     assert(
       createdAt == _sentinel || createdAtFieldValue == null,
@@ -5553,12 +5554,13 @@ class _$EventDocumentReference
       if (canEditFieldValue != null)
         _$EventFieldMap['canEdit']!: canEditFieldValue,
 
-      if (attendeeUserIds != _sentinel)
-        _$EventFieldMap['attendeeUserIds']!: _$EventPerFieldToJson
-            .attendeeUserIds(attendeeUserIds as List<String>?),
+      if (attendeeUsers != _sentinel)
+        _$EventFieldMap['attendeeUsers']!: _$EventPerFieldToJson.attendeeUsers(
+          attendeeUsers as List<DocumentReference<User>>?,
+        ),
 
-      if (attendeeUserIdsFieldValue != null)
-        _$EventFieldMap['attendeeUserIds']!: attendeeUserIdsFieldValue,
+      if (attendeeUsersFieldValue != null)
+        _$EventFieldMap['attendeeUsers']!: attendeeUsersFieldValue,
 
       if (createdAt != _sentinel)
         _$EventFieldMap['createdAt']!: _$EventPerFieldToJson.createdAt(
@@ -5598,8 +5600,8 @@ class _$EventDocumentReference
     FieldValue? externalEventIdFieldValue,
     Object? canEdit = _sentinel,
     FieldValue? canEditFieldValue,
-    Object? attendeeUserIds = _sentinel,
-    FieldValue? attendeeUserIdsFieldValue,
+    Object? attendeeUsers = _sentinel,
+    FieldValue? attendeeUsersFieldValue,
     Object? createdAt = _sentinel,
     FieldValue? createdAtFieldValue,
     Object? updatedAt = _sentinel,
@@ -5638,8 +5640,8 @@ class _$EventDocumentReference
       "Cannot specify both canEdit and canEditFieldValue",
     );
     assert(
-      attendeeUserIds == _sentinel || attendeeUserIdsFieldValue == null,
-      "Cannot specify both attendeeUserIds and attendeeUserIdsFieldValue",
+      attendeeUsers == _sentinel || attendeeUsersFieldValue == null,
+      "Cannot specify both attendeeUsers and attendeeUsersFieldValue",
     );
     assert(
       createdAt == _sentinel || createdAtFieldValue == null,
@@ -5710,12 +5712,13 @@ class _$EventDocumentReference
       if (canEditFieldValue != null)
         _$EventFieldMap['canEdit']!: canEditFieldValue,
 
-      if (attendeeUserIds != _sentinel)
-        _$EventFieldMap['attendeeUserIds']!: _$EventPerFieldToJson
-            .attendeeUserIds(attendeeUserIds as List<String>?),
+      if (attendeeUsers != _sentinel)
+        _$EventFieldMap['attendeeUsers']!: _$EventPerFieldToJson.attendeeUsers(
+          attendeeUsers as List<DocumentReference<User>>?,
+        ),
 
-      if (attendeeUserIdsFieldValue != null)
-        _$EventFieldMap['attendeeUserIds']!: attendeeUserIdsFieldValue,
+      if (attendeeUsersFieldValue != null)
+        _$EventFieldMap['attendeeUsers']!: attendeeUsersFieldValue,
 
       if (createdAt != _sentinel)
         _$EventFieldMap['createdAt']!: _$EventPerFieldToJson.createdAt(
@@ -5896,15 +5899,15 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     bool? isNull,
   });
 
-  EventQuery whereAttendeeUserIds({
-    List<String>? isEqualTo,
-    List<String>? isNotEqualTo,
-    List<String>? isLessThan,
-    List<String>? isLessThanOrEqualTo,
-    List<String>? isGreaterThan,
-    List<String>? isGreaterThanOrEqualTo,
-    String? arrayContains,
-    List<String>? arrayContainsAny,
+  EventQuery whereAttendeeUsers({
+    List<DocumentReference<User>>? isEqualTo,
+    List<DocumentReference<User>>? isNotEqualTo,
+    List<DocumentReference<User>>? isLessThan,
+    List<DocumentReference<User>>? isLessThanOrEqualTo,
+    List<DocumentReference<User>>? isGreaterThan,
+    List<DocumentReference<User>>? isGreaterThanOrEqualTo,
+    DocumentReference<User>? arrayContains,
+    List<DocumentReference<User>>? arrayContainsAny,
     bool? isNull,
   });
 
@@ -6073,12 +6076,12 @@ abstract class EventQuery implements QueryReference<Event, EventQuerySnapshot> {
     EventDocumentSnapshot? startAfterDocument,
   });
 
-  EventQuery orderByAttendeeUserIds({
+  EventQuery orderByAttendeeUsers({
     bool descending = false,
-    List<String>? startAt,
-    List<String>? startAfter,
-    List<String>? endAt,
-    List<String>? endBefore,
+    List<DocumentReference<User>>? startAt,
+    List<DocumentReference<User>>? startAfter,
+    List<DocumentReference<User>>? endAt,
+    List<DocumentReference<User>>? endBefore,
     EventDocumentSnapshot? startAtDocument,
     EventDocumentSnapshot? endAtDocument,
     EventDocumentSnapshot? endBeforeDocument,
@@ -6597,7 +6600,7 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
   }
 
   @override
-  EventQuery whereAttendeeUserIds({
+  EventQuery whereAttendeeUsers({
     Object? isEqualTo = _sentinel,
     Object? isNotEqualTo = _sentinel,
     Object? isLessThan,
@@ -6605,46 +6608,52 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
     Object? isGreaterThan,
     Object? isGreaterThanOrEqualTo,
     Object? arrayContains,
-    List<String>? arrayContainsAny,
+    List<DocumentReference<User>>? arrayContainsAny,
     bool? isNull,
   }) {
     return _$EventQuery(
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$EventFieldMap['attendeeUserIds']!,
+        _$EventFieldMap['attendeeUsers']!,
         isEqualTo: isEqualTo != _sentinel
-            ? _$EventPerFieldToJson.attendeeUserIds(isEqualTo as List<String>?)
+            ? _$EventPerFieldToJson.attendeeUsers(
+                isEqualTo as List<DocumentReference<User>>?,
+              )
             : null,
         isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$EventPerFieldToJson.attendeeUserIds(
-                isNotEqualTo as List<String>?,
+            ? _$EventPerFieldToJson.attendeeUsers(
+                isNotEqualTo as List<DocumentReference<User>>?,
               )
             : null,
         isLessThan: isLessThan != null
-            ? _$EventPerFieldToJson.attendeeUserIds(isLessThan as List<String>?)
+            ? _$EventPerFieldToJson.attendeeUsers(
+                isLessThan as List<DocumentReference<User>>?,
+              )
             : null,
         isLessThanOrEqualTo: isLessThanOrEqualTo != null
-            ? _$EventPerFieldToJson.attendeeUserIds(
-                isLessThanOrEqualTo as List<String>?,
+            ? _$EventPerFieldToJson.attendeeUsers(
+                isLessThanOrEqualTo as List<DocumentReference<User>>?,
               )
             : null,
         isGreaterThan: isGreaterThan != null
-            ? _$EventPerFieldToJson.attendeeUserIds(
-                isGreaterThan as List<String>?,
+            ? _$EventPerFieldToJson.attendeeUsers(
+                isGreaterThan as List<DocumentReference<User>>?,
               )
             : null,
         isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
-            ? _$EventPerFieldToJson.attendeeUserIds(
-                isGreaterThanOrEqualTo as List<String>?,
+            ? _$EventPerFieldToJson.attendeeUsers(
+                isGreaterThanOrEqualTo as List<DocumentReference<User>>?,
               )
             : null,
         arrayContains: arrayContains != null
-            ? (_$EventPerFieldToJson.attendeeUserIds([arrayContains as String])
+            ? (_$EventPerFieldToJson.attendeeUsers([
+                        arrayContains as DocumentReference<User>,
+                      ])
                       as List?)!
                   .single
             : null,
         arrayContainsAny: arrayContainsAny != null
-            ? _$EventPerFieldToJson.attendeeUserIds(arrayContainsAny)
+            ? _$EventPerFieldToJson.attendeeUsers(arrayContainsAny)
                   as Iterable<Object>?
             : null,
         isNull:
@@ -7502,7 +7511,7 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
   }
 
   @override
-  EventQuery orderByAttendeeUserIds({
+  EventQuery orderByAttendeeUsers({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
@@ -7514,7 +7523,7 @@ class _$EventQuery extends QueryReference<Event, EventQuerySnapshot>
     EventDocumentSnapshot? startAfterDocument,
   }) {
     final query = $referenceWithoutCursor.orderBy(
-      _$EventFieldMap['attendeeUserIds']!,
+      _$EventFieldMap['attendeeUsers']!,
       descending: descending,
     );
     var queryCursor = $queryCursor;
@@ -7823,7 +7832,7 @@ _User _$UserFromJson(Map<String, dynamic> json) => _User(
   homes:
       (json['homes'] as List<dynamic>?)
           ?.map(
-            (e) => const HomeDocumentReferenceConverter().fromJson(
+            (e) => const DocumentReferenceHomeConverter().fromJson(
               e as DocumentReference<Map<String, dynamic>>,
             ),
           )
@@ -7857,8 +7866,8 @@ abstract class _$UserPerFieldToJson {
   // ignore: unused_element
   static Object? relationshipIds(List<String>? instance) => instance;
   // ignore: unused_element
-  static Object? homes(List<HomeDocumentReference> instance) =>
-      instance.map(const HomeDocumentReferenceConverter().toJson).toList();
+  static Object? homes(List<DocumentReference<Home>> instance) =>
+      instance.map(const DocumentReferenceHomeConverter().toJson).toList();
 }
 
 Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
@@ -7871,7 +7880,7 @@ Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
   'firebaseAuthId': instance.firebaseAuthId,
   'relationshipIds': instance.relationshipIds,
   'homes': instance.homes
-      .map(const HomeDocumentReferenceConverter().toJson)
+      .map(const DocumentReferenceHomeConverter().toJson)
       .toList(),
 };
 
@@ -7980,8 +7989,12 @@ _Event _$EventFromJson(Map<String, dynamic> json) => _Event(
   source: $enumDecode(_$EventSourceEnumMap, json['source']),
   externalEventId: json['externalEventId'] as String?,
   canEdit: json['canEdit'] as bool,
-  attendeeUserIds: (json['attendeeUserIds'] as List<dynamic>?)
-      ?.map((e) => e as String)
+  attendeeUsers: (json['attendeeUsers'] as List<dynamic>?)
+      ?.map(
+        (e) => const DocumentReferenceUserConverter().fromJson(
+          e as DocumentReference<Map<String, dynamic>>,
+        ),
+      )
       .toList(),
   createdAt: const FirestoreDateTimeConverter().fromJson(
     json['createdAt'] as Timestamp,
@@ -8000,7 +8013,7 @@ const _$EventFieldMap = <String, String>{
   'source': 'source',
   'externalEventId': 'externalEventId',
   'canEdit': 'canEdit',
-  'attendeeUserIds': 'attendeeUserIds',
+  'attendeeUsers': 'attendeeUsers',
   'createdAt': 'createdAt',
   'updatedAt': 'updatedAt',
 };
@@ -8030,7 +8043,8 @@ abstract class _$EventPerFieldToJson {
   // ignore: unused_element
   static Object? canEdit(bool instance) => instance;
   // ignore: unused_element
-  static Object? attendeeUserIds(List<String>? instance) => instance;
+  static Object? attendeeUsers(List<DocumentReference<User>>? instance) =>
+      instance?.map(const DocumentReferenceUserConverter().toJson).toList();
   // ignore: unused_element
   static Object? createdAt(DateTime instance) =>
       const FirestoreDateTimeConverter().toJson(instance);
@@ -8051,7 +8065,9 @@ Map<String, dynamic> _$EventToJson(_Event instance) => <String, dynamic>{
   'source': _$EventSourceEnumMap[instance.source]!,
   'externalEventId': instance.externalEventId,
   'canEdit': instance.canEdit,
-  'attendeeUserIds': instance.attendeeUserIds,
+  'attendeeUsers': instance.attendeeUsers
+      ?.map(const DocumentReferenceUserConverter().toJson)
+      .toList(),
   'createdAt': const FirestoreDateTimeConverter().toJson(instance.createdAt),
   'updatedAt': const FirestoreDateTimeConverter().toJson(instance.updatedAt),
 };

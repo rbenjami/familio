@@ -140,5 +140,14 @@
   "sort_by_task_title": "Titre",
   "sort_by_assigned_to": "Assigné à",
   "sort_by_status": "Statut",
-  "sort_apply_button": "Appliquer"
+  "sort_apply_button": "Appliquer",
+
+  "task_title_hint": "Titre de la tâche...",
+  "task_description_hint": "Description...",
+  "task_due_date_hint": "Échéance",
+  "task_priority_hint": "Priorité",
+  "task_subtask_hint": "Sous-tâche...",
+  "task_add_subtask": "Ajouter une sous-tâche",
+  "task_subtask_placeholder": "Nouvelle sous-tâche...",
+  "task_add_subtask_button": "Ajouter"
 }

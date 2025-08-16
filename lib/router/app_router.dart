@@ -12,6 +12,7 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     AutoRoute(page: SplashRoute.page, initial: true, path: '/splash'),
     AutoRoute(page: AuthRoute.page, path: '/auth'),
+    AutoRoute(page: TaskFormRoute.page, path: '/task-form'),
     AutoRoute(
       page: MainRoute.page,
       path: '/',

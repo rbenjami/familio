@@ -133,7 +133,7 @@ abstract class InvitationDocumentReference
   Future<void> set(
     Invitation model, {
     SetOptions? options,
-    FieldValue homeIdFieldValue,
+    FieldValue homeFieldValue,
     FieldValue invitedEmailFieldValue,
     FieldValue invitedUserNameFieldValue,
     FieldValue invitedByFieldValue,
@@ -154,7 +154,7 @@ abstract class InvitationDocumentReference
     Transaction transaction,
     Invitation model, {
     SetOptions? options,
-    FieldValue homeIdFieldValue,
+    FieldValue homeFieldValue,
     FieldValue invitedEmailFieldValue,
     FieldValue invitedUserNameFieldValue,
     FieldValue invitedByFieldValue,
@@ -175,7 +175,7 @@ abstract class InvitationDocumentReference
     WriteBatch batch,
     Invitation model, {
     SetOptions? options,
-    FieldValue homeIdFieldValue,
+    FieldValue homeFieldValue,
     FieldValue invitedEmailFieldValue,
     FieldValue invitedUserNameFieldValue,
     FieldValue invitedByFieldValue,
@@ -190,13 +190,13 @@ abstract class InvitationDocumentReference
   ///
   /// If no document exists yet, the update will fail.
   Future<void> update({
-    String homeId,
-    FieldValue homeIdFieldValue,
+    DocumentReference<Home> home,
+    FieldValue homeFieldValue,
     String? invitedEmail,
     FieldValue invitedEmailFieldValue,
     String? invitedUserName,
     FieldValue invitedUserNameFieldValue,
-    String invitedBy,
+    DocumentReference<User> invitedBy,
     FieldValue invitedByFieldValue,
     InvitationStatus status,
     FieldValue statusFieldValue,
@@ -213,13 +213,13 @@ abstract class InvitationDocumentReference
   /// The update will fail if applied to a document that does not exist.
   void transactionUpdate(
     Transaction transaction, {
-    String homeId,
-    FieldValue homeIdFieldValue,
+    DocumentReference<Home> home,
+    FieldValue homeFieldValue,
     String? invitedEmail,
     FieldValue invitedEmailFieldValue,
     String? invitedUserName,
     FieldValue invitedUserNameFieldValue,
-    String invitedBy,
+    DocumentReference<User> invitedBy,
     FieldValue invitedByFieldValue,
     InvitationStatus status,
     FieldValue statusFieldValue,
@@ -236,13 +236,13 @@ abstract class InvitationDocumentReference
   /// The update will fail if applied to a document that does not exist.
   void batchUpdate(
     WriteBatch batch, {
-    String homeId,
-    FieldValue homeIdFieldValue,
+    DocumentReference<Home> home,
+    FieldValue homeFieldValue,
     String? invitedEmail,
     FieldValue invitedEmailFieldValue,
     String? invitedUserName,
     FieldValue invitedUserNameFieldValue,
-    String invitedBy,
+    DocumentReference<User> invitedBy,
     FieldValue invitedByFieldValue,
     InvitationStatus status,
     FieldValue statusFieldValue,
@@ -286,7 +286,7 @@ class _$InvitationDocumentReference
   Future<void> set(
     Invitation model, {
     SetOptions? options,
-    FieldValue? homeIdFieldValue,
+    FieldValue? homeFieldValue,
     FieldValue? invitedEmailFieldValue,
     FieldValue? invitedUserNameFieldValue,
     FieldValue? invitedByFieldValue,
@@ -297,8 +297,7 @@ class _$InvitationDocumentReference
   }) async {
     final json = {
       ...model.toJson(),
-      if (homeIdFieldValue != null)
-        _$InvitationFieldMap['homeId']!: homeIdFieldValue,
+      if (homeFieldValue != null) _$InvitationFieldMap['home']!: homeFieldValue,
 
       if (invitedEmailFieldValue != null)
         _$InvitationFieldMap['invitedEmail']!: invitedEmailFieldValue,
@@ -333,7 +332,7 @@ class _$InvitationDocumentReference
     Transaction transaction,
     Invitation model, {
     SetOptions? options,
-    FieldValue? homeIdFieldValue,
+    FieldValue? homeFieldValue,
     FieldValue? invitedEmailFieldValue,
     FieldValue? invitedUserNameFieldValue,
     FieldValue? invitedByFieldValue,
@@ -344,8 +343,7 @@ class _$InvitationDocumentReference
   }) {
     final json = {
       ...model.toJson(),
-      if (homeIdFieldValue != null)
-        _$InvitationFieldMap['homeId']!: homeIdFieldValue,
+      if (homeFieldValue != null) _$InvitationFieldMap['home']!: homeFieldValue,
 
       if (invitedEmailFieldValue != null)
         _$InvitationFieldMap['invitedEmail']!: invitedEmailFieldValue,
@@ -376,7 +374,7 @@ class _$InvitationDocumentReference
     WriteBatch batch,
     Invitation model, {
     SetOptions? options,
-    FieldValue? homeIdFieldValue,
+    FieldValue? homeFieldValue,
     FieldValue? invitedEmailFieldValue,
     FieldValue? invitedUserNameFieldValue,
     FieldValue? invitedByFieldValue,
@@ -387,8 +385,7 @@ class _$InvitationDocumentReference
   }) {
     final json = {
       ...model.toJson(),
-      if (homeIdFieldValue != null)
-        _$InvitationFieldMap['homeId']!: homeIdFieldValue,
+      if (homeFieldValue != null) _$InvitationFieldMap['home']!: homeFieldValue,
 
       if (invitedEmailFieldValue != null)
         _$InvitationFieldMap['invitedEmail']!: invitedEmailFieldValue,
@@ -416,8 +413,8 @@ class _$InvitationDocumentReference
   }
 
   Future<void> update({
-    Object? homeId = _sentinel,
-    FieldValue? homeIdFieldValue,
+    Object? home = _sentinel,
+    FieldValue? homeFieldValue,
     Object? invitedEmail = _sentinel,
     FieldValue? invitedEmailFieldValue,
     Object? invitedUserName = _sentinel,
@@ -434,8 +431,8 @@ class _$InvitationDocumentReference
     FieldValue? invitationCodeFieldValue,
   }) async {
     assert(
-      homeId == _sentinel || homeIdFieldValue == null,
-      "Cannot specify both homeId and homeIdFieldValue",
+      home == _sentinel || homeFieldValue == null,
+      "Cannot specify both home and homeFieldValue",
     );
     assert(
       invitedEmail == _sentinel || invitedEmailFieldValue == null,
@@ -466,13 +463,12 @@ class _$InvitationDocumentReference
       "Cannot specify both invitationCode and invitationCodeFieldValue",
     );
     final json = {
-      if (homeId != _sentinel)
-        _$InvitationFieldMap['homeId']!: _$InvitationPerFieldToJson.homeId(
-          homeId as String,
+      if (home != _sentinel)
+        _$InvitationFieldMap['home']!: _$InvitationPerFieldToJson.home(
+          home as DocumentReference<Home>,
         ),
 
-      if (homeIdFieldValue != null)
-        _$InvitationFieldMap['homeId']!: homeIdFieldValue,
+      if (homeFieldValue != null) _$InvitationFieldMap['home']!: homeFieldValue,
 
       if (invitedEmail != _sentinel)
         _$InvitationFieldMap['invitedEmail']!: _$InvitationPerFieldToJson
@@ -490,7 +486,7 @@ class _$InvitationDocumentReference
 
       if (invitedBy != _sentinel)
         _$InvitationFieldMap['invitedBy']!: _$InvitationPerFieldToJson
-            .invitedBy(invitedBy as String),
+            .invitedBy(invitedBy as DocumentReference<User>),
 
       if (invitedByFieldValue != null)
         _$InvitationFieldMap['invitedBy']!: invitedByFieldValue,
@@ -530,8 +526,8 @@ class _$InvitationDocumentReference
 
   void transactionUpdate(
     Transaction transaction, {
-    Object? homeId = _sentinel,
-    FieldValue? homeIdFieldValue,
+    Object? home = _sentinel,
+    FieldValue? homeFieldValue,
     Object? invitedEmail = _sentinel,
     FieldValue? invitedEmailFieldValue,
     Object? invitedUserName = _sentinel,
@@ -548,8 +544,8 @@ class _$InvitationDocumentReference
     FieldValue? invitationCodeFieldValue,
   }) {
     assert(
-      homeId == _sentinel || homeIdFieldValue == null,
-      "Cannot specify both homeId and homeIdFieldValue",
+      home == _sentinel || homeFieldValue == null,
+      "Cannot specify both home and homeFieldValue",
     );
     assert(
       invitedEmail == _sentinel || invitedEmailFieldValue == null,
@@ -580,13 +576,12 @@ class _$InvitationDocumentReference
       "Cannot specify both invitationCode and invitationCodeFieldValue",
     );
     final json = {
-      if (homeId != _sentinel)
-        _$InvitationFieldMap['homeId']!: _$InvitationPerFieldToJson.homeId(
-          homeId as String,
+      if (home != _sentinel)
+        _$InvitationFieldMap['home']!: _$InvitationPerFieldToJson.home(
+          home as DocumentReference<Home>,
         ),
 
-      if (homeIdFieldValue != null)
-        _$InvitationFieldMap['homeId']!: homeIdFieldValue,
+      if (homeFieldValue != null) _$InvitationFieldMap['home']!: homeFieldValue,
 
       if (invitedEmail != _sentinel)
         _$InvitationFieldMap['invitedEmail']!: _$InvitationPerFieldToJson
@@ -604,7 +599,7 @@ class _$InvitationDocumentReference
 
       if (invitedBy != _sentinel)
         _$InvitationFieldMap['invitedBy']!: _$InvitationPerFieldToJson
-            .invitedBy(invitedBy as String),
+            .invitedBy(invitedBy as DocumentReference<User>),
 
       if (invitedByFieldValue != null)
         _$InvitationFieldMap['invitedBy']!: invitedByFieldValue,
@@ -644,8 +639,8 @@ class _$InvitationDocumentReference
 
   void batchUpdate(
     WriteBatch batch, {
-    Object? homeId = _sentinel,
-    FieldValue? homeIdFieldValue,
+    Object? home = _sentinel,
+    FieldValue? homeFieldValue,
     Object? invitedEmail = _sentinel,
     FieldValue? invitedEmailFieldValue,
     Object? invitedUserName = _sentinel,
@@ -662,8 +657,8 @@ class _$InvitationDocumentReference
     FieldValue? invitationCodeFieldValue,
   }) {
     assert(
-      homeId == _sentinel || homeIdFieldValue == null,
-      "Cannot specify both homeId and homeIdFieldValue",
+      home == _sentinel || homeFieldValue == null,
+      "Cannot specify both home and homeFieldValue",
     );
     assert(
       invitedEmail == _sentinel || invitedEmailFieldValue == null,
@@ -694,13 +689,12 @@ class _$InvitationDocumentReference
       "Cannot specify both invitationCode and invitationCodeFieldValue",
     );
     final json = {
-      if (homeId != _sentinel)
-        _$InvitationFieldMap['homeId']!: _$InvitationPerFieldToJson.homeId(
-          homeId as String,
+      if (home != _sentinel)
+        _$InvitationFieldMap['home']!: _$InvitationPerFieldToJson.home(
+          home as DocumentReference<Home>,
         ),
 
-      if (homeIdFieldValue != null)
-        _$InvitationFieldMap['homeId']!: homeIdFieldValue,
+      if (homeFieldValue != null) _$InvitationFieldMap['home']!: homeFieldValue,
 
       if (invitedEmail != _sentinel)
         _$InvitationFieldMap['invitedEmail']!: _$InvitationPerFieldToJson
@@ -718,7 +712,7 @@ class _$InvitationDocumentReference
 
       if (invitedBy != _sentinel)
         _$InvitationFieldMap['invitedBy']!: _$InvitationPerFieldToJson
-            .invitedBy(invitedBy as String),
+            .invitedBy(invitedBy as DocumentReference<User>),
 
       if (invitedByFieldValue != null)
         _$InvitationFieldMap['invitedBy']!: invitedByFieldValue,
@@ -820,15 +814,15 @@ abstract class InvitationQuery
     bool? isNull,
   });
 
-  InvitationQuery whereHomeId({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+  InvitationQuery whereHome({
+    DocumentReference<Home>? isEqualTo,
+    DocumentReference<Home>? isNotEqualTo,
+    DocumentReference<Home>? isLessThan,
+    DocumentReference<Home>? isLessThanOrEqualTo,
+    DocumentReference<Home>? isGreaterThan,
+    DocumentReference<Home>? isGreaterThanOrEqualTo,
+    List<DocumentReference<Home>>? whereIn,
+    List<DocumentReference<Home>>? whereNotIn,
     bool? isNull,
   });
 
@@ -857,14 +851,14 @@ abstract class InvitationQuery
   });
 
   InvitationQuery whereInvitedBy({
-    String? isEqualTo,
-    String? isNotEqualTo,
-    String? isLessThan,
-    String? isLessThanOrEqualTo,
-    String? isGreaterThan,
-    String? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    DocumentReference<User>? isEqualTo,
+    DocumentReference<User>? isNotEqualTo,
+    DocumentReference<User>? isLessThan,
+    DocumentReference<User>? isLessThanOrEqualTo,
+    DocumentReference<User>? isGreaterThan,
+    DocumentReference<User>? isGreaterThanOrEqualTo,
+    List<DocumentReference<User>>? whereIn,
+    List<DocumentReference<User>>? whereNotIn,
     bool? isNull,
   });
 
@@ -961,12 +955,12 @@ abstract class InvitationQuery
     InvitationDocumentSnapshot? startAfterDocument,
   });
 
-  InvitationQuery orderByHomeId({
+  InvitationQuery orderByHome({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    DocumentReference<Home> startAt,
+    DocumentReference<Home> startAfter,
+    DocumentReference<Home> endAt,
+    DocumentReference<Home> endBefore,
     InvitationDocumentSnapshot? startAtDocument,
     InvitationDocumentSnapshot? endAtDocument,
     InvitationDocumentSnapshot? endBeforeDocument,
@@ -999,10 +993,10 @@ abstract class InvitationQuery
 
   InvitationQuery orderByInvitedBy({
     bool descending = false,
-    String startAt,
-    String startAfter,
-    String endAt,
-    String endBefore,
+    DocumentReference<User> startAt,
+    DocumentReference<User> startAfter,
+    DocumentReference<User> endAt,
+    DocumentReference<User> endBefore,
     InvitationDocumentSnapshot? startAtDocument,
     InvitationDocumentSnapshot? endAtDocument,
     InvitationDocumentSnapshot? endBeforeDocument,
@@ -1176,45 +1170,53 @@ class _$InvitationQuery
   }
 
   @override
-  InvitationQuery whereHomeId({
+  InvitationQuery whereHome({
     Object? isEqualTo = _sentinel,
     Object? isNotEqualTo = _sentinel,
     Object? isLessThan,
     Object? isLessThanOrEqualTo,
     Object? isGreaterThan,
     Object? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<DocumentReference<Home>>? whereIn,
+    List<DocumentReference<Home>>? whereNotIn,
     bool? isNull,
   }) {
     return _$InvitationQuery(
       _collection,
       $referenceWithoutCursor: $referenceWithoutCursor.where(
-        _$InvitationFieldMap['homeId']!,
+        _$InvitationFieldMap['home']!,
         isEqualTo: isEqualTo != _sentinel
-            ? _$InvitationPerFieldToJson.homeId(isEqualTo as String)
-            : null,
-        isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$InvitationPerFieldToJson.homeId(isNotEqualTo as String)
-            : null,
-        isLessThan: isLessThan != null
-            ? _$InvitationPerFieldToJson.homeId(isLessThan as String)
-            : null,
-        isLessThanOrEqualTo: isLessThanOrEqualTo != null
-            ? _$InvitationPerFieldToJson.homeId(isLessThanOrEqualTo as String)
-            : null,
-        isGreaterThan: isGreaterThan != null
-            ? _$InvitationPerFieldToJson.homeId(isGreaterThan as String)
-            : null,
-        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
-            ? _$InvitationPerFieldToJson.homeId(
-                isGreaterThanOrEqualTo as String,
+            ? _$InvitationPerFieldToJson.home(
+                isEqualTo as DocumentReference<Home>,
               )
             : null,
-        whereIn: whereIn?.map((e) => _$InvitationPerFieldToJson.homeId(e)),
-        whereNotIn: whereNotIn?.map(
-          (e) => _$InvitationPerFieldToJson.homeId(e),
-        ),
+        isNotEqualTo: isNotEqualTo != _sentinel
+            ? _$InvitationPerFieldToJson.home(
+                isNotEqualTo as DocumentReference<Home>,
+              )
+            : null,
+        isLessThan: isLessThan != null
+            ? _$InvitationPerFieldToJson.home(
+                isLessThan as DocumentReference<Home>,
+              )
+            : null,
+        isLessThanOrEqualTo: isLessThanOrEqualTo != null
+            ? _$InvitationPerFieldToJson.home(
+                isLessThanOrEqualTo as DocumentReference<Home>,
+              )
+            : null,
+        isGreaterThan: isGreaterThan != null
+            ? _$InvitationPerFieldToJson.home(
+                isGreaterThan as DocumentReference<Home>,
+              )
+            : null,
+        isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
+            ? _$InvitationPerFieldToJson.home(
+                isGreaterThanOrEqualTo as DocumentReference<Home>,
+              )
+            : null,
+        whereIn: whereIn?.map((e) => _$InvitationPerFieldToJson.home(e)),
+        whereNotIn: whereNotIn?.map((e) => _$InvitationPerFieldToJson.home(e)),
         isNull:
             isNull ??
             (isEqualTo == null ? false : null) ??
@@ -1342,8 +1344,8 @@ class _$InvitationQuery
     Object? isLessThanOrEqualTo,
     Object? isGreaterThan,
     Object? isGreaterThanOrEqualTo,
-    List<String>? whereIn,
-    List<String>? whereNotIn,
+    List<DocumentReference<User>>? whereIn,
+    List<DocumentReference<User>>? whereNotIn,
     bool? isNull,
   }) {
     return _$InvitationQuery(
@@ -1351,25 +1353,33 @@ class _$InvitationQuery
       $referenceWithoutCursor: $referenceWithoutCursor.where(
         _$InvitationFieldMap['invitedBy']!,
         isEqualTo: isEqualTo != _sentinel
-            ? _$InvitationPerFieldToJson.invitedBy(isEqualTo as String)
+            ? _$InvitationPerFieldToJson.invitedBy(
+                isEqualTo as DocumentReference<User>,
+              )
             : null,
         isNotEqualTo: isNotEqualTo != _sentinel
-            ? _$InvitationPerFieldToJson.invitedBy(isNotEqualTo as String)
+            ? _$InvitationPerFieldToJson.invitedBy(
+                isNotEqualTo as DocumentReference<User>,
+              )
             : null,
         isLessThan: isLessThan != null
-            ? _$InvitationPerFieldToJson.invitedBy(isLessThan as String)
+            ? _$InvitationPerFieldToJson.invitedBy(
+                isLessThan as DocumentReference<User>,
+              )
             : null,
         isLessThanOrEqualTo: isLessThanOrEqualTo != null
             ? _$InvitationPerFieldToJson.invitedBy(
-                isLessThanOrEqualTo as String,
+                isLessThanOrEqualTo as DocumentReference<User>,
               )
             : null,
         isGreaterThan: isGreaterThan != null
-            ? _$InvitationPerFieldToJson.invitedBy(isGreaterThan as String)
+            ? _$InvitationPerFieldToJson.invitedBy(
+                isGreaterThan as DocumentReference<User>,
+              )
             : null,
         isGreaterThanOrEqualTo: isGreaterThanOrEqualTo != null
             ? _$InvitationPerFieldToJson.invitedBy(
-                isGreaterThanOrEqualTo as String,
+                isGreaterThanOrEqualTo as DocumentReference<User>,
               )
             : null,
         whereIn: whereIn?.map((e) => _$InvitationPerFieldToJson.invitedBy(e)),
@@ -1747,7 +1757,7 @@ class _$InvitationQuery
   }
 
   @override
-  InvitationQuery orderByHomeId({
+  InvitationQuery orderByHome({
     bool descending = false,
     Object? startAt = _sentinel,
     Object? startAfter = _sentinel,
@@ -1759,7 +1769,7 @@ class _$InvitationQuery
     InvitationDocumentSnapshot? startAfterDocument,
   }) {
     final query = $referenceWithoutCursor.orderBy(
-      _$InvitationFieldMap['homeId']!,
+      _$InvitationFieldMap['home']!,
       descending: descending,
     );
     var queryCursor = $queryCursor;
@@ -2434,10 +2444,14 @@ class InvitationQueryDocumentSnapshot
 
 _Invitation _$InvitationFromJson(Map<String, dynamic> json) => _Invitation(
   id: json['id'] as String? ?? 'unset',
-  homeId: json['homeId'] as String,
+  home: const DocumentReferenceHomeConverter().fromJson(
+    json['home'] as DocumentReference<Map<String, dynamic>>,
+  ),
   invitedEmail: json['invitedEmail'] as String?,
   invitedUserName: json['invitedUserName'] as String?,
-  invitedBy: json['invitedBy'] as String,
+  invitedBy: const DocumentReferenceUserConverter().fromJson(
+    json['invitedBy'] as DocumentReference<Map<String, dynamic>>,
+  ),
   status: $enumDecode(_$InvitationStatusEnumMap, json['status']),
   createdAt: const FirestoreDateTimeConverter().fromJson(
     json['createdAt'] as Timestamp,
@@ -2449,7 +2463,7 @@ _Invitation _$InvitationFromJson(Map<String, dynamic> json) => _Invitation(
 );
 
 const _$InvitationFieldMap = <String, String>{
-  'homeId': 'homeId',
+  'home': 'home',
   'invitedEmail': 'invitedEmail',
   'invitedUserName': 'invitedUserName',
   'invitedBy': 'invitedBy',
@@ -2462,13 +2476,15 @@ const _$InvitationFieldMap = <String, String>{
 // ignore: unused_element
 abstract class _$InvitationPerFieldToJson {
   // ignore: unused_element
-  static Object? homeId(String instance) => instance;
+  static Object? home(DocumentReference<Home> instance) =>
+      const DocumentReferenceHomeConverter().toJson(instance);
   // ignore: unused_element
   static Object? invitedEmail(String? instance) => instance;
   // ignore: unused_element
   static Object? invitedUserName(String? instance) => instance;
   // ignore: unused_element
-  static Object? invitedBy(String instance) => instance;
+  static Object? invitedBy(DocumentReference<User> instance) =>
+      const DocumentReferenceUserConverter().toJson(instance);
   // ignore: unused_element
   static Object? status(InvitationStatus instance) =>
       _$InvitationStatusEnumMap[instance]!;
@@ -2485,10 +2501,12 @@ abstract class _$InvitationPerFieldToJson {
 Map<String, dynamic> _$InvitationToJson(
   _Invitation instance,
 ) => <String, dynamic>{
-  'homeId': instance.homeId,
+  'home': const DocumentReferenceHomeConverter().toJson(instance.home),
   'invitedEmail': instance.invitedEmail,
   'invitedUserName': instance.invitedUserName,
-  'invitedBy': instance.invitedBy,
+  'invitedBy': const DocumentReferenceUserConverter().toJson(
+    instance.invitedBy,
+  ),
   'status': _$InvitationStatusEnumMap[instance.status]!,
   'createdAt': const FirestoreDateTimeConverter().toJson(instance.createdAt),
   'expiresAt': const FirestoreDateTimeConverter().toJson(instance.expiresAt),

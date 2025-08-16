@@ -261,13 +261,22 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "sort_order_title": MessageLookupByLibrary.simpleMessage("Ordre"),
     "sort_title": MessageLookupByLibrary.simpleMessage("Tri"),
+    "task_add_subtask": MessageLookupByLibrary.simpleMessage(
+      "Ajouter une sous-tâche",
+    ),
+    "task_add_subtask_button": MessageLookupByLibrary.simpleMessage("Ajouter"),
     "task_assigned_count": m0,
+    "task_description_hint": MessageLookupByLibrary.simpleMessage(
+      "Description...",
+    ),
+    "task_due_date_hint": MessageLookupByLibrary.simpleMessage("Échéance"),
     "task_due_in_days": m1,
     "task_due_overdue_days": m2,
     "task_due_today": MessageLookupByLibrary.simpleMessage("Aujourd\'hui"),
     "task_due_tomorrow": MessageLookupByLibrary.simpleMessage("Demain"),
     "task_due_yesterday": MessageLookupByLibrary.simpleMessage("Hier"),
     "task_priority_high": MessageLookupByLibrary.simpleMessage("Élevée"),
+    "task_priority_hint": MessageLookupByLibrary.simpleMessage("Priorité"),
     "task_priority_low": MessageLookupByLibrary.simpleMessage("Faible"),
     "task_priority_medium": MessageLookupByLibrary.simpleMessage("Moyenne"),
     "task_stats_doing": MessageLookupByLibrary.simpleMessage("En cours"),
@@ -279,7 +288,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "task_status_doing": MessageLookupByLibrary.simpleMessage("En cours"),
     "task_status_done": MessageLookupByLibrary.simpleMessage("Terminé"),
     "task_status_todo": MessageLookupByLibrary.simpleMessage("À faire"),
+    "task_subtask_hint": MessageLookupByLibrary.simpleMessage("Sous-tâche..."),
+    "task_subtask_placeholder": MessageLookupByLibrary.simpleMessage(
+      "Nouvelle sous-tâche...",
+    ),
     "task_subtasks_progress": m4,
+    "task_title_hint": MessageLookupByLibrary.simpleMessage(
+      "Titre de la tâche...",
+    ),
     "task_type_checklist": MessageLookupByLibrary.simpleMessage(
       "Liste de contrôle",
     ),

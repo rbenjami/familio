@@ -1,342 +1,221 @@
 import 'dart:async';
-import 'package:familio/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-
+import 'package:familio/blocs/task/task_event.dart';
+import 'package:familio/blocs/task/task_state.dart';
 import 'package:familio/data/services/task_service.dart';
 import 'package:familio/data/models/models.dart';
-import 'task_event.dart';
-import 'task_state.dart';
+import 'package:familio/core/logging/logger_service.dart';
+import 'package:familio/di/injection.dart';
 
-@singleton
+@injectable
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TaskService _taskService;
-  StreamSubscription<List<Task>>? _tasksSubscription;
 
-  TaskBloc(this._taskService) : super(const TaskState()) {
-    on<LoadTasks>(_onLoadTasks);
-    on<CreateTask>(_onCreateTask);
-    on<UpdateTask>(_onUpdateTask);
-    on<DeleteTask>(_onDeleteTask);
-    on<UpdateTaskStatus>(_onUpdateTaskStatus);
-    on<ToggleSubTask>(_onToggleSubTask);
-    on<ApplyFilters>(_onApplyFilters);
-    on<ApplySorting>(_onApplySorting);
-    on<ClearFilters>(_onClearFilters);
-    on<RefreshTasks>(_onRefreshTasks);
+  final HomeDocumentReference home;
+  final TaskQueryDocumentSnapshot? existingTask;
+
+  TaskBloc(
+    this._taskService, {
+    @factoryParam required this.home,
+    @factoryParam this.existingTask,
+  }) : super(const TaskState()) {
+    on<TaskInitialized>(_onInitialized);
+    on<TaskTitleChanged>(_onTitleChanged);
+    on<TaskDescriptionChanged>(_onDescriptionChanged);
+    on<TaskDueDateChanged>(_onDueDateChanged);
+    on<TaskPriorityChanged>(_onPriorityChanged);
+    on<TaskAssigneeToggled>(_onAssigneeToggled);
+    on<SubTaskAdded>(_onSubTaskAdded);
+    on<SubTaskRemoved>(_onSubTaskRemoved);
+    on<SubTaskTitleChanged>(_onSubTaskTitleChanged);
+    on<TaskSubmitted>(_onSubmitted);
   }
 
-  @override
-  Future<void> close() {
-    _tasksSubscription?.cancel();
-    return super.close();
-  }
+  Future<void> _onInitialized(
+    TaskInitialized event,
+    Emitter<TaskState> emit,
+  ) async {
+    emit(state.copyWith(uiStatus: TaskUiStatus.loading));
 
-  Future<void> _onLoadTasks(LoadTasks event, Emitter<TaskState> emit) async {
     try {
+      // TODO Load available members for the home
+      // For now, we'll use an empty list - this would be populated from home members
+      final availableMembers = <UserDocumentSnapshot>[];
+
+      if (existingTask != null) {
+        // Editing mode
+        final task = existingTask!.data;
+        emit(
+          state.copyWith(
+            uiStatus: TaskUiStatus.loaded,
+            home: home,
+            task: existingTask!.reference,
+            title: task.title,
+            description: task.description ?? '',
+            dueDate: task.dueDate,
+            priority: task.priority,
+            assignedTo: task.assignedTo.map((ref) => ref.ref).toList(),
+            subTasks: task.subTasks,
+            createdBy: task.createdBy.ref,
+            availableMembers: availableMembers.map((user) => user).toList(),
+          ),
+        );
+      } else {
+        // Creation mode - get current user ID from AuthBloc or set default
+        emit(
+          state.copyWith(
+            uiStatus: TaskUiStatus.loaded,
+            home: home,
+            availableMembers: availableMembers,
+          ),
+        );
+      }
+    } catch (e, s) {
+      getIt<LoggerService>().error(e, s);
+      emit(state.copyWith(uiStatus: TaskUiStatus.error, error: e.toString()));
+    }
+  }
+
+  Future<void> _onTitleChanged(
+    TaskTitleChanged event,
+    Emitter<TaskState> emit,
+  ) async {
+    emit(state.copyWith(title: event.title, hasUnsavedChanges: true));
+  }
+
+  Future<void> _onDescriptionChanged(
+    TaskDescriptionChanged event,
+    Emitter<TaskState> emit,
+  ) async {
+    emit(
+      state.copyWith(description: event.description, hasUnsavedChanges: true),
+    );
+  }
+
+  Future<void> _onDueDateChanged(
+    TaskDueDateChanged event,
+    Emitter<TaskState> emit,
+  ) async {
+    emit(state.copyWith(dueDate: event.dueDate, hasUnsavedChanges: true));
+  }
+
+  Future<void> _onPriorityChanged(
+    TaskPriorityChanged event,
+    Emitter<TaskState> emit,
+  ) async {
+    emit(state.copyWith(priority: event.priority, hasUnsavedChanges: true));
+  }
+
+  Future<void> _onAssigneeToggled(
+    TaskAssigneeToggled event,
+    Emitter<TaskState> emit,
+  ) async {
+    final currentAssignees = List<UserDocumentReference>.from(state.assignedTo);
+    if (currentAssignees.contains(event.user)) {
+      currentAssignees.remove(event.user);
+    } else {
+      currentAssignees.add(event.user);
+    }
+
+    emit(state.copyWith(assignedTo: currentAssignees, hasUnsavedChanges: true));
+  }
+
+  Future<void> _onSubTaskAdded(
+    SubTaskAdded event,
+    Emitter<TaskState> emit,
+  ) async {
+    final newSubTask = SubTask(title: event.title, isCompleted: false);
+    final updatedSubTasks = List<SubTask>.from(state.subTasks)..add(newSubTask);
+
+    emit(state.copyWith(subTasks: updatedSubTasks, hasUnsavedChanges: true));
+  }
+
+  Future<void> _onSubTaskRemoved(
+    SubTaskRemoved event,
+    Emitter<TaskState> emit,
+  ) async {
+    final updatedSubTasks = List<SubTask>.from(state.subTasks)
+      ..removeAt(event.index);
+
+    emit(state.copyWith(subTasks: updatedSubTasks, hasUnsavedChanges: true));
+  }
+
+  Future<void> _onSubTaskTitleChanged(
+    SubTaskTitleChanged event,
+    Emitter<TaskState> emit,
+  ) async {
+    final updatedSubTasks = List<SubTask>.from(state.subTasks);
+    updatedSubTasks[event.index] = updatedSubTasks[event.index].copyWith(
+      title: event.title,
+    );
+
+    emit(state.copyWith(subTasks: updatedSubTasks, hasUnsavedChanges: true));
+  }
+
+  Future<void> _onSubmitted(
+    TaskSubmitted event,
+    Emitter<TaskState> emit,
+  ) async {
+    if (!state.isValid) {
       emit(
         state.copyWith(
-          uiStatus: TaskUiStatus.loading,
-          currentHomeId: event.homeId,
+          uiStatus: TaskUiStatus.error,
+          error: 'Title is required',
         ),
       );
-
-      await _tasksSubscription?.cancel();
-
-      _tasksSubscription = _taskService
-          .getTasksStream(
-            homeId: event.homeId,
-            status: event.status,
-            assignedToId: event.assignedToId,
-            priority: event.priority,
-            type: event.type,
-          )
-          .listen(
-            (tasks) {
-              final filteredTasks = _applyFiltersAndSorting(
-                tasks,
-                state.filters,
-                state.sort,
-              );
-
-              emit(
-                state.copyWith(
-                  tasks: tasks,
-                  filteredTasks: filteredTasks,
-                  uiStatus: TaskUiStatus.loaded,
-                ),
-              );
-            },
-            onError: (error) {
-              logger.error('Error loading tasks: $error');
-              emit(
-                state.copyWith(
-                  uiStatus: TaskUiStatus.error,
-                  error: error.toString(),
-                ),
-              );
-            },
-          );
-
-      // Load task stats
-      final stats = await _taskService.getTaskStats(homeId: event.homeId);
-      emit(state.copyWith(taskStats: stats));
-    } catch (e) {
-      logger.error('Error in _onLoadTasks: $e');
-      emit(state.copyWith(uiStatus: TaskUiStatus.error, error: e.toString()));
+      return;
     }
-  }
-
-  Future<void> _onCreateTask(CreateTask event, Emitter<TaskState> emit) async {
-    try {
-      emit(state.copyWith(uiStatus: TaskUiStatus.creating));
-
-      await _taskService.createTask(
-        homeId: event.homeId,
-        title: event.title,
-        description: event.description,
-        assignedToIds: event.assignedToIds,
-        createdById: event.createdById,
-        dueDate: event.dueDate,
-        priority: event.priority,
-        type: event.type,
-        startDate: event.startDate,
-        estimatedDurationMinutes: event.estimatedDurationMinutes,
-        subTasks: event.subTasks,
-        tags: event.tags,
-        location: event.location,
-      );
-
-      logger.info('Task created successfully');
-      emit(state.copyWith(uiStatus: TaskUiStatus.loaded));
-
-      // Refresh stats
-      final stats = await _taskService.getTaskStats(homeId: event.homeId);
-      emit(state.copyWith(taskStats: stats));
-    } catch (e) {
-      logger.error('Error creating task: $e');
-      emit(state.copyWith(uiStatus: TaskUiStatus.error, error: e.toString()));
-    }
-  }
-
-  Future<void> _onUpdateTask(UpdateTask event, Emitter<TaskState> emit) async {
-    try {
-      emit(state.copyWith(uiStatus: TaskUiStatus.updating));
-
-      await _taskService.updateTask(
-        homeId: event.homeId,
-        taskId: event.taskId,
-        title: event.title,
-        description: event.description,
-        assignedToIds: event.assignedToIds,
-        status: event.status,
-        dueDate: event.dueDate,
-        priority: event.priority,
-        type: event.type,
-        startDate: event.startDate,
-        estimatedDurationMinutes: event.estimatedDurationMinutes,
-        subTasks: event.subTasks,
-        tags: event.tags,
-        location: event.location,
-      );
-
-      logger.info('Task updated successfully');
-      emit(state.copyWith(uiStatus: TaskUiStatus.loaded));
-
-      // Refresh stats
-      final stats = await _taskService.getTaskStats(homeId: event.homeId);
-      emit(state.copyWith(taskStats: stats));
-    } catch (e) {
-      logger.error('Error updating task: $e');
-      emit(state.copyWith(uiStatus: TaskUiStatus.error, error: e.toString()));
-    }
-  }
-
-  Future<void> _onDeleteTask(DeleteTask event, Emitter<TaskState> emit) async {
-    try {
-      emit(state.copyWith(uiStatus: TaskUiStatus.deleting));
-
-      await _taskService.deleteTask(homeId: event.homeId, taskId: event.taskId);
-
-      logger.info('Task deleted successfully');
-      emit(state.copyWith(uiStatus: TaskUiStatus.loaded));
-
-      // Refresh stats
-      final stats = await _taskService.getTaskStats(homeId: event.homeId);
-      emit(state.copyWith(taskStats: stats));
-    } catch (e) {
-      logger.error('Error deleting task: $e');
-      emit(state.copyWith(uiStatus: TaskUiStatus.error, error: e.toString()));
-    }
-  }
-
-  Future<void> _onUpdateTaskStatus(
-    UpdateTaskStatus event,
-    Emitter<TaskState> emit,
-  ) async {
-    try {
-      await _taskService.updateTaskStatus(
-        homeId: event.homeId,
-        taskId: event.taskId,
-        status: event.status,
-      );
-
-      logger.info('Task status updated successfully');
-
-      // Refresh stats
-      final stats = await _taskService.getTaskStats(homeId: event.homeId);
-      emit(state.copyWith(taskStats: stats));
-    } catch (e) {
-      logger.error('Error updating task status: $e');
-      emit(state.copyWith(uiStatus: TaskUiStatus.error, error: e.toString()));
-    }
-  }
-
-  Future<void> _onToggleSubTask(
-    ToggleSubTask event,
-    Emitter<TaskState> emit,
-  ) async {
-    try {
-      await _taskService.toggleSubTaskCompletion(
-        homeId: event.homeId,
-        taskId: event.taskId,
-        subTaskIndex: event.subTaskIndex,
-      );
-
-      logger.info('SubTask toggled successfully');
-    } catch (e) {
-      logger.error('Error toggling subtask: $e');
-      emit(state.copyWith(uiStatus: TaskUiStatus.error, error: e.toString()));
-    }
-  }
-
-  void _onApplyFilters(ApplyFilters event, Emitter<TaskState> emit) {
-    final filters = TaskFilters(
-      status: event.status,
-      assignedToId: event.assignedToId,
-      priority: event.priority,
-      type: event.type,
-      showMyTasksOnly: event.showMyTasksOnly ?? false,
-    );
-
-    final filteredTasks = _applyFiltersAndSorting(
-      state.tasks,
-      filters,
-      state.sort,
-    );
-
-    emit(state.copyWith(filters: filters, filteredTasks: filteredTasks));
-  }
-
-  void _onApplySorting(ApplySorting event, Emitter<TaskState> emit) {
-    final sort = TaskSort(sortBy: event.sortBy, sortOrder: event.sortOrder);
-
-    final filteredTasks = _applyFiltersAndSorting(
-      state.tasks,
-      state.filters,
-      sort,
-    );
-
-    emit(state.copyWith(sort: sort, filteredTasks: filteredTasks));
-  }
-
-  void _onClearFilters(ClearFilters event, Emitter<TaskState> emit) {
-    const filters = TaskFilters();
-    const sort = TaskSort();
-
-    final filteredTasks = _applyFiltersAndSorting(state.tasks, filters, sort);
 
     emit(
       state.copyWith(
-        filters: filters,
-        sort: sort,
-        filteredTasks: filteredTasks,
+        uiStatus: state.isEditing
+            ? TaskUiStatus.updating
+            : TaskUiStatus.creating,
       ),
     );
-  }
 
-  Future<void> _onRefreshTasks(
-    RefreshTasks event,
-    Emitter<TaskState> emit,
-  ) async {
-    if (state.currentHomeId != null) {
-      add(LoadTasks(homeId: state.currentHomeId!));
+    try {
+      if (state.isEditing) {
+        await _taskService.updateTask(
+          task: state.task!.ref,
+          title: state.title.trim(),
+          description: state.description.trim().isEmpty
+              ? null
+              : state.description.trim(),
+          assignedTo: state.assignedTo,
+          dueDate: state.dueDate,
+          priority: state.priority,
+          type: state.taskType,
+          subTasks: state.subTasks,
+        );
+      } else {
+        await _taskService.createTask(
+          home: state.home!,
+          title: state.title.trim(),
+          description: state.description.trim().isEmpty
+              ? null
+              : state.description.trim(),
+          assignedTo: state.assignedTo,
+          createdBy: state.createdBy!,
+          dueDate: state.dueDate,
+          priority: state.priority,
+          type: state.taskType,
+          subTasks: state.subTasks,
+        );
+      }
+
+      emit(
+        state.copyWith(
+          uiStatus: state.isEditing
+              ? TaskUiStatus.updated
+              : TaskUiStatus.created,
+          hasUnsavedChanges: false,
+        ),
+      );
+    } catch (e, s) {
+      getIt<LoggerService>().error(e, s);
+      emit(state.copyWith(uiStatus: TaskUiStatus.error, error: e.toString()));
     }
-  }
-
-  List<Task> _applyFiltersAndSorting(
-    List<Task> tasks,
-    TaskFilters? filters,
-    TaskSort? sort,
-  ) {
-    var filteredTasks = List<Task>.from(tasks);
-
-    // Apply filters
-    if (filters != null) {
-      if (filters.status != null) {
-        filteredTasks = filteredTasks
-            .where((task) => task.status == filters.status)
-            .toList();
-      }
-      if (filters.assignedToId != null) {
-        filteredTasks = filteredTasks
-            .where((task) => task.assignedToIds.contains(filters.assignedToId))
-            .toList();
-      }
-      if (filters.priority != null) {
-        filteredTasks = filteredTasks
-            .where((task) => task.priority == filters.priority)
-            .toList();
-      }
-      if (filters.type != null) {
-        filteredTasks = filteredTasks
-            .where((task) => task.type == filters.type)
-            .toList();
-      }
-    }
-
-    // Apply sorting
-    if (sort != null) {
-      filteredTasks.sort((a, b) {
-        int comparison = 0;
-
-        switch (sort.sortBy) {
-          case TaskSortBy.createdAt:
-            comparison = a.createdAt.compareTo(b.createdAt);
-            break;
-          case TaskSortBy.dueDate:
-            if (a.dueDate != null && b.dueDate != null) {
-              comparison = a.dueDate!.compareTo(b.dueDate!);
-            } else if (a.dueDate != null) {
-              comparison = -1;
-            } else if (b.dueDate != null) {
-              comparison = 1;
-            }
-            break;
-          case TaskSortBy.priority:
-            comparison = a.priority.index.compareTo(b.priority.index);
-            break;
-          case TaskSortBy.title:
-            comparison = a.title.compareTo(b.title);
-            break;
-          case TaskSortBy.assignedTo:
-            final aAssigned = a.assignedToIds.isEmpty
-                ? ''
-                : a.assignedToIds.first;
-            final bAssigned = b.assignedToIds.isEmpty
-                ? ''
-                : b.assignedToIds.first;
-            comparison = aAssigned.compareTo(bAssigned);
-            break;
-          case TaskSortBy.status:
-            comparison = a.status.index.compareTo(b.status.index);
-            break;
-        }
-
-        return sort.sortOrder == SortOrder.ascending ? comparison : -comparison;
-      });
-    }
-
-    return filteredTasks;
   }
 }

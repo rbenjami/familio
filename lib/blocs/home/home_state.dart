@@ -6,8 +6,8 @@ part 'home_state.freezed.dart';
 @freezed
 abstract class HomeState with _$HomeState {
   const factory HomeState({
-    @Default([]) List<Home> userHomes,
-    Home? selectedHome,
+    @Default([]) List<HomeDocumentSnapshot> userHomes,
+    HomeDocumentSnapshot? selectedHome,
     MemberPermissions? currentUserPermissions,
     @Default(HomeUiStatus.initial) HomeUiStatus uiStatus,
     String? error,

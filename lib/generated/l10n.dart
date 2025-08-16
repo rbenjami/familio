@@ -1218,6 +1218,86 @@ class S {
   String get sort_apply_button {
     return Intl.message('Apply', name: 'sort_apply_button', desc: '', args: []);
   }
+
+  /// `Task title...`
+  String get task_title_hint {
+    return Intl.message(
+      'Task title...',
+      name: 'task_title_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description...`
+  String get task_description_hint {
+    return Intl.message(
+      'Description...',
+      name: 'task_description_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Due date`
+  String get task_due_date_hint {
+    return Intl.message(
+      'Due date',
+      name: 'task_due_date_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Priority`
+  String get task_priority_hint {
+    return Intl.message(
+      'Priority',
+      name: 'task_priority_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subtask...`
+  String get task_subtask_hint {
+    return Intl.message(
+      'Subtask...',
+      name: 'task_subtask_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add subtask`
+  String get task_add_subtask {
+    return Intl.message(
+      'Add subtask',
+      name: 'task_add_subtask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New subtask...`
+  String get task_subtask_placeholder {
+    return Intl.message(
+      'New subtask...',
+      name: 'task_subtask_placeholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get task_add_subtask_button {
+    return Intl.message(
+      'Add',
+      name: 'task_add_subtask_button',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

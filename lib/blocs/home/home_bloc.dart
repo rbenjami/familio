@@ -24,8 +24,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       emit(state.copyWith(uiStatus: HomeUiStatus.loading));
 
+      final user = event.user.data!;
+
       // Get homes from User's home references
-      final homeIds = event.user.homes.map((home) => home.id).toList();
+      final homeIds = user.homes.map((home) => home.id).toList();
 
       if (homeIds.isEmpty) {
         logger.info('User has no homes');
@@ -33,11 +35,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return;
       }
 
+      logger.info('Loading homes for user ${user.name} with homeIds: $homeIds');
+
       final homesSnapshot = await homesRef
           .whereDocumentId(whereIn: homeIds)
           .get();
 
-      final homes = homesSnapshot.docs.map((doc) => doc.data).toList();
+      final homes = homesSnapshot.docs;
 
       final selectedHome = homes.firstOrNull;
 
@@ -49,31 +53,29 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
 
-      logger.info('Loaded ${homes.length} homes for user ${event.user.name}');
-    } catch (e) {
-      logger.error('Error in _onLoadUserHomes: $e');
+      logger.info('Loaded ${homes.length} homes for user ${user.name}');
+    } catch (e, s) {
+      logger.error('Error in _onLoadUserHomes: $e', e, s);
       emit(state.copyWith(uiStatus: HomeUiStatus.error, error: e.toString()));
     }
   }
 
   Future<void> _onSelectHome(SelectHome event, Emitter<HomeState> emit) async {
     try {
-      logger.info('Selecting home: ${event.homeId}');
+      logger.info('Selecting home: ${event.home.id}');
 
       // Find the home in the current list
-      Home? selectedHome;
+      HomeDocumentSnapshot? selectedHome;
       try {
-        selectedHome = state.userHomes.firstWhere(
-          (home) => home.id == event.homeId,
-        );
+        selectedHome = state.userHomes.firstWhere((home) => home == event.home);
       } catch (e) {
-        throw Exception('Home not found: ${event.homeId}');
+        throw Exception('Home not found: ${event.home}');
       }
 
       // Get user permissions for this home
       final permissions = await _homeService.getUserPermissions(
-        event.homeId,
-        event.userId,
+        event.home.reference,
+        event.user,
       );
 
       emit(
@@ -83,7 +85,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
 
-      logger.info('Home selected successfully: ${selectedHome.name}');
+      logger.info('Home selected successfully: ${selectedHome.data!.name}');
     } catch (e) {
       logger.error('Error selecting home: $e');
       emit(state.copyWith(uiStatus: HomeUiStatus.error, error: e.toString()));

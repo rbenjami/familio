@@ -1,9 +1,10 @@
+import 'package:familio/blocs/tasks/tasks_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import 'package:familio/blocs/task/task_bloc.dart';
-import 'package:familio/blocs/task/task_event.dart';
+import 'package:familio/blocs/tasks/tasks_bloc.dart';
+import 'package:familio/blocs/tasks/tasks_event.dart';
 import 'package:familio/core/utils/context_ext.dart';
 
 class TaskSortBottomSheet extends StatefulWidget {
@@ -21,7 +22,7 @@ class _TaskSortBottomSheetState extends State<TaskSortBottomSheet> {
   void initState() {
     super.initState();
     // Initialize with current sort
-    final currentSort = context.read<TaskBloc>().state.sort;
+    final currentSort = context.read<TasksBloc>().state.sort;
 
     if (currentSort != null) {
       sortBy = currentSort.sortBy;
@@ -38,98 +39,100 @@ class _TaskSortBottomSheetState extends State<TaskSortBottomSheet> {
         right: 16,
         bottom: context.mediaQuery.viewInsets.bottom + 16,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Row(
-            children: [
-              Text(
-                context.s.sort_title,
-                style: context.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: _resetSort,
-                child: Text(context.s.sort_default_button),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 24),
-
-          // Sort by
-          _buildSortSection(
-            title: context.s.sort_by_title,
-            child: Wrap(
-              spacing: 8,
-              children: TaskSortBy.values.map((sort) {
-                return _buildSortChip(
-                  _getSortByLabel(sort, context),
-                  sortBy == sort,
-                  () => setState(() => sortBy = sort),
-                );
-              }).toList(),
-            ),
-          ),
-
-          const SizedBox(height: 24),
-
-          // Sort order
-          _buildSortSection(
-            title: context.s.sort_order_title,
-            child: SegmentedButton<SortOrder>(
-              segments: [
-                ButtonSegment(
-                  value: SortOrder.ascending,
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      PhosphorIcon(
-                        PhosphorIconsDuotone.sortAscending,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(context.s.sort_order_ascending),
-                    ],
+      child: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Row(
+              children: [
+                Text(
+                  context.s.sort_title,
+                  style: context.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                ButtonSegment(
-                  value: SortOrder.descending,
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      PhosphorIcon(
-                        PhosphorIconsDuotone.sortDescending,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(context.s.sort_order_descending),
-                    ],
-                  ),
+                const Spacer(),
+                TextButton(
+                  onPressed: _resetSort,
+                  child: Text(context.s.sort_default_button),
                 ),
               ],
-              selected: {sortOrder},
-              onSelectionChanged: (Set<SortOrder> selection) {
-                setState(() => sortOrder = selection.first);
-              },
             ),
-          ),
 
-          const SizedBox(height: 32),
+            const SizedBox(height: 24),
 
-          // Apply button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _applySorting,
-              child: Text(context.s.sort_apply_button),
+            // Sort by
+            _buildSortSection(
+              title: context.s.sort_by_title,
+              child: Wrap(
+                spacing: 8,
+                children: TaskSortBy.values.map((sort) {
+                  return _buildSortChip(
+                    _getSortByLabel(sort, context),
+                    sortBy == sort,
+                    () => setState(() => sortBy = sort),
+                  );
+                }).toList(),
+              ),
             ),
-          ),
-        ],
+
+            const SizedBox(height: 24),
+
+            // Sort order
+            _buildSortSection(
+              title: context.s.sort_order_title,
+              child: SegmentedButton<SortOrder>(
+                segments: [
+                  ButtonSegment(
+                    value: SortOrder.ascending,
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        PhosphorIcon(
+                          PhosphorIconsDuotone.sortAscending,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(context.s.sort_order_ascending),
+                      ],
+                    ),
+                  ),
+                  ButtonSegment(
+                    value: SortOrder.descending,
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        PhosphorIcon(
+                          PhosphorIconsDuotone.sortDescending,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(context.s.sort_order_descending),
+                      ],
+                    ),
+                  ),
+                ],
+                selected: {sortOrder},
+                onSelectionChanged: (Set<SortOrder> selection) {
+                  setState(() => sortOrder = selection.first);
+                },
+              ),
+            ),
+
+            const SizedBox(height: 32),
+
+            // Apply button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _applySorting,
+                child: Text(context.s.sort_apply_button),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -167,7 +170,7 @@ class _TaskSortBottomSheetState extends State<TaskSortBottomSheet> {
   }
 
   void _applySorting() {
-    context.read<TaskBloc>().add(
+    context.read<TasksBloc>().add(
       ApplySorting(sortBy: sortBy, sortOrder: sortOrder),
     );
 

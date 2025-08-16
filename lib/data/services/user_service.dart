@@ -8,7 +8,7 @@ class UserService {
   UserService();
 
   /// Create a new user document in Firestore
-  Future<User> createUser({
+  Future<UserDocumentSnapshot> createUser({
     required String firebaseAuthId,
     required String name,
     required String email,
@@ -31,7 +31,7 @@ class UserService {
       await usersRef.doc(firebaseAuthId).set(user);
 
       logger.info('User document created successfully: $firebaseAuthId');
-      return user;
+      return usersRef.doc(firebaseAuthId).get();
     } catch (e) {
       logger.error('Error creating user document: $e');
       rethrow;
@@ -39,7 +39,9 @@ class UserService {
   }
 
   /// Get user by Firebase Auth ID
-  Future<User?> getUserByFirebaseAuthId(String firebaseAuthId) async {
+  Future<UserDocumentSnapshot?> getUserByFirebaseAuthId(
+    String firebaseAuthId,
+  ) async {
     try {
       logger.info('Fetching user document: $firebaseAuthId');
 
@@ -48,7 +50,7 @@ class UserService {
       if (docSnapshot.exists) {
         final user = docSnapshot.data!;
         logger.info('User document found: ${user.name}');
-        return user;
+        return docSnapshot;
       } else {
         logger.info('No user document found for: $firebaseAuthId');
         return null;
@@ -60,14 +62,14 @@ class UserService {
   }
 
   /// Update user profile
-  Future<User> updateUser(User user) async {
+  Future<UserDocumentSnapshot> updateUser(User user) async {
     try {
       logger.info('Updating user document: ${user.id}');
 
       await usersRef.doc(user.id).set(user);
 
       logger.info('User document updated successfully: ${user.id}');
-      return user;
+      return usersRef.doc(user.id).get();
     } catch (e) {
       logger.error('Error updating user document: $e');
       rethrow;

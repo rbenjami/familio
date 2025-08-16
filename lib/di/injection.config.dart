@@ -20,8 +20,10 @@ import 'package:talker_flutter/talker_flutter.dart' as _i207;
 import '../blocs/auth/auth_bloc.dart' as _i91;
 import '../blocs/home/home_bloc.dart' as _i976;
 import '../blocs/task/task_bloc.dart' as _i646;
+import '../blocs/tasks/tasks_bloc.dart' as _i833;
 import '../core/firebase/firebase_service.dart' as _i423;
 import '../core/logging/logger_service.dart' as _i690;
+import '../data/models/models.dart' as _i1052;
 import '../data/services/auth_service.dart' as _i1024;
 import '../data/services/home_service.dart' as _i3;
 import '../data/services/invitation_service.dart' as _i1005;
@@ -52,10 +54,21 @@ Future<_i174.GetIt> init(
   gh.singleton<_i1005.InvitationService>(() => _i1005.InvitationService());
   gh.singleton<_i965.TaskService>(() => _i965.TaskService());
   gh.lazySingleton<_i993.Talker>(() => loggerModule.provideTalker());
-  gh.singleton<_i646.TaskBloc>(() => _i646.TaskBloc(gh<_i965.TaskService>()));
+  gh.singleton<_i833.TasksBloc>(() => _i833.TasksBloc(gh<_i965.TaskService>()));
   gh.singleton<_i976.HomeBloc>(() => _i976.HomeBloc(gh<_i3.HomeService>()));
   gh.singleton<_i690.LoggerService>(
     () => _i690.LoggerService(gh<_i207.Talker>())..init(),
+  );
+  gh.factoryParam<
+    _i646.TaskBloc,
+    _i1052.HomeDocumentReference,
+    _i1052.TaskQueryDocumentSnapshot?
+  >(
+    (home, existingTask) => _i646.TaskBloc(
+      gh<_i965.TaskService>(),
+      home: home,
+      existingTask: existingTask,
+    ),
   );
   await gh.singletonAsync<_i423.FirebaseService>(() {
     final i = _i423.FirebaseService(

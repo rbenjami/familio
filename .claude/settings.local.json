@@ -18,7 +18,10 @@
       "Bash(dart run intl_utils:generate:*)",
       "Bash(flutter run:*)",
       "WebFetch(domain:docs.anthropic.com)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(mv:*)",
+      "Bash(grep:*)",
+      "Bash(true)"
     ],
     "defaultMode": "acceptEdits"
   },

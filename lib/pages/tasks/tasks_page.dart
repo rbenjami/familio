@@ -1,21 +1,22 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:familio/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import 'package:familio/blocs/task/task_bloc.dart';
-import 'package:familio/blocs/task/task_event.dart';
-import 'package:familio/blocs/task/task_state.dart';
+import 'package:familio/blocs/tasks/tasks_bloc.dart';
+import 'package:familio/blocs/tasks/tasks_event.dart';
+import 'package:familio/blocs/tasks/tasks_state.dart';
 import 'package:familio/blocs/home/home_bloc.dart';
 import 'package:familio/blocs/home/home_state.dart';
-import 'package:familio/blocs/home/home_event.dart';
-import 'package:familio/blocs/auth/auth_bloc.dart';
 import 'package:familio/data/models/models.dart';
 import 'package:familio/widgets/tasks/task_list_item.dart';
 import 'package:familio/widgets/tasks/task_filters_bottom_sheet.dart';
 import 'package:familio/widgets/tasks/task_sort_bottom_sheet.dart';
+import 'package:familio/router/app_router.gr.dart';
 import 'package:familio/di/injection.dart';
 import 'package:familio/core/utils/context_ext.dart';
+import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 
 @RoutePage()
 class TasksPage extends StatefulWidget {
@@ -26,22 +27,24 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
-  final AuthBloc _authBloc = getIt<AuthBloc>();
-  final TaskBloc _taskBloc = getIt<TaskBloc>();
+  final TasksBloc _tasksBloc = getIt<TasksBloc>();
   final HomeBloc _homeBloc = getIt<HomeBloc>();
+
+  void _loadTasks() {
+    final homeState = _homeBloc.state;
+    if (homeState.selectedHome != null) {
+      _tasksBloc.add(LoadTasks(home: homeState.selectedHome!.reference));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Load user homes if current user is available
-    if (_authBloc.state.currentUser != null) {
-      _homeBloc.add(LoadUserHomes(user: _authBloc.state.currentUser!));
-    }
+    _loadTasks();
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, homeState) {
         // When a home is selected, load tasks for that home
-        if (homeState.selectedHome != null) {
-          _taskBloc.add(LoadTasks(homeId: homeState.selectedHome!.id));
-        }
+        logger.info('Selected home: ${homeState.selectedHome}');
+        _loadTasks();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -59,17 +62,16 @@ class _TasksPageState extends State<TasksPage> {
             ),
           ],
         ),
-        body: BlocBuilder<TaskBloc, TaskState>(
+        body: BlocBuilder<TasksBloc, TasksState>(
           builder: (context, state) {
             return switch (state.uiStatus) {
-              TaskUiStatus.initial || TaskUiStatus.loading => const Center(
+              TasksUiStatus.initial ||
+              TasksUiStatus.loading ||
+              TasksUiStatus.deleting => const Center(
                 child: CircularProgressIndicator(),
               ),
-              TaskUiStatus.error => buildError(context, state),
-              TaskUiStatus.loaded ||
-              TaskUiStatus.creating ||
-              TaskUiStatus.updating ||
-              TaskUiStatus.deleting => buildContent(context, state),
+              TasksUiStatus.error => buildError(context, state),
+              TasksUiStatus.loaded => buildContent(context, state),
             };
           },
         ),
@@ -118,7 +120,7 @@ class _TasksPageState extends State<TasksPage> {
     );
   }
 
-  Widget buildContent(BuildContext context, TaskState state) {
+  Widget buildContent(BuildContext context, TasksState state) {
     return Column(
       children: [
         // Task stats card
@@ -126,30 +128,29 @@ class _TasksPageState extends State<TasksPage> {
 
         // Task list
         Expanded(
-          child: state.filteredTasks.isEmpty
+          child: state.tasksQuery == null
               ? _buildEmptyState(context)
-              : ListView.builder(
+              : FirestoreListView(
                   padding: const EdgeInsets.all(16),
-                  itemCount: state.filteredTasks.length,
-                  itemBuilder: (context, index) {
-                    final task = state.filteredTasks[index];
+                  query: state.tasksQuery!.reference,
+                  itemBuilder: (context, taskSnapshot) {
+                    final task = taskSnapshot.snapshot.data;
                     return TaskListItem(
                       task: task,
-                      onStatusChanged: (status) => _taskBloc.add(
+                      onStatusChanged: (status) => _tasksBloc.add(
                         UpdateTaskStatus(
-                          homeId: task.homeId,
-                          taskId: task.id,
+                          task: taskSnapshot.reference.ref,
                           status: status,
                         ),
                       ),
-                      onSubTaskToggled: (subTaskIndex) => _taskBloc.add(
+                      onSubTaskToggled: (subTaskIndex) => _tasksBloc.add(
                         ToggleSubTask(
-                          homeId: task.homeId,
-                          taskId: task.id,
+                          task: taskSnapshot,
                           subTaskIndex: subTaskIndex,
                         ),
                       ),
-                      onTap: () => _showTaskDetails(context, task),
+                      onTap: () =>
+                          _showTaskDetails(context, taskSnapshot.snapshot),
                     );
                   },
                 ),
@@ -158,7 +159,7 @@ class _TasksPageState extends State<TasksPage> {
     );
   }
 
-  Widget buildError(BuildContext context, TaskState state) {
+  Widget buildError(BuildContext context, TasksState state) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -177,7 +178,9 @@ class _TasksPageState extends State<TasksPage> {
           Text(state.error ?? context.s.tasks_error_unexpected),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () => _taskBloc.add(RefreshTasks()),
+            onPressed: () => state.home != null
+                ? _tasksBloc.add(LoadTasks(home: state.home!))
+                : null,
             child: Text(context.s.tasks_retry_button),
           ),
         ],
@@ -189,7 +192,18 @@ class _TasksPageState extends State<TasksPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => const TaskFiltersBottomSheet(),
+      builder: (context) => TaskFiltersBottomSheet(
+        currentFilters: _tasksBloc.state.filters,
+        onApply: (filters) => _tasksBloc.add(
+          ApplyFilters(
+            status: filters.status,
+            assignedTo: filters.assignedTo,
+            priority: filters.priority,
+            type: filters.type,
+            showMyTasksOnly: filters.showMyTasksOnly,
+          ),
+        ),
+      ),
     );
   }
 
@@ -202,16 +216,17 @@ class _TasksPageState extends State<TasksPage> {
   }
 
   void _showCreateTaskDialog(BuildContext context) {
-    // TODO: Implement create task dialog
-    context.showSnackBar(
-      SnackBar(content: Text(context.s.tasks_create_placeholder)),
-    );
+    final homeState = _homeBloc.state;
+    if (homeState.selectedHome != null) {
+      context.router.push(
+        TaskFormRoute(home: homeState.selectedHome!.reference),
+      );
+    }
   }
 
-  void _showTaskDetails(BuildContext context, Task task) {
-    // TODO: Implement task details dialog/page
-    context.showSnackBar(
-      SnackBar(content: Text(context.s.tasks_details_placeholder(task.title))),
+  void _showTaskDetails(BuildContext context, TaskQueryDocumentSnapshot task) {
+    context.router.push(
+      TaskFormRoute(home: task.reference.ref.parent.parent, existingTask: task),
     );
   }
 }

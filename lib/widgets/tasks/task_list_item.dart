@@ -99,7 +99,7 @@ class TaskListItem extends StatelessWidget {
               ],
 
               // Assigned users
-              if (task.assignedToIds.isNotEmpty) ...[
+              if (task.assignedTo.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 Row(
                   children: [
@@ -112,7 +112,7 @@ class TaskListItem extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      context.s.task_assigned_count(task.assignedToIds.length),
+                      context.s.task_assigned_count(task.assignedTo.length),
                       style: context.textTheme.labelSmall,
                     ),
                   ],

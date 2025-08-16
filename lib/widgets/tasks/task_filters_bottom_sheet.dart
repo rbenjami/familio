@@ -1,13 +1,18 @@
+import 'package:familio/blocs/tasks/tasks_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:familio/blocs/task/task_bloc.dart';
-import 'package:familio/blocs/task/task_event.dart';
 import 'package:familio/data/models/models.dart';
 import 'package:familio/core/utils/context_ext.dart';
 
 class TaskFiltersBottomSheet extends StatefulWidget {
-  const TaskFiltersBottomSheet({super.key});
+  final TaskFilters? currentFilters;
+  final Function(TaskFilters) onApply;
+
+  const TaskFiltersBottomSheet({
+    super.key,
+    this.currentFilters,
+    required this.onApply,
+  });
 
   @override
   State<TaskFiltersBottomSheet> createState() => _TaskFiltersBottomSheetState();
@@ -22,14 +27,11 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
   @override
   void initState() {
     super.initState();
-    // Initialize with current filters
-    final currentFilters = context.read<TaskBloc>().state.filters;
-
-    if (currentFilters != null) {
-      selectedStatus = currentFilters.status;
-      selectedPriority = currentFilters.priority;
-      selectedType = currentFilters.type;
-      showMyTasksOnly = currentFilters.showMyTasksOnly;
+    if (widget.currentFilters != null) {
+      selectedStatus = widget.currentFilters!.status;
+      selectedPriority = widget.currentFilters!.priority;
+      selectedType = widget.currentFilters!.type;
+      showMyTasksOnly = widget.currentFilters!.showMyTasksOnly;
     }
   }
 
@@ -191,8 +193,8 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
   }
 
   void _applyFilters() {
-    context.read<TaskBloc>().add(
-      ApplyFilters(
+    widget.onApply(
+      TaskFilters(
         status: selectedStatus,
         priority: selectedPriority,
         type: selectedType,

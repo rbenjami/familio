@@ -1,48 +1,64 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:familio/data/models/models.dart';
-import 'task_event.dart';
 
 part 'task_state.freezed.dart';
-
-@freezed
-abstract class TaskState with _$TaskState {
-  const factory TaskState({
-    @Default([]) List<Task> tasks,
-    @Default([]) List<Task> filteredTasks,
-    @Default(TaskUiStatus.initial) TaskUiStatus uiStatus,
-    String? error,
-    String? currentHomeId,
-    TaskFilters? filters,
-    TaskSort? sort,
-    @Default({}) Map<String, int> taskStats,
-  }) = _TaskState;
-}
-
-@freezed
-abstract class TaskFilters with _$TaskFilters {
-  const factory TaskFilters({
-    TaskStatus? status,
-    String? assignedToId,
-    Priority? priority,
-    TaskType? type,
-    @Default(false) bool showMyTasksOnly,
-  }) = _TaskFilters;
-}
-
-@freezed
-abstract class TaskSort with _$TaskSort {
-  const factory TaskSort({
-    @Default(TaskSortBy.createdAt) TaskSortBy sortBy,
-    @Default(SortOrder.descending) SortOrder sortOrder,
-  }) = _TaskSort;
-}
 
 enum TaskUiStatus {
   initial,
   loading,
   loaded,
   creating,
+  created,
   updating,
+  updated,
   deleting,
+  deleted,
   error,
+}
+
+@freezed
+abstract class TaskState with _$TaskState {
+  const factory TaskState({
+    @Default(TaskUiStatus.initial) TaskUiStatus uiStatus,
+    @Default('') String title,
+    @Default('') String description,
+    DateTime? dueDate,
+    @Default(Priority.medium) Priority priority,
+    @Default([]) List<UserDocumentReference> assignedTo,
+    @Default([]) List<SubTask> subTasks,
+    HomeDocumentReference? home,
+    TaskDocumentReference? task, // null for creation, set for editing
+    UserDocumentReference? createdBy, // required for Task creation
+    @Default([]) List<UserDocumentSnapshot> availableMembers,
+    String? error,
+    @Default(false) bool hasUnsavedChanges,
+  }) = _TaskState;
+
+  const TaskState._();
+
+  bool get isEditing => task != null;
+  bool get isValid => title.trim().isNotEmpty;
+
+  TaskType get taskType {
+    if (subTasks.isNotEmpty) return TaskType.checklist;
+    if (dueDate != null) return TaskType.scheduled;
+    return TaskType.simple;
+  }
+
+  Task toTask() {
+    return Task(
+      id: task?.id ?? 'unset',
+      title: title.trim(),
+      description: description.trim().isEmpty ? null : description.trim(),
+      status: TaskStatus.todo,
+      priority: priority,
+      type: taskType,
+      assignedTo: assignedTo.map((ref) => ref.reference).toList(),
+      subTasks: subTasks,
+      dueDate: dueDate,
+      createdBy: createdBy!.reference,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+  }
 }

@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
+import 'package:familio/data/models/converters.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:familio/data/models/models.dart';
 
@@ -16,7 +17,7 @@ abstract class Home with _$Home {
     required String name,
     String? description,
     required DateTime createdAt,
-    required String ownerId,
+    required DocumentReference<User> owner,
     required HomeSettings settings,
   }) = _Home;
 
@@ -36,7 +37,6 @@ abstract class HomeSettings with _$HomeSettings {
 abstract class Member with _$Member {
   @firestoreSerializable
   const factory Member({
-    @Id() @Default('unset') @JsonKey(includeToJson: false) String userId,
     required MemberPermissions permissions,
     required DateTime joinedAt,
   }) = _Member;
@@ -67,9 +67,8 @@ abstract class Task with _$Task {
     @Id() @Default('unset') @JsonKey(includeToJson: false) String id,
     required String title,
     String? description,
-    required String homeId,
-    required List<String> assignedToIds,
-    required String createdById,
+    required List<DocumentReference<User>> assignedTo,
+    required DocumentReference<User> createdBy,
     required TaskStatus status,
     DateTime? dueDate,
     required Priority priority,
@@ -91,21 +90,25 @@ abstract class Task with _$Task {
 @Collection<Task>('homes/*/tasks')
 final homesRef = HomeCollectionReference();
 
-class HomeDocumentReferenceConverter
-    extends
-        JsonConverter<
-          HomeDocumentReference,
-          DocumentReference<Map<String, dynamic>>
-        > {
-  const HomeDocumentReferenceConverter();
+extension DocumentReferenceHomeExtension on DocumentReference<Home> {
+  HomeDocumentReference get ref => homesRef.doc(id);
+}
 
-  @override
-  HomeDocumentReference fromJson(
-    DocumentReference<Map<String, dynamic>> json,
-  ) => _$HomeCollectionReference().doc(json.id);
+extension TaskDocumentReferenceExtension on TaskDocumentReference {
+  TaskDocumentReference get ref => home.tasks.doc(id);
+  HomeDocumentReference get home => homesRef.doc(parent.parent.id);
+  DocumentReference<Home> get homeRef => home.reference;
+}
 
-  @override
-  DocumentReference<Map<String, dynamic>> toJson(
-    HomeDocumentReference object,
-  ) => FirebaseFirestore.instance.doc(object.path);
+extension DocumentReferenceTaskExtension on DocumentReference<Task> {
+  TaskDocumentReference get ref =>
+      homesRef.doc(parent.parent!.id).tasks.doc(id);
+}
+
+extension DocumentSnapshotTaskExtension on DocumentSnapshot<Task> {
+  TaskDocumentSnapshot get snapshot => TaskDocumentSnapshot._(this);
+}
+
+extension QueryDocumentSnapshotTaskExtension on QueryDocumentSnapshot<Task> {
+  TaskQueryDocumentSnapshot get snapshot => TaskQueryDocumentSnapshot._(this);
 }

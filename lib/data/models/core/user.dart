@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
+import 'package:familio/data/models/converters.dart';
 import 'package:familio/data/models/enums/calendar_type.dart';
 import 'package:familio/data/models/models.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,7 +20,7 @@ abstract class User with _$User {
     DateTime? birthDate,
     String? firebaseAuthId,
     List<String>? relationshipIds,
-    @Default([]) List<HomeDocumentReference> homes,
+    @Default([]) List<DocumentReference<Home>> homes,
   }) = _User;
 
   factory User.fromJson(Map<String, Object?> json) => _$UserFromJson(json);
@@ -61,7 +62,7 @@ abstract class Event with _$Event {
     required EventSource source,
     String? externalEventId,
     required bool canEdit,
-    List<String>? attendeeUserIds,
+    List<DocumentReference<User>>? attendeeUsers,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _Event;
@@ -73,3 +74,7 @@ abstract class Event with _$Event {
 @Collection<Calendar>('users/*/calendars')
 @Collection<Event>('users/*/calendars/*/events')
 final usersRef = UserCollectionReference();
+
+extension DocumentReferenceUserExtension on DocumentReference<User> {
+  UserDocumentReference get ref => usersRef.doc(id);
+}
