@@ -1,25 +1,20 @@
-import 'package:familio/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
-import 'package:familio/core/firebase/firebase_service.dart';
-import 'package:familio/core/logging/logger_service.dart';
+import 'package:familio/main.dart';
 import 'package:familio/data/services/auth_service.dart';
 import 'package:familio/data/services/user_service.dart';
-import 'package:familio/di/injection.dart';
 import 'package:familio/generated/l10n.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
 @singleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final FirebaseService _firebaseService;
   final AuthService _authService;
   final UserService _userService;
 
-  AuthBloc(this._firebaseService, this._authService, this._userService)
-    : super(const AuthState()) {
+  AuthBloc(this._authService, this._userService) : super(const AuthState()) {
     on<AuthStatusChanged>(_onAuthStatusChanged);
     on<LoginRequested>(_onLoginRequested);
     on<RegisterRequested>(_onRegisterRequested);
@@ -27,8 +22,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignOutRequested>(_onSignOutRequested);
 
     // Listen to auth state changes
-    _firebaseService.auth.authStateChanges().listen((User? user) {
-      add(AuthStatusChanged(user != null));
+    _authService.authStateStream.listen((supabase.AuthState authState) {
+      add(AuthStatusChanged(authState.session != null));
     });
   }
 
@@ -40,22 +35,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       logger.info('Attempting to login with email: ${event.email}');
 
-      final credential = await _authService.signInWithEmailAndPassword(
-        event.email,
-        event.password,
+      final response = await _authService.signInWithEmail(
+        email: event.email,
+        password: event.password,
       );
 
-      if (credential.user != null) {
-        logger.info('Login successful for user: ${credential.user!.uid}');
-        await _loadCurrentUser(credential.user!.uid, emit);
+      if (response.user != null) {
+        logger.info('Login successful for user: ${response.user!.id}');
+        await _loadCurrentUser(response.user!.id, emit);
       } else {
         logger.error('Login failed: No user returned');
         emit(
           state.copyWith(uiStatus: AuthUiStatus.error, error: 'Login failed'),
         );
       }
-    } on FirebaseAuthException catch (e, s) {
-      getIt<LoggerService>().error('Firebase login error: ${e.message}', e, s);
+    } on supabase.AuthException catch (e) {
+      logger.error('Supabase login error: ${e.message}');
       emit(
         state.copyWith(
           uiStatus: AuthUiStatus.error,
@@ -63,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } catch (e, s) {
-      getIt<LoggerService>().error('Login error: $e', e, s);
+      logger.error('Login error: $e', e, s);
       emit(
         state.copyWith(
           uiStatus: AuthUiStatus.error,
@@ -81,7 +76,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       logger.info('Attempting to register with email: ${event.email}');
 
-      final credential = await _authService.registerUserWithHome(
+      final response = await _authService.registerUserWithHome(
         email: event.email,
         password: event.password,
         name: event.name,
@@ -92,11 +87,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         birthDate: event.birthDate,
       );
 
-      if (credential.user != null) {
-        logger.info(
-          'Registration successful for user: ${credential.user!.uid}',
-        );
-        await _loadCurrentUser(credential.user!.uid, emit);
+      if (response.user != null) {
+        logger.info('Registration successful for user: ${response.user!.id}');
+        await _loadCurrentUser(response.user!.id, emit);
       } else {
         logger.error('Registration failed: No user returned');
         emit(
@@ -106,12 +99,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
         );
       }
-    } on FirebaseAuthException catch (e, s) {
-      getIt<LoggerService>().error(
-        'Firebase registration error: ${e.message}',
-        e,
-        s,
-      );
+    } on supabase.AuthException catch (e) {
+      logger.error('Supabase registration error: ${e.message}');
       emit(
         state.copyWith(
           uiStatus: AuthUiStatus.error,
@@ -119,7 +108,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } catch (e, s) {
-      getIt<LoggerService>().error('Registration error: $e', e, s);
+      logger.error('Registration error: $e', e, s);
       emit(
         state.copyWith(
           uiStatus: AuthUiStatus.error,
@@ -137,15 +126,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       logger.info('Attempting to reset password for email: ${event.email}');
 
-      await _authService.sendPasswordResetEmail(event.email);
+      await _authService.resetPassword(event.email);
       logger.info('Password reset email sent successfully');
       emit(state.copyWith(uiStatus: AuthUiStatus.unauthenticated));
-    } on FirebaseAuthException catch (e, s) {
-      getIt<LoggerService>().error(
-        'Firebase password reset error: ${e.message}',
-        e,
-        s,
-      );
+    } on supabase.AuthException catch (e) {
+      logger.error('Supabase password reset error: ${e.message}');
       emit(
         state.copyWith(
           uiStatus: AuthUiStatus.error,
@@ -153,7 +138,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } catch (e, s) {
-      getIt<LoggerService>().error('Password reset error: $e', e, s);
+      logger.error('Password reset error: $e', e, s);
       emit(
         state.copyWith(
           uiStatus: AuthUiStatus.error,
@@ -182,7 +167,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } catch (e, s) {
-      getIt<LoggerService>().error('Sign out error: $e', e, s);
+      logger.error('Sign out error: $e', e, s);
       emit(
         state.copyWith(uiStatus: AuthUiStatus.error, error: 'Sign out failed'),
       );
@@ -193,9 +178,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthStatusChanged event,
     Emitter<AuthState> emit,
   ) async {
-    final user = _firebaseService.auth.currentUser;
+    final user = _authService.currentUser;
     if (event.isAuthenticated && user != null) {
-      await _loadCurrentUser(user.uid, emit);
+      await _loadCurrentUser(user.id, emit);
     } else {
       emit(
         state.copyWith(
@@ -208,22 +193,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _loadCurrentUser(String firebaseAuthId, Emitter<AuthState> emit) async {
+  Future<void> _loadCurrentUser(String authId, Emitter<AuthState> emit) async {
     try {
-      final user = await _userService.getUserByFirebaseAuthId(firebaseAuthId);
-      final firebaseUser = _firebaseService.auth.currentUser;
-      
-      if (user != null && firebaseUser != null) {
+      final user = await _userService.getUserById(authId);
+      final supabaseUser = _authService.currentUser;
+
+      if (user != null && supabaseUser != null) {
         emit(
           state.copyWith(
             uiStatus: AuthUiStatus.authenticated,
-            uid: firebaseAuthId,
-            email: firebaseUser.email!,
+            uid: authId,
+            email: supabaseUser.email!,
             currentUser: user,
           ),
         );
       } else {
-        logger.warning('User not found in Firestore for Firebase Auth ID: $firebaseAuthId');
+        logger.warning('User not found in database for Auth ID: $authId');
         emit(
           state.copyWith(
             uiStatus: AuthUiStatus.error,
@@ -242,23 +227,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  String _getErrorMessage(FirebaseAuthException e) {
-    switch (e.code) {
-      case 'weak-password':
-        return S.current.auth_error_weakPassword;
-      case 'email-already-in-use':
-        return S.current.auth_error_emailInUse;
-      case 'user-not-found':
-        return S.current.auth_error_userNotFound;
-      case 'wrong-password':
+  String _getErrorMessage(supabase.AuthException e) {
+    switch (e.message) {
+      case 'Invalid login credentials':
         return S.current.auth_error_wrongPassword;
-      case 'invalid-email':
+      case 'User already registered':
+        return S.current.auth_error_emailInUse;
+      case 'Email not confirmed':
+        return 'Please confirm your email address';
+      case 'Invalid email':
         return S.current.auth_error_invalidEmail;
-      case 'user-disabled':
-        return S.current.auth_error_userDisabled;
-      case 'too-many-requests':
-        return S.current.auth_error_tooManyRequests;
-      case 'operation-not-allowed':
+      case 'Signup disabled':
         return S.current.auth_error_operationNotAllowed;
       default:
         return e.message ?? S.current.auth_error_unknown;

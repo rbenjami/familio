@@ -1,8 +1,4 @@
 // Enums
-import 'package:cloud_firestore_odm/cloud_firestore_odm.dart';
-import 'package:familio/data/models/converters.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
 export 'enums/task_status.dart';
 export 'enums/priority.dart';
 export 'enums/event_source.dart';
@@ -11,25 +7,9 @@ export 'enums/relationship_type.dart';
 export 'enums/registration_type.dart';
 export 'enums/task_type.dart';
 
-// Core models
-export 'core/user.dart';
-export 'core/home.dart';
-export 'core/sub_task.dart';
-
-// Invitations
-export 'invitations/invitation.dart';
-
-// Relationships
-export 'relationships/relationship.dart';
-
-const firestoreSerializable = JsonSerializable(
-  converters: [
-    ...firestoreJsonConverters,
-    DocumentReferenceHomeConverter(),
-    DocumentReferenceUserConverter(),
-  ],
-  // The following values could alternatively be set inside your `build.yaml`
-  explicitToJson: true,
-  createFieldMap: true,
-  createPerFieldToJson: true,
-);
+// Supabase models
+export 'supabase/user.dart';
+export 'supabase/home.dart';
+export 'supabase/task.dart';
+export 'supabase/invitation.dart';
+export 'supabase/calendar.dart';

@@ -10,7 +10,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
-import 'package:familio/data/models/models.dart' as _i11;
+import 'package:familio/data/models/models.dart' as _i12;
+import 'package:familio/data/models/supabase/home.dart' as _i11;
 import 'package:familio/pages/auth/auth_page.dart' as _i1;
 import 'package:familio/pages/calendar/calendar_page.dart' as _i2;
 import 'package:familio/pages/home/home_page.dart' as _i3;
@@ -122,8 +123,8 @@ class SplashRoute extends _i9.PageRouteInfo<void> {
 class TaskFormRoute extends _i9.PageRouteInfo<TaskFormRouteArgs> {
   TaskFormRoute({
     _i10.Key? key,
-    required _i11.HomeDocumentReference home,
-    _i11.TaskQueryDocumentSnapshot? existingTask,
+    required _i11.Home home,
+    _i12.Task? existingTask,
     List<_i9.PageRouteInfo>? children,
   }) : super(
          TaskFormRoute.name,
@@ -155,9 +156,9 @@ class TaskFormRouteArgs {
 
   final _i10.Key? key;
 
-  final _i11.HomeDocumentReference home;
+  final _i11.Home home;
 
-  final _i11.TaskQueryDocumentSnapshot? existingTask;
+  final _i12.Task? existingTask;
 
   @override
   String toString() {

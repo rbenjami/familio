@@ -1,127 +1,117 @@
 import 'package:familio/main.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:injectable/injectable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:familio/core/firebase/firebase_service.dart';
-import '../models/models.dart';
 import 'user_service.dart';
 import 'home_service.dart';
 import 'invitation_service.dart';
+import '../models/models.dart' as models;
 
 @singleton
 class AuthService {
-  final FirebaseService _firebaseService;
+  final SupabaseClient _client;
   final UserService _userService;
   final HomeService _homeService;
   final InvitationService _invitationService;
 
   AuthService(
-    this._firebaseService,
+    this._client,
     this._userService,
     this._homeService,
     this._invitationService,
   );
 
-  /// Stream of authentication state changes
-  Stream<firebase_auth.User?> get authStateChanges =>
-      _firebaseService.auth.authStateChanges();
-
-  /// Get current user
-  firebase_auth.User? get currentUser => _firebaseService.auth.currentUser;
-
-  /// Check if user is authenticated
+  // Auth state
+  User? get currentUser => _client.auth.currentUser;
   bool get isAuthenticated => currentUser != null;
+  Stream<AuthState> get authStateStream => _client.auth.onAuthStateChange;
 
-  /// Sign in with email and password
-  Future<firebase_auth.UserCredential> signInWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  // Sign up with email and password
+  Future<AuthResponse> signUpWithEmail({
+    required String email,
+    required String password,
+    String? name,
+  }) async {
+    try {
+      logger.info('Attempting to sign up with email: $email');
+
+      final response = await _client.auth.signUp(
+        email: email,
+        password: password,
+        data: name != null ? {'name': name} : null,
+      );
+
+      if (response.user != null) {
+        logger.info('Sign up successful for user: ${response.user!.id}');
+
+        // Create user profile in our users table
+        await _createUserProfile(response.user!);
+      }
+
+      return response;
+    } catch (e, stackTrace) {
+      logger.error('Sign up failed', e, stackTrace);
+      rethrow;
+    }
+  }
+
+  // Sign in with email and password
+  Future<AuthResponse> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
     try {
       logger.info('Attempting to sign in with email: $email');
-      final credential = await _firebaseService.auth.signInWithEmailAndPassword(
+
+      final response = await _client.auth.signInWithPassword(
         email: email,
         password: password,
       );
-      logger.info('Sign in successful for user: ${credential.user?.uid}');
-      return credential;
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      logger.error('Firebase sign in error: ${e.message}');
-      rethrow;
-    } catch (e) {
-      logger.error('Sign in error: $e');
-      rethrow;
-    }
-  }
 
-  /// Create user with email and password
-  Future<firebase_auth.UserCredential> createUserWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
-    try {
-      logger.info('Attempting to create user with email: $email');
-      final credential = await _firebaseService.auth
-          .createUserWithEmailAndPassword(email: email, password: password);
-      logger.info('User created successfully: ${credential.user?.uid}');
-      return credential;
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      logger.error('Firebase create user error: ${e.message}');
-      rethrow;
-    } catch (e) {
-      logger.error('Create user error: $e');
-      rethrow;
-    }
-  }
+      if (response.user != null) {
+        logger.info('Sign in successful for user: ${response.user!.id}');
 
-  /// Register user with email, password and create Firestore profile
-  Future<firebase_auth.UserCredential> registerUserWithProfile({
-    required String email,
-    required String password,
-    required String name,
-    String? avatar,
-    DateTime? birthDate,
-  }) async {
-    try {
-      logger.info('Attempting to register user with profile: $email');
-
-      // Create Firebase Auth user
-      final credential = await _firebaseService.auth
-          .createUserWithEmailAndPassword(email: email, password: password);
-
-      if (credential.user != null) {
-        logger.info('Firebase Auth user created: ${credential.user!.uid}');
-
-        // Create Firestore user document
-        await _userService.createUser(
-          firebaseAuthId: credential.user!.uid,
-          name: name,
-          email: email,
-          avatar: avatar,
-          birthDate: birthDate,
-        );
-
-        logger.info(
-          'User profile created successfully: ${credential.user!.uid}',
-        );
+        // Ensure user profile exists
+        await _ensureUserProfile();
       }
 
-      return credential;
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      logger.error('Firebase register user error: ${e.message}');
-      rethrow;
-    } catch (e) {
-      logger.error('Register user error: $e');
+      return response;
+    } catch (e, stackTrace) {
+      logger.error('Sign in failed', e, stackTrace);
       rethrow;
     }
   }
 
-  /// Register user with home creation or invitation
-  Future<firebase_auth.UserCredential> registerUserWithHome({
+  // Sign out
+  Future<void> signOut() async {
+    try {
+      logger.info('Attempting to sign out');
+      await _client.auth.signOut();
+      logger.info('Sign out successful');
+    } catch (e, stackTrace) {
+      logger.error('Sign out failed', e, stackTrace);
+      rethrow;
+    }
+  }
+
+  // Reset password
+  Future<void> resetPassword(String email) async {
+    try {
+      logger.info('Attempting to reset password for email: $email');
+      await _client.auth.resetPasswordForEmail(email);
+      logger.info('Password reset email sent successfully');
+    } catch (e, stackTrace) {
+      logger.error('Password reset failed', e, stackTrace);
+      rethrow;
+    }
+  }
+
+  // Register user with home creation or invitation
+  Future<AuthResponse> registerUserWithHome({
     required String email,
     required String password,
     required String name,
-    required RegistrationType registrationType,
+    required models.RegistrationType registrationType,
     String? homeName,
     String? invitationCode,
     String? avatar,
@@ -130,39 +120,35 @@ class AuthService {
     try {
       logger.info('Attempting to register user with home: $email');
 
-      // Create Firebase Auth user
-      final credential = await _firebaseService.auth
-          .createUserWithEmailAndPassword(email: email, password: password);
-
-      if (credential.user == null) {
-        throw Exception('User creation failed');
-      }
-
-      final userId = credential.user!.uid;
-      logger.info('Firebase Auth user created: $userId');
-
-      // Create Firestore user document with empty homeIds initially
-      final user = await _userService.createUser(
-        firebaseAuthId: userId,
-        name: name,
-        email: email,
-        avatar: avatar,
-        birthDate: birthDate,
+      // Call Edge Function to handle registration
+      final response = await _client.functions.invoke(
+        'register-user',
+        body: {
+          'email': email,
+          'password': password,
+          'displayName': name,
+          'homeName': registrationType == models.RegistrationType.createHome
+              ? homeName
+              : null,
+        },
       );
 
-      if (registrationType == RegistrationType.createHome) {
-        if (homeName == null || homeName.isEmpty) {
-          throw Exception('Home name is required for creating a home');
-        }
+      if (response.status != 200) {
+        final error = response.data['error'] ?? 'Registration failed';
+        throw Exception(error);
+      }
 
-        // Create new home
-        final home = await _homeService.createHome(
-          name: homeName,
-          ownerId: userId,
-        );
+      final data = response.data;
+      logger.info('User registered via Edge Function: ${data['user']['id']}');
 
-        logger.info('New home created: $home');
-      } else {
+      // Sign in the user after registration
+      final authResponse = await _client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+
+      // Handle invitation if joining existing home
+      if (registrationType == models.RegistrationType.joinHome) {
         if (invitationCode == null || invitationCode.isEmpty) {
           throw Exception('Invitation code is required for joining a home');
         }
@@ -176,102 +162,121 @@ class AuthService {
         }
 
         // Accept the invitation
-        await _invitationService.acceptInvitation(invitation);
+        await _invitationService.acceptInvitation(
+          invitationId: invitation.id,
+          acceptedById: data['user']['id'],
+        );
 
         // Add user as member to the home
         await _homeService.addMemberToHome(
-          home: invitation.data!.home.ref,
-          user: user.reference,
+          homeId: invitation.homeId,
+          userId: data['user']['id'],
           permissions: _homeService.getDefaultMemberPermissions(),
         );
 
-        logger.info('User joined home via invitation: $invitation');
+        logger.info('User joined home via invitation: ${invitation.id}');
       }
 
       logger.info(
-        'User registration with home completed successfully: $userId',
+        'User registration with home completed successfully: ${authResponse.user?.id}',
       );
-      return credential;
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      logger.error('Firebase register user with home error: ${e.message}');
-      rethrow;
-    } catch (e) {
-      logger.error('Register user with home error: $e');
+      return authResponse;
+    } catch (e, stackTrace) {
+      logger.error('Register user with home error: $e', e, stackTrace);
       rethrow;
     }
   }
 
-  /// Send password reset email
-  Future<void> sendPasswordResetEmail(String email) async {
+  // Create user profile in our database
+  Future<void> _createUserProfile(User user) async {
     try {
-      logger.info('Attempting to send password reset email to: $email');
-      await _firebaseService.auth.sendPasswordResetEmail(email: email);
-      logger.info('Password reset email sent successfully');
-    } on firebase_auth.FirebaseAuthException catch (e) {
-      logger.error('Firebase password reset error: ${e.message}');
-      rethrow;
-    } catch (e) {
-      logger.error('Password reset error: $e');
+      final name =
+          user.userMetadata?['name'] as String? ??
+          user.email?.split('@').first ??
+          'User';
+
+      await _userService.createUser(id: user.id, name: name);
+
+      logger.info('User profile created successfully for: ${user.id}');
+    } catch (e, stackTrace) {
+      logger.error('Failed to create user profile', e, stackTrace);
+      // Don't rethrow here as auth was successful
+    }
+  }
+
+  // Get current user profile
+  Future<Map<String, dynamic>?> getCurrentUserProfile() async {
+    if (!isAuthenticated) return null;
+
+    try {
+      final response = await _client
+          .from('users')
+          .select()
+          .eq('id', currentUser!.id)
+          .maybeSingle();
+
+      return response;
+    } catch (e, stackTrace) {
+      logger.error('Failed to get user profile', e, stackTrace);
+      return null;
+    }
+  }
+
+  // Update user profile
+  Future<void> updateUserProfile({
+    String? name,
+    String? avatar,
+    DateTime? birthDate,
+  }) async {
+    if (!isAuthenticated) throw Exception('User not authenticated');
+
+    try {
+      final updates = <String, dynamic>{
+        'updated_at': DateTime.now().toIso8601String(),
+      };
+
+      if (name != null) updates['name'] = name;
+      if (avatar != null) updates['avatar'] = avatar;
+      if (birthDate != null) {
+        updates['birth_date'] = birthDate.toIso8601String();
+      }
+
+      await _client
+          .from('users')
+          .update(updates)
+          .eq('id', currentUser!.id);
+
+      logger.info('User profile updated successfully');
+    } catch (e, stackTrace) {
+      logger.error('Failed to update user profile', e, stackTrace);
       rethrow;
     }
   }
 
-  /// Sign out
-  Future<void> signOut() async {
+  // Ensure user profile exists (using Edge Function)
+  Future<void> _ensureUserProfile() async {
     try {
-      logger.info('Attempting to sign out');
-      await _firebaseService.auth.signOut();
-      logger.info('Sign out successful');
-    } catch (e) {
-      logger.error('Sign out error: $e');
-      rethrow;
-    }
-  }
+      final token = _client.auth.currentSession?.accessToken;
+      if (token == null) return;
 
-  /// Update user profile
-  Future<void> updateProfile({String? displayName, String? photoURL}) async {
-    try {
-      final user = currentUser;
-      if (user != null) {
-        logger.info('Updating profile for user: ${user.uid}');
-        await user.updateDisplayName(displayName);
-        if (photoURL != null) {
-          await user.updatePhotoURL(photoURL);
+      final response = await _client.functions.invoke(
+        'ensure-user-profile',
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.status == 200) {
+        final data = response.data;
+        if (data['created'] == true) {
+          logger.info('User profile created via Edge Function: ${data['user']['id']}');
+        } else {
+          logger.info('User profile already exists: ${data['user']['id']}');
         }
-        logger.info('Profile updated successfully');
       }
-    } catch (e) {
-      logger.error('Update profile error: $e');
-      rethrow;
-    }
-  }
-
-  /// Send email verification
-  Future<void> sendEmailVerification() async {
-    try {
-      final user = currentUser;
-      if (user != null && !user.emailVerified) {
-        logger.info('Sending email verification to: ${user.email}');
-        await user.sendEmailVerification();
-        logger.info('Email verification sent');
-      }
-    } catch (e) {
-      logger.error('Send email verification error: $e');
-      rethrow;
-    }
-  }
-
-  /// Reload user data
-  Future<void> reloadUser() async {
-    try {
-      final user = currentUser;
-      if (user != null) {
-        await user.reload();
-        logger.info('User data reloaded');
-      }
-    } catch (e) {
-      logger.error('Reload user error: $e');
-      rethrow;
+    } catch (e, stackTrace) {
+      logger.error('Failed to ensure user profile', e, stackTrace);
+      // Don't rethrow - this is a best-effort operation
     }
   }
 }

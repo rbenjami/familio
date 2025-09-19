@@ -7,6 +7,17 @@
         "firebase-tools@latest",
         "experimental:mcp"
       ]
+    },
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--project-ref=rthexvwgzkgkdezmycsz"
+      ],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "sbp_e205ca0ca056b20427de59f7019f142b8cf4b563"
+      }
     }
   }
 }

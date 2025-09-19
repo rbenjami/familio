@@ -9,6 +9,7 @@ class SimpleTextField extends StatelessWidget {
   final bool isRequired;
   final bool hasError;
   final TextInputAction? textInputAction;
+  final TextCapitalization textCapitalization;
 
   const SimpleTextField({
     super.key,
@@ -19,6 +20,7 @@ class SimpleTextField extends StatelessWidget {
     this.isRequired = false,
     this.hasError = false,
     this.textInputAction,
+    this.textCapitalization = TextCapitalization.none,
   });
 
   @override
@@ -26,6 +28,7 @@ class SimpleTextField extends StatelessWidget {
     return TextFormField(
       // controller: TextEditingController(text: initialValue),
       initialValue: initialValue,
+      textCapitalization: textCapitalization,
       onChanged: onChanged,
       maxLines: isMultiline ? null : 1,
       keyboardType: isMultiline ? TextInputType.multiline : TextInputType.text,

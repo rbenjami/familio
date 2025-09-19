@@ -1,91 +1,126 @@
-import 'package:familio/main.dart';
 import 'package:injectable/injectable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:talker/talker.dart';
 
-import '../models/models.dart';
+import '../models/models.dart' as models;
 
 @singleton
 class UserService {
-  UserService();
+  final SupabaseClient _client;
+  final Talker _talker;
 
-  /// Create a new user document in Firestore
-  Future<UserDocumentSnapshot> createUser({
-    required String firebaseAuthId,
+  UserService(this._client, this._talker);
+
+  Future<models.User> createUser({
+    required String id,
     required String name,
-    required String email,
     String? avatar,
     DateTime? birthDate,
   }) async {
     try {
-      logger.info('Creating user document for: $email');
+      _talker.info('Creating user profile for id: $id');
 
-      final user = User(
-        id: firebaseAuthId, // Use Firebase Auth UID as document ID
-        name: name,
-        avatar: avatar,
-        birthDate: birthDate,
-        firebaseAuthId: firebaseAuthId,
-        relationshipIds: [], // Empty list initially
-      );
+      final response = await _client.from('users').insert({
+        'id': id,
+        'name': name,
+        'avatar': avatar,
+        'birth_date': birthDate?.toIso8601String(),
+      }).select().single();
 
-      // Save to Firestore using the ODM reference
-      await usersRef.doc(firebaseAuthId).set(user);
-
-      logger.info('User document created successfully: $firebaseAuthId');
-      return usersRef.doc(firebaseAuthId).get();
-    } catch (e) {
-      logger.error('Error creating user document: $e');
+      final user = models.User.fromJson(response);
+      _talker.info('User profile created successfully: ${user.id}');
+      return user;
+    } catch (e, s) {
+      _talker.error('Error creating user profile: $e', e, s);
       rethrow;
     }
   }
 
-  /// Get user by Firebase Auth ID
-  Future<UserDocumentSnapshot?> getUserByFirebaseAuthId(
-    String firebaseAuthId,
-  ) async {
+
+  Future<models.User?> getUserById(String userId) async {
     try {
-      logger.info('Fetching user document: $firebaseAuthId');
+      _talker.info('Fetching user profile for id: $userId');
 
-      final docSnapshot = await usersRef.doc(firebaseAuthId).get();
+      final response = await _client
+          .from('users')
+          .select()
+          .eq('id', userId)
+          .maybeSingle();
 
-      if (docSnapshot.exists) {
-        final user = docSnapshot.data!;
-        logger.info('User document found: ${user.name}');
-        return docSnapshot;
-      } else {
-        logger.info('No user document found for: $firebaseAuthId');
+      if (response == null) {
+        _talker.info('No user profile found for id: $userId');
         return null;
       }
-    } catch (e) {
-      logger.error('Error fetching user document: $e');
+
+      final user = models.User.fromJson(response);
+      _talker.info('User profile found: ${user.name}');
+      return user;
+    } catch (e, s) {
+      _talker.error('Error fetching user profile: $e', e, s);
       rethrow;
     }
   }
 
-  /// Update user profile
-  Future<UserDocumentSnapshot> updateUser(User user) async {
+  Future<models.User> updateUser({
+    required String userId,
+    String? name,
+    String? avatar,
+    DateTime? birthDate,
+  }) async {
     try {
-      logger.info('Updating user document: ${user.id}');
+      _talker.info('Updating user profile: $userId');
 
-      await usersRef.doc(user.id).set(user);
+      final updateData = <String, dynamic>{};
+      if (name != null) updateData['name'] = name;
+      if (avatar != null) updateData['avatar'] = avatar;
+      if (birthDate != null) updateData['birth_date'] = birthDate.toIso8601String();
 
-      logger.info('User document updated successfully: ${user.id}');
-      return usersRef.doc(user.id).get();
-    } catch (e) {
-      logger.error('Error updating user document: $e');
+      final response = await _client
+          .from('users')
+          .update(updateData)
+          .eq('id', userId)
+          .select()
+          .single();
+
+      final user = models.User.fromJson(response);
+      _talker.info('User profile updated successfully: ${user.id}');
+      return user;
+    } catch (e, s) {
+      _talker.error('Error updating user profile: $e', e, s);
       rethrow;
     }
   }
 
-  /// Delete user document
-  Future<void> deleteUser(String firebaseAuthId) async {
+  Future<void> deleteUser(String userId) async {
     try {
-      logger.info('Deleting user document: $firebaseAuthId');
+      _talker.info('Deleting user profile: $userId');
 
-      await usersRef.doc(firebaseAuthId).delete();
+      await _client.from('users').delete().eq('id', userId);
 
-      logger.info('User document deleted successfully: $firebaseAuthId');
-    } catch (e) {
-      logger.error('Error deleting user document: $e');
+      _talker.info('User profile deleted successfully: $userId');
+    } catch (e, s) {
+      _talker.error('Error deleting user profile: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<List<models.User>> getUsersByHomeId(String homeId) async {
+    try {
+      _talker.info('Fetching users for home: $homeId');
+
+      final response = await _client
+          .from('users')
+          .select('''
+            *,
+            home_members!inner(home_id)
+          ''')
+          .eq('home_members.home_id', homeId);
+
+      final users = response.map((json) => models.User.fromJson(json)).toList();
+      _talker.info('Found ${users.length} users for home: $homeId');
+      return users;
+    } catch (e, s) {
+      _talker.error('Error fetching users for home: $e', e, s);
       rethrow;
     }
   }

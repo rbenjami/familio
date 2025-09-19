@@ -1,253 +1,375 @@
-import 'package:familio/blocs/tasks/tasks_state.dart';
-import 'package:familio/main.dart';
 import 'package:injectable/injectable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:talker/talker.dart';
 
 import '../models/models.dart';
 
+enum TaskStatus { pending, inProgress, completed, cancelled }
+
+enum TaskType { simple, recurring, project }
+
+enum TaskPriority { low, medium, high, urgent }
+
 @singleton
 class TaskService {
-  TaskService();
+  final SupabaseClient _client;
+  final Talker _talker;
 
-  /// Create a new task
-  Future<TaskDocumentReference> createTask({
-    required HomeDocumentReference home,
+  TaskService(this._client, this._talker);
+
+  Future<Task> createTask({
+    required String homeId,
     required String title,
     String? description,
-    required List<UserDocumentReference> assignedTo,
-    required UserDocumentReference createdBy,
+    required List<String> assignedToUserIds,
     DateTime? dueDate,
-    Priority priority = Priority.medium,
+    TaskPriority priority = TaskPriority.medium,
     TaskType type = TaskType.simple,
     DateTime? startDate,
     int? estimatedDurationMinutes,
-    List<SubTask>? subTasks,
     List<String>? tags,
     String? location,
   }) async {
     try {
-      logger.info('Creating task: $title in home: $home');
+      _talker.info('Creating task: $title in home: $homeId');
 
-      final now = DateTime.now();
+      final response = await _client
+          .from('tasks')
+          .insert({
+            'home_id': homeId,
+            'title': title,
+            'description': description,
+            'created_by_id': _client.auth.currentUser!.id,
+            'status': TaskStatus.pending.name,
+            'due_date': dueDate?.toIso8601String(),
+            'priority': priority.name,
+            'task_type': type.name,
+            'start_date': startDate?.toIso8601String(),
+            'estimated_duration_minutes': estimatedDurationMinutes,
+            'location': location,
+            'tags': tags ?? [],
+          })
+          .select()
+          .single();
 
-      final task = Task(
-        title: title,
-        description: description,
-        assignedTo: assignedTo.map((ref) => ref.reference).toList(),
-        createdBy: createdBy.reference,
-        status: TaskStatus.todo,
-        dueDate: dueDate,
-        priority: priority,
-        createdAt: now,
-        updatedAt: now,
-        type: type,
-        startDate: startDate,
-        estimatedDurationMinutes: estimatedDurationMinutes,
-        subTasks: subTasks ?? [],
-        tags: tags ?? [],
-        location: location,
-      );
+      final task = Task.fromJson(response);
 
-      // Save to Firestore using ODM reference
-      final taskRef = await homesRef.doc(home.id).tasks.add(task);
+      for (final userId in assignedToUserIds) {
+        await _client.from('task_assignees').insert({
+          'task_id': task.id,
+          'user_id': userId,
+        });
+      }
 
-      logger.info('Task created successfully: ${taskRef.id}');
-      return taskRef;
-    } catch (e) {
-      logger.error('Error creating task: $e');
+      _talker.info('Task created successfully: ${task.id}');
+      return task;
+    } catch (e, s) {
+      _talker.error('Error creating task: $e', e, s);
       rethrow;
     }
   }
 
-  /// Update an existing task
-  Future<TaskDocumentReference> updateTask({
-    required TaskDocumentReference task,
+  Future<Task> updateTask({
+    required String taskId,
     String? title,
     String? description,
-    List<UserDocumentReference>? assignedTo,
     TaskStatus? status,
     DateTime? dueDate,
-    Priority? priority,
+    TaskPriority? priority,
     TaskType? type,
     DateTime? startDate,
     int? estimatedDurationMinutes,
-    List<SubTask>? subTasks,
     List<String>? tags,
     String? location,
   }) async {
     try {
-      logger.info('Updating task: $task');
+      _talker.info('Updating task: $taskId');
 
-      final taskRef = task.ref;
-      final taskDoc = await taskRef.get();
-
-      if (!taskDoc.exists) {
-        throw Exception('Task not found: $task');
+      final updateData = <String, dynamic>{};
+      if (title != null) updateData['title'] = title;
+      if (description != null) updateData['description'] = description;
+      if (status != null) updateData['status'] = status.name;
+      if (dueDate != null) updateData['due_date'] = dueDate.toIso8601String();
+      if (priority != null) updateData['priority'] = priority.name;
+      if (type != null) updateData['task_type'] = type.name;
+      if (startDate != null) {
+        updateData['start_date'] = startDate.toIso8601String();
       }
+      if (estimatedDurationMinutes != null) {
+        updateData['estimated_duration_minutes'] = estimatedDurationMinutes;
+      }
+      if (tags != null) updateData['tags'] = tags;
+      if (location != null) updateData['location'] = location;
 
-      final currentTask = taskDoc.data!;
-      final updatedTask = currentTask.copyWith(
-        title: title ?? currentTask.title,
-        description: description ?? currentTask.description,
-        assignedTo:
-            assignedTo?.map((ref) => ref.reference).toList() ??
-            currentTask.assignedTo,
-        status: status ?? currentTask.status,
-        dueDate: dueDate ?? currentTask.dueDate,
-        priority: priority ?? currentTask.priority,
-        type: type ?? currentTask.type,
-        startDate: startDate ?? currentTask.startDate,
-        estimatedDurationMinutes:
-            estimatedDurationMinutes ?? currentTask.estimatedDurationMinutes,
-        subTasks: subTasks ?? currentTask.subTasks,
-        tags: tags ?? currentTask.tags,
-        location: location ?? currentTask.location,
-        updatedAt: DateTime.now(),
-      );
+      final response = await _client
+          .from('tasks')
+          .update(updateData)
+          .eq('id', taskId)
+          .select()
+          .single();
 
-      await taskRef.set(updatedTask);
-
-      logger.info('Task updated successfully: $task');
-      return taskRef;
-    } catch (e) {
-      logger.error('Error updating task: $e');
+      final task = Task.fromJson(response);
+      _talker.info('Task updated successfully: ${task.id}');
+      return task;
+    } catch (e, s) {
+      _talker.error('Error updating task: $e', e, s);
       rethrow;
     }
   }
 
-  /// Delete a task
-  Future<void> deleteTask({required TaskDocumentReference task}) async {
+  Future<void> deleteTask(String taskId) async {
     try {
-      logger.info('Deleting task: $task');
+      _talker.info('Deleting task: $taskId');
 
-      await task.delete();
+      await _client.from('tasks').delete().eq('id', taskId);
 
-      logger.info('Task deleted successfully: $task');
-    } catch (e) {
-      logger.error('Error deleting task: $e');
+      _talker.info('Task deleted successfully: $taskId');
+    } catch (e, s) {
+      _talker.error('Error deleting task: $e', e, s);
       rethrow;
     }
   }
 
-  /// Get task by ID
-  Future<Task?> getTask({
-    required HomeDocumentReference home,
-    required TaskDocumentReference task,
+  Future<Task> getTask(String taskId) async {
+    try {
+      _talker.info('Fetching task: $taskId');
+
+      final response = await _client
+          .from('tasks')
+          .select()
+          .eq('id', taskId)
+          .single();
+
+      final task = Task.fromJson(response);
+      _talker.info('Task found: ${task.title}');
+      return task;
+    } catch (e, s) {
+      _talker.error('Error fetching task: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<List<Task>> getTasksForHome({
+    required String homeId,
+    TaskStatus? status,
+    String? assignedToUserId,
+    TaskPriority? priority,
+    TaskType? type,
   }) async {
     try {
-      logger.info('Fetching task: $task from home: $home');
+      _talker.info('Fetching tasks for home: $homeId');
 
-      final taskDoc = await homesRef.doc(home.id).tasks.doc(task.id).get();
+      var query = _client.from('tasks').select().eq('home_id', homeId);
 
-      if (taskDoc.exists) {
-        final task = taskDoc.data!;
-        logger.info('Task found: ${task.title}');
-        return task;
-      } else {
-        logger.info('No task found with ID: $task');
-        return null;
+      if (status != null) {
+        query = query.eq('status', status.name);
       }
-    } catch (e) {
-      logger.error('Error fetching task: $e');
+      if (priority != null) {
+        query = query.eq('priority', priority.name);
+      }
+      if (type != null) {
+        query = query.eq('task_type', type.name);
+      }
+      if (assignedToUserId != null) {
+        query = query.eq('task_assignees.user_id', assignedToUserId);
+      }
+
+      final response = await query.order('created_at', ascending: false);
+
+      final tasks = response.map((json) => Task.fromJson(json)).toList();
+      _talker.info('Found ${tasks.length} tasks for home: $homeId');
+      return tasks;
+    } catch (e, s) {
+      _talker.error('Error fetching tasks for home: $e', e, s);
       rethrow;
     }
   }
 
-  /// Get all tasks for a home
-  TaskQuery getTasksQuery({
-    required HomeDocumentReference home,
-    TaskFilters? filters,
-    TaskSort? sort,
-  }) {
+  Future<List<TaskAssignee>> getTaskAssignees(String taskId) async {
     try {
-      logger.info('Getting tasks query for home: $home');
+      _talker.info('Fetching assignees for task: $taskId');
 
-      var tasksQuery = home.tasks.whereTitle(isNull: false);
+      final response = await _client
+          .from('task_assignees')
+          .select()
+          .eq('task_id', taskId);
 
-      // return tasksQuery;
-
-      if (filters?.status != null) {
-        tasksQuery = tasksQuery.whereStatus(isEqualTo: filters!.status);
-      }
-      if (filters?.assignedTo != null) {
-        tasksQuery = tasksQuery.whereAssignedTo(
-          arrayContains: filters!.assignedTo!.reference,
-        );
-      }
-      if (filters?.priority != null) {
-        tasksQuery = tasksQuery.wherePriority(isEqualTo: filters!.priority);
-      }
-      if (filters?.type != null) {
-        tasksQuery = tasksQuery.whereType(isEqualTo: filters!.type);
-      }
-
-      if (sort?.sortBy != null) {
-        tasksQuery = switch (sort!.sortBy) {
-          TaskSortBy.createdAt => tasksQuery.orderByCreatedAt(
-            descending: sort.sortOrder == SortOrder.descending,
-          ),
-          TaskSortBy.dueDate => tasksQuery.orderByDueDate(
-            descending: sort.sortOrder == SortOrder.descending,
-          ),
-          TaskSortBy.priority => tasksQuery.orderByPriority(
-            descending: sort.sortOrder == SortOrder.descending,
-          ),
-          TaskSortBy.title => tasksQuery.orderByTitle(
-            descending: sort.sortOrder == SortOrder.descending,
-          ),
-          TaskSortBy.assignedTo => tasksQuery.orderByAssignedTo(
-            descending: sort.sortOrder == SortOrder.descending,
-          ),
-          TaskSortBy.status => tasksQuery.orderByStatus(
-            descending: sort.sortOrder == SortOrder.descending,
-          ),
-        };
-      } else {
-        // tasksQuery = tasksQuery.orderByCreatedAt(descending: true);
-      }
-
-      return tasksQuery;
-    } catch (e) {
-      logger.error('Error getting tasks stream: $e');
+      final assignees = response
+          .map((json) => TaskAssignee.fromJson(json))
+          .toList();
+      _talker.info('Found ${assignees.length} assignees for task: $taskId');
+      return assignees;
+    } catch (e, s) {
+      _talker.error('Error fetching task assignees: $e', e, s);
       rethrow;
     }
   }
 
-  /// Get task completion statistics
+  Future<void> assignUserToTask({
+    required String taskId,
+    required String userId,
+  }) async {
+    try {
+      _talker.info('Assigning user $userId to task $taskId');
+
+      await _client.from('task_assignees').insert({
+        'task_id': taskId,
+        'user_id': userId,
+      });
+
+      _talker.info('User assigned successfully to task');
+    } catch (e, s) {
+      _talker.error('Error assigning user to task: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<void> unassignUserFromTask({
+    required String taskId,
+    required String userId,
+  }) async {
+    try {
+      _talker.info('Unassigning user $userId from task $taskId');
+
+      await _client
+          .from('task_assignees')
+          .delete()
+          .eq('task_id', taskId)
+          .eq('user_id', userId);
+
+      _talker.info('User unassigned successfully from task');
+    } catch (e, s) {
+      _talker.error('Error unassigning user from task: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<SubTask> createSubTask({
+    required String taskId,
+    required String title,
+    required int orderIndex,
+  }) async {
+    try {
+      _talker.info('Creating subtask: $title for task: $taskId');
+
+      final response = await _client
+          .from('sub_tasks')
+          .insert({
+            'task_id': taskId,
+            'title': title,
+            'is_completed': false,
+            'order_index': orderIndex,
+          })
+          .select()
+          .single();
+
+      final subTask = SubTask.fromJson(response);
+      _talker.info('Subtask created successfully: ${subTask.id}');
+      return subTask;
+    } catch (e, s) {
+      _talker.error('Error creating subtask: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<SubTask> updateSubTask({
+    required String subTaskId,
+    String? title,
+    bool? isCompleted,
+    int? orderIndex,
+  }) async {
+    try {
+      _talker.info('Updating subtask: $subTaskId');
+
+      final updateData = <String, dynamic>{};
+      if (title != null) updateData['title'] = title;
+      if (isCompleted != null) updateData['is_completed'] = isCompleted;
+      if (orderIndex != null) updateData['order_index'] = orderIndex;
+
+      final response = await _client
+          .from('sub_tasks')
+          .update(updateData)
+          .eq('id', subTaskId)
+          .select()
+          .single();
+
+      final subTask = SubTask.fromJson(response);
+      _talker.info('Subtask updated successfully: ${subTask.id}');
+      return subTask;
+    } catch (e, s) {
+      _talker.error('Error updating subtask: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<List<SubTask>> getSubTasks(String taskId) async {
+    try {
+      _talker.info('Fetching subtasks for task: $taskId');
+
+      final response = await _client
+          .from('sub_tasks')
+          .select()
+          .eq('task_id', taskId)
+          .order('order_index');
+
+      final subTasks = response.map((json) => SubTask.fromJson(json)).toList();
+      _talker.info('Found ${subTasks.length} subtasks for task: $taskId');
+      return subTasks;
+    } catch (e, s) {
+      _talker.error('Error fetching subtasks: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<void> deleteSubTask(String subTaskId) async {
+    try {
+      _talker.info('Deleting subtask: $subTaskId');
+
+      await _client.from('sub_tasks').delete().eq('id', subTaskId);
+
+      _talker.info('Subtask deleted successfully: $subTaskId');
+    } catch (e, s) {
+      _talker.error('Error deleting subtask: $e', e, s);
+      rethrow;
+    }
+  }
+
   Future<Map<String, int>> getTaskStats({
     required String homeId,
-    UserDocumentReference? assignedTo,
+    String? assignedToUserId,
   }) async {
     try {
-      logger.info('Getting task stats for home: $homeId');
+      _talker.info('Getting task stats for home: $homeId');
 
-      final snapshot = await homesRef.doc(homeId).tasks.get();
-      var tasks = snapshot.docs.map((doc) => doc.data).toList();
+      var query = _client.from('tasks').select().eq('home_id', homeId);
 
-      if (assignedTo != null) {
-        tasks = tasks
-            .where((task) => task.assignedTo.contains(assignedTo.reference))
-            .toList();
+      if (assignedToUserId != null) {
+        query = query.eq('task_assignees.user_id', assignedToUserId);
       }
 
+      final response = await query;
+      final tasks = response.map((json) => Task.fromJson(json)).toList();
+
+      final now = DateTime.now();
       final stats = <String, int>{
         'total': tasks.length,
-        'todo': tasks.where((t) => t.status == TaskStatus.todo).length,
-        'doing': tasks.where((t) => t.status == TaskStatus.doing).length,
-        'done': tasks.where((t) => t.status == TaskStatus.done).length,
+        'pending': tasks.where((t) => t.status == 'pending').length,
+        'in_progress': tasks.where((t) => t.status == 'in_progress').length,
+        'completed': tasks.where((t) => t.status == 'completed').length,
         'overdue': tasks
             .where(
               (t) =>
                   t.dueDate != null &&
-                  t.dueDate!.isBefore(DateTime.now()) &&
-                  t.status != TaskStatus.done,
+                  t.dueDate!.isBefore(now) &&
+                  t.status != 'completed',
             )
             .length,
       };
 
-      logger.info('Task stats calculated: $stats');
+      _talker.info('Task stats calculated: $stats');
       return stats;
-    } catch (e) {
-      logger.error('Error getting task stats: $e');
+    } catch (e, s) {
+      _talker.error('Error getting task stats: $e', e, s);
       rethrow;
     }
   }

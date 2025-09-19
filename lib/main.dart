@@ -2,11 +2,9 @@ import 'dart:ui';
 
 import 'package:familio/familio_app.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'core/logging/logger_service.dart';
 import 'di/injection.dart';
-import 'firebase_options.dart';
 
 late final LoggerService logger;
 
@@ -18,9 +16,6 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
-  // Initialize Firebase
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Configure dependency injection
   await configureDependencies();

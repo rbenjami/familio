@@ -3,9 +3,9 @@ import 'package:familio/data/models/models.dart';
 import 'package:familio/core/utils/context_ext.dart';
 
 class MemberChips extends StatelessWidget {
-  final List<UserDocumentSnapshot> availableMembers;
-  final List<UserDocumentReference> selectedMembers;
-  final Function(UserDocumentReference) onMemberToggled;
+  final List<User> availableMembers;
+  final List<String> selectedMembers;
+  final Function(String) onMemberToggled;
 
   const MemberChips({
     super.key,
@@ -24,12 +24,12 @@ class MemberChips extends StatelessWidget {
       spacing: 8,
       runSpacing: 4,
       children: availableMembers.map((member) {
-        final isSelected = selectedMembers.contains(usersRef.doc(member.id));
+        final isSelected = selectedMembers.contains(member.id);
 
         return FilterChip(
           selected: isSelected,
-          label: Text(member.data!.name),
-          onSelected: (_) => onMemberToggled(usersRef.doc(member.id)),
+          label: Text(member.name),
+          onSelected: (_) => onMemberToggled(member.id),
           showCheckmark: false,
           selectedColor: context.colorScheme.primary.withValues(alpha: 0.15),
           checkmarkColor: context.colorScheme.primary,

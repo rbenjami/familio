@@ -24,12 +24,11 @@ abstract class TaskState with _$TaskState {
     @Default('') String description,
     DateTime? dueDate,
     @Default(Priority.medium) Priority priority,
-    @Default([]) List<UserDocumentReference> assignedTo,
+    @Default([]) List<String> assignedTo,
     @Default([]) List<SubTask> subTasks,
-    HomeDocumentReference? home,
-    TaskDocumentReference? task, // null for creation, set for editing
-    UserDocumentReference? createdBy, // required for Task creation
-    @Default([]) List<UserDocumentSnapshot> availableMembers,
+    Home? home,
+    Task? task, // null for creation, set for editing
+    @Default([]) List<User> availableMembers,
     String? error,
     @Default(false) bool hasUnsavedChanges,
   }) = _TaskState;
@@ -47,16 +46,19 @@ abstract class TaskState with _$TaskState {
 
   Task toTask() {
     return Task(
-      id: task?.id ?? 'unset',
+      id: task?.id ?? '',
+      homeId: home?.id ?? '',
       title: title.trim(),
       description: description.trim().isEmpty ? null : description.trim(),
-      status: TaskStatus.todo,
-      priority: priority,
-      type: taskType,
-      assignedTo: assignedTo.map((ref) => ref.reference).toList(),
-      subTasks: subTasks,
+      createdById: createdBy ?? '',
+      status: TaskStatus.todo.name,
       dueDate: dueDate,
-      createdBy: createdBy!.reference,
+      priority: priority.name,
+      taskType: taskType.name,
+      startDate: null,
+      estimatedDurationMinutes: null,
+      location: null,
+      tags: [],
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );

@@ -16,8 +16,8 @@ import 'package:familio/di/injection.dart';
 
 @RoutePage()
 class TaskFormPage extends StatefulWidget {
-  final HomeDocumentReference home;
-  final TaskQueryDocumentSnapshot? existingTask;
+  final Home home;
+  final Task? existingTask;
 
   const TaskFormPage({super.key, required this.home, this.existingTask});
 
@@ -63,7 +63,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
   }
 
   Widget _buildForm(BuildContext context, TaskState state) {
-    final existingTask = widget.existingTask?.data;
+    final existingTask = widget.existingTask;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -105,6 +105,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
           SimpleTextField(
             hint: context.s.task_title_hint,
             initialValue: existingTask?.title,
+            textCapitalization: TextCapitalization.sentences,
             onChanged: (value) => _bloc.add(TaskTitleChanged(value)),
             isRequired: true,
             hasError:
@@ -119,6 +120,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
           SimpleTextField(
             hint: context.s.task_description_hint,
             initialValue: existingTask?.description,
+            textCapitalization: TextCapitalization.sentences,
             onChanged: (value) => _bloc.add(TaskDescriptionChanged(value)),
             isMultiline: true,
           ),

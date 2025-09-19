@@ -35,7 +35,7 @@ class TaskPriorityChanged extends TaskEvent {
 }
 
 class TaskAssigneeToggled extends TaskEvent {
-  final UserDocumentReference user;
+  final String user;
 
   const TaskAssigneeToggled(this.user);
 }

@@ -37,7 +37,7 @@ class TaskListItem extends StatelessWidget {
                     child: Text(
                       task.title,
                       style: context.textTheme.titleMedium?.copyWith(
-                        decoration: task.status == TaskStatus.done
+                        decoration: task.status == TaskStatus.done.name
                             ? TextDecoration.lineThrough
                             : null,
                       ),
@@ -91,33 +91,8 @@ class TaskListItem extends StatelessWidget {
                 ],
               ),
 
-              // Subtasks progress for checklist type
-              if (task.type == TaskType.checklist &&
-                  task.subTasks.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                _buildSubTasksProgress(context),
-              ],
-
-              // Assigned users
-              if (task.assignedTo.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    PhosphorIcon(
-                      PhosphorIconsDuotone.user,
-                      size: 16,
-                      color: context.colorScheme.onSurface.withValues(
-                        alpha: 0.6,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      context.s.task_assigned_count(task.assignedTo.length),
-                      style: context.textTheme.labelSmall,
-                    ),
-                  ],
-                ),
-              ],
+              // TODO: Add subtasks support when needed
+              // TODO: Add assigned users support when needed
             ],
           ),
         ),
@@ -158,55 +133,24 @@ class TaskListItem extends StatelessWidget {
 
   Widget _buildTaskTypeIcon(BuildContext context) {
     PhosphorIconData icon;
-    switch (task.type) {
-      case TaskType.simple:
+    switch (task.taskType) {
+      case 'simple':
         icon = PhosphorIconsDuotone.note;
         break;
-      case TaskType.checklist:
+      case 'checklist':
         icon = PhosphorIconsDuotone.listChecks;
         break;
-      case TaskType.scheduled:
+      case 'scheduled':
         icon = PhosphorIconsDuotone.clock;
+        break;
+      default:
+        icon = PhosphorIconsDuotone.note;
         break;
     }
 
     return PhosphorIcon(icon, size: 16, color: context.colorScheme.primary);
   }
 
-  Widget _buildSubTasksProgress(BuildContext context) {
-    final completedCount = task.subTasks.where((st) => st.isCompleted).length;
-    final totalCount = task.subTasks.length;
-    final progress = totalCount > 0 ? completedCount / totalCount : 0.0;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              context.s.task_subtasks_progress(completedCount, totalCount),
-              style: context.textTheme.labelSmall,
-            ),
-            const Spacer(),
-            Text(
-              '${(progress * 100).round()}%',
-              style: context.textTheme.labelSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
-        LinearProgressIndicator(
-          value: progress,
-          backgroundColor: context.colorScheme.surfaceContainerHighest,
-          valueColor: AlwaysStoppedAnimation<Color>(
-            context.colorScheme.primary,
-          ),
-        ),
-      ],
-    );
-  }
 
   void _showStatusMenu(BuildContext context) {
     showModalBottomSheet(
@@ -217,7 +161,7 @@ class TaskListItem extends StatelessWidget {
           return ListTile(
             leading: PhosphorIcon(_getStatusIcon(status)),
             title: Text(_getStatusLabelForStatus(context, status)),
-            trailing: task.status == status
+            trailing: task.status == status.name
                 ? PhosphorIcon(PhosphorIconsDuotone.check)
                 : null,
             onTap: () {
@@ -231,18 +175,29 @@ class TaskListItem extends StatelessWidget {
   }
 
   String _getTaskTypeLabel(BuildContext context) {
-    switch (task.type) {
-      case TaskType.simple:
+    switch (task.taskType) {
+      case 'simple':
         return context.s.task_type_simple;
-      case TaskType.checklist:
+      case 'checklist':
         return context.s.task_type_checklist;
-      case TaskType.scheduled:
+      case 'scheduled':
         return context.s.task_type_scheduled;
+      default:
+        return context.s.task_type_simple;
     }
   }
 
   String _getStatusLabel(BuildContext context) {
-    return _getStatusLabelForStatus(context, task.status);
+    switch (task.status) {
+      case 'todo':
+        return context.s.task_status_todo;
+      case 'doing':
+        return context.s.task_status_doing;
+      case 'done':
+        return context.s.task_status_done;
+      default:
+        return context.s.task_status_todo;
+    }
   }
 
   String _getStatusLabelForStatus(BuildContext context, TaskStatus status) {
@@ -269,23 +224,27 @@ class TaskListItem extends StatelessWidget {
 
   Color _getStatusColor(BuildContext context) {
     switch (task.status) {
-      case TaskStatus.todo:
+      case 'todo':
         return context.colorScheme.outline;
-      case TaskStatus.doing:
+      case 'doing':
         return Colors.orange;
-      case TaskStatus.done:
+      case 'done':
         return Colors.green;
+      default:
+        return context.colorScheme.outline;
     }
   }
 
   Color _getPriorityColor(BuildContext context) {
     switch (task.priority) {
-      case Priority.low:
+      case 'low':
         return Colors.blue;
-      case Priority.medium:
+      case 'medium':
         return Colors.orange;
-      case Priority.high:
+      case 'high':
         return Colors.red;
+      default:
+        return Colors.orange;
     }
   }
 
@@ -294,7 +253,7 @@ class TaskListItem extends StatelessWidget {
 
     final now = DateTime.now();
     final isOverdue =
-        task.dueDate!.isBefore(now) && task.status != TaskStatus.done;
+        task.dueDate!.isBefore(now) && task.status != 'done';
     final isDueSoon = task.dueDate!.difference(now).inDays <= 1;
 
     if (isOverdue) return Colors.red;

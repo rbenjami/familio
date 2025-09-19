@@ -16,7 +16,6 @@ import 'package:familio/widgets/tasks/task_sort_bottom_sheet.dart';
 import 'package:familio/router/app_router.gr.dart';
 import 'package:familio/di/injection.dart';
 import 'package:familio/core/utils/context_ext.dart';
-import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 
 @RoutePage()
 class TasksPage extends StatefulWidget {
@@ -33,7 +32,7 @@ class _TasksPageState extends State<TasksPage> {
   void _loadTasks() {
     final homeState = _homeBloc.state;
     if (homeState.selectedHome != null) {
-      _tasksBloc.add(LoadTasks(home: homeState.selectedHome!.reference));
+      _tasksBloc.add(LoadTasks(home: homeState.selectedHome!));
     }
   }
 
@@ -128,29 +127,28 @@ class _TasksPageState extends State<TasksPage> {
 
         // Task list
         Expanded(
-          child: state.tasksQuery == null
+          child: state.tasks.isEmpty
               ? _buildEmptyState(context)
-              : FirestoreListView(
+              : ListView.builder(
                   padding: const EdgeInsets.all(16),
-                  query: state.tasksQuery!.reference,
-                  itemBuilder: (context, taskSnapshot) {
-                    final task = taskSnapshot.snapshot.data;
+                  itemCount: state.tasks.length,
+                  itemBuilder: (context, index) {
+                    final task = state.tasks[index];
                     return TaskListItem(
                       task: task,
                       onStatusChanged: (status) => _tasksBloc.add(
                         UpdateTaskStatus(
-                          task: taskSnapshot.reference.ref,
+                          task: task,
                           status: status,
                         ),
                       ),
                       onSubTaskToggled: (subTaskIndex) => _tasksBloc.add(
                         ToggleSubTask(
-                          task: taskSnapshot,
+                          task: task,
                           subTaskIndex: subTaskIndex,
                         ),
                       ),
-                      onTap: () =>
-                          _showTaskDetails(context, taskSnapshot.snapshot),
+                      onTap: () => _showTaskDetails(context, task),
                     );
                   },
                 ),
@@ -197,7 +195,7 @@ class _TasksPageState extends State<TasksPage> {
         onApply: (filters) => _tasksBloc.add(
           ApplyFilters(
             status: filters.status,
-            assignedTo: filters.assignedTo,
+            assignedToUserId: filters.assignedToUserId,
             priority: filters.priority,
             type: filters.type,
             showMyTasksOnly: filters.showMyTasksOnly,
@@ -219,14 +217,17 @@ class _TasksPageState extends State<TasksPage> {
     final homeState = _homeBloc.state;
     if (homeState.selectedHome != null) {
       context.router.push(
-        TaskFormRoute(home: homeState.selectedHome!.reference),
+        TaskFormRoute(home: homeState.selectedHome!),
       );
     }
   }
 
-  void _showTaskDetails(BuildContext context, TaskQueryDocumentSnapshot task) {
-    context.router.push(
-      TaskFormRoute(home: task.reference.ref.parent.parent, existingTask: task),
-    );
+  void _showTaskDetails(BuildContext context, Task task) {
+    final homeState = _homeBloc.state;
+    if (homeState.selectedHome != null) {
+      context.router.push(
+        TaskFormRoute(home: homeState.selectedHome!, existingTask: task),
+      );
+    }
   }
 }

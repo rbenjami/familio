@@ -4,10 +4,12 @@ import 'package:familio/core/theme/app_theme.dart';
 import 'package:familio/di/injection.dart';
 import 'package:familio/generated/l10n.dart';
 import 'package:familio/blocs/auth/auth_bloc.dart';
+import 'package:familio/main.dart';
 import 'package:familio/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class FamilioApp extends StatelessWidget {
   const FamilioApp({super.key});
@@ -33,8 +35,9 @@ class FamilioApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        routerDelegate: appRouter.delegate(),
-        routeInformationParser: appRouter.defaultRouteParser(),
+        routerConfig: appRouter.config(
+          navigatorObservers: () => [TalkerRouteObserver(logger.talker)],
+        ),
       ),
     );
   }

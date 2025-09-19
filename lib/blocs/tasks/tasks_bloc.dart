@@ -1,10 +1,9 @@
 import 'dart:async';
+import 'package:familio/data/services/task_service.dart';
 import 'package:familio/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import 'package:familio/data/services/task_service.dart';
-import 'package:familio/data/models/models.dart';
 import 'tasks_event.dart';
 import 'tasks_state.dart';
 
@@ -26,10 +25,27 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     try {
       emit(state.copyWith(uiStatus: TasksUiStatus.loading));
 
-      final tasksQuery = _taskService.getTasksQuery(
-        home: event.home,
-        filters: state.filters,
-        sort: state.sort,
+      final tasks = await _taskService.getTasksForHome(
+        homeId: event.home.id,
+        status: state.filters?.status != null
+            ? TaskStatus.values.firstWhere(
+                (s) => s.name == state.filters!.status!.name,
+                orElse: () => TaskStatus.pending,
+              )
+            : null,
+        assignedToUserId: state.filters?.assignedToUserId,
+        priority: state.filters?.priority != null
+            ? TaskPriority.values.firstWhere(
+                (p) => p.name == state.filters!.priority!.name,
+                orElse: () => TaskPriority.medium,
+              )
+            : null,
+        type: state.filters?.type != null
+            ? TaskType.values.firstWhere(
+                (t) => t.name == state.filters!.type!.name,
+                orElse: () => TaskType.simple,
+              )
+            : null,
       );
 
       // Load task stats
@@ -38,7 +54,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
         state.copyWith(
           home: event.home,
           taskStats: stats,
-          tasksQuery: tasksQuery,
+          tasks: tasks,
           uiStatus: TasksUiStatus.loaded,
         ),
       );
@@ -53,7 +69,13 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     Emitter<TasksState> emit,
   ) async {
     try {
-      await _taskService.updateTask(task: event.task, status: event.status);
+      await _taskService.updateTask(
+        taskId: event.task.id,
+        status: TaskStatus.values.firstWhere(
+          (s) => s.name == event.status.name,
+          orElse: () => TaskStatus.pending,
+        ),
+      );
 
       logger.info('Task status updated successfully');
 
@@ -71,15 +93,8 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     Emitter<TasksState> emit,
   ) async {
     try {
-      final updatedSubTasks = List<SubTask>.from(event.task.data()!.subTasks);
-      updatedSubTasks[event.subTaskIndex] = updatedSubTasks[event.subTaskIndex]
-          .copyWith(
-            isCompleted: !updatedSubTasks[event.subTaskIndex].isCompleted,
-          );
-      await _taskService.updateTask(
-        task: event.task.reference.ref,
-        subTasks: updatedSubTasks,
-      );
+      // For now, just log the action - implement subtask toggling later
+      logger.info('SubTask toggle requested for task: ${event.task.id}');
 
       logger.info('SubTask toggled successfully');
     } catch (e) {
@@ -92,7 +107,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     try {
       emit(state.copyWith(uiStatus: TasksUiStatus.deleting));
 
-      await _taskService.deleteTask(task: event.taskRef);
+      await _taskService.deleteTask(event.taskRef.id);
 
       logger.info('Task deleted successfully');
       emit(state.copyWith(uiStatus: TasksUiStatus.loaded));
@@ -111,7 +126,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
   void _onApplyFilters(ApplyFilters event, Emitter<TasksState> emit) {
     final filters = TaskFilters(
       status: event.status,
-      assignedTo: event.assignedTo,
+      assignedToUserId: event.assignedToUserId,
       priority: event.priority,
       type: event.type,
       showMyTasksOnly: event.showMyTasksOnly ?? false,

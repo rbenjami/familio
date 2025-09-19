@@ -25,9 +25,6 @@ dependencies:
   talker_dio_logger: ^4.9.1
   talker_bloc_logger: ^4.9.1
   path_provider: ^2.1.5
-  firebase_core: ^3.15.0
-  firebase_auth: ^5.6.1
-  firebase_analytics: ^11.5.1
   freezed_annotation: ^3.0.0
   intl_utils: ^2.8.11
   collection: ^1.19.1
@@ -44,12 +41,8 @@ dependencies:
   firebase_crashlytics: ^4.3.8
   google_fonts: ^6.3.0
   phosphor_flutter: ^2.1.0
-  cloud_firestore: ^5.6.12
-  cloud_firestore_odm:
-    git:
-      url: https://github.com/dorklein/firestoreodm-flutter.git
-      path: packages/cloud_firestore_odm
-  firebase_ui_firestore: ^1.7.3
+  supabase_flutter: ^2.10.1
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -63,19 +56,11 @@ dev_dependencies:
   freezed: ^3.0.6
   flutter_launcher_icons: ^0.14.4
   flutter_gen_runner: ^5.10.0
-  cloud_firestore_odm_generator:
-    git:
-      url: https://github.com/dorklein/firestoreodm-flutter.git
-      path: packages/cloud_firestore_odm_generator
 
-dependency_overrides:
-  cloud_firestore_odm:
-    git:
-      url: https://github.com/dorklein/firestoreodm-flutter.git
-      path: packages/cloud_firestore_odm
-      
 flutter:
   uses-material-design: true
+  assets:
+    - .env
 
 flutter_icons:
   ios: true

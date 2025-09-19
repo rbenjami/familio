@@ -3,17 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:familio/blocs/task/task_event.dart';
 import 'package:familio/blocs/task/task_state.dart';
-import 'package:familio/data/services/task_service.dart';
+import 'package:familio/data/services/task_service.dart' as task_service;
 import 'package:familio/data/models/models.dart';
 import 'package:familio/core/logging/logger_service.dart';
 import 'package:familio/di/injection.dart';
 
 @injectable
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  final TaskService _taskService;
+  final task_service.TaskService _taskService;
 
-  final HomeDocumentReference home;
-  final TaskQueryDocumentSnapshot? existingTask;
+  final Home home;
+  final Task? existingTask;
 
   TaskBloc(
     this._taskService, {
@@ -41,24 +41,27 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     try {
       // TODO Load available members for the home
       // For now, we'll use an empty list - this would be populated from home members
-      final availableMembers = <UserDocumentSnapshot>[];
+      final availableMembers = <User>[];
 
       if (existingTask != null) {
         // Editing mode
-        final task = existingTask!.data;
+        final task = existingTask!;
         emit(
           state.copyWith(
             uiStatus: TaskUiStatus.loaded,
             home: home,
-            task: existingTask!.reference,
+            task: existingTask,
             title: task.title,
             description: task.description ?? '',
             dueDate: task.dueDate,
-            priority: task.priority,
-            assignedTo: task.assignedTo.map((ref) => ref.ref).toList(),
-            subTasks: task.subTasks,
-            createdBy: task.createdBy.ref,
-            availableMembers: availableMembers.map((user) => user).toList(),
+            priority: Priority.values.firstWhere(
+              (p) => p.name == task.priority,
+              orElse: () => Priority.medium,
+            ),
+            assignedTo: [], // TODO: Load from TaskAssignee table
+            subTasks: [], // TODO: Load from SubTask table
+            createdBy: task.createdById,
+            availableMembers: availableMembers,
           ),
         );
       } else {
@@ -111,7 +114,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     TaskAssigneeToggled event,
     Emitter<TaskState> emit,
   ) async {
-    final currentAssignees = List<UserDocumentReference>.from(state.assignedTo);
+    final currentAssignees = List<String>.from(state.assignedTo);
     if (currentAssignees.contains(event.user)) {
       currentAssignees.remove(event.user);
     } else {
@@ -125,7 +128,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     SubTaskAdded event,
     Emitter<TaskState> emit,
   ) async {
-    final newSubTask = SubTask(title: event.title, isCompleted: false);
+    final newSubTask = SubTask(
+      id: '', // Will be generated when saved
+      taskId: state.task?.id ?? '',
+      title: event.title,
+      isCompleted: false,
+      orderIndex: state.subTasks.length,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
     final updatedSubTasks = List<SubTask>.from(state.subTasks)..add(newSubTask);
 
     emit(state.copyWith(subTasks: updatedSubTasks, hasUnsavedChanges: true));
@@ -148,7 +159,16 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     final updatedSubTasks = List<SubTask>.from(state.subTasks);
 
     if (event.index == updatedSubTasks.length) {
-      updatedSubTasks.add(SubTask(title: event.title, isCompleted: false));
+      final newSubTask = SubTask(
+        id: '', // Will be generated when saved
+        taskId: state.task?.id ?? '',
+        title: event.title,
+        isCompleted: false,
+        orderIndex: event.index,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+      updatedSubTasks.add(newSubTask);
     } else {
       updatedSubTasks[event.index] = updatedSubTasks[event.index].copyWith(
         title: event.title,
@@ -183,30 +203,38 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     try {
       if (state.isEditing) {
         await _taskService.updateTask(
-          task: state.task!.ref,
+          taskId: state.task!.id,
           title: state.title.trim(),
           description: state.description.trim().isEmpty
               ? null
               : state.description.trim(),
-          assignedTo: state.assignedTo,
           dueDate: state.dueDate,
-          priority: state.priority,
-          type: state.taskType,
-          subTasks: state.subTasks,
+          priority: task_service.TaskPriority.values.firstWhere(
+            (p) => p.name == state.priority.name,
+            orElse: () => task_service.TaskPriority.medium,
+          ),
+          type: task_service.TaskType.values.firstWhere(
+            (t) => t.name == state.taskType.name,
+            orElse: () => task_service.TaskType.simple,
+          ),
         );
       } else {
         await _taskService.createTask(
-          home: state.home!,
+          homeId: state.home!.id,
           title: state.title.trim(),
           description: state.description.trim().isEmpty
               ? null
               : state.description.trim(),
-          assignedTo: state.assignedTo,
-          createdBy: state.createdBy!,
+          assignedToUserIds: state.assignedTo,
           dueDate: state.dueDate,
-          priority: state.priority,
-          type: state.taskType,
-          subTasks: state.subTasks,
+          priority: task_service.TaskPriority.values.firstWhere(
+            (p) => p.name == state.priority.name,
+            orElse: () => task_service.TaskPriority.medium,
+          ),
+          type: task_service.TaskType.values.firstWhere(
+            (t) => t.name == state.taskType.name,
+            orElse: () => task_service.TaskType.simple,
+          ),
         );
       }
 

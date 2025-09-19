@@ -7,20 +7,20 @@ sealed class HomeEvent {
 }
 
 class LoadUserHomes extends HomeEvent {
-  final UserDocumentSnapshot user;
+  final User user;
 
   const LoadUserHomes({required this.user});
 }
 
 class SelectHome extends HomeEvent {
-  final HomeDocumentSnapshot home;
-  final UserDocumentReference user;
+  final Home home;
+  final String userId;
 
-  const SelectHome({required this.home, required this.user});
+  const SelectHome({required this.home, required this.userId});
 }
 
 class RefreshHomes extends HomeEvent {
-  final UserDocumentSnapshot user;
+  final User user;
 
   const RefreshHomes({required this.user});
 }

@@ -15,9 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TaskState {
 
- TaskUiStatus get uiStatus; String get title; String get description; DateTime? get dueDate; Priority get priority; List<UserDocumentReference> get assignedTo; List<SubTask> get subTasks; HomeDocumentReference? get home; TaskDocumentReference? get task;// null for creation, set for editing
- UserDocumentReference? get createdBy;// required for Task creation
- List<UserDocumentSnapshot> get availableMembers; String? get error; bool get hasUnsavedChanges;
+ TaskUiStatus get uiStatus; String get title; String get description; DateTime? get dueDate; Priority get priority; List<String> get assignedTo; List<SubTask> get subTasks; Home? get home; Task? get task;// null for creation, set for editing
+ String? get createdBy;// required for Task creation
+ List<User> get availableMembers; String? get error; bool get hasUnsavedChanges;
 /// Create a copy of TaskState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,12 +28,12 @@ $TaskStateCopyWith<TaskState> get copyWith => _$TaskStateCopyWithImpl<TaskState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other.assignedTo, assignedTo)&&const DeepCollectionEquality().equals(other.subTasks, subTasks)&&const DeepCollectionEquality().equals(other.home, home)&&const DeepCollectionEquality().equals(other.task, task)&&const DeepCollectionEquality().equals(other.createdBy, createdBy)&&const DeepCollectionEquality().equals(other.availableMembers, availableMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other.assignedTo, assignedTo)&&const DeepCollectionEquality().equals(other.subTasks, subTasks)&&(identical(other.home, home) || other.home == home)&&(identical(other.task, task) || other.task == task)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&const DeepCollectionEquality().equals(other.availableMembers, availableMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(assignedTo),const DeepCollectionEquality().hash(subTasks),const DeepCollectionEquality().hash(home),const DeepCollectionEquality().hash(task),const DeepCollectionEquality().hash(createdBy),const DeepCollectionEquality().hash(availableMembers),error,hasUnsavedChanges);
+int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(assignedTo),const DeepCollectionEquality().hash(subTasks),home,task,createdBy,const DeepCollectionEquality().hash(availableMembers),error,hasUnsavedChanges);
 
 @override
 String toString() {
@@ -48,11 +48,11 @@ abstract mixin class $TaskStateCopyWith<$Res>  {
   factory $TaskStateCopyWith(TaskState value, $Res Function(TaskState) _then) = _$TaskStateCopyWithImpl;
 @useResult
 $Res call({
- TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<UserDocumentReference> assignedTo, List<SubTask> subTasks, HomeDocumentReference? home, TaskDocumentReference? task, UserDocumentReference? createdBy, List<UserDocumentSnapshot> availableMembers, String? error, bool hasUnsavedChanges
+ TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<String> assignedTo, List<SubTask> subTasks, Home? home, Task? task, String? createdBy, List<User> availableMembers, String? error, bool hasUnsavedChanges
 });
 
 
-
+$HomeCopyWith<$Res>? get home;$TaskCopyWith<$Res>? get task;
 
 }
 /// @nodoc
@@ -73,17 +73,41 @@ as String,description: null == description ? _self.description : description // 
 as String,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
 as Priority,assignedTo: null == assignedTo ? _self.assignedTo : assignedTo // ignore: cast_nullable_to_non_nullable
-as List<UserDocumentReference>,subTasks: null == subTasks ? _self.subTasks : subTasks // ignore: cast_nullable_to_non_nullable
+as List<String>,subTasks: null == subTasks ? _self.subTasks : subTasks // ignore: cast_nullable_to_non_nullable
 as List<SubTask>,home: freezed == home ? _self.home : home // ignore: cast_nullable_to_non_nullable
-as HomeDocumentReference?,task: freezed == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
-as TaskDocumentReference?,createdBy: freezed == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
-as UserDocumentReference?,availableMembers: null == availableMembers ? _self.availableMembers : availableMembers // ignore: cast_nullable_to_non_nullable
-as List<UserDocumentSnapshot>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as Home?,task: freezed == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
+as Task?,createdBy: freezed == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as String?,availableMembers: null == availableMembers ? _self.availableMembers : availableMembers // ignore: cast_nullable_to_non_nullable
+as List<User>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,hasUnsavedChanges: null == hasUnsavedChanges ? _self.hasUnsavedChanges : hasUnsavedChanges // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
+/// Create a copy of TaskState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HomeCopyWith<$Res>? get home {
+    if (_self.home == null) {
+    return null;
+  }
 
+  return $HomeCopyWith<$Res>(_self.home!, (value) {
+    return _then(_self.copyWith(home: value));
+  });
+}/// Create a copy of TaskState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TaskCopyWith<$Res>? get task {
+    if (_self.task == null) {
+    return null;
+  }
+
+  return $TaskCopyWith<$Res>(_self.task!, (value) {
+    return _then(_self.copyWith(task: value));
+  });
+}
 }
 
 
@@ -91,7 +115,7 @@ as bool,
 
 
 class _TaskState extends TaskState {
-  const _TaskState({this.uiStatus = TaskUiStatus.initial, this.title = '', this.description = '', this.dueDate, this.priority = Priority.medium, final  List<UserDocumentReference> assignedTo = const [], final  List<SubTask> subTasks = const [], this.home, this.task, this.createdBy, final  List<UserDocumentSnapshot> availableMembers = const [], this.error, this.hasUnsavedChanges = false}): _assignedTo = assignedTo,_subTasks = subTasks,_availableMembers = availableMembers,super._();
+  const _TaskState({this.uiStatus = TaskUiStatus.initial, this.title = '', this.description = '', this.dueDate, this.priority = Priority.medium, final  List<String> assignedTo = const [], final  List<SubTask> subTasks = const [], this.home, this.task, this.createdBy, final  List<User> availableMembers = const [], this.error, this.hasUnsavedChanges = false}): _assignedTo = assignedTo,_subTasks = subTasks,_availableMembers = availableMembers,super._();
   
 
 @override@JsonKey() final  TaskUiStatus uiStatus;
@@ -99,8 +123,8 @@ class _TaskState extends TaskState {
 @override@JsonKey() final  String description;
 @override final  DateTime? dueDate;
 @override@JsonKey() final  Priority priority;
- final  List<UserDocumentReference> _assignedTo;
-@override@JsonKey() List<UserDocumentReference> get assignedTo {
+ final  List<String> _assignedTo;
+@override@JsonKey() List<String> get assignedTo {
   if (_assignedTo is EqualUnmodifiableListView) return _assignedTo;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_assignedTo);
@@ -113,14 +137,14 @@ class _TaskState extends TaskState {
   return EqualUnmodifiableListView(_subTasks);
 }
 
-@override final  HomeDocumentReference? home;
-@override final  TaskDocumentReference? task;
+@override final  Home? home;
+@override final  Task? task;
 // null for creation, set for editing
-@override final  UserDocumentReference? createdBy;
+@override final  String? createdBy;
 // required for Task creation
- final  List<UserDocumentSnapshot> _availableMembers;
+ final  List<User> _availableMembers;
 // required for Task creation
-@override@JsonKey() List<UserDocumentSnapshot> get availableMembers {
+@override@JsonKey() List<User> get availableMembers {
   if (_availableMembers is EqualUnmodifiableListView) return _availableMembers;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_availableMembers);
@@ -139,12 +163,12 @@ _$TaskStateCopyWith<_TaskState> get copyWith => __$TaskStateCopyWithImpl<_TaskSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other._assignedTo, _assignedTo)&&const DeepCollectionEquality().equals(other._subTasks, _subTasks)&&const DeepCollectionEquality().equals(other.home, home)&&const DeepCollectionEquality().equals(other.task, task)&&const DeepCollectionEquality().equals(other.createdBy, createdBy)&&const DeepCollectionEquality().equals(other._availableMembers, _availableMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other._assignedTo, _assignedTo)&&const DeepCollectionEquality().equals(other._subTasks, _subTasks)&&(identical(other.home, home) || other.home == home)&&(identical(other.task, task) || other.task == task)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&const DeepCollectionEquality().equals(other._availableMembers, _availableMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(_assignedTo),const DeepCollectionEquality().hash(_subTasks),const DeepCollectionEquality().hash(home),const DeepCollectionEquality().hash(task),const DeepCollectionEquality().hash(createdBy),const DeepCollectionEquality().hash(_availableMembers),error,hasUnsavedChanges);
+int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(_assignedTo),const DeepCollectionEquality().hash(_subTasks),home,task,createdBy,const DeepCollectionEquality().hash(_availableMembers),error,hasUnsavedChanges);
 
 @override
 String toString() {
@@ -159,11 +183,11 @@ abstract mixin class _$TaskStateCopyWith<$Res> implements $TaskStateCopyWith<$Re
   factory _$TaskStateCopyWith(_TaskState value, $Res Function(_TaskState) _then) = __$TaskStateCopyWithImpl;
 @override @useResult
 $Res call({
- TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<UserDocumentReference> assignedTo, List<SubTask> subTasks, HomeDocumentReference? home, TaskDocumentReference? task, UserDocumentReference? createdBy, List<UserDocumentSnapshot> availableMembers, String? error, bool hasUnsavedChanges
+ TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<String> assignedTo, List<SubTask> subTasks, Home? home, Task? task, String? createdBy, List<User> availableMembers, String? error, bool hasUnsavedChanges
 });
 
 
-
+@override $HomeCopyWith<$Res>? get home;@override $TaskCopyWith<$Res>? get task;
 
 }
 /// @nodoc
@@ -184,18 +208,42 @@ as String,description: null == description ? _self.description : description // 
 as String,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
 as Priority,assignedTo: null == assignedTo ? _self._assignedTo : assignedTo // ignore: cast_nullable_to_non_nullable
-as List<UserDocumentReference>,subTasks: null == subTasks ? _self._subTasks : subTasks // ignore: cast_nullable_to_non_nullable
+as List<String>,subTasks: null == subTasks ? _self._subTasks : subTasks // ignore: cast_nullable_to_non_nullable
 as List<SubTask>,home: freezed == home ? _self.home : home // ignore: cast_nullable_to_non_nullable
-as HomeDocumentReference?,task: freezed == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
-as TaskDocumentReference?,createdBy: freezed == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
-as UserDocumentReference?,availableMembers: null == availableMembers ? _self._availableMembers : availableMembers // ignore: cast_nullable_to_non_nullable
-as List<UserDocumentSnapshot>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as Home?,task: freezed == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
+as Task?,createdBy: freezed == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as String?,availableMembers: null == availableMembers ? _self._availableMembers : availableMembers // ignore: cast_nullable_to_non_nullable
+as List<User>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,hasUnsavedChanges: null == hasUnsavedChanges ? _self.hasUnsavedChanges : hasUnsavedChanges // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
 
+/// Create a copy of TaskState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HomeCopyWith<$Res>? get home {
+    if (_self.home == null) {
+    return null;
+  }
 
+  return $HomeCopyWith<$Res>(_self.home!, (value) {
+    return _then(_self.copyWith(home: value));
+  });
+}/// Create a copy of TaskState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TaskCopyWith<$Res>? get task {
+    if (_self.task == null) {
+    return null;
+  }
+
+  return $TaskCopyWith<$Res>(_self.task!, (value) {
+    return _then(_self.copyWith(task: value));
+  });
+}
 }
 
 // dart format on

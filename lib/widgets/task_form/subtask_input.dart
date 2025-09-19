@@ -58,6 +58,7 @@ class _SubTaskInputState extends State<SubTaskInput> {
                     onChanged: (value) =>
                         widget.onSubTaskTitleChanged(index, value),
                     style: context.textTheme.bodyMedium,
+                    textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
                       hintText: context.s.task_subtask_hint,
                       hintStyle: context.textTheme.bodyMedium?.copyWith(

@@ -8,9 +8,9 @@ enum TasksUiStatus { initial, loading, loaded, deleting, error }
 @freezed
 abstract class TasksState with _$TasksState {
   const factory TasksState({
-    HomeDocumentReference? home,
+    Home? home,
     @Default(TasksUiStatus.initial) TasksUiStatus uiStatus,
-    TaskQuery? tasksQuery,
+    @Default([]) List<Task> tasks,
     @Default({}) Map<String, int> taskStats,
     TaskFilters? filters,
     TaskSort? sort,
@@ -25,14 +25,14 @@ enum SortOrder { ascending, descending }
 
 class TaskFilters {
   final TaskStatus? status;
-  final UserDocumentReference? assignedTo;
+  final String? assignedToUserId;
   final Priority? priority;
   final TaskType? type;
   final bool showMyTasksOnly;
 
   const TaskFilters({
     this.status,
-    this.assignedTo,
+    this.assignedToUserId,
     this.priority,
     this.type,
     this.showMyTasksOnly = false,

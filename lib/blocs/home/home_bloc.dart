@@ -24,24 +24,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       emit(state.copyWith(uiStatus: HomeUiStatus.loading));
 
-      final user = event.user.data!;
+      final user = event.user;
 
-      // Get homes from User's home references
-      final homeIds = user.homes.map((home) => home.id).toList();
+      logger.info('Loading homes for user ${user.name}');
 
-      if (homeIds.isEmpty) {
+      final homes = await _homeService.getUserHomes(user.id);
+
+      if (homes.isEmpty) {
         logger.info('User has no homes');
         emit(state.copyWith(userHomes: [], uiStatus: HomeUiStatus.loaded));
         return;
       }
-
-      logger.info('Loading homes for user ${user.name} with homeIds: $homeIds');
-
-      final homesSnapshot = await homesRef
-          .whereDocumentId(whereIn: homeIds)
-          .get();
-
-      final homes = homesSnapshot.docs;
 
       final selectedHome = homes.firstOrNull;
 
@@ -65,27 +58,38 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       logger.info('Selecting home: ${event.home.id}');
 
       // Find the home in the current list
-      HomeDocumentSnapshot? selectedHome;
+      Home? selectedHome;
       try {
-        selectedHome = state.userHomes.firstWhere((home) => home == event.home);
+        selectedHome = state.userHomes.firstWhere(
+          (home) => home.id == event.home.id,
+        );
       } catch (e) {
-        throw Exception('Home not found: ${event.home}');
+        throw Exception('Home not found: ${event.home.id}');
       }
 
       // Get user permissions for this home
       final permissions = await _homeService.getUserPermissions(
-        event.home.reference,
-        event.user,
+        homeId: event.home.id,
+        userId: event.userId,
       );
 
       emit(
         state.copyWith(
           selectedHome: selectedHome,
-          currentUserPermissions: permissions,
+          currentUserPermissions: permissions != null
+              ? HomeMemberPermissions(
+                  canCreateTasks: permissions.canCreateTasks,
+                  canEditTasks: permissions.canEditTasks,
+                  canDeleteTasks: permissions.canDeleteTasks,
+                  canInviteMembers: permissions.canInviteMembers,
+                  canViewAllCalendars: permissions.canViewAllCalendars,
+                  isAdmin: permissions.isAdmin,
+                )
+              : null,
         ),
       );
 
-      logger.info('Home selected successfully: ${selectedHome.data!.name}');
+      logger.info('Home selected successfully: ${selectedHome.name}');
     } catch (e) {
       logger.error('Error selecting home: $e');
       emit(state.copyWith(uiStatus: HomeUiStatus.error, error: e.toString()));
