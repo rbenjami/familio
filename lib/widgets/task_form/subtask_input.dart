@@ -23,6 +23,7 @@ class SubTaskInput extends StatefulWidget {
 
 class _SubTaskInputState extends State<SubTaskInput> {
   final _addController = TextEditingController();
+  bool addSubTaskHasFocus = false;
 
   @override
   void dispose() {
@@ -54,12 +55,15 @@ class _SubTaskInputState extends State<SubTaskInput> {
                 Expanded(
                   child: TextField(
                     controller: TextEditingController(text: subTask.title),
-                    onChanged: (value) => widget.onSubTaskTitleChanged(index, value),
+                    onChanged: (value) =>
+                        widget.onSubTaskTitleChanged(index, value),
                     style: context.textTheme.bodyMedium,
                     decoration: InputDecoration(
                       hintText: context.s.task_subtask_hint,
                       hintStyle: context.textTheme.bodyMedium?.copyWith(
-                        color: context.colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: context.colorScheme.onSurface.withValues(
+                          alpha: 0.6,
+                        ),
                       ),
                       border: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -83,83 +87,34 @@ class _SubTaskInputState extends State<SubTaskInput> {
         }),
 
         // Add new subtask button
-        InkWell(
-          onTap: _showAddSubTaskInput,
-          borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
-            child: Row(
-              children: [
-                PhosphorIcon(
-                  PhosphorIconsDuotone.plus,
-                  size: 16,
-                  color: context.colorScheme.primary,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  context.s.task_add_subtask,
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: context.colorScheme.primary,
-                  ),
-                ),
-              ],
+        Focus(
+          onFocusChange: (hasFocus) =>
+              setState(() => addSubTaskHasFocus = hasFocus),
+          child: TextField(
+            controller: _addController,
+            onChanged: (value) =>
+                widget.onSubTaskTitleChanged(widget.subTasks.length, value),
+            style: context.textTheme.bodyMedium,
+            decoration: InputDecoration(
+              prefixIcon: PhosphorIcon(
+                PhosphorIconsDuotone.plusCircle,
+                size: 16,
+                color: context.colorScheme.primary,
+              ),
+              hintText: context.s.task_add_subtask,
+              hintStyle: context.textTheme.bodyMedium?.copyWith(
+                color: context.colorScheme.primary,
+              ),
+              border: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              // contentPadding: const EdgeInsets.symmetric(vertical: 8),
+              fillColor: Colors.transparent,
+              filled: true,
             ),
           ),
         ),
       ],
     );
-  }
-
-  void _showAddSubTaskInput() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => Container(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 16,
-          bottom: context.mediaQuery.viewInsets.bottom + 16,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _addController,
-              autofocus: true,
-              textInputAction: TextInputAction.done,
-              onSubmitted: _addSubTask,
-              style: context.textTheme.bodyLarge,
-              decoration: InputDecoration(
-                hintText: context.s.task_subtask_placeholder,
-                hintStyle: context.textTheme.bodyLarge?.copyWith(
-                  color: context.colorScheme.onSurface.withValues(alpha: 0.6),
-                ),
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(vertical: 12),
-              ),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => _addSubTask(_addController.text),
-                child: Text(context.s.task_add_subtask_button),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _addSubTask(String title) {
-    if (title.trim().isNotEmpty) {
-      widget.onSubTaskAdded(title.trim());
-      _addController.clear();
-      Navigator.pop(context);
-    }
   }
 }

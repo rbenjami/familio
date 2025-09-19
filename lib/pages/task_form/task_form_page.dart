@@ -219,11 +219,13 @@ class _TaskFormPageState extends State<TaskFormPage> {
   }
 
   Future<void> _showDatePicker(BuildContext context, TaskState state) async {
+    final now = DateTime.now();
+    final initialDate = state.dueDate ?? now;
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: state.dueDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialDate: initialDate,
+      firstDate: initialDate.isBefore(now) ? initialDate : now,
+      lastDate: initialDate.add(const Duration(days: 365)),
     );
 
     if (picked != null) {

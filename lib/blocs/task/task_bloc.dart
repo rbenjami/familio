@@ -146,9 +146,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     Emitter<TaskState> emit,
   ) async {
     final updatedSubTasks = List<SubTask>.from(state.subTasks);
-    updatedSubTasks[event.index] = updatedSubTasks[event.index].copyWith(
-      title: event.title,
-    );
+
+    if (event.index == updatedSubTasks.length) {
+      updatedSubTasks.add(SubTask(title: event.title, isCompleted: false));
+    } else {
+      updatedSubTasks[event.index] = updatedSubTasks[event.index].copyWith(
+        title: event.title,
+      );
+    }
 
     emit(state.copyWith(subTasks: updatedSubTasks, hasUnsavedChanges: true));
   }
