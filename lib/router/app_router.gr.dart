@@ -10,15 +10,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
-import 'package:familio/data/models/models.dart' as _i12;
-import 'package:familio/data/models/supabase/home.dart' as _i11;
+import 'package:familio/data/models/models.dart' as _i11;
 import 'package:familio/pages/auth/auth_page.dart' as _i1;
 import 'package:familio/pages/calendar/calendar_page.dart' as _i2;
 import 'package:familio/pages/home/home_page.dart' as _i3;
 import 'package:familio/pages/main/main_page.dart' as _i4;
 import 'package:familio/pages/profile/profile_page.dart' as _i5;
 import 'package:familio/pages/splash/splash_page.dart' as _i6;
-import 'package:familio/pages/task_form/task_form_page.dart' as _i7;
+import 'package:familio/pages/task_details/task_details_page.dart' as _i7;
 import 'package:familio/pages/tasks/tasks_page.dart' as _i8;
 import 'package:flutter/material.dart' as _i10;
 
@@ -119,16 +118,16 @@ class SplashRoute extends _i9.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.TaskFormPage]
-class TaskFormRoute extends _i9.PageRouteInfo<TaskFormRouteArgs> {
-  TaskFormRoute({
+/// [_i7.TaskDetailsPage]
+class TaskDetailsRoute extends _i9.PageRouteInfo<TaskDetailsRouteArgs> {
+  TaskDetailsRoute({
     _i10.Key? key,
     required _i11.Home home,
-    _i12.Task? existingTask,
+    _i11.Task? existingTask,
     List<_i9.PageRouteInfo>? children,
   }) : super(
-         TaskFormRoute.name,
-         args: TaskFormRouteArgs(
+         TaskDetailsRoute.name,
+         args: TaskDetailsRouteArgs(
            key: key,
            home: home,
            existingTask: existingTask,
@@ -136,13 +135,13 @@ class TaskFormRoute extends _i9.PageRouteInfo<TaskFormRouteArgs> {
          initialChildren: children,
        );
 
-  static const String name = 'TaskFormRoute';
+  static const String name = 'TaskDetailsRoute';
 
   static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<TaskFormRouteArgs>();
-      return _i7.TaskFormPage(
+      final args = data.argsAs<TaskDetailsRouteArgs>();
+      return _i7.TaskDetailsPage(
         key: args.key,
         home: args.home,
         existingTask: args.existingTask,
@@ -151,24 +150,24 @@ class TaskFormRoute extends _i9.PageRouteInfo<TaskFormRouteArgs> {
   );
 }
 
-class TaskFormRouteArgs {
-  const TaskFormRouteArgs({this.key, required this.home, this.existingTask});
+class TaskDetailsRouteArgs {
+  const TaskDetailsRouteArgs({this.key, required this.home, this.existingTask});
 
   final _i10.Key? key;
 
   final _i11.Home home;
 
-  final _i12.Task? existingTask;
+  final _i11.Task? existingTask;
 
   @override
   String toString() {
-    return 'TaskFormRouteArgs{key: $key, home: $home, existingTask: $existingTask}';
+    return 'TaskDetailsRouteArgs{key: $key, home: $home, existingTask: $existingTask}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other is! TaskFormRouteArgs) return false;
+    if (other is! TaskDetailsRouteArgs) return false;
     return key == other.key &&
         home == other.home &&
         existingTask == other.existingTask;

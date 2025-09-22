@@ -28,7 +28,7 @@ abstract class TaskState with _$TaskState {
     @Default([]) List<SubTask> subTasks,
     Home? home,
     Task? task, // null for creation, set for editing
-    @Default([]) List<User> availableMembers,
+    @Default([]) List<User> availableUserMembers,
     String? error,
     @Default(false) bool hasUnsavedChanges,
   }) = _TaskState;
@@ -37,30 +37,4 @@ abstract class TaskState with _$TaskState {
 
   bool get isEditing => task != null;
   bool get isValid => title.trim().isNotEmpty;
-
-  TaskType get taskType {
-    if (subTasks.isNotEmpty) return TaskType.checklist;
-    if (dueDate != null) return TaskType.scheduled;
-    return TaskType.simple;
-  }
-
-  Task toTask() {
-    return Task(
-      id: task?.id ?? '',
-      homeId: home?.id ?? '',
-      title: title.trim(),
-      description: description.trim().isEmpty ? null : description.trim(),
-      createdById: createdBy ?? '',
-      status: TaskStatus.todo.name,
-      dueDate: dueDate,
-      priority: priority.name,
-      taskType: taskType.name,
-      startDate: null,
-      estimatedDurationMinutes: null,
-      location: null,
-      tags: [],
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
-  }
 }

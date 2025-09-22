@@ -1,22 +1,25 @@
 import 'dart:async';
+import 'package:familio/data/services/home_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:familio/blocs/task/task_event.dart';
 import 'package:familio/blocs/task/task_state.dart';
-import 'package:familio/data/services/task_service.dart' as task_service;
+import 'package:familio/data/services/task_service.dart';
 import 'package:familio/data/models/models.dart';
 import 'package:familio/core/logging/logger_service.dart';
 import 'package:familio/di/injection.dart';
 
 @injectable
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  final task_service.TaskService _taskService;
+  final TaskService _taskService;
+  final HomeService _homeService;
 
   final Home home;
   final Task? existingTask;
 
   TaskBloc(
-    this._taskService, {
+    this._taskService,
+    this._homeService, {
     @factoryParam required this.home,
     @factoryParam this.existingTask,
   }) : super(const TaskState()) {
@@ -26,9 +29,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TaskDueDateChanged>(_onDueDateChanged);
     on<TaskPriorityChanged>(_onPriorityChanged);
     on<TaskAssigneeToggled>(_onAssigneeToggled);
-    on<SubTaskAdded>(_onSubTaskAdded);
     on<SubTaskRemoved>(_onSubTaskRemoved);
     on<SubTaskTitleChanged>(_onSubTaskTitleChanged);
+    on<SubTaskToggled>(_onSubTaskToggled);
     on<TaskSubmitted>(_onSubmitted);
   }
 
@@ -39,13 +42,21 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     emit(state.copyWith(uiStatus: TaskUiStatus.loading));
 
     try {
-      // TODO Load available members for the home
-      // For now, we'll use an empty list - this would be populated from home members
-      final availableMembers = <User>[];
+      final availableUserMembers = await _homeService.getHomeUserMembers(
+        home.id,
+      );
 
       if (existingTask != null) {
         // Editing mode
         final task = existingTask!;
+
+        // Load subtasks from database
+        final subTasks = await _taskService.getSubTasks(task.id);
+
+        // Load task assignees
+        final assignees = await _taskService.getTaskAssignees(task.id);
+        final assignedUserIds = assignees.map((a) => a.userId).toList();
+
         emit(
           state.copyWith(
             uiStatus: TaskUiStatus.loaded,
@@ -58,10 +69,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               (p) => p.name == task.priority,
               orElse: () => Priority.medium,
             ),
-            assignedTo: [], // TODO: Load from TaskAssignee table
-            subTasks: [], // TODO: Load from SubTask table
-            createdBy: task.createdById,
-            availableMembers: availableMembers,
+            assignedTo: assignedUserIds,
+            subTasks: subTasks,
+            availableUserMembers: availableUserMembers,
           ),
         );
       } else {
@@ -70,7 +80,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           state.copyWith(
             uiStatus: TaskUiStatus.loaded,
             home: home,
-            availableMembers: availableMembers,
+            availableUserMembers: availableUserMembers,
           ),
         );
       }
@@ -124,30 +134,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     emit(state.copyWith(assignedTo: currentAssignees, hasUnsavedChanges: true));
   }
 
-  Future<void> _onSubTaskAdded(
-    SubTaskAdded event,
-    Emitter<TaskState> emit,
-  ) async {
-    final newSubTask = SubTask(
-      id: '', // Will be generated when saved
-      taskId: state.task?.id ?? '',
-      title: event.title,
-      isCompleted: false,
-      orderIndex: state.subTasks.length,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
-    final updatedSubTasks = List<SubTask>.from(state.subTasks)..add(newSubTask);
-
-    emit(state.copyWith(subTasks: updatedSubTasks, hasUnsavedChanges: true));
-  }
-
   Future<void> _onSubTaskRemoved(
     SubTaskRemoved event,
     Emitter<TaskState> emit,
   ) async {
     final updatedSubTasks = List<SubTask>.from(state.subTasks)
-      ..removeAt(event.index);
+      ..removeWhere((s) => s.id == event.id);
 
     emit(state.copyWith(subTasks: updatedSubTasks, hasUnsavedChanges: true));
   }
@@ -157,23 +149,36 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     Emitter<TaskState> emit,
   ) async {
     final updatedSubTasks = List<SubTask>.from(state.subTasks);
-
-    if (event.index == updatedSubTasks.length) {
+    if (event.id.isEmpty) {
       final newSubTask = SubTask(
         id: '', // Will be generated when saved
         taskId: state.task?.id ?? '',
         title: event.title,
         isCompleted: false,
-        orderIndex: event.index,
+        orderIndex: state.subTasks.length,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );
       updatedSubTasks.add(newSubTask);
     } else {
-      updatedSubTasks[event.index] = updatedSubTasks[event.index].copyWith(
+      final subTaskIndex = state.subTasks.indexWhere((s) => s.id == event.id);
+      updatedSubTasks[subTaskIndex] = updatedSubTasks[subTaskIndex].copyWith(
         title: event.title,
       );
     }
+
+    emit(state.copyWith(subTasks: updatedSubTasks, hasUnsavedChanges: true));
+  }
+
+  Future<void> _onSubTaskToggled(
+    SubTaskToggled event,
+    Emitter<TaskState> emit,
+  ) async {
+    final updatedSubTasks = List<SubTask>.from(state.subTasks);
+    final subTaskIndex = state.subTasks.indexWhere((s) => s.id == event.id);
+    updatedSubTasks[subTaskIndex] = updatedSubTasks[subTaskIndex].copyWith(
+      isCompleted: event.isCompleted,
+    );
 
     emit(state.copyWith(subTasks: updatedSubTasks, hasUnsavedChanges: true));
   }
@@ -201,25 +206,52 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     );
 
     try {
+      Task task;
       if (state.isEditing) {
-        await _taskService.updateTask(
+        task = await _taskService.updateTask(
           taskId: state.task!.id,
           title: state.title.trim(),
           description: state.description.trim().isEmpty
               ? null
               : state.description.trim(),
           dueDate: state.dueDate,
-          priority: task_service.TaskPriority.values.firstWhere(
-            (p) => p.name == state.priority.name,
-            orElse: () => task_service.TaskPriority.medium,
-          ),
-          type: task_service.TaskType.values.firstWhere(
-            (t) => t.name == state.taskType.name,
-            orElse: () => task_service.TaskType.simple,
-          ),
+          priority: state.priority,
         );
+
+        // Handle subtasks for update
+        // First, get existing subtasks from database
+        final existingSubTasks = await _taskService.getSubTasks(task.id);
+
+        // Delete removed subtasks
+        for (final existingSubTask in existingSubTasks) {
+          if (!state.subTasks.any((s) => s.id == existingSubTask.id)) {
+            await _taskService.deleteSubTask(existingSubTask.id);
+          }
+        }
+
+        // Update or create subtasks
+        for (int i = 0; i < state.subTasks.length; i++) {
+          final subTask = state.subTasks[i];
+          if (subTask.id.isNotEmpty &&
+              existingSubTasks.any((s) => s.id == subTask.id)) {
+            // Update existing subtask
+            await _taskService.updateSubTask(
+              subTaskId: subTask.id,
+              title: subTask.title,
+              isCompleted: subTask.isCompleted,
+              orderIndex: i,
+            );
+          } else {
+            // Create new subtask
+            await _taskService.createSubTask(
+              taskId: task.id,
+              title: subTask.title,
+              orderIndex: i,
+            );
+          }
+        }
       } else {
-        await _taskService.createTask(
+        task = await _taskService.createTask(
           homeId: state.home!.id,
           title: state.title.trim(),
           description: state.description.trim().isEmpty
@@ -227,15 +259,18 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               : state.description.trim(),
           assignedToUserIds: state.assignedTo,
           dueDate: state.dueDate,
-          priority: task_service.TaskPriority.values.firstWhere(
-            (p) => p.name == state.priority.name,
-            orElse: () => task_service.TaskPriority.medium,
-          ),
-          type: task_service.TaskType.values.firstWhere(
-            (t) => t.name == state.taskType.name,
-            orElse: () => task_service.TaskType.simple,
-          ),
+          priority: state.priority,
         );
+
+        // Create subtasks for new task
+        for (int i = 0; i < state.subTasks.length; i++) {
+          final subTask = state.subTasks[i];
+          await _taskService.createSubTask(
+            taskId: task.id,
+            title: subTask.title,
+            orderIndex: i,
+          );
+        }
       }
 
       emit(

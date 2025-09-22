@@ -75,7 +75,7 @@ class _TasksPageState extends State<TasksPage> {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _showCreateTaskDialog(context),
+          onPressed: () => _navigateToCreateTask(context),
           child: PhosphorIcon(PhosphorIconsDuotone.plusCircle),
         ),
       ),
@@ -110,7 +110,7 @@ class _TasksPageState extends State<TasksPage> {
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(
-            onPressed: () => _showCreateTaskDialog(context),
+            onPressed: () => _navigateToCreateTask(context),
             icon: PhosphorIcon(PhosphorIconsDuotone.plusCircle),
             label: Text(context.s.tasks_create_button),
           ),
@@ -137,18 +137,12 @@ class _TasksPageState extends State<TasksPage> {
                     return TaskListItem(
                       task: task,
                       onStatusChanged: (status) => _tasksBloc.add(
-                        UpdateTaskStatus(
-                          task: task,
-                          status: status,
-                        ),
+                        UpdateTaskStatus(task: task, status: status),
                       ),
                       onSubTaskToggled: (subTaskIndex) => _tasksBloc.add(
-                        ToggleSubTask(
-                          task: task,
-                          subTaskIndex: subTaskIndex,
-                        ),
+                        ToggleSubTask(task: task, subTaskIndex: subTaskIndex),
                       ),
-                      onTap: () => _showTaskDetails(context, task),
+                      onTap: () => _navigateToTaskDetails(context, task),
                     );
                   },
                 ),
@@ -197,7 +191,6 @@ class _TasksPageState extends State<TasksPage> {
             status: filters.status,
             assignedToUserId: filters.assignedToUserId,
             priority: filters.priority,
-            type: filters.type,
             showMyTasksOnly: filters.showMyTasksOnly,
           ),
         ),
@@ -213,21 +206,23 @@ class _TasksPageState extends State<TasksPage> {
     );
   }
 
-  void _showCreateTaskDialog(BuildContext context) {
+  void _navigateToCreateTask(BuildContext context) async {
     final homeState = _homeBloc.state;
     if (homeState.selectedHome != null) {
-      context.router.push(
-        TaskFormRoute(home: homeState.selectedHome!),
+      await context.router.push(
+        TaskDetailsRoute(home: homeState.selectedHome!, existingTask: null),
       );
+      _tasksBloc.add(LoadTasks(home: homeState.selectedHome!));
     }
   }
 
-  void _showTaskDetails(BuildContext context, Task task) {
+  void _navigateToTaskDetails(BuildContext context, Task task) async {
     final homeState = _homeBloc.state;
     if (homeState.selectedHome != null) {
-      context.router.push(
-        TaskFormRoute(home: homeState.selectedHome!, existingTask: task),
+      await context.router.push(
+        TaskDetailsRoute(home: homeState.selectedHome!, existingTask: task),
       );
+      _tasksBloc.add(LoadTasks(home: homeState.selectedHome!));
     }
   }
 }

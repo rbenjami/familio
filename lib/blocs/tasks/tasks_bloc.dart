@@ -27,25 +27,9 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
       final tasks = await _taskService.getTasksForHome(
         homeId: event.home.id,
-        status: state.filters?.status != null
-            ? TaskStatus.values.firstWhere(
-                (s) => s.name == state.filters!.status!.name,
-                orElse: () => TaskStatus.pending,
-              )
-            : null,
+        status: state.filters?.status,
         assignedToUserId: state.filters?.assignedToUserId,
-        priority: state.filters?.priority != null
-            ? TaskPriority.values.firstWhere(
-                (p) => p.name == state.filters!.priority!.name,
-                orElse: () => TaskPriority.medium,
-              )
-            : null,
-        type: state.filters?.type != null
-            ? TaskType.values.firstWhere(
-                (t) => t.name == state.filters!.type!.name,
-                orElse: () => TaskType.simple,
-              )
-            : null,
+        priority: state.filters?.priority,
       );
 
       // Load task stats
@@ -58,8 +42,8 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
           uiStatus: TasksUiStatus.loaded,
         ),
       );
-    } catch (e) {
-      logger.error('Error in _onLoadTasks: $e');
+    } catch (e, s) {
+      logger.error('Error in _onLoadTasks: $e', e, s);
       emit(state.copyWith(uiStatus: TasksUiStatus.error, error: e.toString()));
     }
   }
@@ -69,21 +53,25 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     Emitter<TasksState> emit,
   ) async {
     try {
-      await _taskService.updateTask(
+      final updatedTask = await _taskService.updateTask(
         taskId: event.task.id,
-        status: TaskStatus.values.firstWhere(
-          (s) => s.name == event.status.name,
-          orElse: () => TaskStatus.pending,
-        ),
+        status: event.status,
       );
 
       logger.info('Task status updated successfully');
 
       // Refresh stats
-      // final stats = await _taskService.getTaskStats(homeId: event.homeId);
-      // emit(state.copyWith(taskStats: stats));
-    } catch (e) {
-      logger.error('Error updating task status: $e');
+      final stats = await _taskService.getTaskStats(homeId: event.task.homeId);
+      emit(
+        state.copyWith(
+          taskStats: stats,
+          tasks: state.tasks
+              .map((task) => task.id == event.task.id ? updatedTask : task)
+              .toList(),
+        ),
+      );
+    } catch (e, s) {
+      logger.error('Error updating task status: $e', e, s);
       emit(state.copyWith(uiStatus: TasksUiStatus.error, error: e.toString()));
     }
   }
@@ -97,8 +85,8 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       logger.info('SubTask toggle requested for task: ${event.task.id}');
 
       logger.info('SubTask toggled successfully');
-    } catch (e) {
-      logger.error('Error toggling subtask: $e');
+    } catch (e, s) {
+      logger.error('Error toggling subtask: $e', e, s);
       emit(state.copyWith(uiStatus: TasksUiStatus.error, error: e.toString()));
     }
   }
@@ -107,18 +95,21 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     try {
       emit(state.copyWith(uiStatus: TasksUiStatus.deleting));
 
-      await _taskService.deleteTask(event.taskRef.id);
+      await _taskService.deleteTask(event.task.id);
 
       logger.info('Task deleted successfully');
       emit(state.copyWith(uiStatus: TasksUiStatus.loaded));
 
       // Refresh stats
-      // final stats = await _taskService.getTaskStats(
-      //   homeId: state.currentHomeId!,
-      // );
-      // emit(state.copyWith(taskStats: stats));
-    } catch (e) {
-      logger.error('Error deleting task: $e');
+      final stats = await _taskService.getTaskStats(homeId: event.task.homeId);
+      emit(
+        state.copyWith(
+          taskStats: stats,
+          tasks: state.tasks.where((task) => task.id != event.task.id).toList(),
+        ),
+      );
+    } catch (e, s) {
+      logger.error('Error deleting task: $e', e, s);
       emit(state.copyWith(uiStatus: TasksUiStatus.error, error: e.toString()));
     }
   }
@@ -128,7 +119,6 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       status: event.status,
       assignedToUserId: event.assignedToUserId,
       priority: event.priority,
-      type: event.type,
       showMyTasksOnly: event.showMyTasksOnly ?? false,
     );
 

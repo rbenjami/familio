@@ -27,23 +27,21 @@ class ToggleSubTask extends TasksEvent {
 }
 
 class DeleteTask extends TasksEvent {
-  final Task taskRef;
+  final Task task;
 
-  const DeleteTask({required this.taskRef});
+  const DeleteTask({required this.task});
 }
 
 class ApplyFilters extends TasksEvent {
   final TaskStatus? status;
   final String? assignedToUserId;
   final Priority? priority;
-  final TaskType? type;
   final bool? showMyTasksOnly;
 
   const ApplyFilters({
     this.status,
     this.assignedToUserId,
     this.priority,
-    this.type,
     this.showMyTasksOnly,
   });
 }

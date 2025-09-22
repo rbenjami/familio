@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:familio/data/models/models.dart';
@@ -5,15 +6,15 @@ import 'package:familio/core/utils/context_ext.dart';
 
 class SubTaskInput extends StatefulWidget {
   final List<SubTask> subTasks;
-  final Function(String) onSubTaskAdded;
-  final Function(int) onSubTaskRemoved;
-  final Function(int, String) onSubTaskTitleChanged;
+  final Function(String) onSubTaskRemoved;
+  final Function(String, bool) onSubTaskToggled;
+  final Function(String, String) onSubTaskTitleChanged;
 
   const SubTaskInput({
     super.key,
     required this.subTasks,
-    required this.onSubTaskAdded,
     required this.onSubTaskRemoved,
+    required this.onSubTaskToggled,
     required this.onSubTaskTitleChanged,
   });
 
@@ -23,11 +24,12 @@ class SubTaskInput extends StatefulWidget {
 
 class _SubTaskInputState extends State<SubTaskInput> {
   final _addController = TextEditingController();
-  bool addSubTaskHasFocus = false;
+  final _lastSubTaskFocusNode = FocusNode();
 
   @override
   void dispose() {
     _addController.dispose();
+    _lastSubTaskFocusNode.dispose();
     super.dispose();
   }
 
@@ -37,81 +39,97 @@ class _SubTaskInputState extends State<SubTaskInput> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Existing subtasks
-        ...widget.subTasks.asMap().entries.map((entry) {
-          final index = entry.key;
-          final subTask = entry.value;
+        ...widget.subTasks
+            .sortedBy((subTask) => subTask.orderIndex)
+            .asMap()
+            .entries
+            .map((entry) {
+              final index = entry.key;
+              final subTask = entry.value;
+              final isLastSubTask = index == widget.subTasks.length - 1;
 
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              children: [
-                Text(
-                  '•',
-                  style: context.textTheme.bodyLarge?.copyWith(
-                    color: context.colorScheme.onSurface.withValues(alpha: 0.6),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: TextField(
-                    controller: TextEditingController(text: subTask.title),
-                    onChanged: (value) =>
-                        widget.onSubTaskTitleChanged(index, value),
-                    style: context.textTheme.bodyMedium,
-                    textCapitalization: TextCapitalization.sentences,
-                    decoration: InputDecoration(
-                      hintText: context.s.task_subtask_hint,
-                      hintStyle: context.textTheme.bodyMedium?.copyWith(
-                        color: context.colorScheme.onSurface.withValues(
-                          alpha: 0.6,
-                        ),
-                      ),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(vertical: 8),
+              return Row(
+                children: [
+                  IconButton(
+                    icon: PhosphorIcon(
+                      subTask.isCompleted
+                          ? PhosphorIconsDuotone.checkCircle
+                          : PhosphorIconsDuotone.circle,
+                      size: 20,
+                      color: subTask.isCompleted
+                          ? context.colorScheme.primary
+                          : context.colorScheme.onSurface,
+                    ),
+                    onPressed: () => widget.onSubTaskToggled(
+                      subTask.id,
+                      !subTask.isCompleted,
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: PhosphorIcon(
-                    PhosphorIconsDuotone.x,
-                    size: 16,
-                    color: context.colorScheme.error,
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: subTask.title,
+                      enabled: !subTask.isCompleted,
+                      focusNode: isLastSubTask ? _lastSubTaskFocusNode : null,
+                      onChanged: (value) =>
+                          widget.onSubTaskTitleChanged(subTask.id, value),
+                      style: context.textTheme.bodyMedium?.copyWith(
+                        decoration: subTask.isCompleted
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
+                      textCapitalization: TextCapitalization.sentences,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 0,
+                        ),
+                        hintText: context.s.task_subtask_hint,
+                        hintStyle: context.textTheme.bodyMedium?.copyWith(
+                          color: context.colorScheme.onSurface,
+                        ),
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        fillColor: Colors.transparent,
+                        filled: true,
+                      ),
+                    ),
                   ),
-                  onPressed: () => widget.onSubTaskRemoved(index),
-                  visualDensity: VisualDensity.compact,
-                ),
-              ],
-            ),
-          );
-        }),
+                  IconButton(
+                    icon: PhosphorIcon(
+                      PhosphorIconsDuotone.xCircle,
+                      size: 20,
+                      color: context.colorScheme.error,
+                    ),
+                    onPressed: () => widget.onSubTaskRemoved(subTask.id),
+                  ),
+                ],
+              );
+            }),
 
-        // Add new subtask button
-        Focus(
-          onFocusChange: (hasFocus) =>
-              setState(() => addSubTaskHasFocus = hasFocus),
-          child: TextField(
-            controller: _addController,
-            onChanged: (value) =>
-                widget.onSubTaskTitleChanged(widget.subTasks.length, value),
-            style: context.textTheme.bodyMedium,
-            decoration: InputDecoration(
-              prefixIcon: PhosphorIcon(
-                PhosphorIconsDuotone.plusCircle,
-                size: 16,
-                color: context.colorScheme.primary,
-              ),
-              hintText: context.s.task_add_subtask,
-              hintStyle: context.textTheme.bodyMedium?.copyWith(
-                color: context.colorScheme.primary,
-              ),
-              border: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              // contentPadding: const EdgeInsets.symmetric(vertical: 8),
-              fillColor: Colors.transparent,
-              filled: true,
+        TextButton.icon(
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+          ),
+          onPressed: () {
+            widget.onSubTaskTitleChanged('', '');
+            _lastSubTaskFocusNode.unfocus();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _lastSubTaskFocusNode.requestFocus();
+            });
+          },
+          icon: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: PhosphorIcon(
+              PhosphorIconsDuotone.plusCircle,
+              size: 20,
+              color: context.colorScheme.primary,
+            ),
+          ),
+          label: Text(
+            context.s.task_add_subtask,
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: context.colorScheme.primary,
             ),
           ),
         ),

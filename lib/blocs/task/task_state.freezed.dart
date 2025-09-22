@@ -16,8 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$TaskState {
 
  TaskUiStatus get uiStatus; String get title; String get description; DateTime? get dueDate; Priority get priority; List<String> get assignedTo; List<SubTask> get subTasks; Home? get home; Task? get task;// null for creation, set for editing
- String? get createdBy;// required for Task creation
- List<User> get availableMembers; String? get error; bool get hasUnsavedChanges;
+ List<User> get availableUserMembers; String? get error; bool get hasUnsavedChanges;
 /// Create a copy of TaskState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +27,16 @@ $TaskStateCopyWith<TaskState> get copyWith => _$TaskStateCopyWithImpl<TaskState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other.assignedTo, assignedTo)&&const DeepCollectionEquality().equals(other.subTasks, subTasks)&&(identical(other.home, home) || other.home == home)&&(identical(other.task, task) || other.task == task)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&const DeepCollectionEquality().equals(other.availableMembers, availableMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other.assignedTo, assignedTo)&&const DeepCollectionEquality().equals(other.subTasks, subTasks)&&(identical(other.home, home) || other.home == home)&&(identical(other.task, task) || other.task == task)&&const DeepCollectionEquality().equals(other.availableUserMembers, availableUserMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(assignedTo),const DeepCollectionEquality().hash(subTasks),home,task,createdBy,const DeepCollectionEquality().hash(availableMembers),error,hasUnsavedChanges);
+int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(assignedTo),const DeepCollectionEquality().hash(subTasks),home,task,const DeepCollectionEquality().hash(availableUserMembers),error,hasUnsavedChanges);
 
 @override
 String toString() {
-  return 'TaskState(uiStatus: $uiStatus, title: $title, description: $description, dueDate: $dueDate, priority: $priority, assignedTo: $assignedTo, subTasks: $subTasks, home: $home, task: $task, createdBy: $createdBy, availableMembers: $availableMembers, error: $error, hasUnsavedChanges: $hasUnsavedChanges)';
+  return 'TaskState(uiStatus: $uiStatus, title: $title, description: $description, dueDate: $dueDate, priority: $priority, assignedTo: $assignedTo, subTasks: $subTasks, home: $home, task: $task, availableUserMembers: $availableUserMembers, error: $error, hasUnsavedChanges: $hasUnsavedChanges)';
 }
 
 
@@ -48,7 +47,7 @@ abstract mixin class $TaskStateCopyWith<$Res>  {
   factory $TaskStateCopyWith(TaskState value, $Res Function(TaskState) _then) = _$TaskStateCopyWithImpl;
 @useResult
 $Res call({
- TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<String> assignedTo, List<SubTask> subTasks, Home? home, Task? task, String? createdBy, List<User> availableMembers, String? error, bool hasUnsavedChanges
+ TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<String> assignedTo, List<SubTask> subTasks, Home? home, Task? task, List<User> availableUserMembers, String? error, bool hasUnsavedChanges
 });
 
 
@@ -65,7 +64,7 @@ class _$TaskStateCopyWithImpl<$Res>
 
 /// Create a copy of TaskState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uiStatus = null,Object? title = null,Object? description = null,Object? dueDate = freezed,Object? priority = null,Object? assignedTo = null,Object? subTasks = null,Object? home = freezed,Object? task = freezed,Object? createdBy = freezed,Object? availableMembers = null,Object? error = freezed,Object? hasUnsavedChanges = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uiStatus = null,Object? title = null,Object? description = null,Object? dueDate = freezed,Object? priority = null,Object? assignedTo = null,Object? subTasks = null,Object? home = freezed,Object? task = freezed,Object? availableUserMembers = null,Object? error = freezed,Object? hasUnsavedChanges = null,}) {
   return _then(_self.copyWith(
 uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_to_non_nullable
 as TaskUiStatus,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -76,8 +75,7 @@ as Priority,assignedTo: null == assignedTo ? _self.assignedTo : assignedTo // ig
 as List<String>,subTasks: null == subTasks ? _self.subTasks : subTasks // ignore: cast_nullable_to_non_nullable
 as List<SubTask>,home: freezed == home ? _self.home : home // ignore: cast_nullable_to_non_nullable
 as Home?,task: freezed == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
-as Task?,createdBy: freezed == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
-as String?,availableMembers: null == availableMembers ? _self.availableMembers : availableMembers // ignore: cast_nullable_to_non_nullable
+as Task?,availableUserMembers: null == availableUserMembers ? _self.availableUserMembers : availableUserMembers // ignore: cast_nullable_to_non_nullable
 as List<User>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,hasUnsavedChanges: null == hasUnsavedChanges ? _self.hasUnsavedChanges : hasUnsavedChanges // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -115,7 +113,7 @@ $TaskCopyWith<$Res>? get task {
 
 
 class _TaskState extends TaskState {
-  const _TaskState({this.uiStatus = TaskUiStatus.initial, this.title = '', this.description = '', this.dueDate, this.priority = Priority.medium, final  List<String> assignedTo = const [], final  List<SubTask> subTasks = const [], this.home, this.task, this.createdBy, final  List<User> availableMembers = const [], this.error, this.hasUnsavedChanges = false}): _assignedTo = assignedTo,_subTasks = subTasks,_availableMembers = availableMembers,super._();
+  const _TaskState({this.uiStatus = TaskUiStatus.initial, this.title = '', this.description = '', this.dueDate, this.priority = Priority.medium, final  List<String> assignedTo = const [], final  List<SubTask> subTasks = const [], this.home, this.task, final  List<User> availableUserMembers = const [], this.error, this.hasUnsavedChanges = false}): _assignedTo = assignedTo,_subTasks = subTasks,_availableUserMembers = availableUserMembers,super._();
   
 
 @override@JsonKey() final  TaskUiStatus uiStatus;
@@ -140,14 +138,12 @@ class _TaskState extends TaskState {
 @override final  Home? home;
 @override final  Task? task;
 // null for creation, set for editing
-@override final  String? createdBy;
-// required for Task creation
- final  List<User> _availableMembers;
-// required for Task creation
-@override@JsonKey() List<User> get availableMembers {
-  if (_availableMembers is EqualUnmodifiableListView) return _availableMembers;
+ final  List<User> _availableUserMembers;
+// null for creation, set for editing
+@override@JsonKey() List<User> get availableUserMembers {
+  if (_availableUserMembers is EqualUnmodifiableListView) return _availableUserMembers;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_availableMembers);
+  return EqualUnmodifiableListView(_availableUserMembers);
 }
 
 @override final  String? error;
@@ -163,16 +159,16 @@ _$TaskStateCopyWith<_TaskState> get copyWith => __$TaskStateCopyWithImpl<_TaskSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other._assignedTo, _assignedTo)&&const DeepCollectionEquality().equals(other._subTasks, _subTasks)&&(identical(other.home, home) || other.home == home)&&(identical(other.task, task) || other.task == task)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&const DeepCollectionEquality().equals(other._availableMembers, _availableMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskState&&(identical(other.uiStatus, uiStatus) || other.uiStatus == uiStatus)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&const DeepCollectionEquality().equals(other._assignedTo, _assignedTo)&&const DeepCollectionEquality().equals(other._subTasks, _subTasks)&&(identical(other.home, home) || other.home == home)&&(identical(other.task, task) || other.task == task)&&const DeepCollectionEquality().equals(other._availableUserMembers, _availableUserMembers)&&(identical(other.error, error) || other.error == error)&&(identical(other.hasUnsavedChanges, hasUnsavedChanges) || other.hasUnsavedChanges == hasUnsavedChanges));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(_assignedTo),const DeepCollectionEquality().hash(_subTasks),home,task,createdBy,const DeepCollectionEquality().hash(_availableMembers),error,hasUnsavedChanges);
+int get hashCode => Object.hash(runtimeType,uiStatus,title,description,dueDate,priority,const DeepCollectionEquality().hash(_assignedTo),const DeepCollectionEquality().hash(_subTasks),home,task,const DeepCollectionEquality().hash(_availableUserMembers),error,hasUnsavedChanges);
 
 @override
 String toString() {
-  return 'TaskState(uiStatus: $uiStatus, title: $title, description: $description, dueDate: $dueDate, priority: $priority, assignedTo: $assignedTo, subTasks: $subTasks, home: $home, task: $task, createdBy: $createdBy, availableMembers: $availableMembers, error: $error, hasUnsavedChanges: $hasUnsavedChanges)';
+  return 'TaskState(uiStatus: $uiStatus, title: $title, description: $description, dueDate: $dueDate, priority: $priority, assignedTo: $assignedTo, subTasks: $subTasks, home: $home, task: $task, availableUserMembers: $availableUserMembers, error: $error, hasUnsavedChanges: $hasUnsavedChanges)';
 }
 
 
@@ -183,7 +179,7 @@ abstract mixin class _$TaskStateCopyWith<$Res> implements $TaskStateCopyWith<$Re
   factory _$TaskStateCopyWith(_TaskState value, $Res Function(_TaskState) _then) = __$TaskStateCopyWithImpl;
 @override @useResult
 $Res call({
- TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<String> assignedTo, List<SubTask> subTasks, Home? home, Task? task, String? createdBy, List<User> availableMembers, String? error, bool hasUnsavedChanges
+ TaskUiStatus uiStatus, String title, String description, DateTime? dueDate, Priority priority, List<String> assignedTo, List<SubTask> subTasks, Home? home, Task? task, List<User> availableUserMembers, String? error, bool hasUnsavedChanges
 });
 
 
@@ -200,7 +196,7 @@ class __$TaskStateCopyWithImpl<$Res>
 
 /// Create a copy of TaskState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uiStatus = null,Object? title = null,Object? description = null,Object? dueDate = freezed,Object? priority = null,Object? assignedTo = null,Object? subTasks = null,Object? home = freezed,Object? task = freezed,Object? createdBy = freezed,Object? availableMembers = null,Object? error = freezed,Object? hasUnsavedChanges = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uiStatus = null,Object? title = null,Object? description = null,Object? dueDate = freezed,Object? priority = null,Object? assignedTo = null,Object? subTasks = null,Object? home = freezed,Object? task = freezed,Object? availableUserMembers = null,Object? error = freezed,Object? hasUnsavedChanges = null,}) {
   return _then(_TaskState(
 uiStatus: null == uiStatus ? _self.uiStatus : uiStatus // ignore: cast_nullable_to_non_nullable
 as TaskUiStatus,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -211,8 +207,7 @@ as Priority,assignedTo: null == assignedTo ? _self._assignedTo : assignedTo // i
 as List<String>,subTasks: null == subTasks ? _self._subTasks : subTasks // ignore: cast_nullable_to_non_nullable
 as List<SubTask>,home: freezed == home ? _self.home : home // ignore: cast_nullable_to_non_nullable
 as Home?,task: freezed == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
-as Task?,createdBy: freezed == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
-as String?,availableMembers: null == availableMembers ? _self._availableMembers : availableMembers // ignore: cast_nullable_to_non_nullable
+as Task?,availableUserMembers: null == availableUserMembers ? _self._availableUserMembers : availableUserMembers // ignore: cast_nullable_to_non_nullable
 as List<User>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,hasUnsavedChanges: null == hasUnsavedChanges ? _self.hasUnsavedChanges : hasUnsavedChanges // ignore: cast_nullable_to_non_nullable
 as bool,

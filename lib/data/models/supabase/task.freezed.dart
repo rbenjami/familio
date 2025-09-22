@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Task {
 
- String get id; String get homeId; String get title; String? get description; String get createdById; String get status; DateTime? get dueDate; String get priority; String get taskType; DateTime? get startDate; int? get estimatedDurationMinutes; String? get location; List<String> get tags; DateTime get createdAt; DateTime get updatedAt;
+ String get id; String get homeId; String get title; String? get description; String get createdById; TaskStatus get status; DateTime? get dueDate; Priority get priority; DateTime? get startDate; int? get estimatedDurationMinutes; String? get location; List<String> get tags; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $TaskCopyWith<Task> get copyWith => _$TaskCopyWithImpl<Task>(this as Task, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Task&&(identical(other.id, id) || other.id == id)&&(identical(other.homeId, homeId) || other.homeId == homeId)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdById, createdById) || other.createdById == createdById)&&(identical(other.status, status) || other.status == status)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.taskType, taskType) || other.taskType == taskType)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.estimatedDurationMinutes, estimatedDurationMinutes) || other.estimatedDurationMinutes == estimatedDurationMinutes)&&(identical(other.location, location) || other.location == location)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Task&&(identical(other.id, id) || other.id == id)&&(identical(other.homeId, homeId) || other.homeId == homeId)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdById, createdById) || other.createdById == createdById)&&(identical(other.status, status) || other.status == status)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.estimatedDurationMinutes, estimatedDurationMinutes) || other.estimatedDurationMinutes == estimatedDurationMinutes)&&(identical(other.location, location) || other.location == location)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,homeId,title,description,createdById,status,dueDate,priority,taskType,startDate,estimatedDurationMinutes,location,const DeepCollectionEquality().hash(tags),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,homeId,title,description,createdById,status,dueDate,priority,startDate,estimatedDurationMinutes,location,const DeepCollectionEquality().hash(tags),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Task(id: $id, homeId: $homeId, title: $title, description: $description, createdById: $createdById, status: $status, dueDate: $dueDate, priority: $priority, taskType: $taskType, startDate: $startDate, estimatedDurationMinutes: $estimatedDurationMinutes, location: $location, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Task(id: $id, homeId: $homeId, title: $title, description: $description, createdById: $createdById, status: $status, dueDate: $dueDate, priority: $priority, startDate: $startDate, estimatedDurationMinutes: $estimatedDurationMinutes, location: $location, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $TaskCopyWith<$Res>  {
   factory $TaskCopyWith(Task value, $Res Function(Task) _then) = _$TaskCopyWithImpl;
 @useResult
 $Res call({
- String id, String homeId, String title, String? description, String createdById, String status, DateTime? dueDate, String priority, String taskType, DateTime? startDate, int? estimatedDurationMinutes, String? location, List<String> tags, DateTime createdAt, DateTime updatedAt
+ String id, String homeId, String title, String? description, String createdById, TaskStatus status, DateTime? dueDate, Priority priority, DateTime? startDate, int? estimatedDurationMinutes, String? location, List<String> tags, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -66,7 +66,7 @@ class _$TaskCopyWithImpl<$Res>
 
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? homeId = null,Object? title = null,Object? description = freezed,Object? createdById = null,Object? status = null,Object? dueDate = freezed,Object? priority = null,Object? taskType = null,Object? startDate = freezed,Object? estimatedDurationMinutes = freezed,Object? location = freezed,Object? tags = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? homeId = null,Object? title = null,Object? description = freezed,Object? createdById = null,Object? status = null,Object? dueDate = freezed,Object? priority = null,Object? startDate = freezed,Object? estimatedDurationMinutes = freezed,Object? location = freezed,Object? tags = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,homeId: null == homeId ? _self.homeId : homeId // ignore: cast_nullable_to_non_nullable
@@ -74,10 +74,9 @@ as String,title: null == title ? _self.title : title // ignore: cast_nullable_to
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,createdById: null == createdById ? _self.createdById : createdById // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
+as TaskStatus,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
-as String,taskType: null == taskType ? _self.taskType : taskType // ignore: cast_nullable_to_non_nullable
-as String,startDate: freezed == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
+as Priority,startDate: freezed == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,estimatedDurationMinutes: freezed == estimatedDurationMinutes ? _self.estimatedDurationMinutes : estimatedDurationMinutes // ignore: cast_nullable_to_non_nullable
 as int?,location: freezed == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
 as String?,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
@@ -94,7 +93,7 @@ as DateTime,
 @JsonSerializable()
 
 class _Task implements Task {
-  const _Task({required this.id, required this.homeId, required this.title, this.description, required this.createdById, required this.status, this.dueDate, required this.priority, required this.taskType, this.startDate, this.estimatedDurationMinutes, this.location, final  List<String> tags = const [], required this.createdAt, required this.updatedAt}): _tags = tags;
+  const _Task({required this.id, required this.homeId, required this.title, this.description, required this.createdById, required this.status, this.dueDate, required this.priority, this.startDate, this.estimatedDurationMinutes, this.location, final  List<String> tags = const [], required this.createdAt, required this.updatedAt}): _tags = tags;
   factory _Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 
 @override final  String id;
@@ -102,10 +101,9 @@ class _Task implements Task {
 @override final  String title;
 @override final  String? description;
 @override final  String createdById;
-@override final  String status;
+@override final  TaskStatus status;
 @override final  DateTime? dueDate;
-@override final  String priority;
-@override final  String taskType;
+@override final  Priority priority;
 @override final  DateTime? startDate;
 @override final  int? estimatedDurationMinutes;
 @override final  String? location;
@@ -132,16 +130,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Task&&(identical(other.id, id) || other.id == id)&&(identical(other.homeId, homeId) || other.homeId == homeId)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdById, createdById) || other.createdById == createdById)&&(identical(other.status, status) || other.status == status)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.taskType, taskType) || other.taskType == taskType)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.estimatedDurationMinutes, estimatedDurationMinutes) || other.estimatedDurationMinutes == estimatedDurationMinutes)&&(identical(other.location, location) || other.location == location)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Task&&(identical(other.id, id) || other.id == id)&&(identical(other.homeId, homeId) || other.homeId == homeId)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdById, createdById) || other.createdById == createdById)&&(identical(other.status, status) || other.status == status)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.estimatedDurationMinutes, estimatedDurationMinutes) || other.estimatedDurationMinutes == estimatedDurationMinutes)&&(identical(other.location, location) || other.location == location)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,homeId,title,description,createdById,status,dueDate,priority,taskType,startDate,estimatedDurationMinutes,location,const DeepCollectionEquality().hash(_tags),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,homeId,title,description,createdById,status,dueDate,priority,startDate,estimatedDurationMinutes,location,const DeepCollectionEquality().hash(_tags),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Task(id: $id, homeId: $homeId, title: $title, description: $description, createdById: $createdById, status: $status, dueDate: $dueDate, priority: $priority, taskType: $taskType, startDate: $startDate, estimatedDurationMinutes: $estimatedDurationMinutes, location: $location, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Task(id: $id, homeId: $homeId, title: $title, description: $description, createdById: $createdById, status: $status, dueDate: $dueDate, priority: $priority, startDate: $startDate, estimatedDurationMinutes: $estimatedDurationMinutes, location: $location, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -152,7 +150,7 @@ abstract mixin class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   factory _$TaskCopyWith(_Task value, $Res Function(_Task) _then) = __$TaskCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String homeId, String title, String? description, String createdById, String status, DateTime? dueDate, String priority, String taskType, DateTime? startDate, int? estimatedDurationMinutes, String? location, List<String> tags, DateTime createdAt, DateTime updatedAt
+ String id, String homeId, String title, String? description, String createdById, TaskStatus status, DateTime? dueDate, Priority priority, DateTime? startDate, int? estimatedDurationMinutes, String? location, List<String> tags, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -169,7 +167,7 @@ class __$TaskCopyWithImpl<$Res>
 
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? homeId = null,Object? title = null,Object? description = freezed,Object? createdById = null,Object? status = null,Object? dueDate = freezed,Object? priority = null,Object? taskType = null,Object? startDate = freezed,Object? estimatedDurationMinutes = freezed,Object? location = freezed,Object? tags = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? homeId = null,Object? title = null,Object? description = freezed,Object? createdById = null,Object? status = null,Object? dueDate = freezed,Object? priority = null,Object? startDate = freezed,Object? estimatedDurationMinutes = freezed,Object? location = freezed,Object? tags = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_Task(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,homeId: null == homeId ? _self.homeId : homeId // ignore: cast_nullable_to_non_nullable
@@ -177,10 +175,9 @@ as String,title: null == title ? _self.title : title // ignore: cast_nullable_to
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,createdById: null == createdById ? _self.createdById : createdById // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
+as TaskStatus,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
-as String,taskType: null == taskType ? _self.taskType : taskType // ignore: cast_nullable_to_non_nullable
-as String,startDate: freezed == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
+as Priority,startDate: freezed == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,estimatedDurationMinutes: freezed == estimatedDurationMinutes ? _self.estimatedDurationMinutes : estimatedDurationMinutes // ignore: cast_nullable_to_non_nullable
 as int?,location: freezed == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
 as String?,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable

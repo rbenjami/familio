@@ -869,54 +869,44 @@ class S {
     );
   }
 
-  /// `Simple task`
-  String get task_type_simple {
+  /// `Pending`
+  String get task_status_pending {
     return Intl.message(
-      'Simple task',
-      name: 'task_type_simple',
+      'Pending',
+      name: 'task_status_pending',
       desc: '',
       args: [],
     );
-  }
-
-  /// `Checklist`
-  String get task_type_checklist {
-    return Intl.message(
-      'Checklist',
-      name: 'task_type_checklist',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Scheduled task`
-  String get task_type_scheduled {
-    return Intl.message(
-      'Scheduled task',
-      name: 'task_type_scheduled',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `To do`
-  String get task_status_todo {
-    return Intl.message('To do', name: 'task_status_todo', desc: '', args: []);
   }
 
   /// `In progress`
-  String get task_status_doing {
+  String get task_status_in_progress {
     return Intl.message(
       'In progress',
-      name: 'task_status_doing',
+      name: 'task_status_in_progress',
       desc: '',
       args: [],
     );
   }
 
   /// `Done`
-  String get task_status_done {
-    return Intl.message('Done', name: 'task_status_done', desc: '', args: []);
+  String get task_status_completed {
+    return Intl.message(
+      'Done',
+      name: 'task_status_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancelled`
+  String get task_status_cancelled {
+    return Intl.message(
+      'Cancelled',
+      name: 'task_status_cancelled',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Low`
@@ -937,6 +927,16 @@ class S {
   /// `High`
   String get task_priority_high {
     return Intl.message('High', name: 'task_priority_high', desc: '', args: []);
+  }
+
+  /// `Urgent`
+  String get task_priority_urgent {
+    return Intl.message(
+      'Urgent',
+      name: 'task_priority_urgent',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `{count} assigned`
@@ -1049,46 +1049,6 @@ class S {
     return Intl.message(
       'All',
       name: 'filters_priority_all',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Type`
-  String get filters_type_title {
-    return Intl.message('Type', name: 'filters_type_title', desc: '', args: []);
-  }
-
-  /// `All`
-  String get filters_type_all {
-    return Intl.message('All', name: 'filters_type_all', desc: '', args: []);
-  }
-
-  /// `Simple`
-  String get filters_type_simple {
-    return Intl.message(
-      'Simple',
-      name: 'filters_type_simple',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Checklist`
-  String get filters_type_checklist {
-    return Intl.message(
-      'Checklist',
-      name: 'filters_type_checklist',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Scheduled`
-  String get filters_type_scheduled {
-    return Intl.message(
-      'Scheduled',
-      name: 'filters_type_scheduled',
       desc: '',
       args: [],
     );

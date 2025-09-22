@@ -70,19 +70,20 @@ Future<_i174.GetIt> init(
     () => _i965.TaskService(gh<_i454.SupabaseClient>(), gh<_i993.Talker>()),
   );
   gh.singleton<_i976.HomeBloc>(() => _i976.HomeBloc(gh<_i3.HomeService>()));
+  gh.factoryParam<_i646.TaskBloc, _i1052.Home, _i1052.Task?>(
+    (home, existingTask) => _i646.TaskBloc(
+      gh<_i965.TaskService>(),
+      gh<_i3.HomeService>(),
+      home: home,
+      existingTask: existingTask,
+    ),
+  );
   gh.singleton<_i1024.AuthService>(
     () => _i1024.AuthService(
       gh<_i454.SupabaseClient>(),
       gh<_i385.UserService>(),
       gh<_i3.HomeService>(),
       gh<_i1005.InvitationService>(),
-    ),
-  );
-  gh.factoryParam<_i646.TaskBloc, _i1052.Home, _i1052.Task?>(
-    (home, existingTask) => _i646.TaskBloc(
-      gh<_i965.TaskService>(),
-      home: home,
-      existingTask: existingTask,
     ),
   );
   gh.singleton<_i833.TasksBloc>(() => _i833.TasksBloc(gh<_i965.TaskService>()));

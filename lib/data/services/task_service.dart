@@ -4,12 +4,6 @@ import 'package:talker/talker.dart';
 
 import '../models/models.dart';
 
-enum TaskStatus { pending, inProgress, completed, cancelled }
-
-enum TaskType { simple, recurring, project }
-
-enum TaskPriority { low, medium, high, urgent }
-
 @singleton
 class TaskService {
   final SupabaseClient _client;
@@ -23,8 +17,7 @@ class TaskService {
     String? description,
     required List<String> assignedToUserIds,
     DateTime? dueDate,
-    TaskPriority priority = TaskPriority.medium,
-    TaskType type = TaskType.simple,
+    Priority priority = Priority.medium,
     DateTime? startDate,
     int? estimatedDurationMinutes,
     List<String>? tags,
@@ -43,7 +36,6 @@ class TaskService {
             'status': TaskStatus.pending.name,
             'due_date': dueDate?.toIso8601String(),
             'priority': priority.name,
-            'task_type': type.name,
             'start_date': startDate?.toIso8601String(),
             'estimated_duration_minutes': estimatedDurationMinutes,
             'location': location,
@@ -75,8 +67,7 @@ class TaskService {
     String? description,
     TaskStatus? status,
     DateTime? dueDate,
-    TaskPriority? priority,
-    TaskType? type,
+    Priority? priority,
     DateTime? startDate,
     int? estimatedDurationMinutes,
     List<String>? tags,
@@ -88,10 +79,9 @@ class TaskService {
       final updateData = <String, dynamic>{};
       if (title != null) updateData['title'] = title;
       if (description != null) updateData['description'] = description;
-      if (status != null) updateData['status'] = status.name;
+      if (status != null) updateData['status'] = status.toJson();
       if (dueDate != null) updateData['due_date'] = dueDate.toIso8601String();
       if (priority != null) updateData['priority'] = priority.name;
-      if (type != null) updateData['task_type'] = type.name;
       if (startDate != null) {
         updateData['start_date'] = startDate.toIso8601String();
       }
@@ -109,7 +99,7 @@ class TaskService {
           .single();
 
       final task = Task.fromJson(response);
-      _talker.info('Task updated successfully: ${task.id}');
+      _talker.info('Task updated successfully: $task');
       return task;
     } catch (e, s) {
       _talker.error('Error updating task: $e', e, s);
@@ -153,8 +143,7 @@ class TaskService {
     required String homeId,
     TaskStatus? status,
     String? assignedToUserId,
-    TaskPriority? priority,
-    TaskType? type,
+    Priority? priority,
   }) async {
     try {
       _talker.info('Fetching tasks for home: $homeId');
@@ -166,9 +155,6 @@ class TaskService {
       }
       if (priority != null) {
         query = query.eq('priority', priority.name);
-      }
-      if (type != null) {
-        query = query.eq('task_type', type.name);
       }
       if (assignedToUserId != null) {
         query = query.eq('task_assignees.user_id', assignedToUserId);

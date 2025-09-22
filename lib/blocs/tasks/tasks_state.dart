@@ -27,14 +27,12 @@ class TaskFilters {
   final TaskStatus? status;
   final String? assignedToUserId;
   final Priority? priority;
-  final TaskType? type;
   final bool showMyTasksOnly;
 
   const TaskFilters({
     this.status,
     this.assignedToUserId,
     this.priority,
-    this.type,
     this.showMyTasksOnly = false,
   });
 }

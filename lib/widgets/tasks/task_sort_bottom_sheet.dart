@@ -32,14 +32,9 @@ class _TaskSortBottomSheetState extends State<TaskSortBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        top: 16,
-        left: 16,
-        right: 16,
-        bottom: context.mediaQuery.viewInsets.bottom + 16,
-      ),
-      child: SafeArea(
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

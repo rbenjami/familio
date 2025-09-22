@@ -12,12 +12,11 @@ _Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
   title: json['title'] as String,
   description: json['description'] as String?,
   createdById: json['created_by_id'] as String,
-  status: json['status'] as String,
+  status: TaskStatus.fromJson(json['status'] as String),
   dueDate: json['due_date'] == null
       ? null
       : DateTime.parse(json['due_date'] as String),
-  priority: json['priority'] as String,
-  taskType: json['task_type'] as String,
+  priority: $enumDecode(_$PriorityEnumMap, json['priority']),
   startDate: json['start_date'] == null
       ? null
       : DateTime.parse(json['start_date'] as String),
@@ -39,14 +38,20 @@ Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
   'created_by_id': instance.createdById,
   'status': instance.status,
   'due_date': instance.dueDate?.toIso8601String(),
-  'priority': instance.priority,
-  'task_type': instance.taskType,
+  'priority': _$PriorityEnumMap[instance.priority]!,
   'start_date': instance.startDate?.toIso8601String(),
   'estimated_duration_minutes': instance.estimatedDurationMinutes,
   'location': instance.location,
   'tags': instance.tags,
   'created_at': instance.createdAt.toIso8601String(),
   'updated_at': instance.updatedAt.toIso8601String(),
+};
+
+const _$PriorityEnumMap = {
+  Priority.low: 'low',
+  Priority.medium: 'medium',
+  Priority.high: 'high',
+  Priority.urgent: 'urgent',
 };
 
 _TaskAssignee _$TaskAssigneeFromJson(Map<String, dynamic> json) =>

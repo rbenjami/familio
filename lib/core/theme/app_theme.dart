@@ -60,7 +60,7 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: backgroundColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: secondaryBackgroundColor,
+      backgroundColor: Colors.transparent,
       foregroundColor: secondaryLightColor,
       elevation: 0,
     ),

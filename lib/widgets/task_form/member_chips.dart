@@ -3,27 +3,27 @@ import 'package:familio/data/models/models.dart';
 import 'package:familio/core/utils/context_ext.dart';
 
 class MemberChips extends StatelessWidget {
-  final List<User> availableMembers;
+  final List<User> availableUserMembers;
   final List<String> selectedMembers;
   final Function(String) onMemberToggled;
 
   const MemberChips({
     super.key,
-    required this.availableMembers,
+    required this.availableUserMembers,
     required this.selectedMembers,
     required this.onMemberToggled,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (availableMembers.isEmpty) {
+    if (availableUserMembers.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return Wrap(
       spacing: 8,
       runSpacing: 4,
-      children: availableMembers.map((member) {
+      children: availableUserMembers.map((member) {
         final isSelected = selectedMembers.contains(member.id);
 
         return FilterChip(

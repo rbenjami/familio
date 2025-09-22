@@ -1,3 +1,5 @@
+import 'package:familio/data/models/enums/priority.dart';
+import 'package:familio/data/models/enums/task_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'task.freezed.dart';
@@ -11,10 +13,9 @@ abstract class Task with _$Task {
     required String title,
     String? description,
     required String createdById,
-    required String status,
+    required TaskStatus status,
     DateTime? dueDate,
-    required String priority,
-    required String taskType,
+    required Priority priority,
     DateTime? startDate,
     int? estimatedDurationMinutes,
     String? location,
@@ -23,8 +24,7 @@ abstract class Task with _$Task {
     required DateTime updatedAt,
   }) = _Task;
 
-  factory Task.fromJson(Map<String, dynamic> json) =>
-      _$TaskFromJson(json);
+  factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 }
 
 @freezed

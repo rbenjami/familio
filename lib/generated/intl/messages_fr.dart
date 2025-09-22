@@ -231,13 +231,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "filters_status_all": MessageLookupByLibrary.simpleMessage("Tous"),
     "filters_status_title": MessageLookupByLibrary.simpleMessage("Statut"),
     "filters_title": MessageLookupByLibrary.simpleMessage("Filtres"),
-    "filters_type_all": MessageLookupByLibrary.simpleMessage("Tous"),
-    "filters_type_checklist": MessageLookupByLibrary.simpleMessage("Liste"),
-    "filters_type_scheduled": MessageLookupByLibrary.simpleMessage(
-      "Programmée",
-    ),
-    "filters_type_simple": MessageLookupByLibrary.simpleMessage("Simple"),
-    "filters_type_title": MessageLookupByLibrary.simpleMessage("Type"),
     "home_welcomeSubtitle": MessageLookupByLibrary.simpleMessage(
       "Votre espace familial connecté",
     ),
@@ -279,15 +272,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "task_priority_hint": MessageLookupByLibrary.simpleMessage("Priorité"),
     "task_priority_low": MessageLookupByLibrary.simpleMessage("Faible"),
     "task_priority_medium": MessageLookupByLibrary.simpleMessage("Moyenne"),
+    "task_priority_urgent": MessageLookupByLibrary.simpleMessage("Urgent"),
     "task_stats_doing": MessageLookupByLibrary.simpleMessage("En cours"),
     "task_stats_done": MessageLookupByLibrary.simpleMessage("Terminé"),
     "task_stats_overdue": m3,
     "task_stats_title": MessageLookupByLibrary.simpleMessage("Statistiques"),
     "task_stats_todo": MessageLookupByLibrary.simpleMessage("À faire"),
     "task_stats_total": MessageLookupByLibrary.simpleMessage("Total"),
-    "task_status_doing": MessageLookupByLibrary.simpleMessage("En cours"),
-    "task_status_done": MessageLookupByLibrary.simpleMessage("Terminé"),
-    "task_status_todo": MessageLookupByLibrary.simpleMessage("À faire"),
+    "task_status_cancelled": MessageLookupByLibrary.simpleMessage("Annulé"),
+    "task_status_completed": MessageLookupByLibrary.simpleMessage("Terminé"),
+    "task_status_in_progress": MessageLookupByLibrary.simpleMessage("En cours"),
+    "task_status_pending": MessageLookupByLibrary.simpleMessage("À faire"),
     "task_subtask_hint": MessageLookupByLibrary.simpleMessage("Sous-tâche..."),
     "task_subtask_placeholder": MessageLookupByLibrary.simpleMessage(
       "Nouvelle sous-tâche...",
@@ -296,13 +291,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "task_title_hint": MessageLookupByLibrary.simpleMessage(
       "Titre de la tâche...",
     ),
-    "task_type_checklist": MessageLookupByLibrary.simpleMessage(
-      "Liste de contrôle",
-    ),
-    "task_type_scheduled": MessageLookupByLibrary.simpleMessage(
-      "Tâche programmée",
-    ),
-    "task_type_simple": MessageLookupByLibrary.simpleMessage("Tâche simple"),
     "tasks_create_button": MessageLookupByLibrary.simpleMessage(
       "Créer une tâche",
     ),

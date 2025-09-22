@@ -40,23 +40,24 @@ class TaskAssigneeToggled extends TaskEvent {
   const TaskAssigneeToggled(this.user);
 }
 
-class SubTaskAdded extends TaskEvent {
-  final String title;
-
-  const SubTaskAdded(this.title);
-}
-
 class SubTaskRemoved extends TaskEvent {
-  final int index;
+  final String id;
 
-  const SubTaskRemoved(this.index);
+  const SubTaskRemoved(this.id);
 }
 
 class SubTaskTitleChanged extends TaskEvent {
-  final int index;
+  final String id;
   final String title;
 
-  const SubTaskTitleChanged(this.index, this.title);
+  const SubTaskTitleChanged(this.id, this.title);
+}
+
+class SubTaskToggled extends TaskEvent {
+  final String id;
+  final bool isCompleted;
+
+  const SubTaskToggled(this.id, this.isCompleted);
 }
 
 class TaskSubmitted extends TaskEvent {}

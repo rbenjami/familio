@@ -30,11 +30,10 @@ class PriorityDots extends StatelessWidget {
               height: 16,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? color : context.colorScheme.outline.withValues(alpha: 0.3),
-                border: Border.all(
-                  color: color,
-                  width: isSelected ? 2 : 1,
-                ),
+                color: isSelected
+                    ? color
+                    : context.colorScheme.outline.withValues(alpha: 0.3),
+                border: Border.all(color: color, width: isSelected ? 2 : 1),
               ),
             ),
           ),
@@ -48,8 +47,10 @@ class PriorityDots extends StatelessWidget {
       case Priority.low:
         return Colors.green;
       case Priority.medium:
-        return Colors.orange;
+        return Colors.yellow;
       case Priority.high:
+        return Colors.orange;
+      case Priority.urgent:
         return Colors.red;
     }
   }

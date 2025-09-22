@@ -1,7 +1,7 @@
-import 'package:familio/data/models/supabase/home.dart';
+import 'package:familio/data/models/models.dart';
 import 'package:familio/main.dart';
 import 'package:injectable/injectable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 class HomeMemberPermissions {
   final bool canCreateTasks;
@@ -185,6 +185,29 @@ class HomeService {
       return members;
     } catch (e, s) {
       logger.error('Error fetching home members: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<List<User>> getHomeUserMembers(String homeId) async {
+    try {
+      logger.info('Fetching users for home: $homeId');
+
+      final response = await _client
+          .from('home_members')
+          .select('''
+            users(*)
+          ''')
+          .eq('home_id', homeId);
+
+      final users = response
+          .map((json) => User.fromJson(json['users']))
+          .nonNulls
+          .toList();
+      logger.info('Found ${users.length} users for home: $homeId');
+      return users;
+    } catch (e, s) {
+      logger.error('Error fetching home users: $e', e, s);
       rethrow;
     }
   }
