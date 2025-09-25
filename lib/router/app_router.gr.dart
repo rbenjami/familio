@@ -10,7 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
-import 'package:familio/data/models/models.dart' as _i11;
+import 'package:familio/brick/models/models.dart' as _i11;
 import 'package:familio/pages/auth/auth_page.dart' as _i1;
 import 'package:familio/pages/calendar/calendar_page.dart' as _i2;
 import 'package:familio/pages/home/home_page.dart' as _i3;

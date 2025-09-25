@@ -1,5 +1,5 @@
+import 'package:familio/data/services/auth_service.dart';
 import 'package:flutter/foundation.dart';
-import '../../data/models/models.dart';
 
 @immutable
 sealed class AuthEvent {
@@ -21,10 +21,10 @@ class RegisterRequested extends AuthEvent {
   final RegistrationType registrationType;
   final String? homeName;
   final String? invitationCode;
-  
+
   const RegisterRequested({
-    required this.email, 
-    required this.password, 
+    required this.email,
+    required this.password,
     required this.name,
     required this.registrationType,
     this.avatar,

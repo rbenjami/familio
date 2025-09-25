@@ -6,9 +6,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:familio/blocs/task/task_bloc.dart';
 import 'package:familio/blocs/task/task_event.dart';
 import 'package:familio/blocs/task/task_state.dart';
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/models.dart';
 import 'package:familio/widgets/task_form/priority_dots.dart';
-import 'package:familio/widgets/task_form/member_chips.dart';
 import 'package:familio/widgets/task_form/subtask_input.dart';
 import 'package:familio/core/utils/context_ext.dart';
 import 'package:familio/di/injection.dart';
@@ -186,20 +185,20 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
     );
   }
 
-  Widget _buildMemberSection(BuildContext context, TaskState state) {
-    if (state.availableUserMembers.isEmpty) return const SizedBox.shrink();
+  // Widget _buildMemberSection(BuildContext context, TaskState state) {
+  //   if (state.availableUserMembers.isEmpty) return const SizedBox.shrink();
 
-    return Column(
-      children: [
-        MemberChips(
-          availableUserMembers: state.availableUserMembers,
-          selectedMembers: state.assignedTo,
-          onMemberToggled: (userId) => _bloc.add(TaskAssigneeToggled(userId)),
-        ),
-        const SizedBox(height: 24),
-      ],
-    );
-  }
+  //   return Column(
+  //     children: [
+  //       MemberChips(
+  //         availableUserMembers: state.availableUserMembers,
+  //         selectedMembers: state.assignedTo,
+  //         onMemberToggled: (userId) => _bloc.add(TaskAssigneeToggled(userId)),
+  //       ),
+  //       const SizedBox(height: 24),
+  //     ],
+  //   );
+  // }
 
   Widget _buildDateAndPriorityRow(BuildContext context, TaskState state) {
     return Row(

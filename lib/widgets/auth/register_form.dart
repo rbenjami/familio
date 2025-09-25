@@ -1,9 +1,9 @@
 import 'package:familio/core/utils/context_ext.dart';
+import 'package:familio/data/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import '../../data/models/models.dart';
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_event.dart';
 

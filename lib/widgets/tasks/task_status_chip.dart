@@ -1,5 +1,5 @@
+import 'package:familio/brick/models/task.model.dart';
 import 'package:familio/core/utils/context_ext.dart';
-import 'package:familio/data/models/enums/task_status.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -154,7 +154,7 @@ class _TaskStatusChipState extends State<TaskStatusChip> {
   String _getStatusLabel(BuildContext context, TaskStatus status) {
     return switch (status) {
       TaskStatus.pending => context.s.task_status_pending,
-      TaskStatus.inProgress => context.s.task_status_in_progress,
+      TaskStatus.in_progress => context.s.task_status_in_progress,
       TaskStatus.completed => context.s.task_status_completed,
       TaskStatus.cancelled => context.s.task_status_cancelled,
     };
@@ -163,7 +163,7 @@ class _TaskStatusChipState extends State<TaskStatusChip> {
   PhosphorIconData _getStatusIcon(TaskStatus status) {
     return switch (status) {
       TaskStatus.pending => PhosphorIconsDuotone.circle,
-      TaskStatus.inProgress => PhosphorIconsDuotone.clockCounterClockwise,
+      TaskStatus.in_progress => PhosphorIconsDuotone.clockCounterClockwise,
       TaskStatus.completed => PhosphorIconsDuotone.checkCircle,
       TaskStatus.cancelled => PhosphorIconsDuotone.xCircle,
     };
@@ -172,7 +172,7 @@ class _TaskStatusChipState extends State<TaskStatusChip> {
   Color _getStatusColor(BuildContext context, TaskStatus status) {
     return switch (status) {
       TaskStatus.pending => Colors.grey,
-      TaskStatus.inProgress => Colors.orange,
+      TaskStatus.in_progress => Colors.orange,
       TaskStatus.completed => Colors.green,
       TaskStatus.cancelled => Colors.red,
     };

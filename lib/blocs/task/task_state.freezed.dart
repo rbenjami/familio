@@ -51,7 +51,7 @@ $Res call({
 });
 
 
-$HomeCopyWith<$Res>? get home;$TaskCopyWith<$Res>? get task;
+
 
 }
 /// @nodoc
@@ -81,31 +81,7 @@ as String?,hasUnsavedChanges: null == hasUnsavedChanges ? _self.hasUnsavedChange
 as bool,
   ));
 }
-/// Create a copy of TaskState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeCopyWith<$Res>? get home {
-    if (_self.home == null) {
-    return null;
-  }
 
-  return $HomeCopyWith<$Res>(_self.home!, (value) {
-    return _then(_self.copyWith(home: value));
-  });
-}/// Create a copy of TaskState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TaskCopyWith<$Res>? get task {
-    if (_self.task == null) {
-    return null;
-  }
-
-  return $TaskCopyWith<$Res>(_self.task!, (value) {
-    return _then(_self.copyWith(task: value));
-  });
-}
 }
 
 
@@ -183,7 +159,7 @@ $Res call({
 });
 
 
-@override $HomeCopyWith<$Res>? get home;@override $TaskCopyWith<$Res>? get task;
+
 
 }
 /// @nodoc
@@ -214,31 +190,7 @@ as bool,
   ));
 }
 
-/// Create a copy of TaskState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeCopyWith<$Res>? get home {
-    if (_self.home == null) {
-    return null;
-  }
 
-  return $HomeCopyWith<$Res>(_self.home!, (value) {
-    return _then(_self.copyWith(home: value));
-  });
-}/// Create a copy of TaskState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TaskCopyWith<$Res>? get task {
-    if (_self.task == null) {
-    return null;
-  }
-
-  return $TaskCopyWith<$Res>(_self.task!, (value) {
-    return _then(_self.copyWith(task: value));
-  });
-}
 }
 
 // dart format on

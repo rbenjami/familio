@@ -1,126 +1,107 @@
+import 'package:familio/brick/models/user.model.dart';
+import 'package:familio/brick/repository.dart';
+import 'package:familio/main.dart';
 import 'package:injectable/injectable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:talker/talker.dart';
-
-import '../models/models.dart' as models;
+import 'package:brick_core/core.dart';
 
 @singleton
 class UserService {
-  final SupabaseClient _client;
-  final Talker _talker;
+  final Repository _repository;
 
-  UserService(this._client, this._talker);
+  UserService(this._repository);
 
-  Future<models.User> createUser({
+  Future<User> createUser({
     required String id,
     required String name,
     String? avatar,
     DateTime? birthDate,
   }) async {
     try {
-      _talker.info('Creating user profile for id: $id');
+      logger.info('Creating user profile for id: $id');
 
-      final response = await _client.from('users').insert({
-        'id': id,
-        'name': name,
-        'avatar': avatar,
-        'birth_date': birthDate?.toIso8601String(),
-      }).select().single();
+      final user = await _repository.upsert<User>(
+        User(
+          id: id,
+          name: name,
+          avatar: avatar,
+          birthDate: birthDate,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        ),
+      );
 
-      final user = models.User.fromJson(response);
-      _talker.info('User profile created successfully: ${user.id}');
+      logger.info('User profile created successfully: ${user.id}');
       return user;
     } catch (e, s) {
-      _talker.error('Error creating user profile: $e', e, s);
+      logger.error('Error creating user profile: $e', e, s);
       rethrow;
     }
   }
 
-
-  Future<models.User?> getUserById(String userId) async {
+  Future<User> getUserById(String userId) async {
     try {
-      _talker.info('Fetching user profile for id: $userId');
+      logger.info('Fetching user: $userId');
 
-      final response = await _client
-          .from('users')
-          .select()
-          .eq('id', userId)
-          .maybeSingle();
+      final users = await _repository.get<User>(
+        query: Query(where: [Where('id').isExactly(userId)]),
+      );
 
-      if (response == null) {
-        _talker.info('No user profile found for id: $userId');
-        return null;
+      if (users.isEmpty) {
+        throw Exception('User not found');
       }
 
-      final user = models.User.fromJson(response);
-      _talker.info('User profile found: ${user.name}');
+      final user = users.first;
+
+      logger.info('User found: ${user.name}');
       return user;
     } catch (e, s) {
-      _talker.error('Error fetching user profile: $e', e, s);
+      logger.error('Error fetching user: $e', e, s);
       rethrow;
     }
   }
 
-  Future<models.User> updateUser({
+  Future<User> updateUser({
     required String userId,
     String? name,
     String? avatar,
     DateTime? birthDate,
   }) async {
     try {
-      _talker.info('Updating user profile: $userId');
+      logger.info('Updating user: $userId');
 
-      final updateData = <String, dynamic>{};
-      if (name != null) updateData['name'] = name;
-      if (avatar != null) updateData['avatar'] = avatar;
-      if (birthDate != null) updateData['birth_date'] = birthDate.toIso8601String();
+      // Get existing user
+      final existingUser = await getUserById(userId);
 
-      final response = await _client
-          .from('users')
-          .update(updateData)
-          .eq('id', userId)
-          .select()
-          .single();
+      final user = await _repository.upsert<User>(
+        User(
+          id: existingUser.id,
+          name: name ?? existingUser.name,
+          avatar: avatar ?? existingUser.avatar,
+          birthDate: birthDate ?? existingUser.birthDate,
+          createdAt: existingUser.createdAt,
+          updatedAt: DateTime.now(),
+        ),
+      );
 
-      final user = models.User.fromJson(response);
-      _talker.info('User profile updated successfully: ${user.id}');
+      logger.info('User updated successfully: ${user.id}');
       return user;
     } catch (e, s) {
-      _talker.error('Error updating user profile: $e', e, s);
+      logger.error('Error updating user: $e', e, s);
       rethrow;
     }
   }
 
   Future<void> deleteUser(String userId) async {
     try {
-      _talker.info('Deleting user profile: $userId');
+      logger.info('Deleting user: $userId');
 
-      await _client.from('users').delete().eq('id', userId);
+      final user = await getUserById(userId);
 
-      _talker.info('User profile deleted successfully: $userId');
+      await _repository.delete<User>(user);
+
+      logger.info('User deleted successfully: $userId');
     } catch (e, s) {
-      _talker.error('Error deleting user profile: $e', e, s);
-      rethrow;
-    }
-  }
-
-  Future<List<models.User>> getUsersByHomeId(String homeId) async {
-    try {
-      _talker.info('Fetching users for home: $homeId');
-
-      final response = await _client
-          .from('users')
-          .select('''
-            *,
-            home_members!inner(home_id)
-          ''')
-          .eq('home_members.home_id', homeId);
-
-      final users = response.map((json) => models.User.fromJson(json)).toList();
-      _talker.info('Found ${users.length} users for home: $homeId');
-      return users;
-    } catch (e, s) {
-      _talker.error('Error fetching users for home: $e', e, s);
+      logger.error('Error deleting user: $e', e, s);
       rethrow;
     }
   }

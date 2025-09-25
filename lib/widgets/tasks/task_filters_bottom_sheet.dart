@@ -1,7 +1,7 @@
 import 'package:familio/blocs/tasks/tasks_state.dart';
 import 'package:flutter/material.dart';
 
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/models.dart';
 import 'package:familio/core/utils/context_ext.dart';
 
 class TaskFiltersBottomSheet extends StatefulWidget {
@@ -178,7 +178,7 @@ class _TaskFiltersBottomSheetState extends State<TaskFiltersBottomSheet> {
     switch (status) {
       case TaskStatus.pending:
         return context.s.task_status_pending;
-      case TaskStatus.inProgress:
+      case TaskStatus.in_progress:
         return context.s.task_status_in_progress;
       case TaskStatus.completed:
         return context.s.task_status_completed;

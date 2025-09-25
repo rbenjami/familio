@@ -1,6 +1,6 @@
 import 'package:familio/blocs/tasks/tasks_state.dart';
 import 'package:flutter/material.dart';
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/models.dart';
 
 @immutable
 sealed class TasksEvent {

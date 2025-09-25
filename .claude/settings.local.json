@@ -28,7 +28,9 @@
       "mcp__ide__getDiagnostics",
       "mcp__supabase__execute_sql",
       "mcp__supabase__deploy_edge_function",
-      "mcp__supabase__get_project_url"
+      "mcp__supabase__get_project_url",
+      "WebFetch(domain:supabase.com)",
+      "WebFetch(domain:pub.dev)"
     ],
     "defaultMode": "acceptEdits"
   },

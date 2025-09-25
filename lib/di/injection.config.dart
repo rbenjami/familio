@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:brick_offline_first_with_rest/offline_queue.dart' as _i863;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
@@ -19,8 +20,9 @@ import '../blocs/auth/auth_bloc.dart' as _i91;
 import '../blocs/home/home_bloc.dart' as _i976;
 import '../blocs/task/task_bloc.dart' as _i646;
 import '../blocs/tasks/tasks_bloc.dart' as _i833;
+import '../brick/models/models.dart' as _i384;
+import '../brick/repository.dart' as _i395;
 import '../core/logging/logger_service.dart' as _i690;
-import '../data/models/models.dart' as _i1052;
 import '../data/services/auth_service.dart' as _i1024;
 import '../data/services/home_service.dart' as _i3;
 import '../data/services/invitation_service.dart' as _i1005;
@@ -38,45 +40,49 @@ Future<_i174.GetIt> init(
   _i526.EnvironmentFilter? environmentFilter,
 }) async {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
+  final supabaseModule = _$SupabaseModule();
   final envModule = _$EnvModule();
   final loggerModule = _$LoggerModule();
-  final supabaseModule = _$SupabaseModule();
   gh.singleton<_i81.AppRouter>(() => _i81.AppRouter());
+  gh.singleton<_i863.RestOfflineQueueClient>(
+    () => supabaseModule.provideRestOfflineQueueClient(),
+  );
   await gh.singletonAsync<_i955.Env>(
     () => envModule.provideEnv(),
     preResolve: true,
   );
   gh.lazySingleton<_i993.Talker>(() => loggerModule.provideTalker());
   await gh.singletonAsync<_i454.SupabaseClient>(
-    () => supabaseModule.provideSupabaseClient(gh<_i955.Env>()),
+    () => supabaseModule.provideSupabaseClient(
+      gh<_i955.Env>(),
+      gh<_i863.RestOfflineQueueClient>(),
+    ),
     preResolve: true,
+  );
+  gh.singleton<_i863.RestOfflineRequestQueue>(
+    () => supabaseModule.provideRestOfflineRequestQueue(
+      gh<_i863.RestOfflineQueueClient>(),
+    ),
   );
   gh.singleton<_i690.LoggerService>(
     () => _i690.LoggerService(gh<_i207.Talker>())..init(),
   );
-  gh.singleton<_i3.HomeService>(
-    () => _i3.HomeService(gh<_i454.SupabaseClient>()),
-  );
+  await gh.singletonAsync<_i395.Repository>(() {
+    final i = _i395.Repository.create(
+      gh<_i454.SupabaseClient>(),
+      gh<_i863.RestOfflineRequestQueue>(),
+    );
+    return i.init().then((_) => i);
+  }, preResolve: true);
+  gh.singleton<_i3.HomeService>(() => _i3.HomeService(gh<_i395.Repository>()));
   gh.singleton<_i385.UserService>(
-    () => _i385.UserService(gh<_i454.SupabaseClient>(), gh<_i993.Talker>()),
+    () => _i385.UserService(gh<_i395.Repository>()),
   );
   gh.singleton<_i1005.InvitationService>(
-    () => _i1005.InvitationService(
-      gh<_i454.SupabaseClient>(),
-      gh<_i993.Talker>(),
-    ),
+    () => _i1005.InvitationService(gh<_i395.Repository>()),
   );
   gh.singleton<_i965.TaskService>(
-    () => _i965.TaskService(gh<_i454.SupabaseClient>(), gh<_i993.Talker>()),
-  );
-  gh.singleton<_i976.HomeBloc>(() => _i976.HomeBloc(gh<_i3.HomeService>()));
-  gh.factoryParam<_i646.TaskBloc, _i1052.Home, _i1052.Task?>(
-    (home, existingTask) => _i646.TaskBloc(
-      gh<_i965.TaskService>(),
-      gh<_i3.HomeService>(),
-      home: home,
-      existingTask: existingTask,
-    ),
+    () => _i965.TaskService(gh<_i395.Repository>()),
   );
   gh.singleton<_i1024.AuthService>(
     () => _i1024.AuthService(
@@ -87,14 +93,23 @@ Future<_i174.GetIt> init(
     ),
   );
   gh.singleton<_i833.TasksBloc>(() => _i833.TasksBloc(gh<_i965.TaskService>()));
+  gh.factoryParam<_i646.TaskBloc, _i384.Home, _i384.Task?>(
+    (home, existingTask) => _i646.TaskBloc(
+      gh<_i965.TaskService>(),
+      gh<_i3.HomeService>(),
+      home: home,
+      existingTask: existingTask,
+    ),
+  );
   gh.singleton<_i91.AuthBloc>(
     () => _i91.AuthBloc(gh<_i1024.AuthService>(), gh<_i385.UserService>()),
   );
+  gh.singleton<_i976.HomeBloc>(() => _i976.HomeBloc(gh<_i3.HomeService>()));
   return getIt;
 }
+
+class _$SupabaseModule extends _i388.SupabaseModule {}
 
 class _$EnvModule extends _i955.EnvModule {}
 
 class _$LoggerModule extends _i205.LoggerModule {}
-
-class _$SupabaseModule extends _i388.SupabaseModule {}

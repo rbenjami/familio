@@ -50,7 +50,7 @@ $Res call({
 });
 
 
-$HomeCopyWith<$Res>? get selectedHome;
+
 
 }
 /// @nodoc
@@ -73,19 +73,7 @@ as HomeUiStatus,error: freezed == error ? _self.error : error // ignore: cast_nu
 as String?,
   ));
 }
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeCopyWith<$Res>? get selectedHome {
-    if (_self.selectedHome == null) {
-    return null;
-  }
 
-  return $HomeCopyWith<$Res>(_self.selectedHome!, (value) {
-    return _then(_self.copyWith(selectedHome: value));
-  });
-}
 }
 
 
@@ -142,7 +130,7 @@ $Res call({
 });
 
 
-@override $HomeCopyWith<$Res>? get selectedHome;
+
 
 }
 /// @nodoc
@@ -166,19 +154,7 @@ as String?,
   ));
 }
 
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeCopyWith<$Res>? get selectedHome {
-    if (_self.selectedHome == null) {
-    return null;
-  }
 
-  return $HomeCopyWith<$Res>(_self.selectedHome!, (value) {
-    return _then(_self.copyWith(selectedHome: value));
-  });
-}
 }
 
 // dart format on

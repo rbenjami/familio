@@ -4,9 +4,11 @@ import 'package:familio/familio_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/logging/logger_service.dart';
+import 'brick/repository.dart';
 import 'di/injection.dart';
 
 late final LoggerService logger;
+late final Repository familioRepository;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +26,9 @@ void main() async {
 
   // Initialize logger service
   logger = getIt<LoggerService>();
+
+  // Familio repository will be initialized by dependency injection
+  familioRepository = getIt<Repository>();
 
   // Set up error handling
   FlutterError.onError = (details) {

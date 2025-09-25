@@ -5,7 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'user_service.dart';
 import 'home_service.dart';
 import 'invitation_service.dart';
-import '../models/models.dart' as models;
+
+enum RegistrationType { createHome, joinHome }
 
 @singleton
 class AuthService {
@@ -111,7 +112,7 @@ class AuthService {
     required String email,
     required String password,
     required String name,
-    required models.RegistrationType registrationType,
+    required RegistrationType registrationType,
     String? homeName,
     String? invitationCode,
     String? avatar,
@@ -127,7 +128,7 @@ class AuthService {
           'email': email,
           'password': password,
           'displayName': name,
-          'homeName': registrationType == models.RegistrationType.createHome
+          'homeName': registrationType == RegistrationType.createHome
               ? homeName
               : null,
         },
@@ -148,7 +149,7 @@ class AuthService {
       );
 
       // Handle invitation if joining existing home
-      if (registrationType == models.RegistrationType.joinHome) {
+      if (registrationType == RegistrationType.joinHome) {
         if (invitationCode == null || invitationCode.isEmpty) {
           throw Exception('Invitation code is required for joining a home');
         }
@@ -169,7 +170,7 @@ class AuthService {
 
         // Add user as member to the home
         await _homeService.addMemberToHome(
-          homeId: invitation.homeId,
+          homeId: invitation.home.id,
           userId: data['user']['id'],
           permissions: _homeService.getDefaultMemberPermissions(),
         );
@@ -241,10 +242,7 @@ class AuthService {
         updates['birth_date'] = birthDate.toIso8601String();
       }
 
-      await _client
-          .from('users')
-          .update(updates)
-          .eq('id', currentUser!.id);
+      await _client.from('users').update(updates).eq('id', currentUser!.id);
 
       logger.info('User profile updated successfully');
     } catch (e, stackTrace) {
@@ -261,15 +259,15 @@ class AuthService {
 
       final response = await _client.functions.invoke(
         'ensure-user-profile',
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
+        headers: {'Authorization': 'Bearer $token'},
       );
 
       if (response.status == 200) {
         final data = response.data;
         if (data['created'] == true) {
-          logger.info('User profile created via Edge Function: ${data['user']['id']}');
+          logger.info(
+            'User profile created via Edge Function: ${data['user']['id']}',
+          );
         } else {
           logger.info('User profile already exists: ${data['user']['id']}');
         }

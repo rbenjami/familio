@@ -1,15 +1,20 @@
+import 'package:familio/blocs/auth/auth_bloc.dart';
+import 'package:familio/brick/models/task.model.dart';
+import 'package:familio/brick/models/sub_task.model.dart';
+import 'package:familio/brick/models/task_assignee.model.dart';
+import 'package:familio/brick/models/home.model.dart';
+import 'package:familio/brick/models/user.model.dart';
+import 'package:familio/brick/repository.dart';
+import 'package:familio/di/injection.dart';
+import 'package:familio/main.dart';
 import 'package:injectable/injectable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:talker/talker.dart';
-
-import '../models/models.dart';
+import 'package:brick_core/core.dart';
 
 @singleton
 class TaskService {
-  final SupabaseClient _client;
-  final Talker _talker;
+  final Repository _repository;
 
-  TaskService(this._client, this._talker);
+  TaskService(this._repository);
 
   Future<Task> createTask({
     required String homeId,
@@ -24,39 +29,43 @@ class TaskService {
     String? location,
   }) async {
     try {
-      _talker.info('Creating task: $title in home: $homeId');
+      logger.info('Creating task: $title in home: $homeId');
 
-      final response = await _client
-          .from('tasks')
-          .insert({
-            'home_id': homeId,
-            'title': title,
-            'description': description,
-            'created_by_id': _client.auth.currentUser!.id,
-            'status': TaskStatus.pending.name,
-            'due_date': dueDate?.toIso8601String(),
-            'priority': priority.name,
-            'start_date': startDate?.toIso8601String(),
-            'estimated_duration_minutes': estimatedDurationMinutes,
-            'location': location,
-            'tags': tags ?? [],
-          })
-          .select()
-          .single();
+      final task = await _repository.upsert<Task>(
+        Task(
+          id: '',
+          home: Home.stub(homeId),
+          title: title,
+          description: description,
+          createdBy: getIt<AuthBloc>().state.currentUser!,
+          status: TaskStatus.pending,
+          dueDate: dueDate,
+          priority: priority,
+          startDate: startDate,
+          estimatedDurationMinutes: estimatedDurationMinutes,
+          location: location,
+          tags: tags ?? [],
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        ),
+      );
 
-      final task = Task.fromJson(response);
-
+      // Create task assignees
       for (final userId in assignedToUserIds) {
-        await _client.from('task_assignees').insert({
-          'task_id': task.id,
-          'user_id': userId,
-        });
+        await _repository.upsert<TaskAssignee>(
+          TaskAssignee(
+            id: '',
+            task: Task.stub(task.id),
+            user: User.stub(userId),
+            assignedAt: DateTime.now(),
+          ),
+        );
       }
 
-      _talker.info('Task created successfully: ${task.id}');
+      logger.info('Task created successfully: ${task.id}');
       return task;
     } catch (e, s) {
-      _talker.error('Error creating task: $e', e, s);
+      logger.error('Error creating task: $e', e, s);
       rethrow;
     }
   }
@@ -65,76 +74,62 @@ class TaskService {
     required String taskId,
     String? title,
     String? description,
-    TaskStatus? status,
     DateTime? dueDate,
     Priority? priority,
+    TaskStatus? status,
     DateTime? startDate,
     int? estimatedDurationMinutes,
-    List<String>? tags,
     String? location,
+    List<String>? tags,
   }) async {
     try {
-      _talker.info('Updating task: $taskId');
+      logger.info('Updating task: $taskId');
 
-      final updateData = <String, dynamic>{};
-      if (title != null) updateData['title'] = title;
-      if (description != null) updateData['description'] = description;
-      if (status != null) updateData['status'] = status.toJson();
-      if (dueDate != null) updateData['due_date'] = dueDate.toIso8601String();
-      if (priority != null) updateData['priority'] = priority.name;
-      if (startDate != null) {
-        updateData['start_date'] = startDate.toIso8601String();
-      }
-      if (estimatedDurationMinutes != null) {
-        updateData['estimated_duration_minutes'] = estimatedDurationMinutes;
-      }
-      if (tags != null) updateData['tags'] = tags;
-      if (location != null) updateData['location'] = location;
+      // Get existing task
+      final existingTask = (await _repository.get<Task>(
+        query: Query(where: [Where('id').isExactly(taskId)]),
+      )).first;
 
-      final response = await _client
-          .from('tasks')
-          .update(updateData)
-          .eq('id', taskId)
-          .select()
-          .single();
+      final task = await _repository.upsert<Task>(
+        Task(
+          id: existingTask.id,
+          home: existingTask.home,
+          title: title ?? existingTask.title,
+          description: description ?? existingTask.description,
+          createdBy: existingTask.createdBy,
+          status: status ?? existingTask.status,
+          dueDate: dueDate ?? existingTask.dueDate,
+          priority: priority ?? existingTask.priority,
+          startDate: startDate ?? existingTask.startDate,
+          estimatedDurationMinutes:
+              estimatedDurationMinutes ?? existingTask.estimatedDurationMinutes,
+          location: location ?? existingTask.location,
+          tags: tags ?? existingTask.tags,
+          createdAt: existingTask.createdAt,
+          updatedAt: DateTime.now(),
+        ),
+      );
 
-      final task = Task.fromJson(response);
-      _talker.info('Task updated successfully: $task');
+      logger.info('Task updated successfully: ${task.id}');
       return task;
     } catch (e, s) {
-      _talker.error('Error updating task: $e', e, s);
+      logger.error('Error updating task: $e', e, s);
       rethrow;
     }
   }
 
-  Future<void> deleteTask(String taskId) async {
+  Future<Task> getTaskById(String taskId) async {
     try {
-      _talker.info('Deleting task: $taskId');
+      logger.info('Fetching task: $taskId');
 
-      await _client.from('tasks').delete().eq('id', taskId);
+      final task = (await _repository.get<Task>(
+        query: Query(where: [Where('id').isExactly(taskId)]),
+      )).first;
 
-      _talker.info('Task deleted successfully: $taskId');
-    } catch (e, s) {
-      _talker.error('Error deleting task: $e', e, s);
-      rethrow;
-    }
-  }
-
-  Future<Task> getTask(String taskId) async {
-    try {
-      _talker.info('Fetching task: $taskId');
-
-      final response = await _client
-          .from('tasks')
-          .select()
-          .eq('id', taskId)
-          .single();
-
-      final task = Task.fromJson(response);
-      _talker.info('Task found: ${task.title}');
+      logger.info('Task found: ${task.title}');
       return task;
     } catch (e, s) {
-      _talker.error('Error fetching task: $e', e, s);
+      logger.error('Error fetching task: $e', e, s);
       rethrow;
     }
   }
@@ -146,86 +141,77 @@ class TaskService {
     Priority? priority,
   }) async {
     try {
-      _talker.info('Fetching tasks for home: $homeId');
+      logger.info('Fetching tasks for home: $homeId');
 
-      var query = _client.from('tasks').select().eq('home_id', homeId);
+      final tasks = await _repository.get<Task>(
+        query: Query(
+          where: [
+            Where('home', value: Where('id').isExactly(homeId)),
+            if (status != null) Where('status').isExactly(status),
+            if (assignedToUserId != null)
+              Where('assignedToUserId').isExactly(assignedToUserId),
+            if (priority != null) Where('priority').isExactly(priority),
+          ],
+        ),
+      );
 
-      if (status != null) {
-        query = query.eq('status', status.name);
-      }
-      if (priority != null) {
-        query = query.eq('priority', priority.name);
-      }
-      if (assignedToUserId != null) {
-        query = query.eq('task_assignees.user_id', assignedToUserId);
-      }
-
-      final response = await query.order('created_at', ascending: false);
-
-      final tasks = response.map((json) => Task.fromJson(json)).toList();
-      _talker.info('Found ${tasks.length} tasks for home: $homeId');
+      logger.info('Found ${tasks.length} tasks for home: $homeId');
       return tasks;
     } catch (e, s) {
-      _talker.error('Error fetching tasks for home: $e', e, s);
+      logger.error('Error fetching tasks: $e', e, s);
       rethrow;
     }
   }
 
   Future<List<TaskAssignee>> getTaskAssignees(String taskId) async {
     try {
-      _talker.info('Fetching assignees for task: $taskId');
+      logger.info('Fetching assignees for task: $taskId');
 
-      final response = await _client
-          .from('task_assignees')
-          .select()
-          .eq('task_id', taskId);
+      final assignees = await _repository.get<TaskAssignee>(
+        query: Query(
+          where: [Where('task', value: Where('id').isExactly(taskId))],
+        ),
+      );
 
-      final assignees = response
-          .map((json) => TaskAssignee.fromJson(json))
-          .toList();
-      _talker.info('Found ${assignees.length} assignees for task: $taskId');
+      logger.info('Found ${assignees.length} assignees for task: $taskId');
       return assignees;
     } catch (e, s) {
-      _talker.error('Error fetching task assignees: $e', e, s);
+      logger.error('Error fetching task assignees: $e', e, s);
       rethrow;
     }
   }
 
-  Future<void> assignUserToTask({
-    required String taskId,
-    required String userId,
-  }) async {
+  Future<void> deleteTask(String taskId) async {
     try {
-      _talker.info('Assigning user $userId to task $taskId');
+      logger.info('Deleting task: $taskId');
 
-      await _client.from('task_assignees').insert({
-        'task_id': taskId,
-        'user_id': userId,
-      });
+      final task = (await _repository.get<Task>(
+        query: Query(where: [Where('id').isExactly(taskId)]),
+      )).first;
 
-      _talker.info('User assigned successfully to task');
+      await _repository.delete<Task>(task);
+
+      logger.info('Task deleted successfully: $taskId');
     } catch (e, s) {
-      _talker.error('Error assigning user to task: $e', e, s);
+      logger.error('Error deleting task: $e', e, s);
       rethrow;
     }
   }
 
-  Future<void> unassignUserFromTask({
-    required String taskId,
-    required String userId,
-  }) async {
+  Future<List<SubTask>> getSubTasks(String taskId) async {
     try {
-      _talker.info('Unassigning user $userId from task $taskId');
+      logger.info('Fetching subtasks for task: $taskId');
 
-      await _client
-          .from('task_assignees')
-          .delete()
-          .eq('task_id', taskId)
-          .eq('user_id', userId);
+      final subTasks = await _repository.get<SubTask>(
+        query: Query(
+          where: [Where('task', value: Where('id').isExactly(taskId))],
+        ),
+      );
 
-      _talker.info('User unassigned successfully from task');
+      logger.info('Found ${subTasks.length} subtasks for task: $taskId');
+      return subTasks;
     } catch (e, s) {
-      _talker.error('Error unassigning user from task: $e', e, s);
+      logger.error('Error fetching subtasks: $e', e, s);
       rethrow;
     }
   }
@@ -236,24 +222,24 @@ class TaskService {
     required int orderIndex,
   }) async {
     try {
-      _talker.info('Creating subtask: $title for task: $taskId');
+      logger.info('Creating subtask: $title for task: $taskId');
 
-      final response = await _client
-          .from('sub_tasks')
-          .insert({
-            'task_id': taskId,
-            'title': title,
-            'is_completed': false,
-            'order_index': orderIndex,
-          })
-          .select()
-          .single();
+      final subTask = await _repository.upsert<SubTask>(
+        SubTask(
+          id: '',
+          task: Task.stub(taskId),
+          title: title,
+          isCompleted: false,
+          orderIndex: orderIndex,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        ),
+      );
 
-      final subTask = SubTask.fromJson(response);
-      _talker.info('Subtask created successfully: ${subTask.id}');
+      logger.info('Subtask created successfully: ${subTask.id}');
       return subTask;
     } catch (e, s) {
-      _talker.error('Error creating subtask: $e', e, s);
+      logger.error('Error creating subtask: $e', e, s);
       rethrow;
     }
   }
@@ -265,97 +251,151 @@ class TaskService {
     int? orderIndex,
   }) async {
     try {
-      _talker.info('Updating subtask: $subTaskId');
+      logger.info('Updating subtask: $subTaskId');
 
-      final updateData = <String, dynamic>{};
-      if (title != null) updateData['title'] = title;
-      if (isCompleted != null) updateData['is_completed'] = isCompleted;
-      if (orderIndex != null) updateData['order_index'] = orderIndex;
+      // Get existing subtask
+      final existingSubTask = (await _repository.get<SubTask>(
+        query: Query(where: [Where('id').isExactly(subTaskId)]),
+      )).first;
 
-      final response = await _client
-          .from('sub_tasks')
-          .update(updateData)
-          .eq('id', subTaskId)
-          .select()
-          .single();
+      final subTask = await _repository.upsert<SubTask>(
+        SubTask(
+          id: existingSubTask.id,
+          task: existingSubTask.task,
+          title: title ?? existingSubTask.title,
+          isCompleted: isCompleted ?? existingSubTask.isCompleted,
+          orderIndex: orderIndex ?? existingSubTask.orderIndex,
+          createdAt: existingSubTask.createdAt,
+          updatedAt: DateTime.now(),
+        ),
+      );
 
-      final subTask = SubTask.fromJson(response);
-      _talker.info('Subtask updated successfully: ${subTask.id}');
+      logger.info('Subtask updated successfully: ${subTask.id}');
       return subTask;
     } catch (e, s) {
-      _talker.error('Error updating subtask: $e', e, s);
-      rethrow;
-    }
-  }
-
-  Future<List<SubTask>> getSubTasks(String taskId) async {
-    try {
-      _talker.info('Fetching subtasks for task: $taskId');
-
-      final response = await _client
-          .from('sub_tasks')
-          .select()
-          .eq('task_id', taskId)
-          .order('order_index');
-
-      final subTasks = response.map((json) => SubTask.fromJson(json)).toList();
-      _talker.info('Found ${subTasks.length} subtasks for task: $taskId');
-      return subTasks;
-    } catch (e, s) {
-      _talker.error('Error fetching subtasks: $e', e, s);
+      logger.error('Error updating subtask: $e', e, s);
       rethrow;
     }
   }
 
   Future<void> deleteSubTask(String subTaskId) async {
     try {
-      _talker.info('Deleting subtask: $subTaskId');
+      logger.info('Deleting subtask: $subTaskId');
 
-      await _client.from('sub_tasks').delete().eq('id', subTaskId);
+      final subTask = (await _repository.get<SubTask>(
+        query: Query(where: [Where('id').isExactly(subTaskId)]),
+      )).first;
 
-      _talker.info('Subtask deleted successfully: $subTaskId');
+      await _repository.delete<SubTask>(subTask);
+
+      logger.info('Subtask deleted successfully: $subTaskId');
     } catch (e, s) {
-      _talker.error('Error deleting subtask: $e', e, s);
+      logger.error('Error deleting subtask: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<void> assignUserToTask({
+    required String taskId,
+    required String userId,
+  }) async {
+    try {
+      logger.info('Assigning user $userId to task $taskId');
+
+      await _repository.upsert<TaskAssignee>(
+        TaskAssignee(
+          id: '',
+          task: Task.stub(taskId),
+          user: User.stub(userId),
+          assignedAt: DateTime.now(),
+        ),
+      );
+
+      logger.info('User assigned to task successfully');
+    } catch (e, s) {
+      logger.error('Error assigning user to task: $e', e, s);
+      rethrow;
+    }
+  }
+
+  Future<void> unassignUserFromTask({
+    required String taskId,
+    required String userId,
+  }) async {
+    try {
+      logger.info('Unassigning user $userId from task $taskId');
+
+      final assignees = await _repository.get<TaskAssignee>(
+        query: Query(
+          where: [
+            Where('task', value: Where('id').isExactly(taskId)),
+            Where('user', value: Where('id').isExactly(userId)),
+          ],
+        ),
+      );
+
+      for (final assignee in assignees) {
+        await _repository.delete<TaskAssignee>(assignee);
+      }
+
+      logger.info('User unassigned from task successfully');
+    } catch (e, s) {
+      logger.error('Error unassigning user from task: $e', e, s);
       rethrow;
     }
   }
 
   Future<Map<String, int>> getTaskStats({
     required String homeId,
-    String? assignedToUserId,
+    String? userId,
   }) async {
     try {
-      _talker.info('Getting task stats for home: $homeId');
+      logger.info('Fetching task stats for home: $homeId');
 
-      var query = _client.from('tasks').select().eq('home_id', homeId);
+      var tasks = await _repository.get<Task>(
+        query: Query(
+          where: [Where('home', value: Where('id').isExactly(homeId))],
+        ),
+      );
 
-      if (assignedToUserId != null) {
-        query = query.eq('task_assignees.user_id', assignedToUserId);
+      // Filter by user if specified
+      if (userId != null) {
+        final filteredTasks = <Task>[];
+        for (final task in tasks) {
+          final assignees = await getTaskAssignees(task.id);
+          if (assignees.any((assignee) => assignee.user.id == userId)) {
+            filteredTasks.add(task);
+          }
+        }
+        tasks = filteredTasks;
       }
 
-      final response = await query;
-      final tasks = response.map((json) => Task.fromJson(json)).toList();
-
-      final now = DateTime.now();
       final stats = <String, int>{
         'total': tasks.length,
-        'pending': tasks.where((t) => t.status == 'pending').length,
-        'in_progress': tasks.where((t) => t.status == 'in_progress').length,
-        'completed': tasks.where((t) => t.status == 'completed').length,
+        'pending': tasks.where((t) => t.status == TaskStatus.pending).length,
+        'in_progress': tasks
+            .where((t) => t.status == TaskStatus.in_progress)
+            .length,
+        'completed': tasks
+            .where((t) => t.status == TaskStatus.completed)
+            .length,
+        'cancelled': tasks
+            .where((t) => t.status == TaskStatus.cancelled)
+            .length,
         'overdue': tasks
             .where(
               (t) =>
                   t.dueDate != null &&
-                  t.dueDate!.isBefore(now) &&
-                  t.status != 'completed',
+                  t.dueDate!.isBefore(DateTime.now()) &&
+                  t.status != TaskStatus.completed,
             )
             .length,
       };
 
-      _talker.info('Task stats calculated: $stats');
+      logger.info('Task stats calculated: $stats');
       return stats;
     } catch (e, s) {
-      _talker.error('Error getting task stats: $e', e, s);
+      logger.error('Error calculating task stats: $e', e, s);
       rethrow;
     }
   }

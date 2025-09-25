@@ -2,7 +2,7 @@ import 'package:familio/widgets/tasks/task_status_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/models.dart';
 import 'package:familio/core/utils/context_ext.dart';
 
 class TaskListItem extends StatelessWidget {

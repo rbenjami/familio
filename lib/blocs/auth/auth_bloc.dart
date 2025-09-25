@@ -198,7 +198,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final user = await _userService.getUserById(authId);
       final supabaseUser = _authService.currentUser;
 
-      if (user != null && supabaseUser != null) {
+      if (supabaseUser != null) {
         emit(
           state.copyWith(
             uiStatus: AuthUiStatus.authenticated,
@@ -240,7 +240,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       case 'Signup disabled':
         return S.current.auth_error_operationNotAllowed;
       default:
-        return e.message ?? S.current.auth_error_unknown;
+        return S.current.auth_error_unknown;
     }
   }
 }

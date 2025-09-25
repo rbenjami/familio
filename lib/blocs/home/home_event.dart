@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/models.dart';
 
 @immutable
 sealed class HomeEvent {

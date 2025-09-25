@@ -1,7 +1,10 @@
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/home.model.dart';
+import 'package:familio/brick/models/user.model.dart';
+import 'package:familio/brick/models/home_member.model.dart';
+import 'package:familio/brick/repository.dart';
 import 'package:familio/main.dart';
 import 'package:injectable/injectable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' hide User;
+import 'package:brick_core/core.dart';
 
 class HomeMemberPermissions {
   final bool canCreateTasks;
@@ -23,9 +26,9 @@ class HomeMemberPermissions {
 
 @singleton
 class HomeService {
-  final SupabaseClient _client;
+  final Repository _repository;
 
-  HomeService(this._client);
+  HomeService(this._repository);
 
   Future<Home> createHome({
     required String name,
@@ -35,18 +38,17 @@ class HomeService {
     try {
       logger.info('Creating home: $name for owner: $ownerId');
 
-      final response = await _client
-          .from('homes')
-          .insert({
-            'name': name,
-            'description': description,
-            'owner_id': ownerId,
-            'allow_member_invite': true,
-          })
-          .select()
-          .single();
-
-      final home = Home.fromJson(response);
+      final home = await _repository.upsert<Home>(
+        Home(
+          id: '',
+          name: name,
+          description: description,
+          owner: User.stub(ownerId),
+          allowMemberInvite: true,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        ),
+      );
 
       await addMemberToHome(
         homeId: home.id,
@@ -77,22 +79,21 @@ class HomeService {
     try {
       logger.info('Adding member $userId to home $homeId');
 
-      final response = await _client
-          .from('home_members')
-          .insert({
-            'home_id': homeId,
-            'user_id': userId,
-            'can_create_tasks': permissions.canCreateTasks,
-            'can_edit_tasks': permissions.canEditTasks,
-            'can_delete_tasks': permissions.canDeleteTasks,
-            'can_invite_members': permissions.canInviteMembers,
-            'can_view_all_calendars': permissions.canViewAllCalendars,
-            'is_admin': permissions.isAdmin,
-          })
-          .select()
-          .single();
+      final member = await _repository.upsert<HomeMember>(
+        HomeMember(
+          id: '',
+          home: Home.stub(homeId),
+          user: User.stub(userId),
+          canCreateTasks: permissions.canCreateTasks,
+          canEditTasks: permissions.canEditTasks,
+          canDeleteTasks: permissions.canDeleteTasks,
+          canInviteMembers: permissions.canInviteMembers,
+          canViewAllCalendars: permissions.canViewAllCalendars,
+          isAdmin: permissions.isAdmin,
+          joinedAt: DateTime.now(),
+        ),
+      );
 
-      final member = HomeMember.fromJson(response);
       logger.info('Member added successfully to home: $homeId');
       return member;
     } catch (e, s) {
@@ -105,15 +106,14 @@ class HomeService {
     try {
       logger.info('Fetching homes for user: $userId');
 
-      final response = await _client
-          .from('homes')
-          .select('''
-            *,
-            home_members!inner(user_id)
-          ''')
-          .eq('home_members.user_id', userId);
+      // Get home members for this user, then extract the homes
+      final members = await _repository.get<HomeMember>(
+        query: Query(
+          where: [Where('user', value: Where('id').isExactly(userId))],
+        ),
+      );
 
-      final homes = response.map((json) => Home.fromJson(json)).toList();
+      final homes = members.map((member) => member.home).toList();
       logger.info('Found ${homes.length} homes for user: $userId');
       return homes;
     } catch (e, s) {
@@ -126,13 +126,10 @@ class HomeService {
     try {
       logger.info('Fetching home: $homeId');
 
-      final response = await _client
-          .from('homes')
-          .select()
-          .eq('id', homeId)
-          .single();
+      final home = (await _repository.get<Home>(
+        query: Query(where: [Where('id').isExactly(homeId)]),
+      )).first;
 
-      final home = Home.fromJson(response);
       logger.info('Home found: ${home.name}');
       return home;
     } catch (e, s) {
@@ -148,19 +145,21 @@ class HomeService {
     try {
       logger.info('Getting user permissions for home: $homeId, user: $userId');
 
-      final response = await _client
-          .from('home_members')
-          .select()
-          .eq('home_id', homeId)
-          .eq('user_id', userId)
-          .maybeSingle();
+      final members = await _repository.get<HomeMember>(
+        query: Query(
+          where: [
+            Where('home', value: Where('id').isExactly(homeId)),
+            Where('user', value: Where('id').isExactly(userId)),
+          ],
+        ),
+      );
 
-      if (response == null) {
+      if (members.isEmpty) {
         logger.info('User is not a member of this home');
         return null;
       }
 
-      final member = HomeMember.fromJson(response);
+      final member = members.first;
       logger.info('Found permissions for user in home');
       return member;
     } catch (e, s) {
@@ -173,14 +172,11 @@ class HomeService {
     try {
       logger.info('Fetching members for home: $homeId');
 
-      final response = await _client
-          .from('home_members')
-          .select()
-          .eq('home_id', homeId);
-
-      final members = response
-          .map((json) => HomeMember.fromJson(json))
-          .toList();
+      final members = await _repository.get<HomeMember>(
+        query: Query(
+          where: [Where('home', value: Where('id').isExactly(homeId))],
+        ),
+      );
       logger.info('Found ${members.length} members for home: $homeId');
       return members;
     } catch (e, s) {
@@ -193,17 +189,13 @@ class HomeService {
     try {
       logger.info('Fetching users for home: $homeId');
 
-      final response = await _client
-          .from('home_members')
-          .select('''
-            users(*)
-          ''')
-          .eq('home_id', homeId);
+      final members = await _repository.get<HomeMember>(
+        query: Query(
+          where: [Where('home', value: Where('id').isExactly(homeId))],
+        ),
+      );
 
-      final users = response
-          .map((json) => User.fromJson(json['users']))
-          .nonNulls
-          .toList();
+      final users = members.map((member) => member.user).toList();
       logger.info('Found ${users.length} users for home: $homeId');
       return users;
     } catch (e, s) {
@@ -221,20 +213,23 @@ class HomeService {
     try {
       logger.info('Updating home: $homeId');
 
-      final updateData = <String, dynamic>{};
-      if (name != null) updateData['name'] = name;
-      if (description != null) updateData['description'] = description;
-      if (allowMemberInvite != null)
-        updateData['allow_member_invite'] = allowMemberInvite;
+      // First get the existing home
+      final existingHome = (await _repository.get<Home>(
+        query: Query(where: [Where('id').isExactly(homeId)]),
+      )).first;
 
-      final response = await _client
-          .from('homes')
-          .update(updateData)
-          .eq('id', homeId)
-          .select()
-          .single();
-
-      final home = Home.fromJson(response);
+      final home = await _repository.upsert<Home>(
+        Home(
+          id: existingHome.id,
+          name: name ?? existingHome.name,
+          description: description ?? existingHome.description,
+          owner: existingHome.owner,
+          allowMemberInvite:
+              allowMemberInvite ?? existingHome.allowMemberInvite,
+          createdAt: existingHome.createdAt,
+          updatedAt: DateTime.now(),
+        ),
+      );
       logger.info('Home updated successfully: ${home.id}');
       return home;
     } catch (e, s) {
@@ -250,11 +245,18 @@ class HomeService {
     try {
       logger.info('Removing member $userId from home $homeId');
 
-      await _client
-          .from('home_members')
-          .delete()
-          .eq('home_id', homeId)
-          .eq('user_id', userId);
+      final members = await _repository.get<HomeMember>(
+        query: Query(
+          where: [
+            Where('home', value: Where('id').isExactly(homeId)),
+            Where('user', value: Where('id').isExactly(userId)),
+          ],
+        ),
+      );
+
+      if (members.isNotEmpty) {
+        await _repository.delete<HomeMember>(members.first);
+      }
 
       logger.info('Member removed successfully from home: $homeId');
     } catch (e, s) {

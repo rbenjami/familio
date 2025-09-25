@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/models.dart';
 import 'package:familio/data/services/home_service.dart';
 
 part 'home_state.freezed.dart';

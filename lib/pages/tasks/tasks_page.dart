@@ -9,7 +9,7 @@ import 'package:familio/blocs/tasks/tasks_event.dart';
 import 'package:familio/blocs/tasks/tasks_state.dart';
 import 'package:familio/blocs/home/home_bloc.dart';
 import 'package:familio/blocs/home/home_state.dart';
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/models.dart';
 import 'package:familio/widgets/tasks/task_list_item.dart';
 import 'package:familio/widgets/tasks/task_filters_bottom_sheet.dart';
 import 'package:familio/widgets/tasks/task_sort_bottom_sheet.dart';

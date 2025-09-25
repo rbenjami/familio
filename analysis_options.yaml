@@ -1,1 +1,12 @@
 include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - lib/brick/adapters/**
+    - lib/brick/db/**
+    - lib/brick/brick.g.dart
+  errors:
+    unused_element_parameter: ignore
+
+linter:
+  rules:

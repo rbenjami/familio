@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/models.dart';
 import 'package:familio/core/utils/context_ext.dart';
 
 class PriorityDots extends StatelessWidget {

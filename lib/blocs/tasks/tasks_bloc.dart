@@ -61,7 +61,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       logger.info('Task status updated successfully');
 
       // Refresh stats
-      final stats = await _taskService.getTaskStats(homeId: event.task.homeId);
+      final stats = await _taskService.getTaskStats(homeId: event.task.home.id);
       emit(
         state.copyWith(
           taskStats: stats,
@@ -101,7 +101,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       emit(state.copyWith(uiStatus: TasksUiStatus.loaded));
 
       // Refresh stats
-      final stats = await _taskService.getTaskStats(homeId: event.task.homeId);
+      final stats = await _taskService.getTaskStats(homeId: event.task.home.id);
       emit(
         state.copyWith(
           taskStats: stats,

@@ -50,7 +50,7 @@ $Res call({
 });
 
 
-$HomeCopyWith<$Res>? get home;
+
 
 }
 /// @nodoc
@@ -75,19 +75,7 @@ as TaskSort?,error: freezed == error ? _self.error : error // ignore: cast_nulla
 as String?,
   ));
 }
-/// Create a copy of TasksState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeCopyWith<$Res>? get home {
-    if (_self.home == null) {
-    return null;
-  }
 
-  return $HomeCopyWith<$Res>(_self.home!, (value) {
-    return _then(_self.copyWith(home: value));
-  });
-}
 }
 
 
@@ -152,7 +140,7 @@ $Res call({
 });
 
 
-@override $HomeCopyWith<$Res>? get home;
+
 
 }
 /// @nodoc
@@ -178,19 +166,7 @@ as String?,
   ));
 }
 
-/// Create a copy of TasksState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$HomeCopyWith<$Res>? get home {
-    if (_self.home == null) {
-    return null;
-  }
 
-  return $HomeCopyWith<$Res>(_self.home!, (value) {
-    return _then(_self.copyWith(home: value));
-  });
-}
 }
 
 // dart format on

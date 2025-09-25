@@ -50,7 +50,7 @@ $Res call({
 });
 
 
-$UserCopyWith<$Res>? get currentUser;
+
 
 }
 /// @nodoc
@@ -73,19 +73,7 @@ as User?,error: freezed == error ? _self.error : error // ignore: cast_nullable_
 as String?,
   ));
 }
-/// Create a copy of AuthState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$UserCopyWith<$Res>? get currentUser {
-    if (_self.currentUser == null) {
-    return null;
-  }
 
-  return $UserCopyWith<$Res>(_self.currentUser!, (value) {
-    return _then(_self.copyWith(currentUser: value));
-  });
-}
 }
 
 
@@ -136,7 +124,7 @@ $Res call({
 });
 
 
-@override $UserCopyWith<$Res>? get currentUser;
+
 
 }
 /// @nodoc
@@ -160,19 +148,7 @@ as String?,
   ));
 }
 
-/// Create a copy of AuthState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$UserCopyWith<$Res>? get currentUser {
-    if (_self.currentUser == null) {
-    return null;
-  }
 
-  return $UserCopyWith<$Res>(_self.currentUser!, (value) {
-    return _then(_self.copyWith(currentUser: value));
-  });
-}
 }
 
 // dart format on

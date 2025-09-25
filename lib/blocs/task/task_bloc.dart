@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:familio/data/services/home_service.dart';
+import 'package:familio/data/services/task_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:familio/blocs/task/task_event.dart';
 import 'package:familio/blocs/task/task_state.dart';
-import 'package:familio/data/services/task_service.dart';
-import 'package:familio/data/models/models.dart';
+import 'package:familio/brick/models/models.dart';
 import 'package:familio/core/logging/logger_service.dart';
 import 'package:familio/di/injection.dart';
 
@@ -55,7 +55,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
         // Load task assignees
         final assignees = await _taskService.getTaskAssignees(task.id);
-        final assignedUserIds = assignees.map((a) => a.userId).toList();
+        final assignedUserIds = assignees.map((a) => a.user.id).toList();
 
         emit(
           state.copyWith(
@@ -65,10 +65,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             title: task.title,
             description: task.description ?? '',
             dueDate: task.dueDate,
-            priority: Priority.values.firstWhere(
-              (p) => p.name == task.priority,
-              orElse: () => Priority.medium,
-            ),
+            priority: task.priority,
             assignedTo: assignedUserIds,
             subTasks: subTasks,
             availableUserMembers: availableUserMembers,
@@ -152,7 +149,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     if (event.id.isEmpty) {
       final newSubTask = SubTask(
         id: '', // Will be generated when saved
-        taskId: state.task?.id ?? '',
+        task: state.task!,
         title: event.title,
         isCompleted: false,
         orderIndex: state.subTasks.length,
