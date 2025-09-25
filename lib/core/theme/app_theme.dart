@@ -26,10 +26,9 @@ class AppTheme {
   static const Color infoColor = Color(0xFF2196F3); // Blue
 
   /// Neutral colors
-  static const Color backgroundColor = Color(0xFFF7FFF8);
+  static const Color backgroundColor = primaryLightColor;
   static const Color secondaryBackgroundColor = Color(0xFFE0DDDD);
   static const Color surfaceColor = Colors.white;
-  static const Color cardColor = Colors.white;
 
   /// Text colors
   static const Color textPrimaryColor = Color(0xFF6E6262);
@@ -45,7 +44,7 @@ class AppTheme {
     colorScheme: ColorScheme.light(
       primary: primaryColor,
       onPrimary: Colors.black,
-      primaryContainer: primaryLightColor,
+      primaryContainer: backgroundColor,
       onPrimaryContainer: Colors.black,
       secondary: secondaryColor,
       onSecondary: Colors.black,
@@ -58,14 +57,13 @@ class AppTheme {
       error: errorColor,
       onError: Colors.white,
     ),
-    scaffoldBackgroundColor: backgroundColor,
+    scaffoldBackgroundColor: surfaceColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
+      backgroundColor: surfaceColor,
       foregroundColor: secondaryLightColor,
       elevation: 0,
     ),
     cardTheme: CardThemeData(
-      color: cardColor,
       elevation: 0,
       shape: RoundedSuperellipseBorder(borderRadius: borderRadius),
     ),

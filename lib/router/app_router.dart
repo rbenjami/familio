@@ -12,16 +12,11 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     AutoRoute(page: SplashRoute.page, initial: true, path: '/'),
     AutoRoute(page: AuthRoute.page, path: '/auth'),
+    AutoRoute(page: MainRoute.page, path: '/main'),
+    AutoRoute(page: HomeRoute.page, path: '/home'),
+    AutoRoute(page: ProfileRoute.page, path: '/profile'),
+    AutoRoute(page: TasksRoute.page, path: '/tasks'),
+    AutoRoute(page: CalendarRoute.page, path: '/calendar'),
     AutoRoute(page: TaskDetailsRoute.page, path: '/task-details'),
-    AutoRoute(
-      page: MainRoute.page,
-      path: '/main',
-      children: [
-        AutoRoute(page: HomeRoute.page, path: 'home'),
-        AutoRoute(page: TasksRoute.page, path: 'tasks'),
-        AutoRoute(page: CalendarRoute.page, path: 'calendar'),
-        AutoRoute(page: ProfileRoute.page, path: 'profile'),
-      ],
-    ),
   ];
 }

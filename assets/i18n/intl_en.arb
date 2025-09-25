@@ -143,5 +143,10 @@
   "task_subtask_hint": "Subtask...",
   "task_add_subtask": "Add subtask",
   "task_subtask_placeholder": "New subtask...",
-  "task_add_subtask_button": "Add"
+  "task_add_subtask_button": "Add",
+
+  "greeting_good_day": "Have a Good Day, {name} 👋",
+  "greeting_good_afternoon": "Good Afternoon, {name} ☀️",
+  "greeting_good_evening": "Good Evening, {name} 🌅",
+  "greeting_good_night": "Good Night, {name} 🌙"
 }

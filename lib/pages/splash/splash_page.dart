@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
   void _navigateBasedOnAuthStatus(AuthState state) {
     switch (state.uiStatus) {
       case AuthUiStatus.authenticated:
-        context.router.replaceAll([const HomeRoute()]);
+        context.router.replaceAll([const MainRoute()]);
         break;
       case AuthUiStatus.unauthenticated:
       case AuthUiStatus.error:

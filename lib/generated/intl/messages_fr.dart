@@ -20,17 +20,25 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'fr';
 
-  static String m0(count) => "${count} assigné(s)";
+  static String m0(name) => "Bon après-midi, ${name} ☀️";
 
-  static String m1(days) => "Dans ${days} jour(s)";
+  static String m1(name) => "Bonjour, ${name} 👋";
 
-  static String m2(days) => "En retard de ${days} jour(s)";
+  static String m2(name) => "Bonsoir, ${name} 🌅";
 
-  static String m3(count) => "${count} tâche(s) en retard";
+  static String m3(name) => "Bonne nuit, ${name} 🌙";
 
-  static String m4(completed, total) => "${completed}/${total} sous-tâches";
+  static String m4(count) => "${count} assigné(s)";
 
-  static String m5(title) => "Détails de la tâche: ${title}";
+  static String m5(days) => "Dans ${days} jour(s)";
+
+  static String m6(days) => "En retard de ${days} jour(s)";
+
+  static String m7(count) => "${count} tâche(s) en retard";
+
+  static String m8(completed, total) => "${completed}/${total} sous-tâches";
+
+  static String m9(title) => "Détails de la tâche: ${title}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -231,6 +239,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "filters_status_all": MessageLookupByLibrary.simpleMessage("Tous"),
     "filters_status_title": MessageLookupByLibrary.simpleMessage("Statut"),
     "filters_title": MessageLookupByLibrary.simpleMessage("Filtres"),
+    "greeting_good_afternoon": m0,
+    "greeting_good_day": m1,
+    "greeting_good_evening": m2,
+    "greeting_good_night": m3,
     "home_welcomeSubtitle": MessageLookupByLibrary.simpleMessage(
       "Votre espace familial connecté",
     ),
@@ -258,13 +270,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ajouter une sous-tâche",
     ),
     "task_add_subtask_button": MessageLookupByLibrary.simpleMessage("Ajouter"),
-    "task_assigned_count": m0,
+    "task_assigned_count": m4,
     "task_description_hint": MessageLookupByLibrary.simpleMessage(
       "Description...",
     ),
     "task_due_date_hint": MessageLookupByLibrary.simpleMessage("Échéance"),
-    "task_due_in_days": m1,
-    "task_due_overdue_days": m2,
+    "task_due_in_days": m5,
+    "task_due_overdue_days": m6,
     "task_due_today": MessageLookupByLibrary.simpleMessage("Aujourd\'hui"),
     "task_due_tomorrow": MessageLookupByLibrary.simpleMessage("Demain"),
     "task_due_yesterday": MessageLookupByLibrary.simpleMessage("Hier"),
@@ -275,7 +287,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "task_priority_urgent": MessageLookupByLibrary.simpleMessage("Urgent"),
     "task_stats_doing": MessageLookupByLibrary.simpleMessage("En cours"),
     "task_stats_done": MessageLookupByLibrary.simpleMessage("Terminé"),
-    "task_stats_overdue": m3,
+    "task_stats_overdue": m7,
     "task_stats_title": MessageLookupByLibrary.simpleMessage("Statistiques"),
     "task_stats_todo": MessageLookupByLibrary.simpleMessage("À faire"),
     "task_stats_total": MessageLookupByLibrary.simpleMessage("Total"),
@@ -287,7 +299,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "task_subtask_placeholder": MessageLookupByLibrary.simpleMessage(
       "Nouvelle sous-tâche...",
     ),
-    "task_subtasks_progress": m4,
+    "task_subtasks_progress": m8,
     "task_title_hint": MessageLookupByLibrary.simpleMessage(
       "Titre de la tâche...",
     ),
@@ -300,7 +312,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tasks_create_tooltip": MessageLookupByLibrary.simpleMessage(
       "Créer une tâche",
     ),
-    "tasks_details_placeholder": m5,
+    "tasks_details_placeholder": m9,
     "tasks_empty_subtitle": MessageLookupByLibrary.simpleMessage(
       "Créez votre première tâche pour commencer",
     ),

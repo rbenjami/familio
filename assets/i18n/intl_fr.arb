@@ -143,5 +143,10 @@
   "task_subtask_hint": "Sous-tâche...",
   "task_add_subtask": "Ajouter une sous-tâche",
   "task_subtask_placeholder": "Nouvelle sous-tâche...",
-  "task_add_subtask_button": "Ajouter"
+  "task_add_subtask_button": "Ajouter",
+
+  "greeting_good_day": "Bonjour, {name} 👋",
+  "greeting_good_afternoon": "Bon après-midi, {name} ☀️",
+  "greeting_good_evening": "Bonsoir, {name} 🌅",
+  "greeting_good_night": "Bonne nuit, {name} 🌙"
 }

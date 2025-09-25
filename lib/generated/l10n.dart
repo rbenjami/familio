@@ -1258,6 +1258,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Have a Good Day, {name} 👋`
+  String greeting_good_day(Object name) {
+    return Intl.message(
+      'Have a Good Day, $name 👋',
+      name: 'greeting_good_day',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Good Afternoon, {name} ☀️`
+  String greeting_good_afternoon(Object name) {
+    return Intl.message(
+      'Good Afternoon, $name ☀️',
+      name: 'greeting_good_afternoon',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Good Evening, {name} 🌅`
+  String greeting_good_evening(Object name) {
+    return Intl.message(
+      'Good Evening, $name 🌅',
+      name: 'greeting_good_evening',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Good Night, {name} 🌙`
+  String greeting_good_night(Object name) {
+    return Intl.message(
+      'Good Night, $name 🌙',
+      name: 'greeting_good_night',
+      desc: '',
+      args: [name],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
