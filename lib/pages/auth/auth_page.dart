@@ -31,7 +31,7 @@ class _AuthPageState extends State<AuthPage> {
         listener: (context, state) {
           switch (state.uiStatus) {
             case AuthUiStatus.authenticated:
-              context.router.replaceAll([const HomeRoute()]);
+              context.router.replaceAll([const MainRoute()]);
               break;
             case AuthUiStatus.error:
               if (state.error != null) {
