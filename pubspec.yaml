@@ -63,6 +63,8 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.4
   flutter_gen_runner: ^5.10.0
   brick_offline_first_with_supabase_build: ^2.0.0
+  bloc_test: ^9.1.7
+  mocktail: ^1.0.4
 
 flutter:
   uses-material-design: true
